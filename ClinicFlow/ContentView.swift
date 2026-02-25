@@ -14,6 +14,7 @@ struct ContentView: View {
                 .imageScale(.large)
                 .foregroundStyle(.tint)
             Text("Hello, malith!")
+                .font(.poppins(.regular, size: 17))
         }
         .padding()
     }

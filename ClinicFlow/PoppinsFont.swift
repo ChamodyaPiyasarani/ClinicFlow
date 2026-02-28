@@ -11,7 +11,7 @@ enum PoppinsFont: String {
     case regular = "Poppins-Regular"
     case medium = "Poppins-Medium"
     case semiBold = "Poppins-SemiBold"
-    case bold = "Poppins-Bold"
+    case bold = "Poppins-ExtraBold"
     case extraBold = "Poppins-ExtraBold"
     case black = "Poppins-Black"
     case light = "Poppins-Light"

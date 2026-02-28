@@ -46,39 +46,31 @@ struct UserSignUpView: View {
 
                     // MARK: - Card Content
                     ScrollView {
+                        // Single white card containing everything
                         VStack(spacing: 0) {
-                            // White card
-                            VStack(spacing: 0) {
-                                // App name
-                                HStack(spacing: 0) {
-                                    Text("CLINIC")
-                                        .font(.poppins(.bold, size: 20))
-                                        .foregroundColor(AppColors.brandBlue)
-                                    Text("FLOW")
-                                        .font(.poppins(.bold, size: 20))
-                                        .foregroundColor(AppColors.darkBlue)
-                                }
-                                .padding(.top, 24)
-
-                                // Illustration
-                                Image("undraw_sign-up_qamz")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 500)
-                                    .padding(.top, 12)
+                            // App name
+                            HStack(spacing: 0) {
+                                Text("CLINIC")
+                                    .font(.poppins(.bold, size: 20))
+                                    .foregroundColor(AppColors.brandBlue)
+                                Text("FLOW")
+                                    .font(.poppins(.bold, size: 20))
+                                    .foregroundColor(AppColors.darkBlue)
                             }
-                            .frame(maxWidth: .infinity)
-                            .background(Color.white)
-                            .cornerRadius(20)
-                            .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
-                            .padding(.horizontal, 28)
-                            .padding(.top, 16)
+                            .padding(.top, 24)
+
+                            // Illustration
+                            Image("undraw_sign-up_qamz")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 180)
+                                .padding(.top, 12)
 
                             // MARK: - Title
                             Text("User SignUp")
                                 .font(.poppins(.bold, size: 22))
                                 .foregroundColor(AppColors.darkBlue)
-                                .padding(.top, 28)
+                                .padding(.top, 24)
 
                             // MARK: - Text Fields
                             VStack(spacing: 16) {
@@ -93,8 +85,8 @@ struct UserSignUpView: View {
                                     keyboardType: .phonePad
                                 )
                             }
-                            .padding(.horizontal, 28)
-                            .padding(.top, 24)
+                            .padding(.horizontal, 20)
+                            .padding(.top, 20)
 
                             // MARK: - Terms & Conditions
                             HStack(spacing: 8) {
@@ -123,19 +115,26 @@ struct UserSignUpView: View {
                                     .foregroundColor(AppColors.brandBlue)
                                     .underline()
                             }
-                            .padding(.horizontal, 28)
-                            .padding(.top, 20)
+                            .padding(.horizontal, 20)
+                            .padding(.top, 18)
 
                             // MARK: - Send OTP Button
                             PrimaryButton(title: "Send OTP") {
                                 // TODO: Handle send OTP action
                             }
-                            .padding(.horizontal, 28)
-                            .padding(.top, 32)
-                            .padding(.bottom, 40)
+                            .padding(.horizontal, 20)
+                            .padding(.top, 28)
+                            .padding(.bottom, 28)
                             .opacity(agreedToTerms ? 1.0 : 0.6)
                             .disabled(!agreedToTerms)
                         }
+                        .frame(maxWidth: .infinity)
+                        .background(Color.white)
+                        .cornerRadius(20)
+                        .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
+                        .padding(.horizontal, 28)
+                        .padding(.top, 16)
+                        .padding(.bottom, 40)
                     }
                 }
             }

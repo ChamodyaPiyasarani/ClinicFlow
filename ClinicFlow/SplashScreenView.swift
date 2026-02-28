@@ -64,7 +64,7 @@ struct SplashScreenView: View {
 
                     // App name
                     Text("CLINICFLOW")
-                        .font(.poppins(.bold, size: 28))
+                        .font(.poppins(.black, size: 35))
                         .foregroundColor(.white)
                         .tracking(2)
                         .padding(.top, 16)

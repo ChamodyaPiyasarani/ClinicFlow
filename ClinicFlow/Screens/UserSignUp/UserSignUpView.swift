@@ -64,7 +64,7 @@ struct UserSignUpView: View {
                                 Image("undraw_sign-up_qamz")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(height: 160)
+                                    .frame(height: 500)
                                     .padding(.top, 12)
                             }
                             .frame(maxWidth: .infinity)

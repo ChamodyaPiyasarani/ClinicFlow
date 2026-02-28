@@ -14,6 +14,12 @@ struct UserSignUpView: View {
     @State private var contactNumber: String = ""
     @State private var agreedToTerms: Bool = false
 
+    private var isFormValid: Bool {
+        !userName.trimmingCharacters(in: .whitespaces).isEmpty &&
+        !contactNumber.trimmingCharacters(in: .whitespaces).isEmpty &&
+        agreedToTerms
+    }
+
     var body: some View {
         ZStack {
                 // Background
@@ -123,8 +129,8 @@ struct UserSignUpView: View {
                             .padding(.horizontal, 20)
                             .padding(.top, 28)
                             .padding(.bottom, 28)
-                            .opacity(agreedToTerms ? 1.0 : 0.6)
-                            .disabled(!agreedToTerms)
+                            .opacity(isFormValid ? 1.0 : 0.6)
+                            .disabled(!isFormValid)
                         }
                         .frame(maxWidth: .infinity)
                         .background(Color.white)

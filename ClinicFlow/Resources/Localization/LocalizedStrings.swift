@@ -108,6 +108,38 @@ struct LocalizedStrings {
             .tamil: "பதிவு"
         ],
 
+        // ── User SignUp Screen ──
+        "user_signup": [
+            .english: "User SignUp",
+            .sinhala: "පරිශීලක ලියාපදිංචිය",
+            .tamil: "பயனர் பதிவு"
+        ],
+        "user_name": [
+            .english: "User Name",
+            .sinhala: "පරිශීලක නාමය",
+            .tamil: "பயனர் பெயர்"
+        ],
+        "contact_number": [
+            .english: "Contact Number",
+            .sinhala: "දුරකථන අංකය",
+            .tamil: "தொடர்பு எண்"
+        ],
+        "agree_to": [
+            .english: "Agree to ",
+            .sinhala: "එකඟ වන්න ",
+            .tamil: "ஒப்புக்கொள் "
+        ],
+        "terms_and_conditions": [
+            .english: "terms and conditions",
+            .sinhala: "නියම සහ කොන්දේසි",
+            .tamil: "விதிமுறைகள் மற்றும் நிபந்தனைகள்"
+        ],
+        "send_otp": [
+            .english: "Send OTP",
+            .sinhala: "OTP යවන්න",
+            .tamil: "OTP அனுப்பு"
+        ],
+
         // ── Placeholder – add more screen-specific keys below ──
         "hello_world": [
             .english: "Hello, World!",

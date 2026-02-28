@@ -67,7 +67,7 @@ struct UserSignUpView: View {
                                 .padding(.top, 12)
 
                             // MARK: - Title
-                            Text("User SignUp")
+                            Text(languageManager.localized("user_signup"))
                                 .font(.poppins(.bold, size: 22))
                                 .foregroundColor(AppColors.darkBlue)
                                 .padding(.top, 24)
@@ -75,12 +75,12 @@ struct UserSignUpView: View {
                             // MARK: - Text Fields
                             VStack(spacing: 16) {
                                 CustomTextField(
-                                    placeholder: "User Name",
+                                    placeholder: languageManager.localized("user_name"),
                                     text: $userName
                                 )
 
                                 CustomTextField(
-                                    placeholder: "Contact Number",
+                                    placeholder: languageManager.localized("contact_number"),
                                     text: $contactNumber,
                                     keyboardType: .phonePad
                                 )
@@ -106,11 +106,11 @@ struct UserSignUpView: View {
                                     }
                                 }
 
-                                Text("Agree to ")
+                                Text(languageManager.localized("agree_to"))
                                     .font(.poppins(.regular, size: 13))
                                     .foregroundColor(.gray)
                                 +
-                                Text("terms and conditions")
+                                Text(languageManager.localized("terms_and_conditions"))
                                     .font(.poppins(.regular, size: 13))
                                     .foregroundColor(AppColors.brandBlue)
                                     .underline()
@@ -119,7 +119,7 @@ struct UserSignUpView: View {
                             .padding(.top, 18)
 
                             // MARK: - Send OTP Button
-                            PrimaryButton(title: "Send OTP") {
+                            PrimaryButton(title: languageManager.localized("send_otp")) {
                                 // TODO: Handle send OTP action
                             }
                             .padding(.horizontal, 20)
@@ -133,9 +133,10 @@ struct UserSignUpView: View {
                         .cornerRadius(20)
                         .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
                         .padding(.horizontal, 28)
-                        .padding(.top, 16)
-                        .padding(.bottom, 40)
+                        .frame(maxHeight: .infinity)
+                        .padding(.vertical, 16)
                     }
+                    .scrollBounceBehavior(.basedOnSize)
                 }
             }
         }

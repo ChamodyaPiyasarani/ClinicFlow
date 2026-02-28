@@ -34,7 +34,7 @@ struct SplashScreenView: View {
                     Spacer()
 
                     // Logo
-                    Image("ClinicFlowLogo")
+                    Image("Clinic_Flow_splach_icon")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 120, height: 120)

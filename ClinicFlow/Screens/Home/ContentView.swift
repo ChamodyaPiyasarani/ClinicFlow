@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var languageManager: LanguageManager
+
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, malith!")
+            Text(languageManager.localized("hello_world"))
                 .font(.poppins(.regular, size: 17))
         }
         .padding()
@@ -22,4 +24,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environmentObject(LanguageManager.shared)
 }

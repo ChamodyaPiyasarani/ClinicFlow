@@ -13,11 +13,19 @@ struct UserSignUpView: View {
     @State private var contactNumber: String = ""
     @State private var agreedToTerms: Bool = false
     @State private var goBack: Bool = false
+    @State private var showTerms: Bool = false
 
     var body: some View {
         if goBack {
             LanguageSelectionView()
                 .environment(languageManager)
+        } else if showTerms {
+            TermsConditionsView(onBack: {
+                withAnimation {
+                    showTerms = false
+                }
+            })
+            .environment(languageManager)
         } else {
             ZStack {
                 // Background
@@ -109,11 +117,17 @@ struct UserSignUpView: View {
                                 Text(languageManager.localized("agree_to"))
                                     .font(.poppins(.regular, size: 13))
                                     .foregroundColor(.gray)
-                                +
-                                Text(languageManager.localized("terms_and_conditions"))
-                                    .font(.poppins(.regular, size: 13))
-                                    .foregroundColor(AppColors.brandBlue)
-                                    .underline()
+
+                                Button {
+                                    withAnimation {
+                                        showTerms = true
+                                    }
+                                } label: {
+                                    Text(languageManager.localized("terms_and_conditions"))
+                                        .font(.poppins(.regular, size: 13))
+                                        .foregroundColor(AppColors.brandBlue)
+                                        .underline()
+                                }
                             }
                             .padding(.horizontal, 20)
                             .padding(.top, 18)

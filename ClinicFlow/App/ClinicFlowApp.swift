@@ -10,11 +10,32 @@ import SwiftUI
 @main
 struct ClinicFlowApp: App {
     @State private var languageManager = LanguageManager.shared
+    @State private var router = AppRouter()
 
     var body: some Scene {
         WindowGroup {
-            SplashScreenView()
-                .environment(languageManager)
+            NavigationStack(path: $router.path) {
+                SplashScreenView()
+                    .navigationBarHidden(true)
+                    .navigationDestination(for: AppRoute.self) { route in
+                        switch route {
+                        case .splash:
+                            SplashScreenView()
+                                .navigationBarHidden(true)
+                        case .languageSelection:
+                            LanguageSelectionView()
+                                .navigationBarHidden(true)
+                        case .userSignUp:
+                            UserSignUpView()
+                                .navigationBarHidden(true)
+                        case .termsConditions:
+                            TermsConditionsView()
+                                .navigationBarHidden(true)
+                        }
+                    }
+            }
+            .environment(languageManager)
+            .environment(router)
         }
     }
 }

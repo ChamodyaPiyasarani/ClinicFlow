@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TermsConditionsView: View {
     @Environment(LanguageManager.self) var languageManager
-    var onBack: () -> Void
+    @Environment(AppRouter.self) var router
 
     var body: some View {
         ZStack {
@@ -28,7 +28,7 @@ struct TermsConditionsView: View {
                 // MARK: - Back Button
                 HStack {
                     BackButton {
-                        onBack()
+                        router.goBack()
                     }
                     Spacer()
                 }
@@ -163,6 +163,7 @@ struct TermsSectionCard: View {
 }
 
 #Preview {
-    TermsConditionsView(onBack: {})
+    TermsConditionsView()
         .environment(LanguageManager.shared)
+        .environment(AppRouter())
 }

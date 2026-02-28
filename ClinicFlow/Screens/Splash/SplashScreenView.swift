@@ -9,15 +9,11 @@ import SwiftUI
 
 struct SplashScreenView: View {
     @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
     @State private var progress: CGFloat = 0.0
-    @State private var isActive = false
 
     var body: some View {
-        if isActive {
-            LanguageSelectionView()
-                .environment(languageManager)
-        } else {
-            ZStack {
+        ZStack {
                 // Background color
                 AppColors.brandBlue
                     .ignoresSafeArea()
@@ -74,16 +70,14 @@ struct SplashScreenView: View {
                 }
                 // Navigate after progress completes
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                    withAnimation {
-                        isActive = true
-                    }
+                    router.navigate(to: .languageSelection)
                 }
             }
-        }
     }
 }
 
 #Preview {
     SplashScreenView()
         .environment(LanguageManager.shared)
+        .environment(AppRouter())
 }

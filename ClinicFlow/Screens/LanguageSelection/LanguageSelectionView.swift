@@ -9,15 +9,11 @@ import SwiftUI
 
 struct LanguageSelectionView: View {
     @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
     @State private var selectedLanguage: AppLanguage = .english
-    @State private var navigateToSignUp = false
 
     var body: some View {
-        if navigateToSignUp {
-            UserSignUpView()
-                .environment(languageManager)
-        } else {
-            ZStack {
+        ZStack {
                 // Light background
                 AppColors.background.ignoresSafeArea()
 
@@ -85,9 +81,7 @@ struct LanguageSelectionView: View {
                         // MARK: - Continue Button
                         PrimaryButton(title: "Continue") {
                             languageManager.setLanguage(selectedLanguage)
-                            withAnimation {
-                                navigateToSignUp = true
-                            }
+                            router.navigate(to: .userSignUp)
                         }
                         .padding(.horizontal, 28)
                         .padding(.top, 40)
@@ -95,11 +89,11 @@ struct LanguageSelectionView: View {
                     }
                 }
             }
-        }
     }
 }
 
 #Preview {
     LanguageSelectionView()
         .environment(LanguageManager.shared)
+        .environment(AppRouter())
 }

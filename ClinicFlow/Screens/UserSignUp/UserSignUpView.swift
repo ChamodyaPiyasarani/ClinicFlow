@@ -9,25 +9,13 @@ import SwiftUI
 
 struct UserSignUpView: View {
     @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
     @State private var userName: String = ""
     @State private var contactNumber: String = ""
     @State private var agreedToTerms: Bool = false
-    @State private var goBack: Bool = false
-    @State private var showTerms: Bool = false
 
     var body: some View {
-        if goBack {
-            LanguageSelectionView()
-                .environment(languageManager)
-        } else if showTerms {
-            TermsConditionsView(onBack: {
-                withAnimation {
-                    showTerms = false
-                }
-            })
-            .environment(languageManager)
-        } else {
-            ZStack {
+        ZStack {
                 // Background
                 AppColors.background
                     .ignoresSafeArea()
@@ -43,9 +31,7 @@ struct UserSignUpView: View {
                     // MARK: - Back Button
                     HStack {
                         BackButton {
-                            withAnimation {
-                                goBack = true
-                            }
+                            router.goBack()
                         }
                         Spacer()
                     }
@@ -119,9 +105,7 @@ struct UserSignUpView: View {
                                     .foregroundColor(.gray)
 
                                 Button {
-                                    withAnimation {
-                                        showTerms = true
-                                    }
+                                    router.navigate(to: .termsConditions)
                                 } label: {
                                     Text(languageManager.localized("terms_and_conditions"))
                                         .font(.poppins(.regular, size: 13))
@@ -153,11 +137,11 @@ struct UserSignUpView: View {
                     .scrollBounceBehavior(.basedOnSize)
                 }
             }
-        }
     }
 }
 
 #Preview {
     UserSignUpView()
         .environment(LanguageManager.shared)
+        .environment(AppRouter())
 }

@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct LanguageSelectionView: View {
-    @EnvironmentObject var languageManager: LanguageManager
+    @Environment(LanguageManager.self) var languageManager
     @State private var selectedLanguage: AppLanguage = .english
     @State private var navigateToHome = false
 
     var body: some View {
         if navigateToHome {
             ContentView()
-                .environmentObject(languageManager)
+                .environment(languageManager)
         } else {
             ZStack {
                 // Light background
@@ -109,5 +109,5 @@ struct LanguageSelectionView: View {
 
 #Preview {
     LanguageSelectionView()
-        .environmentObject(LanguageManager.shared)
+        .environment(LanguageManager.shared)
 }

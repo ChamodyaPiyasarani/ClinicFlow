@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var languageManager: LanguageManager
+    @Environment(LanguageManager.self) var languageManager
 
     var body: some View {
         VStack {
@@ -24,5 +24,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .environmentObject(LanguageManager.shared)
+        .environment(LanguageManager.shared)
 }

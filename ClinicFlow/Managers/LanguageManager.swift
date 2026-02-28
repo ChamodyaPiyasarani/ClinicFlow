@@ -6,25 +6,28 @@
 //
 
 import SwiftUI
+import Observation
 
 // MARK: - Language Manager
-class LanguageManager: ObservableObject {
+@Observable
+class LanguageManager {
     static let shared = LanguageManager()
 
-    @AppStorage("selectedLanguage") private var storedLanguage: String = AppLanguage.english.rawValue
-
-    @Published var currentLanguage: AppLanguage {
+    var currentLanguage: AppLanguage {
         didSet {
-            storedLanguage = currentLanguage.rawValue
+            UserDefaults.standard.set(currentLanguage.rawValue, forKey: "selectedLanguage")
         }
     }
 
     /// Whether the user has ever selected a language (first launch detection)
-    @AppStorage("hasSelectedLanguage") var hasSelectedLanguage: Bool = false
+    var hasSelectedLanguage: Bool {
+        get { UserDefaults.standard.bool(forKey: "hasSelectedLanguage") }
+        set { UserDefaults.standard.set(newValue, forKey: "hasSelectedLanguage") }
+    }
 
     init() {
-        let stored = AppStorage(wrappedValue: AppLanguage.english.rawValue, "selectedLanguage")
-        self.currentLanguage = AppLanguage(rawValue: stored.wrappedValue) ?? .english
+        let stored = UserDefaults.standard.string(forKey: "selectedLanguage") ?? AppLanguage.english.rawValue
+        self.currentLanguage = AppLanguage(rawValue: stored) ?? .english
     }
 
     func setLanguage(_ language: AppLanguage) {
@@ -35,18 +38,6 @@ class LanguageManager: ObservableObject {
     /// Get a localized string for the given key
     func localized(_ key: String) -> String {
         return LocalizedStrings.get(key, for: currentLanguage)
-    }
-}
-
-// MARK: - Environment Key
-struct LanguageManagerKey: EnvironmentKey {
-    static let defaultValue = LanguageManager.shared
-}
-
-extension EnvironmentValues {
-    var languageManager: LanguageManager {
-        get { self[LanguageManagerKey.self] }
-        set { self[LanguageManagerKey.self] = newValue }
     }
 }
 

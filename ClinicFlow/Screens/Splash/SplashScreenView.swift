@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct SplashScreenView: View {
-    @EnvironmentObject var languageManager: LanguageManager
+    @Environment(LanguageManager.self) var languageManager
     @State private var progress: CGFloat = 0.0
     @State private var isActive = false
 
     var body: some View {
         if isActive {
             LanguageSelectionView()
-                .environmentObject(languageManager)
+                .environment(languageManager)
         } else {
             ZStack {
                 // Background color
@@ -85,5 +85,5 @@ struct SplashScreenView: View {
 
 #Preview {
     SplashScreenView()
-        .environmentObject(LanguageManager.shared)
+        .environment(LanguageManager.shared)
 }

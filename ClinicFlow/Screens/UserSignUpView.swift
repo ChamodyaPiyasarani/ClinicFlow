@@ -118,7 +118,7 @@ struct UserSignUpView: View {
 
                             // MARK: - Send OTP Button
                             PrimaryButton(title: languageManager.localized("send_otp")) {
-                                // TODO: Handle send OTP action
+                                router.navigate(to: .otpVerification)
                             }
                             .padding(.horizontal, 20)
                             .padding(.top, 28)

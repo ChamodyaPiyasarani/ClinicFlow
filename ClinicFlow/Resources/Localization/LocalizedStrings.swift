@@ -237,6 +237,33 @@ struct LocalizedStrings {
             .tamil: "மாற்றங்களுக்குப் பிறகு பயன்பாட்டைத் தொடர்ந்து பயன்படுத்துவது புதுப்பிக்கப்பட்ட விதிமுறைகளை ஏற்றுக்கொள்வதாகும்."
         ],
 
+        // ── OTP Verification Screen ──
+        "otp_verification": [
+            .english: "OTP Verification",
+            .sinhala: "OTP සත්‍යාපනය",
+            .tamil: "OTP சரிபார்ப்பு"
+        ],
+        "otp_subtitle": [
+            .english: "Enter the 4-digit code sent to your phone",
+            .sinhala: "ඔබගේ දුරකථනයට යැවූ අංක 4න් කේතය ඇතුළු කරන්න",
+            .tamil: "உங்கள் தொலைப்பேசிக்கு அனுப்பப்பட்ட 4 இலக்க குறியீட்டை உள்ளிடவும்"
+        ],
+        "verify_otp": [
+            .english: "Verify OTP",
+            .sinhala: "OTP සත්‍යාපනය කරන්න",
+            .tamil: "OTP சரிபார்க்கவும்"
+        ],
+        "didnt_receive_code": [
+            .english: "Didn't receive the code?",
+            .sinhala: "කේතය ලැබුණේ නැද්ද?",
+            .tamil: "குறியீடு கிடைக்கவில்லையா?"
+        ],
+        "resend": [
+            .english: "Resend",
+            .sinhala: "නැවත යවන්න",
+            .tamil: "மீண்டும் அனுப்பு"
+        ],
+
         // ── Placeholder – add more screen-specific keys below ──
         "hello_world": [
             .english: "Hello, World!",

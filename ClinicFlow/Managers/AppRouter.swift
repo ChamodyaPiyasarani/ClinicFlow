@@ -14,6 +14,7 @@ enum AppRoute: Hashable {
     case languageSelection
     case userSignUp
     case termsConditions
+    case otpVerification
 }
 
 /// Centralized navigation manager using NavigationStack path.

@@ -31,6 +31,9 @@ struct ClinicFlowApp: App {
                         case .termsConditions:
                             TermsConditionsView()
                                 .navigationBarHidden(true)
+                        case .otpVerification:
+                            OTPVerificationView()
+                                .navigationBarHidden(true)
                         }
                     }
             }

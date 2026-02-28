@@ -10,11 +10,11 @@ import SwiftUI
 struct LanguageSelectionView: View {
     @Environment(LanguageManager.self) var languageManager
     @State private var selectedLanguage: AppLanguage = .english
-    @State private var navigateToHome = false
+    @State private var navigateToSignUp = false
 
     var body: some View {
-        if navigateToHome {
-            ContentView()
+        if navigateToSignUp {
+            UserSignUpView()
                 .environment(languageManager)
         } else {
             ZStack {
@@ -83,19 +83,11 @@ struct LanguageSelectionView: View {
                         .padding(.top, 32)
 
                         // MARK: - Continue Button
-                        Button {
+                        PrimaryButton(title: "Continue") {
                             languageManager.setLanguage(selectedLanguage)
                             withAnimation {
-                                navigateToHome = true
+                                navigateToSignUp = true
                             }
-                        } label: {
-                            Text("Continue")
-                                .font(.poppins(.semiBold, size: 17))
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 16)
-                                .background(AppColors.brandBlue)
-                                .cornerRadius(14)
                         }
                         .padding(.horizontal, 28)
                         .padding(.top, 40)

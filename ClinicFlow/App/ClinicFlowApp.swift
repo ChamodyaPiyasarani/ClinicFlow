@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct ClinicFlowApp: App {
+    @State private var languageManager = LanguageManager.shared
+
     var body: some Scene {
         WindowGroup {
             SplashScreenView()
+                .environment(languageManager)
         }
     }
 }

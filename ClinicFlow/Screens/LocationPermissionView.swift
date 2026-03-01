@@ -85,7 +85,7 @@ struct LocationPermissionView: View {
                             
                             // Secondary Button
                             Button {
-                                // TODO: Skip for now action
+                                router.navigate(to: .notificationPermission)
                             } label: {
                                 Text(languageManager.localized("skip_for_now"))
                                     .font(.poppins(.semiBold, size: 17))

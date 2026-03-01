@@ -100,12 +100,13 @@ struct NotificationPermissionView: View {
                         VStack(spacing: 12) {
                             // Primary Button
                             PrimaryButton(title: languageManager.localized("enable_notification")) {
-                                // TODO: Request notification permission
+                                // TODO: Request notification permission, then navigate
+                                router.navigate(to: .home)
                             }
                             
                             // Secondary Button
                             Button {
-                                // TODO: Skip for now action
+                                router.navigate(to: .home)
                             } label: {
                                 Text(languageManager.localized("skip_for_now"))
                                     .font(.poppins(.semiBold, size: 17))

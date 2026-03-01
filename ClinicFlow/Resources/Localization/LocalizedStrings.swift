@@ -356,6 +356,8 @@ struct LocalizedStrings {
             .english: "Account",
             .sinhala: "ගිණුම",
             .tamil: "கணக்கு"
+        ],
+        
         // ── Location Permission Screen ──
         "activate_your_visit": [
             .english: "Activate Your Visit",

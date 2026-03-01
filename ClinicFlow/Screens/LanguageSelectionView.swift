@@ -60,6 +60,7 @@ struct LanguageSelectionView: View {
                         Text(languageManager.localized("select_language"))
                             .font(.poppins(.regular, size: 15))
                             .foregroundColor(.gray)
+                            .multilineTextAlignment(.center)
                             .padding(.top, 16)
 
                         // MARK: - Language Options
@@ -87,6 +88,7 @@ struct LanguageSelectionView: View {
                         .padding(.top, 40)
                         .padding(.bottom, 40)
                     }
+                    .frame(maxWidth: .infinity)
                 }
             }
     }

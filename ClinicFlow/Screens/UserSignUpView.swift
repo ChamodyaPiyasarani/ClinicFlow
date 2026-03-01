@@ -137,7 +137,6 @@ struct UserSignUpView: View {
                         .cornerRadius(20)
                         .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
                         .padding(.horizontal, 28)
-                        .frame(maxHeight: .infinity)
                         .padding(.vertical, 16)
                     }
                     .scrollBounceBehavior(.basedOnSize)

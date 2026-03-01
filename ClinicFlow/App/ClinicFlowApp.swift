@@ -34,6 +34,12 @@ struct ClinicFlowApp: App {
                         case .otpVerification:
                             OTPVerificationView()
                                 .navigationBarHidden(true)
+                        case .locationPermission:
+                            LocationPermissionView()
+                                .navigationBarHidden(true)
+                        case .notificationPermission:
+                            NotificationPermissionView()
+                                .navigationBarHidden(true)
                         }
                     }
             }

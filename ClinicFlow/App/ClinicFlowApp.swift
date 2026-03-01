@@ -40,6 +40,9 @@ struct ClinicFlowApp: App {
                         case .notificationPermission:
                             NotificationPermissionView()
                                 .navigationBarHidden(true)
+                        case .home:
+                            ContentView()
+                                .navigationBarHidden(true)
                         }
                     }
             }

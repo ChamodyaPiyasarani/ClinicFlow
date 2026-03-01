@@ -264,6 +264,95 @@ struct LocalizedStrings {
             .tamil: "மீண்டும் அனுப்பு"
         ],
 
+        // ── Location Permission Screen ──
+        "activate_your_visit": [
+            .english: "Activate Your Visit",
+            .sinhala: "ඔබගේ සංචාරය සක්‍රිය කරන්න",
+            .tamil: "உங்கள் வருகையை செயல்படுத்தவும்"
+        ],
+        "location_permission_subtitle": [
+            .english: "Enable location to confirm that you\nare at the clinic and activate your session\nsecurely.",
+            .sinhala: "ඔබ සායනයේ සිටින බව තහවුරු කිරීමට සහ ඔබගේ සැසිය ආරක්ෂිතව සක්‍රිය කිරීමට ස්ථානය සක්‍රිය කරන්න.",
+            .tamil: "நீங்கள் மருத்துவமனையில் இருப்பதை உறுதிப்படுத்தவும், உங்கள் அமர்வை பாதுகாப்பாக செயல்படுத்தவும் இருப்பிடத்தை இயக்கவும்."
+        ],
+        "secure_session_activation": [
+            .english: "Secure Session Activation",
+            .sinhala: "ආරක්ෂිත සැසි සක්‍රියකරණය",
+            .tamil: "பாதுகாப்பான அமர்வு செயல்படுத்தல்"
+        ],
+        "verify_presence_subtitle": [
+            .english: "Verify your presence before joining the queue",
+            .sinhala: "පෝලිමට එක්වීමට පෙර ඔබගේ පැමිණීම සත්‍යාපනය කරන්න",
+            .tamil: "வரிசையில் சேர்வதற்கு முன் உங்கள் இருப்பை சரிபார்க்கவும்"
+        ],
+        "fair_token_allocation": [
+            .english: "Fair Token Allocation",
+            .sinhala: "සාධාරණ ටෝකන් වෙන් කිරීම",
+            .tamil: "நியாயமான டோக்கன் ஒதுக்கீடு"
+        ],
+        "prevents_duplicate_checkins": [
+            .english: "Prevents remote or duplicate check-ins",
+            .sinhala: "දුරස්ථ හෝ අනාවර්තන පිවිසුම් වළක්වයි",
+            .tamil: "தொலைநிலை அல்லது நகல் செக்-இன்களை தடுக்கிறது"
+        ],
+        "enable_location_services": [
+            .english: "Enable Location Services",
+            .sinhala: "ස්ථාන සේවා සක්‍රිය කරන්න",
+            .tamil: "இருப்பிட சேவைகளை இயக்கவும்"
+        ],
+        "skip_for_now": [
+            .english: "Skip for Now",
+            .sinhala: "දැනට මඟහරින්න",
+            .tamil: "இப்போதைக்கு தவிர்க்கவும்"
+        ],
+
+        // ── Notification Permission Screen ──
+        "stay_updated": [
+            .english: "Stay Updated",
+            .sinhala: "යාවත්කාලීනව සිටින්න",
+            .tamil: "புதுப்பித்த நிலையில் இருங்கள்"
+        ],
+        "notification_permission_subtitle": [
+            .english: "Get real-time notifications about your\nappointments, queue status, and important clinic\nupdates",
+            .sinhala: "ඔබගේ හමුවීම්, පෝලිම තත්ත්වය සහ වැදගත් සායන යාවත්කාලීන ගැන තත්‍ය කාලීන දැනුම්දීම් ලබා ගන්න",
+            .tamil: "உங்கள் சந்திப்புகள், வரிசை நிலை மற்றும் முக்கியமான மருத்துவமனை புதுப்பிப்புகள் பற்றிய நேரடி அறிவிப்புகளைப் பெறுங்கள்"
+        ],
+        "appointment_reminders": [
+            .english: "Appointment Reminders",
+            .sinhala: "හමුවීම් සිහිකැඳවීම්",
+            .tamil: "சந்திப்பு நினைவூட்டல்கள்"
+        ],
+        "never_miss_appointments": [
+            .english: "Never miss your scheduled appointments",
+            .sinhala: "ඔබගේ සැලසුම් කළ හමුවීම් කිසි විටෙකත් මග නොහරින්න",
+            .tamil: "உங்கள் திட்டமிடப்பட்ட சந்திப்புகளை தவறவிடாதீர்கள்"
+        ],
+        "queue_updates": [
+            .english: "Queue Updates",
+            .sinhala: "පෝලිම යාවත්කාලීන",
+            .tamil: "வரிசை புதுப்பிப்புகள்"
+        ],
+        "realtime_turn_notification": [
+            .english: "Know when it's your turn in real-time",
+            .sinhala: "ඔබගේ වාරය කවදාදැයි තත්‍ය කාලීනව දැනගන්න",
+            .tamil: "உங்கள் முறை எப்போது என்பதை நேரடியாக அறியவும்"
+        ],
+        "important_alerts": [
+            .english: "Important Alerts",
+            .sinhala: "වැදගත් ඇඟවීම්",
+            .tamil: "முக்கிய எச்சரிக்கைகள்"
+        ],
+        "urgent_announcements": [
+            .english: "Receive urgent clinic announcements",
+            .sinhala: "හදිසි සායන නිවේදන ලබා ගන්න",
+            .tamil: "அவசர மருத்துவமனை அறிவிப்புகளைப் பெறவும்"
+        ],
+        "enable_notification": [
+            .english: "Enable Notification",
+            .sinhala: "දැනුම්දීම් සක්‍රිය කරන්න",
+            .tamil: "அறிவிப்பை இயக்கவும்"
+        ],
+
         // ── Placeholder – add more screen-specific keys below ──
         "hello_world": [
             .english: "Hello, World!",

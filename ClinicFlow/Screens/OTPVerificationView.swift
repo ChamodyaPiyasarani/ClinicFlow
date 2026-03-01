@@ -105,7 +105,7 @@ struct OTPVerificationView: View {
 
                         // MARK: - Verify Button
                         PrimaryButton(title: languageManager.localized("verify_otp")) {
-                            // TODO: Handle OTP verification
+                            router.navigate(to: .locationPermission)
                         }
                         .padding(.horizontal, 20)
                         .padding(.top, 28)

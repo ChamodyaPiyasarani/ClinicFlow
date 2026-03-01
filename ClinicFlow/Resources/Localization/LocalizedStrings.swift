@@ -264,6 +264,98 @@ struct LocalizedStrings {
             .tamil: "மீண்டும் அனுப்பு"
         ],
 
+        // ── Home Screen ──
+        "current_visit_status": [
+            .english: "Current visit status",
+            .sinhala: "වත්මන් පැමිණීමේ තත්ත්වය",
+            .tamil: "தற்போதைய வருகை நிலை"
+        ],
+        "your_visit_status": [
+            .english: "Your Visit Status",
+            .sinhala: "ඔබේ පැමිණීමේ තත්ත්වය",
+            .tamil: "உங்கள் வருகை நிலை"
+        ],
+        "no_active_visit": [
+            .english: "No Active Visit",
+            .sinhala: "සක්‍රිය පැමිණීමක් නැත",
+            .tamil: "செயலில் வருகை இல்லை"
+        ],
+        "no_active_visit_desc": [
+            .english: "You don't have any scheduled appointments today. Start a walk-in visit or book an appointment.",
+            .sinhala: "ඔබට අද නියමිත හමුවීම් නොමැත. ඇවිත් යාමේ පැමිණීමක් ආරම්භ කරන්න හෝ හමුවීමක් වෙන් කරන්න.",
+            .tamil: "இன்று உங்களுக்கு திட்டமிடப்பட்ட சந்திப்புகள் எதுவும் இல்லை. நேரடி வருகையைத் தொடங்கவும் அல்லது சந்திப்பை முன்பதிவு செய்யவும்."
+        ],
+        "start_walk_in_visit": [
+            .english: "Start Walk In Visit",
+            .sinhala: "ඇවිත් යාමේ පැමිණීම ආරම්භ කරන්න",
+            .tamil: "நேரடி வருகையைத் தொடங்கு"
+        ],
+        "or": [
+            .english: "OR",
+            .sinhala: "හෝ",
+            .tamil: "அல்லது"
+        ],
+        "add_an_appointment": [
+            .english: "Add an Appointment",
+            .sinhala: "හමුවීමක් එක් කරන්න",
+            .tamil: "சந்திப்பைச் சேர்க்கவும்"
+        ],
+        "clinic_service_list": [
+            .english: "Clinic Service List",
+            .sinhala: "සායන සේවා ලැයිස්තුව",
+            .tamil: "மருத்துவமனை சேவை பட்டியல்"
+        ],
+        "service_opd": [
+            .english: "OPD",
+            .sinhala: "OPD",
+            .tamil: "OPD"
+        ],
+        "service_opd_desc": [
+            .english: "Outpatient Department",
+            .sinhala: "බාහිර රෝගී අංශය",
+            .tamil: "வெளிநோயாளர் பிரிவு"
+        ],
+        "service_lab": [
+            .english: "LAB Tests",
+            .sinhala: "රසායනාගාර පරීක්ෂණ",
+            .tamil: "ஆய்வக பரிசோதனைகள்"
+        ],
+        "service_lab_desc": [
+            .english: "Lab test details",
+            .sinhala: "රසායනාගාර පරීක්ෂණ විස්තර",
+            .tamil: "ஆய்வக பரிசோதனை விவரங்கள்"
+        ],
+        "service_pharmacy": [
+            .english: "Pharmacy",
+            .sinhala: "ඖෂධාගාරය",
+            .tamil: "மருந்தகம்"
+        ],
+        "service_pharmacy_desc": [
+            .english: "Upload prescription",
+            .sinhala: "බෙහෙත් වට්ටෝරුව උඩුගත කරන්න",
+            .tamil: "மருந்து சீட்டை பதிவேற்றவும்"
+        ],
+
+        // ── Bottom Navigation Bar ──
+        "tab_home": [
+            .english: "Home",
+            .sinhala: "මුල් පිටුව",
+            .tamil: "முகப்பு"
+        ],
+        "tab_map": [
+            .english: "Map",
+            .sinhala: "සිතියම",
+            .tamil: "வரைபடம்"
+        ],
+        "tab_appointment": [
+            .english: "Appointment",
+            .sinhala: "හමුවීම",
+            .tamil: "சந்திப்பு"
+        ],
+        "tab_account": [
+            .english: "Account",
+            .sinhala: "ගිණුම",
+            .tamil: "கணக்கு"
         // ── Location Permission Screen ──
         "activate_your_visit": [
             .english: "Activate Your Visit",

@@ -9,16 +9,35 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(LanguageManager.self) var languageManager
+    @State private var selectedTab: BottomTab = .home
 
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text(languageManager.localized("hello_world"))
-                .font(.poppins(.regular, size: 17))
+        VStack(spacing: 0) {
+            // Main content area
+            Group {
+                switch selectedTab {
+                case .home:
+                    HomeView()
+                case .map:
+                    Text(languageManager.localized("tab_map"))
+                        .font(.poppins(.regular, size: 17))
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                case .appointment:
+                    Text(languageManager.localized("tab_appointment"))
+                        .font(.poppins(.regular, size: 17))
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                case .account:
+                    Text(languageManager.localized("tab_account"))
+                        .font(.poppins(.regular, size: 17))
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            // Bottom Navigation Bar
+            BottomNavBar(selectedTab: $selectedTab)
         }
-        .padding()
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 

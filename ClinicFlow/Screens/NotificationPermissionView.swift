@@ -29,6 +29,7 @@ struct NotificationPermissionView: View {
                 .padding(.top, 8)
                 
                 // MARK: - Content
+                GeometryReader { geometry in
                 ScrollView {
                     VStack(spacing: 24) {
                         // Notification Icon with Badge
@@ -127,8 +128,9 @@ struct NotificationPermissionView: View {
                         .padding(.top, 16)
                         .padding(.bottom, 32)
                     }
-                    .frame(maxWidth: .infinity)
+                    .frame(maxWidth: .infinity, minHeight: geometry.size.height, alignment: .center)
                 }
+                } // GeometryReader
             }
         }
     }

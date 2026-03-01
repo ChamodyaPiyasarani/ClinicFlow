@@ -45,6 +45,7 @@ struct UserSignUpView: View {
                     .padding(.top, 8)
 
                     // MARK: - Card Content
+                    GeometryReader { geometry in
                     ScrollView {
                         // Single white card containing everything
                         VStack(spacing: 0) {
@@ -138,8 +139,10 @@ struct UserSignUpView: View {
                         .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
                         .padding(.horizontal, 28)
                         .padding(.vertical, 16)
+                        .frame(minHeight: geometry.size.height, alignment: .center)
                     }
                     .scrollBounceBehavior(.basedOnSize)
+                    } // GeometryReader
                 }
             }
     }

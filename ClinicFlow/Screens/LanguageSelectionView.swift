@@ -24,6 +24,7 @@ struct LanguageSelectionView: View {
                     lineWidth: 60
                 )
 
+                GeometryReader { geometry in
                 ScrollView {
                     VStack(spacing: 0) {
 
@@ -88,8 +89,9 @@ struct LanguageSelectionView: View {
                         .padding(.top, 40)
                         .padding(.bottom, 40)
                     }
-                    .frame(maxWidth: .infinity)
+                    .frame(maxWidth: .infinity, minHeight: geometry.size.height, alignment: .center)
                 }
+                } // GeometryReader
             }
     }
 }

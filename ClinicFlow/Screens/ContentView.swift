@@ -19,17 +19,35 @@ struct ContentView: View {
                 case .home:
                     HomeView()
                 case .map:
-                    Text(languageManager.localized("tab_map"))
-                        .font(.poppins(.regular, size: 17))
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    VStack {
+                        Spacer()
+                        Text(languageManager.localized("tab_map"))
+                            .font(.poppins(.regular, size: 17))
+                            .foregroundColor(.gray)
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(AppColors.background)
                 case .appointment:
-                    Text(languageManager.localized("tab_appointment"))
-                        .font(.poppins(.regular, size: 17))
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    VStack {
+                        Spacer()
+                        Text(languageManager.localized("tab_appointment"))
+                            .font(.poppins(.regular, size: 17))
+                            .foregroundColor(.gray)
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(AppColors.background)
                 case .account:
-                    Text(languageManager.localized("tab_account"))
-                        .font(.poppins(.regular, size: 17))
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    VStack {
+                        Spacer()
+                        Text(languageManager.localized("tab_account"))
+                            .font(.poppins(.regular, size: 17))
+                            .foregroundColor(.gray)
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(AppColors.background)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -37,6 +55,7 @@ struct ContentView: View {
             // Bottom Navigation Bar
             BottomNavBar(selectedTab: $selectedTab)
         }
+        .background(AppColors.background)
         .edgesIgnoringSafeArea(.bottom)
     }
 }

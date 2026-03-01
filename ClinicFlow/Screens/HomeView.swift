@@ -111,7 +111,7 @@ private struct VisitStatusSection: View {
                     Button(action: {}) {
                         Text(languageManager.localized("add_an_appointment"))
                             .font(.poppins(.semiBold, size: 15))
-                            .foregroundColor((Color(hex: "#2D4A73")))
+                            .foregroundColor(AppColors.darkBlue)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
                             .background(Color.white)

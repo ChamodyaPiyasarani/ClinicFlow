@@ -49,6 +49,7 @@ struct LocationPermissionView: View {
                             .font(.poppins(.bold, size: 24))
                             .foregroundColor(AppColors.darkBlue)
                             .multilineTextAlignment(.center)
+                            .frame(maxWidth: .infinity)
                             .padding(.horizontal, 24)
                         
                         // MARK: - Subtitle
@@ -56,6 +57,7 @@ struct LocationPermissionView: View {
                             .font(.poppins(.regular, size: 14))
                             .foregroundColor(.gray)
                             .multilineTextAlignment(.center)
+                            .frame(maxWidth: .infinity)
                             .padding(.horizontal, 32)
                             .lineSpacing(2)
                         
@@ -104,6 +106,7 @@ struct LocationPermissionView: View {
                         .padding(.top, 16)
                         .padding(.bottom, 32)
                     }
+                    .frame(maxWidth: .infinity)
                 }
             }
         }

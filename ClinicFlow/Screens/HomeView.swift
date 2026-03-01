@@ -35,21 +35,24 @@ private struct HomeHeaderView: View {
     @Environment(LanguageManager.self) var languageManager
 
     var body: some View {
-        HStack {
-            Spacer()
+        ZStack {
+            // Centered title
             Text("CLINICFLOW")
                 .font(.poppins(.bold, size: 20))
                 .foregroundColor(AppColors.darkBlue)
-            Spacer()
-            // Notification bell
-            ZStack(alignment: .topTrailing) {
-                Image(systemName: "bell.fill")
-                    .font(.system(size: 24))
-                    .foregroundColor(AppColors.darkBlue)
-                Circle()
-                    .fill(Color.red)
-                    .frame(width: 9, height: 9)
-                    .offset(x: 2, y: -2)
+
+            // Trailing notification bell
+            HStack {
+                Spacer()
+                ZStack(alignment: .topTrailing) {
+                    Image(systemName: "bell.fill")
+                        .font(.system(size: 24))
+                        .foregroundColor(AppColors.darkBlue)
+                    Circle()
+                        .fill(Color.red)
+                        .frame(width: 9, height: 9)
+                        .offset(x: 2, y: -2)
+                }
             }
         }
         .padding(.horizontal, 20)

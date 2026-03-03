@@ -18,6 +18,7 @@ enum AppRoute: Hashable {
     case locationPermission
     case notificationPermission
     case home
+    case helpSupport
 }
 
 /// Centralized navigation manager using NavigationStack path.

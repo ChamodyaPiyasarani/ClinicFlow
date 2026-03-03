@@ -447,6 +447,93 @@ struct LocalizedStrings {
             .tamil: "அறிவிப்பை இயக்கவும்"
         ],
 
+        // ── Help & Support / FAQ Screen ──
+        "faq_title": [
+            .english: "Frequently Asked Questions",
+            .sinhala: "නිතර අසන ප්‍රශ්න",
+            .tamil: "அடிக்கடி கேட்கப்படும் கேள்விகள்"
+        ],
+        "faq_q1": [
+            .english: "How do I check my queue position?",
+            .sinhala: "මගේ පෝලිම් ස්ථානය පරීක්ෂා කරන්නේ කෙසේද?",
+            .tamil: "எனது வரிசை நிலையை எவ்வாறு சரிபார்ப்பது?"
+        ],
+        "faq_a1": [
+            .english: "You can check your queue position from the Home screen. Your current token number and estimated wait time will be displayed on the visit status card.",
+            .sinhala: "ඔබට මුල් පිටුවෙන් ඔබේ පෝලිම් ස්ථානය පරීක්ෂා කළ හැකිය. ඔබේ වත්මන් ටෝකන අංකය සහ ඇස්තමේන්තුගත පොරොත්තු කාලය සංචාර තත්ත්ව කාඩ්පතේ පෙන්වනු ඇත.",
+            .tamil: "முகப்புத் திரையிலிருந்து உங்கள் வரிசை நிலையைச் சரிபார்க்கலாம். உங்கள் தற்போதைய டோக்கன் எண் மற்றும் மதிப்பிடப்பட்ட காத்திருப்பு நேரம் வருகை நிலை அட்டையில் காண்பிக்கப்படும்."
+        ],
+        "faq_q2": [
+            .english: "How do I book an appointment?",
+            .sinhala: "මම හමුවීමක් වෙන්කරවා ගන්නේ කෙසේද?",
+            .tamil: "நான் எவ்வாறு சந்திப்பை முன்பதிவு செய்வது?"
+        ],
+        "faq_a2": [
+            .english: "Tap 'Add an Appointment' on the Home screen or go to the Appointment tab. Select the clinic, choose a date and time, and confirm your booking.",
+            .sinhala: "මුල් පිටුවේ 'හමුවීමක් එක් කරන්න' තට්ටු කරන්න හෝ හමුවීම් ටැබ් එකට යන්න. සායනය තෝරන්න, දිනයක් සහ වේලාවක් තෝරන්න, ඔබේ වෙන්කිරීම තහවුරු කරන්න.",
+            .tamil: "முகப்புத் திரையில் 'சந்திப்பைச் சேர்க்கவும்' என்பதைத் தட்டவும் அல்லது சந்திப்பு தாவலுக்குச் செல்லவும். மருத்துவமனையைத் தேர்ந்தெடுத்து, தேதி மற்றும் நேரத்தைத் தேர்வுசெய்து, உங்கள் முன்பதிவை உறுதிப்படுத்தவும்."
+        ],
+        "faq_q3": [
+            .english: "How does indoor navigation work?",
+            .sinhala: "ගෘහස්ථ නැවිගේෂන් ක්‍රියා කරන්නේ කෙසේද?",
+            .tamil: "உள்ளக வழிசெலுத்தல் எவ்வாறு செயல்படுகிறது?"
+        ],
+        "faq_a3": [
+            .english: "Use the Map tab to navigate within the clinic. The app uses Bluetooth beacons and floor maps to guide you to consultation rooms, labs, and the pharmacy.",
+            .sinhala: "සායනය තුළ සැරිසැරීමට සිතියම් ටැබ් එක භාවිතා කරන්න. උපදේශන කාමර, රසායනාගාර සහ ඖෂධාගාරයට ඔබව මඟ පෙන්වීමට යෙදුම බ්ලූටූත් බීකන් සහ මහල් සිතියම් භාවිතා කරයි.",
+            .tamil: "மருத்துவமனைக்குள் வழிசெலுத்த வரைபடம் தாவலைப் பயன்படுத்தவும். ஆலோசனை அறைகள், ஆய்வகங்கள் மற்றும் மருந்தகத்திற்கு உங்களை வழிநடத்த பயன்பாடு புளூடூத் பீக்கான்கள் மற்றும் தள வரைபடங்களைப் பயன்படுத்துகிறது."
+        ],
+        "faq_q4": [
+            .english: "Can I reschedule my appointment?",
+            .sinhala: "මට මගේ හමුවීම නැවත සැලසුම් කළ හැකිද?",
+            .tamil: "எனது சந்திப்பை மாற்றியமைக்க முடியுமா?"
+        ],
+        "faq_a4": [
+            .english: "Yes, go to the Appointment tab, select your upcoming appointment, and tap 'Reschedule'. You can pick a new date and time based on available slots.",
+            .sinhala: "ඔව්, හමුවීම් ටැබ් එකට ගොස්, ඔබේ ඉදිරි හමුවීම තෝරන්න, 'නැවත සැලසුම් කරන්න' තට්ටු කරන්න. පවතින කාල පරාසයන් මත පදනම්ව නව දිනයක් සහ වේලාවක් තෝරන්න.",
+            .tamil: "ஆம், சந்திப்பு தாவலுக்குச் சென்று, உங்கள் வரவிருக்கும் சந்திப்பைத் தேர்ந்தெடுத்து, 'மாற்றியமை' என்பதைத் தட்டவும். கிடைக்கும் நேர இடைவெளிகளின் அடிப்படையில் புதிய தேதி மற்றும் நேரத்தைத் தேர்வுசெய்யலாம்."
+        ],
+        "contact_support": [
+            .english: "Contact Support",
+            .sinhala: "සහාය අමතන්න",
+            .tamil: "ஆதரவைத் தொடர்புகொள்ளவும்"
+        ],
+        "phone_support": [
+            .english: "Phone Support",
+            .sinhala: "දුරකථන සහාය",
+            .tamil: "தொலைபேசி ஆதரவு"
+        ],
+        "phone_support_number": [
+            .english: "+1 (555) 123-4567",
+            .sinhala: "+1 (555) 123-4567",
+            .tamil: "+1 (555) 123-4567"
+        ],
+        "email_support": [
+            .english: "Email Support",
+            .sinhala: "ඊමේල් සහාය",
+            .tamil: "மின்னஞ்சல் ஆதரவு"
+        ],
+        "email_support_address": [
+            .english: "support@clinicflow.lk",
+            .sinhala: "support@clinicflow.lk",
+            .tamil: "support@clinicflow.lk"
+        ],
+        "live_chat": [
+            .english: "Live Chat",
+            .sinhala: "සජීවී කතාබස",
+            .tamil: "நேரடி அரட்டை"
+        ],
+        "live_chat_subtitle": [
+            .english: "Chat with our team",
+            .sinhala: "අපගේ කණ්ඩායම සමඟ කතාබස් කරන්න",
+            .tamil: "எங்கள் குழுவுடன் அரட்டையடிக்கவும்"
+        ],
+        "support_hours": [
+            .english: "Support available 8:00 AM – 6:00 PM",
+            .sinhala: "සහාය පෙ.ව. 8:00 – ප.ව. 6:00 දක්වා ලබා ගත හැකිය",
+            .tamil: "ஆதரவு காலை 8:00 – மாலை 6:00 வரை கிடைக்கும்"
+        ],
+
         // ── Placeholder – add more screen-specific keys below ──
         "hello_world": [
             .english: "Hello, World!",

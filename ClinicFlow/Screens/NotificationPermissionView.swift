@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct NotificationPermissionView: View {
     @Environment(LanguageManager.self) var languageManager
@@ -103,8 +104,13 @@ struct NotificationPermissionView: View {
                         VStack(spacing: 12) {
                             // Primary Button
                             PrimaryButton(title: languageManager.localized("enable_notification")) {
-                                // TODO: Request notification permission, then navigate
-                                router.navigate(to: .home)
+                                // Request notification permission
+                                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+                                    // Navigate regardless of result (no backend needed)
+                                    DispatchQueue.main.async {
+                                        router.navigate(to: .home)
+                                    }
+                                }
                             }
                             
                             // Secondary Button

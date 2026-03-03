@@ -1,0 +1,339 @@
+//
+//  PharmacyView.swift
+//  ClinicFlow
+//
+//  Created by cobsccomp242p-030 on 2026-03-03.
+//
+
+import SwiftUI
+import PhotosUI
+
+struct PharmacyView: View {
+    @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
+    
+    @State private var selectedTab: BottomTab = .home
+    @State private var showCamera = false
+    @State private var showGallery = false
+    @State private var selectedImage: UIImage?
+    
+    var body: some View {
+        ZStack {
+            // Background
+            AppColors.background
+                .ignoresSafeArea()
+            
+            VStack(spacing: 0) {
+                // MARK: - Header
+                ZStack {
+                    // Back button
+                    HStack {
+                        BackButton {
+                            router.goBack()
+                        }
+                        Spacer()
+                    }
+                    
+                    // Centered title
+                    Text("CLINICFLOW")
+                        .font(.poppins(.bold, size: 20))
+                        .foregroundColor(AppColors.darkBlue)
+                    
+                    // Notification bell
+                    HStack {
+                        Spacer()
+                        ZStack(alignment: .topTrailing) {
+                            Image(systemName: "bell.fill")
+                                .font(.system(size: 24))
+                                .foregroundColor(AppColors.darkBlue)
+                            Circle()
+                                .fill(Color.red)
+                                .frame(width: 9, height: 9)
+                                .offset(x: 2, y: -2)
+                        }
+                    }
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 8)
+                .padding(.bottom, 12)
+                .background(Color.white)
+                
+                // Pharmacy subtitle
+                HStack {
+                    Text("Pharmacy")
+                        .font(.poppins(.semiBold, size: 16))
+                        .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
+                    Spacer()
+                }
+                .padding(.horizontal, 20)
+                .padding(.vertical, 12)
+                .background(Color.white)
+                
+                // MARK: - Content
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 20) {
+                        // Patient Info Card
+                        PatientInfoCard()
+                        
+                        // Upload Section
+                        UploadPrescriptionSection(
+                            selectedImage: $selectedImage,
+                            showCamera: $showCamera,
+                            showGallery: $showGallery
+                        )
+                        
+                        // Important Info
+                        ImportantInfoSection()
+                        
+                        // Send to Pharmacy Button
+                        Button(action: {
+                            // Haptic feedback
+                            let impact = UIImpactFeedbackGenerator(style: .medium)
+                            impact.impactOccurred()
+                            // Action will be implemented later
+                        }) {
+                            Text("Send to Pharmacy")
+                                .font(.poppins(.semiBold, size: 17))
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(Color(red: 50/255, green: 160/255, blue: 140/255))
+                                .cornerRadius(14)
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 20)
+                    }
+                    .padding(.top, 20)
+                }
+                
+                // Bottom Navigation Bar
+                BottomNavBar(selectedTab: $selectedTab)
+            }
+        }
+        .sheet(isPresented: $showGallery) {
+            ImagePicker(image: $selectedImage, sourceType: .photoLibrary)
+        }
+        .sheet(isPresented: $showCamera) {
+            ImagePicker(image: $selectedImage, sourceType: .camera)
+        }
+    }
+}
+
+// MARK: - Patient Info Card
+private struct PatientInfoCard: View {
+    var body: some View {
+        HStack(spacing: 12) {
+            // Patient Avatar
+            ZStack {
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color(red: 100/255, green: 180/255, blue: 120/255),
+                                Color(red: 80/255, green: 160/255, blue: 140/255)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 56, height: 56)
+                
+                Image(systemName: "person.fill")
+                    .font(.system(size: 28))
+                    .foregroundColor(.white)
+            }
+            
+            // Patient details
+            VStack(alignment: .leading, spacing: 4) {
+                Text("John Doe")
+                    .font(.poppins(.semiBold, size: 17))
+                    .foregroundColor(AppColors.darkBlue)
+                
+                Text("Patient ID: CLF-1024")
+                    .font(.poppins(.regular, size: 14))
+                    .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
+            }
+            
+            Spacer()
+        }
+        .padding(16)
+        .background(Color.white)
+        .cornerRadius(16)
+        .shadow(color: .black.opacity(0.04), radius: 6, x: 0, y: 2)
+        .padding(.horizontal, 20)
+    }
+}
+
+// MARK: - Upload Prescription Section
+private struct UploadPrescriptionSection: View {
+    @Binding var selectedImage: UIImage?
+    @Binding var showCamera: Bool
+    @Binding var showGallery: Bool
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            // Dashed border container
+            VStack(spacing: 20) {
+                // Camera icon
+                ZStack {
+                    Circle()
+                        .fill(Color(red: 50/255, green: 160/255, blue: 140/255).opacity(0.15))
+                        .frame(width: 64, height: 64)
+                    
+                    Image(systemName: "camera.fill")
+                        .font(.system(size: 28))
+                        .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
+                }
+                .padding(.top, 8)
+                
+                // Text
+                VStack(spacing: 8) {
+                    Text("Upload Prescription Image")
+                        .font(.poppins(.semiBold, size: 16))
+                        .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
+                    
+                    Text("JPG or PNG supported")
+                        .font(.poppins(.regular, size: 13))
+                        .foregroundColor(.gray)
+                }
+                
+                // Buttons
+                VStack(spacing: 12) {
+                    // Choose from Gallery
+                    Button(action: {
+                        let impact = UIImpactFeedbackGenerator(style: .light)
+                        impact.impactOccurred()
+                        showGallery = true
+                    }) {
+                        Text("Choose from Gallery")
+                            .font(.poppins(.semiBold, size: 16))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(Color(red: 50/255, green: 160/255, blue: 140/255))
+                            .cornerRadius(12)
+                    }
+                    
+                    // Take Photo
+                    Button(action: {
+                        let impact = UIImpactFeedbackGenerator(style: .light)
+                        impact.impactOccurred()
+                        showCamera = true
+                    }) {
+                        HStack(spacing: 8) {
+                            Image(systemName: "camera.fill")
+                                .font(.system(size: 16))
+                            Text("Take Photo")
+                                .font(.poppins(.semiBold, size: 16))
+                        }
+                        .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
+                        .background(Color.white)
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color(red: 50/255, green: 160/255, blue: 140/255).opacity(0.3), lineWidth: 1.5)
+                        )
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 8)
+            }
+            .padding(.vertical, 24)
+            .background(Color.white)
+            .cornerRadius(16)
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .strokeBorder(
+                        style: StrokeStyle(lineWidth: 2, dash: [8, 6])
+                    )
+                    .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255).opacity(0.4))
+            )
+        }
+        .padding(.horizontal, 20)
+    }
+}
+
+// MARK: - Important Info Section
+private struct ImportantInfoSection: View {
+    var body: some View {
+        HStack(alignment: .top, spacing: 12) {
+            // Info icon
+            ZStack {
+                Circle()
+                    .fill(Color(red: 50/255, green: 160/255, blue: 140/255).opacity(0.15))
+                    .frame(width: 24, height: 24)
+                
+                Image(systemName: "info.circle.fill")
+                    .font(.system(size: 12))
+                    .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
+            }
+            .padding(.top, 2)
+            
+            // Info text
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Important")
+                    .font(.poppins(.semiBold, size: 14))
+                    .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
+                
+                Text("Make sure your prescription is clearly visible and all text is readable before uploading.")
+                    .font(.poppins(.regular, size: 13))
+                    .foregroundColor(.gray)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            
+            Spacer()
+        }
+        .padding(16)
+        .background(Color(red: 50/255, green: 160/255, blue: 140/255).opacity(0.05))
+        .cornerRadius(12)
+        .padding(.horizontal, 20)
+    }
+}
+
+// MARK: - Image Picker
+struct ImagePicker: UIViewControllerRepresentable {
+    @Binding var image: UIImage?
+    let sourceType: UIImagePickerController.SourceType
+    @Environment(\.dismiss) var dismiss
+    
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.sourceType = sourceType
+        picker.delegate = context.coordinator
+        picker.allowsEditing = false
+        return picker
+    }
+    
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        let parent: ImagePicker
+        
+        init(_ parent: ImagePicker) {
+            self.parent = parent
+        }
+        
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let image = info[.originalImage] as? UIImage {
+                parent.image = image
+            }
+            parent.dismiss()
+        }
+        
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            parent.dismiss()
+        }
+    }
+}
+
+#Preview {
+    PharmacyView()
+        .environment(LanguageManager.shared)
+        .environment(AppRouter())
+}

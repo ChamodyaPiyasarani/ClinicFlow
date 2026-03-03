@@ -18,6 +18,12 @@ enum AppRoute: Hashable {
     case locationPermission
     case notificationPermission
     case home
+    case opdDepartments
+    case labTests
+    case pharmacy
+    case notifications
+    case patientProfiles
+    case profileDetails(PatientProfile)
 }
 
 /// Centralized navigation manager using NavigationStack path.

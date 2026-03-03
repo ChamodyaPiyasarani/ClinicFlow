@@ -19,15 +19,7 @@ struct ContentView: View {
                 case .home:
                     HomeView()
                 case .map:
-                    VStack {
-                        Spacer()
-                        Text(languageManager.localized("tab_map"))
-                            .font(.poppins(.regular, size: 17))
-                            .foregroundColor(.gray)
-                        Spacer()
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(AppColors.background)
+                    MapView()
                 case .appointment:
                     VStack {
                         Spacer()
@@ -39,15 +31,7 @@ struct ContentView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(AppColors.background)
                 case .account:
-                    VStack {
-                        Spacer()
-                        Text(languageManager.localized("tab_account"))
-                            .font(.poppins(.regular, size: 17))
-                            .foregroundColor(.gray)
-                        Spacer()
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(AppColors.background)
+                    AccountView()
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

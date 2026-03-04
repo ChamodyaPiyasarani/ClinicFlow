@@ -158,9 +158,7 @@ private struct MapHeaderView: View {
     var body: some View {
         ZStack {
             // Centered title
-            Text("CLINICFLOW")
-                .font(.poppins(.bold, size: 20))
-                .foregroundColor(AppColors.darkBlue)
+            AppNameText(fontSize: 20)
             
             HStack {
                 // Back button (left)

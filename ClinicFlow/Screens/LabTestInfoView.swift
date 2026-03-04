@@ -36,9 +36,7 @@ struct LabTestInfoView: View {
                     
                     // Centered title
                     VStack(spacing: 2) {
-                        Text("CLINICFLOW")
-                            .font(.poppins(.bold, size: 20))
-                            .foregroundColor(AppColors.darkBlue)
+                        AppNameText(fontSize: 20)
                         Text("LAB Test")
                             .font(.poppins(.regular, size: 14))
                             .foregroundColor(AppColors.darkBlue.opacity(0.7))

@@ -61,9 +61,7 @@ private struct ProfilesHeaderView: View {
                 }
                 
                 // Centered title
-                Text("CLINICFLOW")
-                    .font(.poppins(.bold, size: 20))
-                    .foregroundColor(AppColors.darkBlue)
+                AppNameText(fontSize: 20)
             }
             
             // Profile subtitle

@@ -126,9 +126,7 @@ private struct NotificationHeader: View {
             
             // Title section
             VStack(spacing: 4) {
-                Text("CLINICFLOW")
-                    .font(.poppins(.bold, size: 20))
-                    .foregroundColor(AppColors.darkBlue)
+                AppNameText(fontSize: 20)
                 
                 Text("Notifications")
                     .font(.poppins(.regular, size: 14))

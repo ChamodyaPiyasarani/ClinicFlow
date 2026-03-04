@@ -11,6 +11,9 @@ struct OPDDepartmentsView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
     
+    @State private var selectedCategory: DepartmentCategory = .all
+    @State private var searchText: String = ""
+    
     var body: some View {
         ZStack {
             // Background
@@ -38,6 +41,58 @@ struct OPDDepartmentsView: View {
                 .padding(.bottom, 16)
                 .background(Color.white)
                 
+                // MARK: - Search Bar
+                HStack(spacing: 12) {
+                    HStack(spacing: 10) {
+                        Image(systemName: "magnifyingglass")
+                            .font(.system(size: 16))
+                            .foregroundColor(.gray.opacity(0.6))
+                        
+                        TextField("Search departments...", text: $searchText)
+                            .font(.poppins(.regular, size: 15))
+                            .foregroundColor(AppColors.darkBlue)
+                        
+                        if !searchText.isEmpty {
+                            Button(action: {
+                                searchText = ""
+                            }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.gray.opacity(0.4))
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(Color.white)
+                    .cornerRadius(12)
+                    .shadow(color: Color.black.opacity(0.04), radius: 4, x: 0, y: 2)
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 16)
+                .padding(.bottom, 12)
+                
+                // MARK: - Category Filter
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 10) {
+                        ForEach(DepartmentCategory.allCases, id: \.self) { category in
+                            DepartmentCategoryChip(
+                                category: category,
+                                isSelected: selectedCategory == category
+                            ) {
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                    selectedCategory = category
+                                }
+                                // Haptic feedback
+                                let impact = UIImpactFeedbackGenerator(style: .light)
+                                impact.impactOccurred()
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                }
+                .padding(.bottom, 16)
+                
                 // MARK: - Department List
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 16) {
@@ -47,103 +102,134 @@ struct OPDDepartmentsView: View {
                                 Text("Available Departments")
                                     .font(.poppins(.semiBold, size: 16))
                                     .foregroundColor(AppColors.darkBlue)
-                                Text("Choose a department to continue")
+                                Text(filteredDepartments.count == 1 ? "1 department available" : "\(filteredDepartments.count) departments available")
                                     .font(.poppins(.regular, size: 13))
                                     .foregroundColor(.gray)
                             }
                             Spacer()
+                            
+                            // Sort button
+                            Button(action: {
+                                // Sort action
+                                let impact = UIImpactFeedbackGenerator(style: .light)
+                                impact.impactOccurred()
+                            }) {
+                                HStack(spacing: 4) {
+                                    Text("Sort")
+                                        .font(.poppins(.medium, size: 13))
+                                    Image(systemName: "arrow.up.arrow.down")
+                                        .font(.system(size: 12))
+                                }
+                                .foregroundColor(AppColors.brandBlue)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(AppColors.brandBlue.opacity(0.1))
+                                .cornerRadius(8)
+                            }
                         }
                         .padding(.horizontal, 20)
-                        .padding(.top, 20)
+                        .padding(.top, 4)
                         
                         // Department Cards
                         LazyVStack(spacing: 12) {
-                            DepartmentCard(
-                                icon: "heart.text.square.fill",
-                                iconColor: Color(red: 220/255, green: 80/255, blue: 100/255),
-                                departmentName: "Cardiology",
-                                description: "Heart and cardiovascular care",
-                                availabilityStatus: .available,
-                                waitingCount: 5
-                            )
-                            
-                            DepartmentCard(
-                                icon: "figure.walk",
-                                iconColor: Color(red: 100/255, green: 140/255, blue: 200/255),
-                                departmentName: "Orthopedics",
-                                description: "Bone and joint specialists",
-                                availabilityStatus: .available,
-                                waitingCount: 8
-                            )
-                            
-                            DepartmentCard(
-                                icon: "figure.and.child.holdinghands",
-                                iconColor: Color(red: 255/255, green: 150/255, blue: 100/255),
-                                departmentName: "Pediatrics",
-                                description: "Children's health care",
-                                availabilityStatus: .available,
-                                waitingCount: 3
-                            )
-                            
-                            DepartmentCard(
-                                icon: "allergens",
-                                iconColor: Color(red: 160/255, green: 120/255, blue: 200/255),
-                                departmentName: "Dermatology",
-                                description: "Skin care and treatment",
-                                availabilityStatus: .available,
-                                waitingCount: 6
-                            )
-                            
-                            DepartmentCard(
-                                icon: "ear.fill",
-                                iconColor: Color(red: 80/255, green: 170/255, blue: 160/255),
-                                departmentName: "ENT",
-                                description: "Ear, nose and throat specialists",
-                                availabilityStatus: .busy,
-                                waitingCount: 12
-                            )
-                            
-                            DepartmentCard(
-                                icon: "stethoscope",
-                                iconColor: Color(red: 80/255, green: 170/255, blue: 100/255),
-                                departmentName: "General Medicine",
-                                description: "Primary care physicians",
-                                availabilityStatus: .available,
-                                waitingCount: 4
-                            )
-                            
-                            DepartmentCard(
-                                icon: "eye.fill",
-                                iconColor: Color(red: 100/255, green: 120/255, blue: 180/255),
-                                departmentName: "Ophthalmology",
-                                description: "Eye care and vision",
-                                availabilityStatus: .available,
-                                waitingCount: 2
-                            )
-                            
-                            DepartmentCard(
-                                icon: "gyroscope",
-                                iconColor: Color(red: 200/255, green: 100/255, blue: 150/255),
-                                departmentName: "Neurology",
-                                description: "Brain and nervous system",
-                                availabilityStatus: .unavailable,
-                                waitingCount: 0
-                            )
-                            
-                            DepartmentCard(
-                                icon: "lungs.fill",
-                                iconColor: Color(red: 120/255, green: 180/255, blue: 220/255),
-                                departmentName: "Pulmonology",
-                                description: "Respiratory care",
-                                availabilityStatus: .available,
-                                waitingCount: 7
-                            )
+                            ForEach(filteredDepartments) { department in
+                                DepartmentCard(
+                                    icon: department.icon,
+                                    iconColor: department.iconColor,
+                                    departmentName: department.name,
+                                    description: department.description,
+                                    availabilityStatus: department.availability,
+                                    waitingCount: department.waitingCount
+                                )
+                            }
                         }
                         .padding(.horizontal, 20)
                         .padding(.bottom, 24)
                     }
                 }
             }
+        }
+    }
+    
+    // Filter departments based on category and search
+    var filteredDepartments: [Department] {
+        var departments = mockDepartments
+        
+        // Filter by category
+        if selectedCategory != .all {
+            departments = departments.filter { $0.category == selectedCategory }
+        }
+        
+        // Filter by search text
+        if !searchText.isEmpty {
+            departments = departments.filter { department in
+                department.name.localizedCaseInsensitiveContains(searchText) ||
+                department.description.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+        
+        return departments
+    }
+}
+
+// MARK: - Department Model
+struct Department: Identifiable {
+    let id: String
+    let name: String
+    let description: String
+    let category: DepartmentCategory
+    let availability: DepartmentAvailability
+    let waitingCount: Int
+    let icon: String
+    let iconColor: Color
+}
+
+// MARK: - Department Category Enum
+enum DepartmentCategory: String, CaseIterable {
+    case all = "All"
+    case general = "General"
+    case surgical = "Surgical"
+    case specialized = "Specialized"
+    case diagnostic = "Diagnostic"
+    case emergency = "Emergency"
+    
+    var icon: String {
+        switch self {
+        case .all:         return "list.bullet"
+        case .general:     return "stethoscope"
+        case .surgical:    return "cross.case.fill"
+        case .specialized: return "heart.text.square"
+        case .diagnostic:  return "waveform.path.ecg"
+        case .emergency:   return "cross.circle.fill"
+        }
+    }
+}
+
+// MARK: - Department Category Chip Component
+struct DepartmentCategoryChip: View {
+    let category: DepartmentCategory
+    let isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 6) {
+                Image(systemName: category.icon)
+                    .font(.system(size: 14))
+                Text(category.rawValue)
+                    .font(.poppins(.medium, size: 14))
+            }
+            .foregroundColor(isSelected ? .white : AppColors.darkBlue)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .background(isSelected ? AppColors.brandBlue : Color.white)
+            .cornerRadius(20)
+            .shadow(
+                color: isSelected ? AppColors.brandBlue.opacity(0.3) : Color.black.opacity(0.04),
+                radius: isSelected ? 8 : 4,
+                x: 0,
+                y: isSelected ? 4 : 2
+            )
         }
     }
 }
@@ -276,6 +362,160 @@ struct DepartmentCard: View {
         )
     }
 }
+
+// MARK: - Mock Departments Data
+let mockDepartments: [Department] = [
+    Department(
+        id: "1",
+        name: "General Medicine",
+        description: "Treats common illnesses and provides first medical consultation",
+        category: .general,
+        availability: .available,
+        waitingCount: 20,
+        icon: "stethoscope",
+        iconColor: Color(red: 80/255, green: 170/255, blue: 100/255)
+    ),
+    Department(
+        id: "2",
+        name: "Pediatrics",
+        description: "Provides healthcare services for infants, children, and adolescents",
+        category: .general,
+        availability: .available,
+        waitingCount: 18,
+        icon: "figure.and.child.holdinghands",
+        iconColor: Color(red: 255/255, green: 150/255, blue: 100/255)
+    ),
+    Department(
+        id: "3",
+        name: "Orthopedics",
+        description: "Treats bone, joint, muscle, and spine-related conditions",
+        category: .surgical,
+        availability: .available,
+        waitingCount: 27,
+        icon: "figure.walk",
+        iconColor: Color(red: 100/255, green: 140/255, blue: 200/255)
+    ),
+    Department(
+        id: "4",
+        name: "Gynecology & Obstetrics",
+        description: "Focuses on women's health, pregnancy, and childbirth care",
+        category: .specialized,
+        availability: .available,
+        waitingCount: 5,
+        icon: "heart.fill",
+        iconColor: Color(red: 255/255, green: 120/255, blue: 180/255)
+    ),
+    Department(
+        id: "5",
+        name: "Cardiology",
+        description: "Diagnoses and treats heart and blood vessel diseases",
+        category: .specialized,
+        availability: .available,
+        waitingCount: 12,
+        icon: "heart.text.square.fill",
+        iconColor: Color(red: 220/255, green: 80/255, blue: 100/255)
+    ),
+    Department(
+        id: "6",
+        name: "Dermatology",
+        description: "Skin care and treatment",
+        category: .specialized,
+        availability: .available,
+        waitingCount: 6,
+        icon: "allergens",
+        iconColor: Color(red: 160/255, green: 120/255, blue: 200/255)
+    ),
+    Department(
+        id: "7",
+        name: "ENT",
+        description: "Ear, nose and throat specialists",
+        category: .specialized,
+        availability: .busy,
+        waitingCount: 12,
+        icon: "ear.fill",
+        iconColor: Color(red: 80/255, green: 170/255, blue: 160/255)
+    ),
+    Department(
+        id: "8",
+        name: "Ophthalmology",
+        description: "Eye care and vision",
+        category: .specialized,
+        availability: .available,
+        waitingCount: 2,
+        icon: "eye.fill",
+        iconColor: Color(red: 100/255, green: 120/255, blue: 180/255)
+    ),
+    Department(
+        id: "9",
+        name: "Neurology",
+        description: "Brain and nervous system",
+        category: .specialized,
+        availability: .unavailable,
+        waitingCount: 0,
+        icon: "brain.head.profile",
+        iconColor: Color(red: 200/255, green: 100/255, blue: 150/255)
+    ),
+    Department(
+        id: "10",
+        name: "Pulmonology",
+        description: "Respiratory care",
+        category: .specialized,
+        availability: .available,
+        waitingCount: 7,
+        icon: "lungs.fill",
+        iconColor: Color(red: 120/255, green: 180/255, blue: 220/255)
+    ),
+    Department(
+        id: "11",
+        name: "General Surgery",
+        description: "Comprehensive surgical procedures and care",
+        category: .surgical,
+        availability: .available,
+        waitingCount: 9,
+        icon: "cross.case.fill",
+        iconColor: Color(red: 200/255, green: 80/255, blue: 80/255)
+    ),
+    Department(
+        id: "12",
+        name: "Radiology",
+        description: "Medical imaging and diagnostics",
+        category: .diagnostic,
+        availability: .available,
+        waitingCount: 15,
+        icon: "waveform.path.ecg",
+        iconColor: Color(red: 80/255, green: 140/255, blue: 200/255)
+    ),
+    Department(
+        id: "13",
+        name: "Emergency Department",
+        description: "24/7 urgent and emergency medical care",
+        category: .emergency,
+        availability: .available,
+        waitingCount: 35,
+        icon: "cross.circle.fill",
+        iconColor: Color(red: 255/255, green: 80/255, blue: 80/255)
+    ),
+    Department(
+        id: "14",
+        name: "Psychiatry",
+        description: "Mental health and behavioral disorder treatment",
+        category: .specialized,
+        availability: .available,
+        waitingCount: 4,
+        icon: "brain",
+        iconColor: Color(red: 140/255, green: 100/255, blue: 200/255)
+    ),
+    Department(
+        id: "15",
+        name: "Urology",
+        description: "Urinary tract and male reproductive system care",
+        category: .specialized,
+        availability: .busy,
+        waitingCount: 8,
+        icon: "drop.fill",
+        iconColor: Color(red: 100/255, green: 180/255, blue: 200/255)
+    )
+]
 
 // MARK: - Preview
 #Preview {

@@ -49,10 +49,7 @@ struct LabTestConfirmationView: View {
                     }
                     
                     // Centered title
-                    Text("CLINICFLOW")
-                        .font(.poppins(.bold, size: 20))
-                        .foregroundColor(AppColors.darkBlue)
-                        .kerning(1.5)
+                    AppNameText(fontSize: 20)
                     
                     // Notification bell with badge
                     HStack {

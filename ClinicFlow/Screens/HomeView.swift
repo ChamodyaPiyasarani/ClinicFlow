@@ -31,7 +31,7 @@ private struct HomeHeaderView: View {
     var body: some View {
         ZStack {
             // Centered title
-            AppNameText(fontSize: 20)
+            AppNameText(fontSize: 22)
 
             // Trailing notification bell
             HStack {
@@ -40,21 +40,39 @@ private struct HomeHeaderView: View {
                     router.navigate(to: .notifications)
                 }) {
                     ZStack(alignment: .topTrailing) {
-                        Image(systemName: "bell.fill")
-                            .font(.system(size: 24))
-                            .foregroundColor(AppColors.darkBlue)
+                        ZStack {
+                            Circle()
+                                .fill(AppColors.darkBlue.opacity(0.08))
+                                .frame(width: 44, height: 44)
+                            Image(systemName: "bell.fill")
+                                .font(.system(size: 22))
+                                .foregroundColor(AppColors.darkBlue)
+                        }
                         Circle()
-                            .fill(Color.red)
-                            .frame(width: 9, height: 9)
-                            .offset(x: 2, y: -2)
+                            .fill(
+                                LinearGradient(
+                                    colors: [Color.red, Color.red.opacity(0.9)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 10, height: 10)
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white, lineWidth: 2)
+                            )
+                            .offset(x: 2, y: 2)
                     }
                 }
             }
         }
         .padding(.horizontal, 20)
-        .padding(.top, 8)
-        .padding(.bottom, 4)
-        .background(Color.white)
+        .padding(.top, 12)
+        .padding(.bottom, 8)
+        .background(
+            Color.white
+                .shadow(color: .black.opacity(0.03), radius: 8, x: 0, y: 2)
+        )
     }
 }
 
@@ -63,10 +81,14 @@ private struct VisitStatusSection: View {
     @Environment(LanguageManager.self) var languageManager
 
     var body: some View {
-        VStack(spacing: 12) {
-            Text(languageManager.localized("current_visit_status"))
-                .font(.poppins(.medium, size: 14))
-                .foregroundColor(.gray)
+        VStack(spacing: 14) {
+            HStack {
+                Text(languageManager.localized("current_visit_status"))
+                    .font(.poppins(.medium, size: 16))
+                    .foregroundColor(AppColors.darkBlue.opacity(0.7))
+                Spacer()
+            }
+            .padding(.horizontal, 20)
 
             // Visit status card
             VStack(spacing: 16) {
@@ -77,21 +99,22 @@ private struct VisitStatusSection: View {
                             .font(.poppins(.regular, size: 13))
                             .foregroundColor(.white.opacity(0.9))
                         Text(languageManager.localized("no_active_visit"))
-                            .font(.poppins(.bold, size: 22))
+                            .font(.poppins(.bold, size: 24))
                             .foregroundColor(.white)
                         Text(languageManager.localized("no_active_visit_desc"))
-                            .font(.poppins(.regular, size: 12))
-                            .foregroundColor(.white.opacity(0.85))
+                            .font(.poppins(.regular, size: 13))
+                            .foregroundColor(.white.opacity(0.9))
+                            .lineSpacing(2)
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     Spacer()
                     ZStack {
                         Circle()
-                            .fill(.white.opacity(0.25))
+                            .fill(.white.opacity(0.3))
                             .frame(width: 60, height: 60)
-                        Image(systemName: "calendar")
-                            .font(.system(size: 28, weight: .medium))
-                            .foregroundColor(.white.opacity(0.85))
+                        Image(systemName: "calendar.badge.exclamationmark")
+                            .font(.system(size: 26, weight: .medium))
+                            .foregroundColor(.white)
                     }
                 }
 
@@ -99,38 +122,52 @@ private struct VisitStatusSection: View {
                 VStack(spacing: 10) {
                     Button(action: {}) {
                         Text(languageManager.localized("start_walk_in_visit"))
-                            .font(.poppins(.semiBold, size: 15))
+                            .font(.poppins(.semiBold, size: 16))
                             .foregroundColor(AppColors.darkBlue)
                             .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
-                            .background(Color.white)
-                            .cornerRadius(12)
+                            .padding(.vertical, 15)
+                            .background(
+                                RoundedRectangle(cornerRadius: 14)
+                                    .fill(Color.white)
+                                    .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
+                            )
                     }
+                    .buttonStyle(PlainButtonStyle())
 
                     Text(languageManager.localized("or"))
-                        .font(.poppins(.regular, size: 13))
-                        .foregroundColor(.white.opacity(0.8))
+                        .font(.poppins(.medium, size: 14))
+                        .foregroundColor(.white.opacity(0.95))
 
                     Button(action: {}) {
                         Text(languageManager.localized("add_an_appointment"))
-                            .font(.poppins(.semiBold, size: 15))
+                            .font(.poppins(.semiBold, size: 16))
                             .foregroundColor(AppColors.darkBlue)
                             .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
-                            .background(Color.white)
-                            .cornerRadius(12)
+                            .padding(.vertical, 15)
+                            .background(
+                                RoundedRectangle(cornerRadius: 14)
+                                    .fill(Color.white)
+                                    .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
+                            )
                     }
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
-            .padding(20)
+            .padding(24)
             .background(
-                LinearGradient(
-                    colors: [AppColors.brandBlue, AppColors.lightBlue],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
+                RoundedRectangle(cornerRadius: 24)
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                AppColors.gradientBlueStart,
+                                AppColors.gradientBlueEnd
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .shadow(color: AppColors.brandBlue.opacity(0.3), radius: 12, x: 0, y: 6)
             )
-            .cornerRadius(20)
             .padding(.horizontal, 20)
         }
     }
@@ -141,34 +178,41 @@ private struct ClinicServiceSection: View {
     @Environment(LanguageManager.self) var languageManager
 
     var body: some View {
-        VStack(spacing: 12) {
-            Text(languageManager.localized("clinic_service_list"))
-                .font(.poppins(.medium, size: 14))
-                .foregroundColor(.gray)
+        VStack(spacing: 14) {
+            HStack {
+                Text(languageManager.localized("clinic_service_list"))
+                    .font(.poppins(.medium, size: 16))
+                    .foregroundColor(AppColors.darkBlue.opacity(0.7))
+                Spacer()
+            }
+            .padding(.horizontal, 20)
 
             VStack(spacing: 12) {
                 ServiceCard(
-                    icon: "plus",
-                    iconColor: AppColors.brandBlue,
-                    iconBgColor: AppColors.brandBlue.opacity(0.15),
+                    icon: "plus.circle.fill",
+                    iconColor: AppColors.opdBlue,
+                    iconBgColor: AppColors.opdBlue.opacity(0.12),
                     titleKey: "service_opd",
                     subtitleKey: "service_opd_desc",
+                    borderColor: AppColors.opdBlue.opacity(0.2),
                     action: .opdDepartments
                 )
                 ServiceCard(
                     icon: "flask.fill",
-                    iconColor: Color(red: 80/255, green: 170/255, blue: 100/255),
-                    iconBgColor: Color(red: 80/255, green: 170/255, blue: 100/255).opacity(0.15),
+                    iconColor: AppColors.labGreen,
+                    iconBgColor: AppColors.labGreen.opacity(0.12),
                     titleKey: "service_lab",
                     subtitleKey: "service_lab_desc",
+                    borderColor: AppColors.labGreen.opacity(0.2),
                     action: .labTests
                 )
                 ServiceCard(
                     icon: "pills.fill",
-                    iconColor: Color(red: 50/255, green: 160/255, blue: 140/255),
-                    iconBgColor: Color(red: 50/255, green: 160/255, blue: 140/255).opacity(0.15),
+                    iconColor: AppColors.pharmacyGreen,
+                    iconBgColor: AppColors.pharmacyGreen.opacity(0.12),
                     titleKey: "service_pharmacy",
                     subtitleKey: "service_pharmacy_desc",
+                    borderColor: AppColors.pharmacyGreen.opacity(0.2),
                     action: .pharmacy
                 )
             }
@@ -187,6 +231,7 @@ private struct ServiceCard: View {
     let iconBgColor: Color
     let titleKey: String
     let subtitleKey: String
+    let borderColor: Color
     let action: AppRoute?
     
     @State private var isPressed = false
@@ -201,64 +246,75 @@ private struct ServiceCard: View {
                 router.navigate(to: action)
             }
         }) {
-            HStack(spacing: 14) {
-            // Icon
-            ZStack {
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(iconBgColor)
-                    .frame(width: 52, height: 52)
-                Image(systemName: icon)
-                    .font(.system(size: 22, weight: .medium))
-                    .foregroundColor(iconColor)
-            }
+            HStack(spacing: 16) {
+                // Icon with gradient background
+                ZStack {
+                    RoundedRectangle(cornerRadius: 14)
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    iconBgColor.opacity(1.2),
+                                    iconBgColor.opacity(0.8)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 56, height: 56)
+                    Image(systemName: icon)
+                        .font(.system(size: 24, weight: .semibold))
+                        .foregroundColor(iconColor)
+                }
 
-            // Text
-            VStack(alignment: .leading, spacing: 2) {
-                Text(languageManager.localized(titleKey))
-                    .font(.poppins(.semiBold, size: 16))
-                    .foregroundColor(AppColors.darkBlue)
-                Text(languageManager.localized(subtitleKey))
-                    .font(.poppins(.regular, size: 13))
-                    .foregroundColor(.gray.opacity(0.8))
-            }
+                // Text
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(languageManager.localized(titleKey))
+                        .font(.poppins(.semiBold, size: 17))
+                        .foregroundColor(AppColors.darkBlue)
+                    Text(languageManager.localized(subtitleKey))
+                        .font(.poppins(.regular, size: 14))
+                        .foregroundColor(.gray.opacity(0.75))
+                }
 
-            Spacer()
+                Spacer()
 
                 // Chevron
                 ZStack {
                     Circle()
-                        .fill(Color.gray.opacity(0.12))
-                        .frame(width: 34, height: 34)
+                        .fill(Color.gray.opacity(0.08))
+                        .frame(width: 36, height: 36)
                     Image(systemName: "chevron.right")
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(.gray.opacity(0.7))
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundColor(.gray.opacity(0.6))
                 }
             }
-            .padding(18)
-            .background(Color.white)
-            .cornerRadius(18)
-            .overlay(
-                RoundedRectangle(cornerRadius: 18)
-                    .stroke(Color.gray.opacity(0.12), lineWidth: 1)
+            .padding(20)
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.white)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(borderColor, lineWidth: 1.5)
+                    )
+                    .shadow(
+                        color: iconColor.opacity(isPressed ? 0.12 : 0.08),
+                        radius: isPressed ? 6 : 10,
+                        x: 0,
+                        y: isPressed ? 2 : 4
+                    )
             )
-            .shadow(
-                color: .black.opacity(isPressed ? 0.06 : 0.03),
-                radius: isPressed ? 3 : 5,
-                x: 0,
-                y: isPressed ? 1 : 2
-            )
-            .scaleEffect(isPressed ? 0.98 : 1.0)
+            .scaleEffect(isPressed ? 0.97 : 1.0)
         }
         .buttonStyle(PlainButtonStyle())
         .simultaneousGesture(
             DragGesture(minimumDistance: 0)
                 .onChanged { _ in
-                    withAnimation(.easeInOut(duration: 0.1)) {
+                    withAnimation(.easeInOut(duration: 0.12)) {
                         isPressed = true
                     }
                 }
                 .onEnded { _ in
-                    withAnimation(.easeInOut(duration: 0.1)) {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                         isPressed = false
                     }
                 }

@@ -26,6 +26,7 @@ struct HomeView: View {
 // MARK: - Header
 private struct HomeHeaderView: View {
     @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
 
     var body: some View {
         ZStack {
@@ -35,14 +36,18 @@ private struct HomeHeaderView: View {
             // Trailing notification bell
             HStack {
                 Spacer()
-                ZStack(alignment: .topTrailing) {
-                    Image(systemName: "bell.fill")
-                        .font(.system(size: 24))
-                        .foregroundColor(AppColors.darkBlue)
-                    Circle()
-                        .fill(Color.red)
-                        .frame(width: 9, height: 9)
-                        .offset(x: 2, y: -2)
+                Button(action: {
+                    router.navigate(to: .notifications)
+                }) {
+                    ZStack(alignment: .topTrailing) {
+                        Image(systemName: "bell.fill")
+                            .font(.system(size: 24))
+                            .foregroundColor(AppColors.darkBlue)
+                        Circle()
+                            .fill(Color.red)
+                            .frame(width: 9, height: 9)
+                            .offset(x: 2, y: -2)
+                    }
                 }
             }
         }
@@ -143,21 +148,24 @@ private struct ClinicServiceSection: View {
                     iconColor: AppColors.brandBlue,
                     iconBgColor: AppColors.brandBlue.opacity(0.15),
                     titleKey: "service_opd",
-                    subtitleKey: "service_opd_desc"
+                    subtitleKey: "service_opd_desc",
+                    action: .opdDepartments
                 )
                 ServiceCard(
                     icon: "flask.fill",
                     iconColor: Color(red: 80/255, green: 170/255, blue: 100/255),
                     iconBgColor: Color(red: 80/255, green: 170/255, blue: 100/255).opacity(0.15),
                     titleKey: "service_lab",
-                    subtitleKey: "service_lab_desc"
+                    subtitleKey: "service_lab_desc",
+                    action: .labTests
                 )
                 ServiceCard(
                     icon: "pills.fill",
                     iconColor: Color(red: 50/255, green: 160/255, blue: 140/255),
                     iconBgColor: Color(red: 50/255, green: 160/255, blue: 140/255).opacity(0.15),
                     titleKey: "service_pharmacy",
-                    subtitleKey: "service_pharmacy_desc"
+                    subtitleKey: "service_pharmacy_desc",
+                    action: .pharmacy
                 )
             }
             .padding(.horizontal, 20)
@@ -168,15 +176,28 @@ private struct ClinicServiceSection: View {
 // MARK: - Service Card
 private struct ServiceCard: View {
     @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
 
     let icon: String
     let iconColor: Color
     let iconBgColor: Color
     let titleKey: String
     let subtitleKey: String
+    let action: AppRoute?
+    
+    @State private var isPressed = false
 
     var body: some View {
-        HStack(spacing: 14) {
+        Button(action: {
+            // Haptic feedback
+            let impact = UIImpactFeedbackGenerator(style: .light)
+            impact.impactOccurred()
+            
+            if let action = action {
+                router.navigate(to: action)
+            }
+        }) {
+            HStack(spacing: 14) {
             // Icon
             ZStack {
                 Circle()
@@ -199,20 +220,41 @@ private struct ServiceCard: View {
 
             Spacer()
 
-            // Chevron
-            ZStack {
-                Circle()
-                    .fill(Color.gray.opacity(0.1))
-                    .frame(width: 32, height: 32)
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(.gray)
+                // Chevron
+                ZStack {
+                    Circle()
+                        .fill(Color.gray.opacity(0.1))
+                        .frame(width: 32, height: 32)
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(.gray)
+                }
             }
+            .padding(16)
+            .background(Color.white)
+            .cornerRadius(16)
+            .shadow(
+                color: .black.opacity(isPressed ? 0.08 : 0.04),
+                radius: isPressed ? 4 : 6,
+                x: 0,
+                y: isPressed ? 1 : 2
+            )
+            .scaleEffect(isPressed ? 0.98 : 1.0)
         }
-        .padding(16)
-        .background(Color.white)
-        .cornerRadius(16)
-        .shadow(color: .black.opacity(0.04), radius: 6, x: 0, y: 2)
+        .buttonStyle(PlainButtonStyle())
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in
+                    withAnimation(.easeInOut(duration: 0.1)) {
+                        isPressed = true
+                    }
+                }
+                .onEnded { _ in
+                    withAnimation(.easeInOut(duration: 0.1)) {
+                        isPressed = false
+                    }
+                }
+        )
     }
 }
 

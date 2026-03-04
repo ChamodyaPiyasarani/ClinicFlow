@@ -19,11 +19,19 @@ enum AppRoute: Hashable {
     case notificationPermission
     case home
     case helpSupport
+    case opdDepartments
+    case labTests
+    case pharmacy
+    case notifications
+    case patientProfiles
+    case profileDetails(PatientProfile)
 }
 
 /// Centralized navigation manager using NavigationStack path.
 @Observable
 class AppRouter {
+    static let shared = AppRouter()
+    
     var path = NavigationPath()
 
     func navigate(to route: AppRoute) {

@@ -45,6 +45,23 @@ struct ClinicFlowApp: App {
                                 .navigationBarHidden(true)
                         case .helpSupport:
                             HelpSupportView(selectedTab: .constant(.account))
+                        case .opdDepartments:
+                            OPDDepartmentsView()
+                                .navigationBarHidden(true)
+                        case .labTests:
+                            LabTestsView()
+                                .navigationBarHidden(true)
+                        case .pharmacy:
+                            PharmacyView()
+                                .navigationBarHidden(true)
+                        case .notifications:
+                            NotificationsView()
+                                .navigationBarHidden(true)
+                        case .patientProfiles:
+                            PatientProfilesView()
+                                .navigationBarHidden(true)
+                        case .profileDetails(let profile):
+                            ProfileDetailsView(profile: profile)
                                 .navigationBarHidden(true)
                         }
                     }

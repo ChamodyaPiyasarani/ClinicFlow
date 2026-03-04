@@ -29,6 +29,8 @@ enum AppRoute: Hashable {
 /// Centralized navigation manager using NavigationStack path.
 @Observable
 class AppRouter {
+    static let shared = AppRouter()
+    
     var path = NavigationPath()
 
     func navigate(to route: AppRoute) {

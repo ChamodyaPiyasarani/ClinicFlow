@@ -18,6 +18,7 @@ enum AppRoute: Hashable {
     case locationPermission
     case notificationPermission
     case home
+    case helpSupport
     case opdDepartments
     case labTests
     case pharmacy

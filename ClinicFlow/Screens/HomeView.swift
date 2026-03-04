@@ -94,10 +94,14 @@ private struct VisitStatusSection: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     Spacer()
-                    Image(systemName: "calendar.badge.clock")
-                        .font(.system(size: 28))
-                        .foregroundColor(.white.opacity(0.7))
-                        .padding(.top, 4)
+                    ZStack {
+                        Circle()
+                            .fill(.white.opacity(0.25))
+                            .frame(width: 60, height: 60)
+                        Image(systemName: "calendar")
+                            .font(.system(size: 28, weight: .medium))
+                            .foregroundColor(.white.opacity(0.85))
+                    }
                 }
 
                 // Buttons area
@@ -153,7 +157,7 @@ private struct ClinicServiceSection: View {
 
             VStack(spacing: 12) {
                 ServiceCard(
-                    icon: "cross.case.fill",
+                    icon: "plus",
                     iconColor: AppColors.brandBlue,
                     iconBgColor: AppColors.brandBlue.opacity(0.15),
                     titleKey: "service_opd",
@@ -209,22 +213,22 @@ private struct ServiceCard: View {
             HStack(spacing: 14) {
             // Icon
             ZStack {
-                Circle()
+                RoundedRectangle(cornerRadius: 12)
                     .fill(iconBgColor)
-                    .frame(width: 48, height: 48)
+                    .frame(width: 52, height: 52)
                 Image(systemName: icon)
-                    .font(.system(size: 20))
+                    .font(.system(size: 22, weight: .medium))
                     .foregroundColor(iconColor)
             }
 
             // Text
             VStack(alignment: .leading, spacing: 2) {
                 Text(languageManager.localized(titleKey))
-                    .font(.poppins(.semiBold, size: 15))
+                    .font(.poppins(.semiBold, size: 16))
                     .foregroundColor(AppColors.darkBlue)
                 Text(languageManager.localized(subtitleKey))
-                    .font(.poppins(.regular, size: 12))
-                    .foregroundColor(.gray)
+                    .font(.poppins(.regular, size: 13))
+                    .foregroundColor(.gray.opacity(0.8))
             }
 
             Spacer()
@@ -232,19 +236,23 @@ private struct ServiceCard: View {
                 // Chevron
                 ZStack {
                     Circle()
-                        .fill(Color.gray.opacity(0.1))
-                        .frame(width: 32, height: 32)
+                        .fill(Color.gray.opacity(0.12))
+                        .frame(width: 34, height: 34)
                     Image(systemName: "chevron.right")
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(.gray)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(.gray.opacity(0.7))
                 }
             }
-            .padding(16)
+            .padding(18)
             .background(Color.white)
-            .cornerRadius(16)
+            .cornerRadius(18)
+            .overlay(
+                RoundedRectangle(cornerRadius: 18)
+                    .stroke(Color.gray.opacity(0.12), lineWidth: 1)
+            )
             .shadow(
-                color: .black.opacity(isPressed ? 0.08 : 0.04),
-                radius: isPressed ? 4 : 6,
+                color: .black.opacity(isPressed ? 0.06 : 0.03),
+                radius: isPressed ? 3 : 5,
                 x: 0,
                 y: isPressed ? 1 : 2
             )

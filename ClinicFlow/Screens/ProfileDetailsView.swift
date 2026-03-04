@@ -100,7 +100,7 @@ struct ProfileDetailsView: View {
     private func removeAllergy(at index: Int) {
         let impact = UIImpactFeedbackGenerator(style: .light)
         impact.impactOccurred()
-        withAnimation {
+        _ = withAnimation {
             allergies.remove(at: index)
         }
     }

@@ -7,6 +7,8 @@
 
 import SwiftUI
 import PhotosUI
+import AVFoundation
+import Photos
 
 struct PharmacyView: View {
     @Environment(LanguageManager.self) var languageManager
@@ -203,7 +205,9 @@ private struct UploadPrescriptionSection: View {
                     Button(action: {
                         let impact = UIImpactFeedbackGenerator(style: .light)
                         impact.impactOccurred()
-                        showGallery = true
+                        requestPhotoLibraryPermission {
+                            showGallery = true
+                        }
                     }) {
                         Text("Choose from Gallery")
                             .font(.poppins(.semiBold, size: 16))
@@ -218,7 +222,9 @@ private struct UploadPrescriptionSection: View {
                     Button(action: {
                         let impact = UIImpactFeedbackGenerator(style: .light)
                         impact.impactOccurred()
-                        showCamera = true
+                        requestCameraPermission {
+                            showCamera = true
+                        }
                     }) {
                         HStack(spacing: 8) {
                             Image(systemName: "camera.fill")
@@ -289,6 +295,29 @@ private struct ImportantInfoSection: View {
         .background(Color(red: 50/255, green: 160/255, blue: 140/255).opacity(0.05))
         .cornerRadius(12)
         .padding(.horizontal, 20)
+    }
+}
+
+// MARK: - Permission Helper Functions
+private func requestCameraPermission(completion: @escaping () -> Void) {
+    AVCaptureDevice.requestAccess(for: .video) { granted in
+        DispatchQueue.main.async {
+            if granted {
+                completion()
+            }
+            // Even if denied, the system permission popup will have appeared
+        }
+    }
+}
+
+private func requestPhotoLibraryPermission(completion: @escaping () -> Void) {
+    PHPhotoLibrary.requestAuthorization { status in
+        DispatchQueue.main.async {
+            if status == .authorized || status == .limited {
+                completion()
+            }
+            // Even if denied, the system permission popup will have appeared
+        }
     }
 }
 

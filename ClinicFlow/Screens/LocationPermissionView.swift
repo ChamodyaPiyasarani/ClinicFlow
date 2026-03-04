@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import CoreLocation
+import Combine
 
 struct LocationPermissionView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
+    @StateObject private var locationManager = LocationManager()
     
     var body: some View {
         ZStack {
@@ -83,7 +86,11 @@ struct LocationPermissionView: View {
                         VStack(spacing: 12) {
                             // Primary Button
                             PrimaryButton(title: languageManager.localized("enable_location_services")) {
-                                router.navigate(to: .notificationPermission)
+                                locationManager.requestPermission()
+                                // Navigate to next screen regardless of permission result
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    router.navigate(to: .notificationPermission)
+                                }
                             }
                             
                             // Secondary Button
@@ -152,6 +159,29 @@ struct FeatureCard: View {
         .background(Color.white)
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.05), radius: 6, x: 0, y: 2)
+    }
+}
+
+// MARK: - Location Manager
+@MainActor
+class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+    nonisolated(unsafe) private let manager = CLLocationManager()
+    @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
+    
+    override init() {
+        super.init()
+        manager.delegate = self
+        authorizationStatus = manager.authorizationStatus
+    }
+    
+    func requestPermission() {
+        manager.requestWhenInUseAuthorization()
+    }
+    
+    nonisolated func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        Task { @MainActor in
+            authorizationStatus = manager.authorizationStatus
+        }
     }
 }
 

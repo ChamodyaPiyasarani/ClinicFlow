@@ -1,10 +1,3 @@
-//
-//  HomeView.swift
-//  ClinicFlow
-//
-//  Created by cobsccomp242p-030 on 2026-03-01.
-//
-
 import SwiftUI
 
 struct HomeView: View {
@@ -38,9 +31,7 @@ private struct HomeHeaderView: View {
     var body: some View {
         ZStack {
             // Centered title
-            Text("CLINICFLOW")
-                .font(.poppins(.bold, size: 20))
-                .foregroundColor(AppColors.darkBlue)
+            AppNameText(fontSize: 20)
 
             // Trailing notification bell
             HStack {

@@ -43,6 +43,8 @@ struct ClinicFlowApp: App {
                         case .home:
                             ContentView()
                                 .navigationBarHidden(true)
+                        case .helpSupport:
+                            HelpSupportView(selectedTab: .constant(.account))
                         case .opdDepartments:
                             OPDDepartmentsView()
                                 .navigationBarHidden(true)

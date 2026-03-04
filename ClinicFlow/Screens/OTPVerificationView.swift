@@ -1,10 +1,3 @@
-//
-//  OTPVerificationView.swift
-//  ClinicFlow
-//
-//  Created by cobsccomp242p-030 on 2026-02-28.
-//
-
 import SwiftUI
 
 struct OTPVerificationView: View {
@@ -47,15 +40,8 @@ struct OTPVerificationView: View {
                     // Single white card
                     VStack(spacing: 0) {
                         // App name
-                        HStack(spacing: 0) {
-                            Text("CLINIC")
-                                .font(.poppins(.bold, size: 20))
-                                .foregroundColor(AppColors.brandBlue)
-                            Text("FLOW")
-                                .font(.poppins(.bold, size: 20))
-                                .foregroundColor(AppColors.darkBlue)
-                        }
-                        .padding(.top, 24)
+                        AppNameText(fontSize: 20)
+                            .padding(.top, 24)
 
                         // Illustration
                         Image("undraw_medicine")

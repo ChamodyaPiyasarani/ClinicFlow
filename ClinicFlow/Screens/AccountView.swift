@@ -1,10 +1,3 @@
-//
-//  AccountView.swift
-//  ClinicFlow
-//
-//  Created by cobsccomp242p-030 on 2026-03-03.
-//
-
 import SwiftUI
 
 struct AccountView: View {

@@ -41,6 +41,12 @@ struct HelpSupportView: View {
                             .font(.poppins(.medium, size: 13))
                             .foregroundColor(.gray)
                     }
+
+                    // Notification bell (right)
+                    HStack {
+                        Spacer()
+                        NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
+                    }
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 8)

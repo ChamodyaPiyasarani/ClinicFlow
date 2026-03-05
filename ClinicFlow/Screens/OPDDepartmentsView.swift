@@ -28,6 +28,12 @@ struct OPDDepartmentsView: View {
                     Text("OPD Departments")
                         .font(.poppins(.bold, size: 20))
                         .foregroundColor(AppColors.darkBlue)
+
+                    // Notification bell (right)
+                    HStack {
+                        Spacer()
+                        NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
+                    }
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 8)

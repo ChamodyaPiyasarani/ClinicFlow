@@ -55,6 +55,12 @@ private struct ProfilesHeaderView: View {
                 
                 // Centered title
                 AppNameText(fontSize: 20)
+
+                // Notification bell (right)
+                HStack {
+                    Spacer()
+                    NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
+                }
             }
             
             // Profile subtitle

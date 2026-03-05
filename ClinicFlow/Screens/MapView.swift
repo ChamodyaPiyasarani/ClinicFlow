@@ -146,7 +146,6 @@ struct MapView: View {
 
 private struct MapHeaderView: View {
     @Environment(LanguageManager.self) var languageManager
-    @Environment(AppRouter.self) var router
     
     var body: some View {
         ZStack {
@@ -162,26 +161,7 @@ private struct MapHeaderView: View {
                 Spacer()
                 
                 // Notification bell (right)
-                Button(action: {
-                    router.navigate(to: .notifications)
-                }) {
-                    ZStack {
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 42, height: 42)
-                            .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
-                        
-                        Image(systemName: "bell.fill")
-                            .font(.system(size: 18, weight: .medium))
-                            .foregroundColor(AppColors.darkBlue)
-                        
-                        // Notification badge
-                        Circle()
-                            .fill(Color.red)
-                            .frame(width: 10, height: 10)
-                            .offset(x: 10, y: -10)
-                    }
-                }
+                NotificationIcon(unreadCount: 3, iconSize: 18)
             }
         }
         .padding(.horizontal, 20)

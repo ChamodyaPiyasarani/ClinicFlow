@@ -26,7 +26,6 @@ struct HomeView: View {
 // MARK: - Header
 private struct HomeHeaderView: View {
     @Environment(LanguageManager.self) var languageManager
-    @Environment(AppRouter.self) var router
 
     var body: some View {
         ZStack {
@@ -36,34 +35,7 @@ private struct HomeHeaderView: View {
             // Trailing notification bell
             HStack {
                 Spacer()
-                Button(action: {
-                    router.navigate(to: .notifications)
-                }) {
-                    ZStack(alignment: .topTrailing) {
-                        ZStack {
-                            Circle()
-                                .fill(AppColors.darkBlue.opacity(0.08))
-                                .frame(width: 44, height: 44)
-                            Image(systemName: "bell.fill")
-                                .font(.system(size: 22))
-                                .foregroundColor(AppColors.darkBlue)
-                        }
-                        Circle()
-                            .fill(
-                                LinearGradient(
-                                    colors: [Color.red, Color.red.opacity(0.9)],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-                            .frame(width: 10, height: 10)
-                            .overlay(
-                                Circle()
-                                    .stroke(Color.white, lineWidth: 2)
-                            )
-                            .offset(x: 2, y: 2)
-                    }
-                }
+                NotificationIcon(unreadCount: 3, iconSize: 22)
             }
         }
         .padding(.horizontal, 20)

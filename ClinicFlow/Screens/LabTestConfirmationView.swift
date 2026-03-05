@@ -47,16 +47,7 @@ struct LabTestConfirmationView: View {
                     // Notification bell with badge
                     HStack {
                         Spacer()
-                        ZStack(alignment: .topTrailing) {
-                            Image(systemName: "bell.fill")
-                                .font(.system(size: 24))
-                                .foregroundColor(AppColors.darkBlue)
-                            
-                            Circle()
-                                .fill(Color.red)
-                                .frame(width: 10, height: 10)
-                                .offset(x: 3, y: -3)
-                        }
+                        NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
                     }
                 }
                 .padding(.horizontal, 20)

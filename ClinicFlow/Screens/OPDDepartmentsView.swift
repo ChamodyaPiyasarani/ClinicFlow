@@ -6,6 +6,7 @@ struct OPDDepartmentsView: View {
     
     @State private var selectedCategory: DepartmentCategory = .all
     @State private var searchText: String = ""
+    @State private var selectedTab: BottomTab = .home
     
     var body: some View {
         ZStack {
@@ -146,6 +147,9 @@ struct OPDDepartmentsView: View {
                         .padding(.bottom, 24)
                     }
                 }
+
+                // MARK: - Bottom Nav Bar
+                BottomNavBar(selectedTab: $selectedTab)
             }
         }
     }

@@ -34,12 +34,6 @@ struct LabTestInfoView: View {
                             .font(.poppins(.regular, size: 14))
                             .foregroundColor(AppColors.darkBlue.opacity(0.7))
                     }
-                    
-                    // Notification bell
-                    HStack {
-                        Spacer()
-                        NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
-                    }
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 8)

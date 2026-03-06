@@ -43,12 +43,6 @@ struct LabTestConfirmationView: View {
                     
                     // Centered title
                     AppNameText(fontSize: 20)
-                    
-                    // Notification bell with badge
-                    HStack {
-                        Spacer()
-                        NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
-                    }
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 16)
@@ -185,19 +179,6 @@ struct LabTestConfirmationView: View {
                     }
                 }
                 .background(AppColors.background)
-                
-                // MARK: - Bottom Navigation Bar
-                HStack(spacing: 0) {
-                    BottomNavItem(icon: "house.fill", label: "Home", isActive: false)
-                    BottomNavItem(icon: "map.fill", label: "Map", isActive: false)
-                    BottomNavItem(icon: "calendar", label: "Appointment", isActive: false)
-                    BottomNavItem(icon: "person.fill", label: "Account", isActive: false)
-                }
-                .padding(.vertical, 12)
-                .background(
-                    Color.white
-                        .shadow(color: Color.black.opacity(0.08), radius: 8, x: 0, y: -2)
-                )
             }
             .cornerRadius(25)
             .shadow(color: Color.black.opacity(0.25), radius: 25, x: 0, y: 10)

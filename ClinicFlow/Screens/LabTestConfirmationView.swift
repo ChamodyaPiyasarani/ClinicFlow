@@ -233,27 +233,6 @@ struct ConfirmationInfoItem: View {
     }
 }
 
-// MARK: - Bottom Nav Item Component
-struct BottomNavItem: View {
-    let icon: String
-    let label: String
-    let isActive: Bool
-    
-    var body: some View {
-        VStack(spacing: 4) {
-            Image(systemName: icon)
-                .font(.system(size: 22))
-                .foregroundColor(isActive ? AppColors.brandBlue : Color.gray.opacity(0.6))
-            
-            Text(label)
-                .font(.poppins(.medium, size: 11))
-                .foregroundColor(isActive ? AppColors.brandBlue : Color.gray.opacity(0.6))
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 4)
-    }
-}
-
 // MARK: - Data Model
 struct LabTestConfirmationData {
     let consultationStatus: String

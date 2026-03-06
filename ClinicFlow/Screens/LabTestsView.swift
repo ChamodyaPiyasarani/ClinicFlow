@@ -40,7 +40,7 @@ struct LabTestsView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 8)
-                .padding(.bottom, 16)
+                .padding(.bottom, 12)
                 .background(Color.white)
                 
                 // MARK: - Search Bar
@@ -61,7 +61,10 @@ struct LabTestsView: View {
                                 Image(systemName: "xmark.circle.fill")
                                     .font(.system(size: 16))
                                     .foregroundColor(.gray.opacity(0.4))
+                                    .frame(width: 44, height: 44)
+                                    .contentShape(Rectangle())
                             }
+                            .accessibilityLabel("Clear search")
                         }
                     }
                     .padding(.horizontal, 16)

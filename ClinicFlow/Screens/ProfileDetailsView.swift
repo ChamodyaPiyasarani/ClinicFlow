@@ -335,8 +335,10 @@ private struct AllergyRow: View {
                 Image(systemName: "xmark")
                     .font(.system(size: 12, weight: .bold))
                     .foregroundColor(.red)
-                    .frame(width: 20, height: 20)
+                    .frame(width: 44, height: 44)
+                    .contentShape(Rectangle())
             }
+            .accessibilityLabel("Remove \(allergy)")
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 12)

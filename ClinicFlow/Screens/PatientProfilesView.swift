@@ -55,6 +55,7 @@ struct PatientProfilesView: View {
 // MARK: - Header
 private struct ProfilesHeaderView: View {
     @Environment(AppRouter.self) var router
+    @Environment(LanguageManager.self) var languageManager
     
     var body: some View {
         VStack(spacing: 8) {
@@ -78,7 +79,7 @@ private struct ProfilesHeaderView: View {
             }
             
             // Profile subtitle
-            Text("Profile")
+            Text(languageManager.localized("profile"))
                 .font(.poppins(.medium, size: 14))
                 .foregroundColor(.gray)
         }
@@ -91,6 +92,8 @@ private struct ProfilesHeaderView: View {
 
 // MARK: - Main Profile Section
 private struct MainProfileSection: View {
+    @Environment(LanguageManager.self) var languageManager
+
     var body: some View {
         VStack(spacing: 16) {
             // Avatar
@@ -107,7 +110,7 @@ private struct MainProfileSection: View {
                 .foregroundColor(AppColors.darkBlue)
             
             // Patient ID
-            Text("Patient ID: CF-2024-001")
+            Text("\(languageManager.localized("patient_id_label")): CF-2024-001")
                 .font(.poppins(.regular, size: 13))
                 .foregroundColor(.gray)
         }
@@ -123,6 +126,7 @@ private struct MainProfileSection: View {
 
 // MARK: - My Profiles Section
 private struct MyProfilesSection: View {
+    @Environment(LanguageManager.self) var languageManager
     let profiles: [PatientProfile]
     let onAddProfile: () -> Void
     
@@ -130,7 +134,7 @@ private struct MyProfilesSection: View {
         VStack(alignment: .leading, spacing: 16) {
             // Section header with add button
             HStack {
-                Text("My Profiles")
+                Text(languageManager.localized("my_profiles"))
                     .font(.poppins(.semiBold, size: 20))
                     .foregroundColor(AppColors.brandBlue)
                 
@@ -168,6 +172,7 @@ private struct MyProfilesSection: View {
 // MARK: - Profile Card Row
 private struct ProfileCardRow: View {
     @Environment(AppRouter.self) var router
+    @Environment(LanguageManager.self) var languageManager
     let profile: PatientProfile
     @State private var isPressed = false
     
@@ -201,11 +206,11 @@ private struct ProfileCardRow: View {
                     
                     // Status badge
                     if let allergies = profile.allergiesCount, allergies > 0 {
-                        Text("\(allergies) Allergies")
+                        Text("\(allergies) \(languageManager.localized("allergies"))")
                             .font(.poppins(.medium, size: 12))
                             .foregroundColor(.red)
                     } else if profile.isActive {
-                        Text("Active")
+                        Text(languageManager.localized("active"))
                             .font(.poppins(.medium, size: 12))
                             .foregroundColor(Color(red: 80/255, green: 180/255, blue: 100/255))
                     }
@@ -243,6 +248,7 @@ private struct ProfileCardRow: View {
 
 // MARK: - Add Family Member Form
 private struct AddFamilyMemberForm: View {
+    @Environment(LanguageManager.self) var languageManager
     let onSave: (PatientProfile) -> Void
     let onCancel: () -> Void
     
@@ -259,6 +265,15 @@ private struct AddFamilyMemberForm: View {
     
     private let genderOptions = ["Male", "Female", "Other"]
     
+    private func localizedGender(_ gender: String) -> String {
+        switch gender {
+        case "Male": return languageManager.localized("male")
+        case "Female": return languageManager.localized("female")
+        case "Other": return languageManager.localized("other_gender")
+        default: return gender
+        }
+    }
+    
     private var isFormValid: Bool {
         !fullName.trimmingCharacters(in: .whitespaces).isEmpty &&
         !relationship.trimmingCharacters(in: .whitespaces).isEmpty
@@ -268,7 +283,7 @@ private struct AddFamilyMemberForm: View {
         VStack(spacing: 16) {
             // ── Section Title ──
             HStack {
-                Text("Add Family Member")
+                Text(languageManager.localized("add_family_member"))
                     .font(.poppins(.bold, size: 20))
                     .foregroundColor(AppColors.darkBlue)
                 
@@ -290,7 +305,7 @@ private struct AddFamilyMemberForm: View {
             
             // ── Profile Section ──
             VStack(alignment: .leading, spacing: 14) {
-                Text("Profile")
+                Text(languageManager.localized("profile"))
                     .font(.poppins(.semiBold, size: 17))
                     .foregroundColor(AppColors.darkBlue)
                 
@@ -309,8 +324,8 @@ private struct AddFamilyMemberForm: View {
                     Spacer()
                 }
                 
-                CustomTextField(placeholder: "Full Name", text: $fullName)
-                CustomTextField(placeholder: "Relationship (e.g. Spouse, Child)", text: $relationship)
+                CustomTextField(placeholder: languageManager.localized("full_name"), text: $fullName)
+                CustomTextField(placeholder: languageManager.localized("relationship_placeholder"), text: $relationship)
             }
             .padding(20)
             .background(
@@ -321,15 +336,15 @@ private struct AddFamilyMemberForm: View {
             
             // ── Information Section ──
             VStack(alignment: .leading, spacing: 14) {
-                Text("Information")
+                Text(languageManager.localized("information"))
                     .font(.poppins(.semiBold, size: 17))
                     .foregroundColor(AppColors.darkBlue)
                 
-                CustomTextField(placeholder: "Date of Birth (e.g. June 22, 1990)", text: $dateOfBirth)
+                CustomTextField(placeholder: languageManager.localized("dob_placeholder"), text: $dateOfBirth)
                 
                 // Gender picker
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("Gender")
+                    Text(languageManager.localized("gender"))
                         .font(.poppins(.regular, size: 14))
                         .foregroundColor(.gray)
                     
@@ -338,7 +353,7 @@ private struct AddFamilyMemberForm: View {
                             Button(action: {
                                 gender = option
                             }) {
-                                Text(option)
+                                Text(localizedGender(option))
                                     .font(.poppins(.medium, size: 14))
                                     .foregroundColor(gender == option ? .white : AppColors.darkBlue)
                                     .padding(.horizontal, 16)
@@ -357,9 +372,9 @@ private struct AddFamilyMemberForm: View {
                     }
                 }
                 
-                CustomTextField(placeholder: "Blood Type (e.g. A+, O-)", text: $bloodType)
-                CustomTextField(placeholder: "Phone Number", text: $phone, keyboardType: .phonePad)
-                CustomTextField(placeholder: "Email Address", text: $email, keyboardType: .emailAddress)
+                CustomTextField(placeholder: languageManager.localized("blood_type_placeholder"), text: $bloodType)
+                CustomTextField(placeholder: languageManager.localized("phone_number"), text: $phone, keyboardType: .phonePad)
+                CustomTextField(placeholder: languageManager.localized("email_address"), text: $email, keyboardType: .emailAddress)
             }
             .padding(20)
             .background(
@@ -371,7 +386,7 @@ private struct AddFamilyMemberForm: View {
             // ── Allergies Section ──
             VStack(alignment: .leading, spacing: 14) {
                 HStack {
-                    Text("Allergies")
+                    Text(languageManager.localized("allergies"))
                         .font(.poppins(.semiBold, size: 17))
                         .foregroundColor(AppColors.darkBlue)
                     
@@ -387,7 +402,7 @@ private struct AddFamilyMemberForm: View {
                         HStack(spacing: 4) {
                             Image(systemName: "plus")
                                 .font(.system(size: 12, weight: .bold))
-                            Text("Add")
+                            Text(languageManager.localized("add"))
                                 .font(.poppins(.medium, size: 14))
                         }
                         .foregroundColor(AppColors.brandBlue)
@@ -395,7 +410,7 @@ private struct AddFamilyMemberForm: View {
                 }
                 
                 if allergies.isEmpty && !showAllergyField {
-                    Text("No allergies added")
+                    Text(languageManager.localized("no_allergies_added"))
                         .font(.poppins(.regular, size: 14))
                         .foregroundColor(.gray)
                         .padding(.vertical, 8)
@@ -442,7 +457,7 @@ private struct AddFamilyMemberForm: View {
                 // Add allergy input
                 if showAllergyField {
                     HStack(spacing: 10) {
-                        CustomTextField(placeholder: "Allergy name", text: $newAllergyText)
+                        CustomTextField(placeholder: languageManager.localized("allergy_name_placeholder"), text: $newAllergyText)
                         
                         Button(action: {
                             let trimmed = newAllergyText.trimmingCharacters(in: .whitespaces)
@@ -488,7 +503,7 @@ private struct AddFamilyMemberForm: View {
             
             // ── Action Buttons ──
             VStack(spacing: 12) {
-                PrimaryButton(title: "Save Profile") {
+                PrimaryButton(title: languageManager.localized("save_profile")) {
                     let impact = UIImpactFeedbackGenerator(style: .medium)
                     impact.impactOccurred()
                     
@@ -519,7 +534,7 @@ private struct AddFamilyMemberForm: View {
                     impact.impactOccurred()
                     onCancel()
                 }) {
-                    Text("Cancel")
+                    Text(languageManager.localized("cancel"))
                         .font(.poppins(.medium, size: 16))
                         .foregroundColor(.gray)
                         .frame(maxWidth: .infinity)

@@ -30,7 +30,7 @@ struct LabTestInfoView: View {
                     // Centered title
                     VStack(spacing: 2) {
                         AppNameText(fontSize: 20)
-                        Text("LAB Test")
+                        Text(languageManager.localized("lab_test_title"))
                             .font(.poppins(.regular, size: 14))
                             .foregroundColor(AppColors.darkBlue.opacity(0.7))
                     }
@@ -49,7 +49,7 @@ struct LabTestInfoView: View {
                         // Instructions Card
                         VStack(alignment: .leading, spacing: 16) {
                             // Title
-                            Text("Instructions !")
+                            Text(languageManager.localized("instructions_title"))
                                 .font(.poppins(.semiBold, size: 18))
                                 .foregroundColor(AppColors.darkBlue)
                                 .padding(.bottom, 4)
@@ -58,55 +58,55 @@ struct LabTestInfoView: View {
                             VStack(alignment: .leading, spacing: 14) {
                                 InstructionItem(
                                     icon: "fork.knife",
-                                    title: "Fasting may be required",
-                                    description: "Do not eat or drink (except water) for 8-12 hours if instructed."
+                                    title: languageManager.localized("instruction_fasting_title"),
+                                    description: languageManager.localized("instruction_fasting_desc")
                                 )
                                 
                                 InstructionItem(
                                     icon: "pills.fill",
-                                    title: "Take medicines only if advised",
-                                    description: "Continue or stop medications only as directed by your doctor."
+                                    title: languageManager.localized("instruction_medicines_title"),
+                                    description: languageManager.localized("instruction_medicines_desc")
                                 )
                                 
                                 InstructionItem(
                                     icon: "drop.fill",
-                                    title: "Drink water",
-                                    description: "Stay well hydrated unless told otherwise."
+                                    title: languageManager.localized("instruction_water_title"),
+                                    description: languageManager.localized("instruction_water_desc")
                                 )
                                 
                                 InstructionItem(
                                     icon: "smoke.fill",
-                                    title: "Avoid alcohol and smoking",
-                                    description: "Do not consume alcohol or smoke at least 24 hours before the test."
+                                    title: languageManager.localized("instruction_alcohol_title"),
+                                    description: languageManager.localized("instruction_alcohol_desc")
                                 )
                                 
                                 InstructionItem(
                                     icon: "clock.fill",
-                                    title: "Arrive on time",
-                                    description: "Reach the lab 10-15 minutes early."
+                                    title: languageManager.localized("instruction_time_title"),
+                                    description: languageManager.localized("instruction_time_desc")
                                 )
                                 
                                 InstructionItem(
                                     icon: "doc.text.fill",
-                                    title: "Carry required documents",
-                                    description: "Bring your test request form and identification."
+                                    title: languageManager.localized("instruction_documents_title"),
+                                    description: languageManager.localized("instruction_documents_desc")
                                 )
                                 
                                 InstructionItem(
                                     icon: "person.fill.questionmark",
-                                    title: "Inform the lab staff",
-                                    description: "Tell staff if you are pregnant, diabetic, or have allergies."
+                                    title: languageManager.localized("instruction_inform_title"),
+                                    description: languageManager.localized("instruction_inform_desc")
                                 )
                                 
                                 InstructionItem(
                                     icon: "figure.run",
-                                    title: "Avoid heavy exercise",
-                                    description: "Do not do strenuous activity before the test."
+                                    title: languageManager.localized("instruction_exercise_title"),
+                                    description: languageManager.localized("instruction_exercise_desc")
                                 )
                             }
                             
                             // Bottom message
-                            Text("Please follow these instructions for accurate test results.")
+                            Text(languageManager.localized("instructions_footer"))
                                 .font(.poppins(.medium, size: 14))
                                 .foregroundColor(AppColors.brandBlue)
                                 .multilineTextAlignment(.center)
@@ -136,7 +136,7 @@ struct LabTestInfoView: View {
                                 onProceed()
                             }
                         }) {
-                            Text("OK")
+                            Text(languageManager.localized("ok"))
                                 .font(.poppins(.semiBold, size: 17))
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)

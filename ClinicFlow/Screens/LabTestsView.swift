@@ -28,7 +28,7 @@ struct LabTestsView: View {
                     }
                     
                     // Centered title
-                    Text("Lab Tests")
+                    Text(languageManager.localized("lab_tests"))
                         .font(.poppins(.bold, size: 20))
                         .foregroundColor(AppColors.darkBlue)
 
@@ -50,7 +50,7 @@ struct LabTestsView: View {
                             .font(.system(size: 16))
                             .foregroundColor(.gray.opacity(0.6))
                         
-                        TextField("Search lab tests...", text: $searchText)
+                        TextField(languageManager.localized("search_lab_tests"), text: $searchText)
                             .font(.poppins(.regular, size: 15))
                             .foregroundColor(AppColors.darkBlue)
                         
@@ -83,7 +83,8 @@ struct LabTestsView: View {
                         ForEach(TestCategory.allCases, id: \.self) { category in
                             CategoryChip(
                                 category: category,
-                                isSelected: selectedCategory == category
+                                isSelected: selectedCategory == category,
+                                languageManager: languageManager
                             ) {
                                 withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                                     selectedCategory = category
@@ -104,10 +105,10 @@ struct LabTestsView: View {
                         // Section Header
                         HStack {
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Available Tests")
+                                Text(languageManager.localized("available_tests"))
                                     .font(.poppins(.semiBold, size: 16))
                                     .foregroundColor(AppColors.darkBlue)
-                                Text(filteredTests.count == 1 ? "1 test available" : "\(filteredTests.count) tests available")
+                                Text(filteredTests.count == 1 ? languageManager.localized("test_count_single") : "\(filteredTests.count) \(languageManager.localized("available_tests").lowercased())")
                                     .font(.poppins(.regular, size: 13))
                                     .foregroundColor(.gray)
                             }
@@ -120,7 +121,7 @@ struct LabTestsView: View {
                                 impact.impactOccurred()
                             }) {
                                 HStack(spacing: 4) {
-                                    Text("Sort")
+                                    Text(languageManager.localized("sort"))
                                         .font(.poppins(.medium, size: 13))
                                     Image(systemName: "arrow.up.arrow.down")
                                         .font(.system(size: 12))
@@ -215,12 +216,25 @@ enum TestCategory: String, CaseIterable {
         case .infectious: return "bandage.fill"
         }
     }
+    
+    var localizationKey: String {
+        switch self {
+        case .all:        return "cat_all"
+        case .blood:      return "cat_blood"
+        case .urine:      return "cat_urine"
+        case .imaging:    return "cat_imaging"
+        case .cardiac:    return "cat_cardiac"
+        case .metabolic:  return "cat_metabolic"
+        case .infectious: return "cat_infectious"
+        }
+    }
 }
 
 // MARK: - Category Chip Component
 struct CategoryChip: View {
     let category: TestCategory
     let isSelected: Bool
+    let languageManager: LanguageManager
     let action: () -> Void
     
     var body: some View {
@@ -228,7 +242,7 @@ struct CategoryChip: View {
             HStack(spacing: 6) {
                 Image(systemName: category.icon)
                     .font(.system(size: 14))
-                Text(category.rawValue)
+                Text(languageManager.localized(category.localizationKey))
                     .font(.poppins(.medium, size: 14))
             }
             .foregroundColor(isSelected ? .white : AppColors.darkBlue)
@@ -266,6 +280,14 @@ enum TestAvailability {
     case limitedSlots
     case unavailable
     
+    var localizationKey: String {
+        switch self {
+        case .available:     return "status_available"
+        case .limitedSlots:  return "status_limited"
+        case .unavailable:   return "status_unavailable"
+        }
+    }
+    
     var statusText: String {
         switch self {
         case .available:     return "Available"
@@ -285,6 +307,7 @@ enum TestAvailability {
 
 // MARK: - Lab Test Card Component
 struct LabTestCard: View {
+    @Environment(LanguageManager.self) var languageManager
     let test: LabTest
     let onTap: () -> Void
     @State private var isPressed = false
@@ -349,7 +372,7 @@ struct LabTestCard: View {
                         Circle()
                             .fill(test.availability.statusColor)
                             .frame(width: 6, height: 6)
-                        Text(test.availability.statusText)
+                        Text(languageManager.localized(test.availability.localizationKey))
                             .font(.poppins(.medium, size: 11))
                             .foregroundColor(test.availability.statusColor)
                     }
@@ -372,7 +395,7 @@ struct LabTestCard: View {
                         HStack(spacing: 4) {
                             Image(systemName: "exclamationmark.circle.fill")
                                 .font(.system(size: 10))
-                            Text("Prep Required")
+                            Text(languageManager.localized("prep_required"))
                                 .font(.poppins(.regular, size: 11))
                         }
                         .foregroundColor(Color(red: 255/255, green: 160/255, blue: 50/255))

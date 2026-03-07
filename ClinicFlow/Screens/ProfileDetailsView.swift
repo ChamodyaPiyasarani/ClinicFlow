@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ProfileDetailsView: View {
     @Environment(AppRouter.self) var router
+    @Environment(LanguageManager.self) var languageManager
     let profile: PatientProfile
     
     @State private var selectedTab: BottomTab = .account
@@ -32,7 +33,7 @@ struct ProfileDetailsView: View {
                         VStack(spacing: 16) {
                             // Section title
                             HStack {
-                                Text("Profile Details")
+                                Text(languageManager.localized("profile_details"))
                                     .font(.poppins(.semiBold, size: 20))
                                     .foregroundColor(AppColors.darkBlue)
                                 Spacer()
@@ -70,23 +71,23 @@ struct ProfileDetailsView: View {
             BottomNavBar(selectedTab: $selectedTab)
         }
         .navigationBarHidden(true)
-        .alert("Add Allergy", isPresented: $showAddAllergyAlert) {
-            Button("Cancel", role: .cancel) { }
-            Button("Add") {
+        .alert(languageManager.localized("add_allergy"), isPresented: $showAddAllergyAlert) {
+            Button(languageManager.localized("cancel"), role: .cancel) { }
+            Button(languageManager.localized("add")) {
                 // In a real app, this would save the allergy
                 // For now, just simulate adding
             }
         } message: {
-            Text("Enter the name of the allergy to add.")
+            Text(languageManager.localized("add_allergy_message"))
         }
-        .alert("Delete Profile", isPresented: $showDeleteAlert) {
-            Button("Cancel", role: .cancel) { }
-            Button("Delete", role: .destructive) {
+        .alert(languageManager.localized("delete_profile"), isPresented: $showDeleteAlert) {
+            Button(languageManager.localized("cancel"), role: .cancel) { }
+            Button(languageManager.localized("delete"), role: .destructive) {
                 // In a real app, this would delete the profile
                 router.goBack()
             }
         } message: {
-            Text("Are you sure you want to delete this profile? This action cannot be undone.")
+            Text(languageManager.localized("delete_profile_message"))
         }
     }
     
@@ -131,6 +132,7 @@ private struct ProfileDetailsHeaderView: View {
 
 // MARK: - Profile Header Section
 private struct ProfileHeaderSection: View {
+    @Environment(LanguageManager.self) var languageManager
     let profile: PatientProfile
     
     var body: some View {
@@ -155,7 +157,7 @@ private struct ProfileHeaderSection: View {
             
             // Status badge
             HStack(spacing: 6) {
-                Text(profile.isActive ? "Active" : "Inactive")
+                Text(profile.isActive ? languageManager.localized("active") : languageManager.localized("inactive"))
                     .font(.poppins(.medium, size: 13))
                     .foregroundColor(profile.isActive ? Color(red: 80/255, green: 180/255, blue: 100/255) : Color.orange)
                     .padding(.horizontal, 14)
@@ -179,6 +181,7 @@ private struct ProfileHeaderSection: View {
 
 // MARK: - Personal Information Section
 private struct PersonalInformationSection: View {
+    @Environment(LanguageManager.self) var languageManager
     let profile: PatientProfile
     @Binding var isEditing: Bool
     
@@ -186,7 +189,7 @@ private struct PersonalInformationSection: View {
         VStack(alignment: .leading, spacing: 16) {
             // Section header
             HStack {
-                Text("Personal Information")
+                Text(languageManager.localized("personal_information"))
                     .font(.poppins(.semiBold, size: 17))
                     .foregroundColor(AppColors.darkBlue)
                 
@@ -199,19 +202,19 @@ private struct PersonalInformationSection: View {
                         isEditing.toggle()
                     }
                 }) {
-                    Text(isEditing ? "Done" : "Edit")
+                    Text(isEditing ? languageManager.localized("done") : languageManager.localized("edit"))
                         .font(.poppins(.medium, size: 14))
                         .foregroundColor(AppColors.brandBlue)
                 }
             }
             
             VStack(spacing: 14) {
-                InfoRow(label: "Full Name", value: profile.name, isEditing: isEditing)
-                InfoRow(label: "Date of Birth", value: profile.dateOfBirth, isEditing: isEditing)
-                InfoRow(label: "Gender", value: profile.gender, isEditing: isEditing)
-                InfoRow(label: "Blood Type", value: profile.bloodType, isEditing: isEditing)
-                InfoRow(label: "Phone", value: profile.phone, isEditing: isEditing)
-                InfoRow(label: "Email", value: profile.email, isEditing: isEditing)
+                InfoRow(label: languageManager.localized("full_name"), value: profile.name, isEditing: isEditing)
+                InfoRow(label: languageManager.localized("date_of_birth"), value: profile.dateOfBirth, isEditing: isEditing)
+                InfoRow(label: languageManager.localized("gender"), value: profile.gender, isEditing: isEditing)
+                InfoRow(label: languageManager.localized("blood_type"), value: profile.bloodType, isEditing: isEditing)
+                InfoRow(label: languageManager.localized("phone"), value: profile.phone, isEditing: isEditing)
+                InfoRow(label: languageManager.localized("email"), value: profile.email, isEditing: isEditing)
             }
         }
         .padding(20)
@@ -259,6 +262,7 @@ private struct InfoRow: View {
 
 // MARK: - Allergies Section
 private struct AllergiesSection: View {
+    @Environment(LanguageManager.self) var languageManager
     @Binding var allergies: [String]
     let onAdd: () -> Void
     let onRemove: (Int) -> Void
@@ -267,7 +271,7 @@ private struct AllergiesSection: View {
         VStack(alignment: .leading, spacing: 16) {
             // Section header
             HStack {
-                Text("Allergies")
+                Text(languageManager.localized("allergies"))
                     .font(.poppins(.semiBold, size: 17))
                     .foregroundColor(AppColors.darkBlue)
                 
@@ -281,7 +285,7 @@ private struct AllergiesSection: View {
                     HStack(spacing: 4) {
                         Image(systemName: "plus")
                             .font(.system(size: 12, weight: .bold))
-                        Text("Add")
+                        Text(languageManager.localized("add"))
                             .font(.poppins(.medium, size: 14))
                     }
                     .foregroundColor(AppColors.brandBlue)
@@ -290,7 +294,7 @@ private struct AllergiesSection: View {
             
             // Allergies list
             if allergies.isEmpty {
-                Text("No allergies recorded")
+                Text(languageManager.localized("no_allergies_recorded"))
                     .font(.poppins(.regular, size: 14))
                     .foregroundColor(.gray)
                     .padding(.vertical, 8)
@@ -351,13 +355,14 @@ private struct AllergyRow: View {
 
 // MARK: - Medical History Section
 private struct MedicalHistorySection: View {
+    @Environment(LanguageManager.self) var languageManager
     let records: [MedicalRecord]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             // Section header
             HStack {
-                Text("Medical History")
+                Text(languageManager.localized("medical_history"))
                     .font(.poppins(.semiBold, size: 17))
                     .foregroundColor(AppColors.darkBlue)
                 
@@ -368,7 +373,7 @@ private struct MedicalHistorySection: View {
                     let impact = UIImpactFeedbackGenerator(style: .light)
                     impact.impactOccurred()
                 }) {
-                    Text("View All")
+                    Text(languageManager.localized("view_all"))
                         .font(.poppins(.medium, size: 14))
                         .foregroundColor(AppColors.brandBlue)
                 }
@@ -376,7 +381,7 @@ private struct MedicalHistorySection: View {
             
             // Records list
             if records.isEmpty {
-                Text("No medical history recorded")
+                Text(languageManager.localized("no_medical_history"))
                     .font(.poppins(.regular, size: 14))
                     .foregroundColor(.gray)
                     .padding(.vertical, 8)
@@ -425,6 +430,7 @@ private struct MedicalRecordRow: View {
 
 // MARK: - Delete Profile Button
 private struct DeleteProfileButton: View {
+    @Environment(LanguageManager.self) var languageManager
     let onDelete: () -> Void
     @State private var isPressed = false
     
@@ -434,7 +440,7 @@ private struct DeleteProfileButton: View {
             impact.impactOccurred()
             onDelete()
         }) {
-            Text("Delete Profile")
+            Text(languageManager.localized("delete_profile"))
                 .font(.poppins(.semiBold, size: 16))
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)

@@ -527,11 +527,688 @@ struct LocalizedStrings {
             .tamil: "ஆதரவு காலை 8:00 – மாலை 6:00 வரை கிடைக்கும்"
         ],
 
-        // ── Placeholder – add more screen-specific keys below ──
-        "hello_world": [
-            .english: "Hello, World!",
-            .sinhala: "ආයුබෝවන්, ලෝකය!",
-            .tamil: "வணக்கம், உலகம்!"
+        // ── Account Screen ──
+        "patient_profiles": [
+            .english: "Patient Profiles",
+            .sinhala: "රෝගී පැතිකඩ",
+            .tamil: "நோயாளி சுயவிவரங்கள்"
+        ],
+        "visit_history": [
+            .english: "Visit History",
+            .sinhala: "පැමිණීම් ඉතිහාසය",
+            .tamil: "வருகை வரலாறு"
+        ],
+        "help_support": [
+            .english: "Help & Support",
+            .sinhala: "උදව් සහ සහාය",
+            .tamil: "உதவி & ஆதரவு"
+        ],
+        "logout_title": [
+            .english: "Logout",
+            .sinhala: "පිටවීම",
+            .tamil: "வெளியேறு"
+        ],
+        "logout_confirmation": [
+            .english: "Are you sure you want to logout?",
+            .sinhala: "ඔබට පිටවීමට අවශ්‍ය බව විශ්වාසද?",
+            .tamil: "நீங்கள் வெளியேற விரும்புகிறீர்களா?"
+        ],
+
+        // ── Notifications Screen ──
+        "clear_all": [
+            .english: "Clear All",
+            .sinhala: "සියල්ල මකන්න",
+            .tamil: "அனைத்தையும் அழி"
+        ],
+        "notifications": [
+            .english: "Notifications",
+            .sinhala: "දැනුම්දීම්",
+            .tamil: "அறிவிப்புகள்"
+        ],
+        "no_notifications": [
+            .english: "No Notifications",
+            .sinhala: "දැනුම්දීම් නැත",
+            .tamil: "அறிவிப்புகள் இல்லை"
+        ],
+        "all_caught_up": [
+            .english: "You're all caught up!",
+            .sinhala: "ඔබ සියල්ල දැනගෙන ඇත!",
+            .tamil: "நீங்கள் அனைத்தையும் படித்துவிட்டீர்கள்!"
+        ],
+
+        // ── Pharmacy Screen ──
+        "pharmacy_title": [
+            .english: "Pharmacy",
+            .sinhala: "ඖෂධාගාරය",
+            .tamil: "மருந்தகம்"
+        ],
+        "upload_prescription": [
+            .english: "Upload Prescription Image",
+            .sinhala: "බෙහෙත් වට්ටෝරුව උඩුගත කරන්න",
+            .tamil: "மருந்து சீட்டு படத்தை பதிவேற்றவும்"
+        ],
+        "jpg_png_supported": [
+            .english: "JPG or PNG supported",
+            .sinhala: "JPG හෝ PNG සහාය දක්වයි",
+            .tamil: "JPG அல்லது PNG ஆதரிக்கப்படுகிறது"
+        ],
+        "choose_from_gallery": [
+            .english: "Choose from Gallery",
+            .sinhala: "ගැලරියෙන් තෝරන්න",
+            .tamil: "கேலரியிலிருந்து தேர்வுசெய்யவும்"
+        ],
+        "take_photo": [
+            .english: "Take Photo",
+            .sinhala: "ඡායාරූපයක් ගන්න",
+            .tamil: "புகைப்படம் எடுக்கவும்"
+        ],
+        "important": [
+            .english: "Important",
+            .sinhala: "වැදගත්",
+            .tamil: "முக்கியமானது"
+        ],
+        "prescription_info": [
+            .english: "Make sure your prescription is clearly visible and all text is readable before uploading.",
+            .sinhala: "උඩුගත කිරීමට පෙර ඔබේ බෙහෙත් වට්ටෝරුව පැහැදිලිව පෙනෙන බවත් සියලු අකුරු කියවිය හැකි බවත් සහතික කරන්න.",
+            .tamil: "பதிவேற்றும் முன் உங்கள் மருந்து சீட்டு தெளிவாகத் தெரியும் என்பதையும் அனைத்து எழுத்துகளும் படிக்கக்கூடியவை என்பதையும் உறுதிப்படுத்தவும்."
+        ],
+        "send_to_pharmacy": [
+            .english: "Send to Pharmacy",
+            .sinhala: "ඖෂධාගාරයට යවන්න",
+            .tamil: "மருந்தகத்திற்கு அனுப்பவும்"
+        ],
+
+        // ── OPD Departments Screen ──
+        "opd_departments": [
+            .english: "OPD Departments",
+            .sinhala: "බාහිර රෝගී අංශ",
+            .tamil: "வெளிநோயாளர் பிரிவுகள்"
+        ],
+        "search_departments": [
+            .english: "Search departments...",
+            .sinhala: "අංශ සොයන්න...",
+            .tamil: "பிரிவுகளைத் தேடு..."
+        ],
+        "available_departments": [
+            .english: "Available Departments",
+            .sinhala: "පවතින අංශ",
+            .tamil: "கிடைக்கும் பிரிவுகள்"
+        ],
+        "department_count_single": [
+            .english: "1 department available",
+            .sinhala: "අංශ 1ක් පවතී",
+            .tamil: "1 பிரிவு கிடைக்கிறது"
+        ],
+        "sort": [
+            .english: "Sort",
+            .sinhala: "පෙළගැස්වීම",
+            .tamil: "வரிசைப்படுத்து"
+        ],
+
+        // ── Lab Tests Screen ──
+        "lab_tests": [
+            .english: "Lab Tests",
+            .sinhala: "රසායනාගාර පරීක්ෂණ",
+            .tamil: "ஆய்வக பரிசோதனைகள்"
+        ],
+        "search_lab_tests": [
+            .english: "Search lab tests...",
+            .sinhala: "රසායනාගාර පරීක්ෂණ සොයන්න...",
+            .tamil: "ஆய்வக பரிசோதனைகளைத் தேடு..."
+        ],
+        "available_tests": [
+            .english: "Available Tests",
+            .sinhala: "පවතින පරීක්ෂණ",
+            .tamil: "கிடைக்கும் பரிசோதனைகள்"
+        ],
+        "test_count_single": [
+            .english: "1 test available",
+            .sinhala: "පරීක්ෂණ 1ක් පවතී",
+            .tamil: "1 பரிசோதனை கிடைக்கிறது"
+        ],
+        "prep_required": [
+            .english: "Prep Required",
+            .sinhala: "සූදානම අවශ්‍යයි",
+            .tamil: "தயாரிப்பு தேவை"
+        ],
+
+        // ── Shared Category Names ──
+        "cat_all": [
+            .english: "All",
+            .sinhala: "සියල්ල",
+            .tamil: "அனைத்தும்"
+        ],
+        "cat_general": [
+            .english: "General",
+            .sinhala: "සාමාන්‍ය",
+            .tamil: "பொது"
+        ],
+        "cat_surgical": [
+            .english: "Surgical",
+            .sinhala: "ශල්‍ය",
+            .tamil: "அறுவை சிகிச்சை"
+        ],
+        "cat_specialized": [
+            .english: "Specialized",
+            .sinhala: "විශේෂිත",
+            .tamil: "சிறப்பு"
+        ],
+        "cat_diagnostic": [
+            .english: "Diagnostic",
+            .sinhala: "රෝග විනිශ්චය",
+            .tamil: "நோயறிதல்"
+        ],
+        "cat_emergency": [
+            .english: "Emergency",
+            .sinhala: "හදිසි",
+            .tamil: "அவசர"
+        ],
+        "cat_blood": [
+            .english: "Blood",
+            .sinhala: "රුධිර",
+            .tamil: "இரத்தம்"
+        ],
+        "cat_urine": [
+            .english: "Urine",
+            .sinhala: "මුත්‍රා",
+            .tamil: "சிறுநீர்"
+        ],
+        "cat_imaging": [
+            .english: "Imaging",
+            .sinhala: "රූප",
+            .tamil: "படப்பிடிப்பு"
+        ],
+        "cat_cardiac": [
+            .english: "Cardiac",
+            .sinhala: "හෘද",
+            .tamil: "இதய"
+        ],
+        "cat_metabolic": [
+            .english: "Metabolic",
+            .sinhala: "පරිවෘත්තීය",
+            .tamil: "வளர்சிதை மாற்ற"
+        ],
+        "cat_infectious": [
+            .english: "Infectious",
+            .sinhala: "බෝවන",
+            .tamil: "தொற்று"
+        ],
+
+        // ── Availability Statuses ──
+        "status_available": [
+            .english: "Available",
+            .sinhala: "පවතී",
+            .tamil: "கிடைக்கிறது"
+        ],
+        "status_busy": [
+            .english: "Busy",
+            .sinhala: "කාර්යබහුලයි",
+            .tamil: "பிஸியாக"
+        ],
+        "status_closed": [
+            .english: "Closed",
+            .sinhala: "වසා ඇත",
+            .tamil: "மூடப்பட்டது"
+        ],
+        "status_limited": [
+            .english: "Limited",
+            .sinhala: "සීමිතයි",
+            .tamil: "குறைவான"
+        ],
+        "status_unavailable": [
+            .english: "Unavailable",
+            .sinhala: "නොපවතී",
+            .tamil: "கிடைக்கவில்லை"
+        ],
+        "waiting": [
+            .english: "waiting",
+            .sinhala: "බලා සිටිති",
+            .tamil: "காத்திருக்கிறது"
+        ],
+
+        // ── Map Screen ──
+        "floor_prefix": [
+            .english: "Floor",
+            .sinhala: "මහල",
+            .tamil: "தளம்"
+        ],
+        "main_entrance": [
+            .english: "Main Entrance",
+            .sinhala: "ප්‍රධාන පිවිසුම",
+            .tamil: "முக்கிய நுழைவாயில்"
+        ],
+        "specialist_wing": [
+            .english: "Specialist Wing",
+            .sinhala: "විශේෂඥ අංශය",
+            .tamil: "நிபுணர் பிரிவு"
+        ],
+        "map_diagnostics": [
+            .english: "Diagnostics",
+            .sinhala: "රෝග විනිශ්චය",
+            .tamil: "நோயறிதல்"
+        ],
+        "registration": [
+            .english: "Registration",
+            .sinhala: "ලියාපදිංචිය",
+            .tamil: "பதிவு"
+        ],
+        "consultation": [
+            .english: "Consultation",
+            .sinhala: "උපදේශනය",
+            .tamil: "ஆலோசனை"
+        ],
+        "laboratory": [
+            .english: "Laboratory",
+            .sinhala: "රසායනාගාරය",
+            .tamil: "ஆய்வகம்"
+        ],
+        "pharmacy_area": [
+            .english: "Pharmacy",
+            .sinhala: "ඖෂධාගාරය",
+            .tamil: "மருந்தகம்"
+        ],
+        "payment": [
+            .english: "Payment",
+            .sinhala: "ගෙවීම",
+            .tamil: "கட்டணம்"
+        ],
+        "restrooms": [
+            .english: "Restrooms",
+            .sinhala: "විවේක කාමර",
+            .tamil: "கழிவறைகள்"
+        ],
+        "main_corridor": [
+            .english: "Main Corridor",
+            .sinhala: "ප්‍රධාන කොරිඩෝව",
+            .tamil: "முக்கிய நடைபாதை"
+        ],
+        "south_wing": [
+            .english: "South Wing",
+            .sinhala: "දකුණු අංශය",
+            .tamil: "தெற்கு பிரிவு"
+        ],
+        "staircase": [
+            .english: "Staircase",
+            .sinhala: "පඩිපෙළ",
+            .tamil: "படிக்கட்டு"
+        ],
+        "connects_all_floors": [
+            .english: "Connects all floors",
+            .sinhala: "සියලුම මහල් සම්බන්ධ කරයි",
+            .tamil: "அனைத்து தளங்களையும் இணைக்கிறது"
+        ],
+        "elevator": [
+            .english: "Elevator",
+            .sinhala: "සෝපානය",
+            .tamil: "மின்தூக்கி"
+        ],
+        "room_prefix": [
+            .english: "Rm",
+            .sinhala: "කා",
+            .tamil: "அறை"
+        ],
+        "room_full": [
+            .english: "Room",
+            .sinhala: "කාමරය",
+            .tamil: "அறை"
+        ],
+        "legend": [
+            .english: "Legend",
+            .sinhala: "සටහන",
+            .tamil: "குறியீடு"
+        ],
+        "you_are_here": [
+            .english: "You are here",
+            .sinhala: "ඔබ මෙහි සිටී",
+            .tamil: "நீங்கள் இங்கே இருக்கிறீர்கள்"
+        ],
+        "navigate": [
+            .english: "Navigate",
+            .sinhala: "යොමු කරන්න",
+            .tamil: "வழிசெலுத்து"
+        ],
+        "start_navigation": [
+            .english: "Start Navigation",
+            .sinhala: "මාර්ගෝපදේශනය ආරම්භ කරන්න",
+            .tamil: "வழிசெலுத்தலைத் தொடங்கு"
+        ],
+        "stop_navigation": [
+            .english: "Stop Navigation",
+            .sinhala: "මාර්ගෝපදේශනය නවතන්න",
+            .tamil: "வழிசெலுத்தலை நிறுத்து"
+        ],
+        "walking": [
+            .english: "walking",
+            .sinhala: "ඇවිදීම",
+            .tamil: "நடைபயிற்சி"
+        ],
+        "min_suffix": [
+            .english: "min",
+            .sinhala: "මිනි",
+            .tamil: "நிமி"
+        ],
+
+        // ── Profile Details Screen ──
+        "profile_details": [
+            .english: "Profile Details",
+            .sinhala: "පැතිකඩ විස්තර",
+            .tamil: "சுயவிவர விவரங்கள்"
+        ],
+        "active": [
+            .english: "Active",
+            .sinhala: "සක්‍රියයි",
+            .tamil: "செயலில்"
+        ],
+        "inactive": [
+            .english: "Inactive",
+            .sinhala: "අක්‍රියයි",
+            .tamil: "செயலற்றது"
+        ],
+        "personal_information": [
+            .english: "Personal Information",
+            .sinhala: "පුද්ගලික තොරතුරු",
+            .tamil: "தனிப்பட்ட தகவல்கள்"
+        ],
+        "full_name": [
+            .english: "Full Name",
+            .sinhala: "සම්පූර්ණ නම",
+            .tamil: "முழு பெயர்"
+        ],
+        "date_of_birth": [
+            .english: "Date of Birth",
+            .sinhala: "උපන් දිනය",
+            .tamil: "பிறந்த தேதி"
+        ],
+        "gender": [
+            .english: "Gender",
+            .sinhala: "ස්ත්‍රී පුරුෂ භාවය",
+            .tamil: "பாலினம்"
+        ],
+        "blood_type": [
+            .english: "Blood Type",
+            .sinhala: "රුධිර වර්ගය",
+            .tamil: "இரத்த வகை"
+        ],
+        "phone": [
+            .english: "Phone",
+            .sinhala: "දුරකථනය",
+            .tamil: "தொலைபேசி"
+        ],
+        "email": [
+            .english: "Email",
+            .sinhala: "ඊමේල්",
+            .tamil: "மின்னஞ்சல்"
+        ],
+        "allergies": [
+            .english: "Allergies",
+            .sinhala: "අසාත්මිකතා",
+            .tamil: "ஒவ்வாமைகள்"
+        ],
+        "add": [
+            .english: "Add",
+            .sinhala: "එකතු කරන්න",
+            .tamil: "சேர்"
+        ],
+        "no_allergies_recorded": [
+            .english: "No allergies recorded",
+            .sinhala: "අසාත්මිකතා වාර්තා නැත",
+            .tamil: "ஒவ்வாமைகள் பதிவு செய்யப்படவில்லை"
+        ],
+        "medical_history": [
+            .english: "Medical History",
+            .sinhala: "වෛද්‍ය ඉතිහාසය",
+            .tamil: "மருத்துவ வரலாறு"
+        ],
+        "view_all": [
+            .english: "View All",
+            .sinhala: "සියල්ල බලන්න",
+            .tamil: "அனைத்தையும் காண்க"
+        ],
+        "no_medical_history": [
+            .english: "No medical history recorded",
+            .sinhala: "වෛද්‍ය ඉතිහාසයක් වාර්තා නැත",
+            .tamil: "மருத்துவ வரலாறு பதிவு செய்யப்படவில்லை"
+        ],
+        "delete_profile": [
+            .english: "Delete Profile",
+            .sinhala: "පැතිකඩ මකන්න",
+            .tamil: "சுயவிவரத்தை நீக்கு"
+        ],
+        "add_allergy": [
+            .english: "Add Allergy",
+            .sinhala: "අසාත්මිකතාවක් එක් කරන්න",
+            .tamil: "ஒவ்வாமையைச் சேர்க்கவும்"
+        ],
+        "add_allergy_message": [
+            .english: "Enter the name of the allergy to add.",
+            .sinhala: "එකතු කළ යුතු අසාත්මිකතාවේ නම ඇතුළත් කරන්න.",
+            .tamil: "சேர்க்க வேண்டிய ஒவ்வாமையின் பெயரை உள்ளிடவும்."
+        ],
+        "delete_profile_message": [
+            .english: "Are you sure you want to delete this profile? This action cannot be undone.",
+            .sinhala: "ඔබට මෙම පැතිකඩ මැකීමට අවශ්‍ය බව විශ්වාසද? මෙම ක්‍රියාව අහෝසි කළ නොහැක.",
+            .tamil: "இந்த சுயவிவரத்தை நீக்க விரும்புகிறீர்களா? இந்தச் செயலை மீட்டெடுக்க முடியாது."
+        ],
+
+        // ── Patient Profiles Screen ──
+        "my_profiles": [
+            .english: "My Profiles",
+            .sinhala: "මගේ පැතිකඩ",
+            .tamil: "எனது சுயவிவரங்கள்"
+        ],
+        "add_family_member": [
+            .english: "Add Family Member",
+            .sinhala: "පවුලේ සාමාජිකයෙකු එක් කරන්න",
+            .tamil: "குடும்ப உறுப்பினரைச் சேர்க்கவும்"
+        ],
+        "information": [
+            .english: "Information",
+            .sinhala: "තොරතුරු",
+            .tamil: "தகவல்"
+        ],
+        "male": [
+            .english: "Male",
+            .sinhala: "පුරුෂ",
+            .tamil: "ஆண்"
+        ],
+        "female": [
+            .english: "Female",
+            .sinhala: "ස්ත්‍රී",
+            .tamil: "பெண்"
+        ],
+        "other_gender": [
+            .english: "Other",
+            .sinhala: "වෙනත්",
+            .tamil: "மற்றவை"
+        ],
+        "no_allergies_added": [
+            .english: "No allergies added",
+            .sinhala: "අසාත්මිකතා එකතු කර නැත",
+            .tamil: "ஒவ்வாமைகள் சேர்க்கப்படவில்லை"
+        ],
+        "save_profile": [
+            .english: "Save Profile",
+            .sinhala: "පැතිකඩ සුරකින්න",
+            .tamil: "சுயவிவரத்தைச் சேமி"
+        ],
+        "patient_id_label": [
+            .english: "Patient ID",
+            .sinhala: "රෝගී හැඳුනුම්පත",
+            .tamil: "நோயாளி அடையாளம்"
+        ],
+        "phone_number": [
+            .english: "Phone Number",
+            .sinhala: "දුරකථන අංකය",
+            .tamil: "தொலைபேசி எண்"
+        ],
+        "email_address": [
+            .english: "Email Address",
+            .sinhala: "ඊමේල් ලිපිනය",
+            .tamil: "மின்னஞ்சல் முகவரி"
+        ],
+        "allergy_name_placeholder": [
+            .english: "Allergy name",
+            .sinhala: "අසාත්මිකතා නම",
+            .tamil: "ஒவ்வாமை பெயர்"
+        ],
+        "relationship_placeholder": [
+            .english: "Relationship (e.g. Spouse, Child)",
+            .sinhala: "සම්බන්ධතාව (උදා: කලත්‍රයා, දරුවා)",
+            .tamil: "உறவு (எ.கா. கணவர்/மனைவி, குழந்தை)"
+        ],
+        "dob_placeholder": [
+            .english: "Date of Birth (e.g. June 22, 1990)",
+            .sinhala: "උපන් දිනය (උදා: 1990 ජූනි 22)",
+            .tamil: "பிறந்த தேதி (எ.கா. ஜூன் 22, 1990)"
+        ],
+        "blood_type_placeholder": [
+            .english: "Blood Type (e.g. A+, O-)",
+            .sinhala: "රුධිර වර්ගය (උදා: A+, O-)",
+            .tamil: "இரத்த வகை (எ.கா. A+, O-)"
+        ],
+
+        // ── Lab Test Info Modal ──
+        "lab_test_title": [
+            .english: "LAB Test",
+            .sinhala: "රසායනාගාර පරීක්ෂණය",
+            .tamil: "ஆய்வக பரிசோதனை"
+        ],
+        "instructions_title": [
+            .english: "Instructions !",
+            .sinhala: "උපදෙස් !",
+            .tamil: "வழிமுறைகள் !"
+        ],
+        "instruction_fasting_title": [
+            .english: "Fasting may be required",
+            .sinhala: "උපවාසය අවශ්‍ය විය හැක",
+            .tamil: "உண்ணாவிரதம் தேவைப்படலாம்"
+        ],
+        "instruction_fasting_desc": [
+            .english: "Do not eat or drink (except water) for 8-12 hours if instructed.",
+            .sinhala: "උපදෙස් දුන්නේ නම් පැය 8-12 ක් ආහාර හෝ පාන (ජලය හැර) නොගන්න.",
+            .tamil: "அறிவுறுத்தினால் 8-12 மணி நேரம் உணவு அல்லது பானம் (தண்ணீர் தவிர) எடுக்காதீர்கள்."
+        ],
+        "instruction_medicines_title": [
+            .english: "Take medicines only if advised",
+            .sinhala: "උපදෙස් දුන්නේ නම් පමණක් බෙහෙත් ගන්න",
+            .tamil: "அறிவுறுத்தினால் மட்டுமே மருந்துகளை எடுக்கவும்"
+        ],
+        "instruction_medicines_desc": [
+            .english: "Continue or stop medications only as directed by your doctor.",
+            .sinhala: "ඔබේ වෛද්‍යවරයාගේ උපදෙස් පරිදි පමණක් ඖෂධ ගැනීම දිගටම කරගෙන යන්න හෝ නවත්වන්න.",
+            .tamil: "உங்கள் மருத்துவரின் அறிவுறுத்தலின்படி மட்டுமே மருந்துகளைத் தொடரவும் அல்லது நிறுத்தவும்."
+        ],
+        "instruction_water_title": [
+            .english: "Drink water",
+            .sinhala: "ජලය පානය කරන්න",
+            .tamil: "தண்ணீர் குடிக்கவும்"
+        ],
+        "instruction_water_desc": [
+            .english: "Stay well hydrated unless told otherwise.",
+            .sinhala: "වෙනත් ලෙස උපදෙස් දෙන්නේ නම් හැර හොඳින් ජලය පානය කරන්න.",
+            .tamil: "மாறாகக் கூறப்படாவிட்டால் நன்கு நீரேற்றமாக இருங்கள்."
+        ],
+        "instruction_alcohol_title": [
+            .english: "Avoid alcohol and smoking",
+            .sinhala: "මත්පැන් සහ දුම්පානය වළක්වන්න",
+            .tamil: "மது மற்றும் புகைபிடிப்பதை தவிர்க்கவும்"
+        ],
+        "instruction_alcohol_desc": [
+            .english: "Do not consume alcohol or smoke at least 24 hours before the test.",
+            .sinhala: "පරීක්ෂණයට අවම වශයෙන් පැය 24 කට පෙර මත්පැන් හෝ දුම්පානය නොකරන්න.",
+            .tamil: "பரிசோதனைக்கு குறைந்தது 24 மணி நேரத்திற்கு முன்பு மது அல்லது புகைபிடிக்காதீர்கள்."
+        ],
+        "instruction_time_title": [
+            .english: "Arrive on time",
+            .sinhala: "වේලාවට පැමිණෙන්න",
+            .tamil: "நேரத்திற்கு வாருங்கள்"
+        ],
+        "instruction_time_desc": [
+            .english: "Reach the lab 10-15 minutes early.",
+            .sinhala: "මිනිත්තු 10-15 කට කලින් රසායනාගාරයට පැමිණෙන්න.",
+            .tamil: "ஆய்வகத்திற்கு 10-15 நிமிடங்கள் முன்னதாக வாருங்கள்."
+        ],
+        "instruction_documents_title": [
+            .english: "Carry required documents",
+            .sinhala: "අවශ්‍ය ලේඛන රැගෙන එන්න",
+            .tamil: "தேவையான ஆவணங்களை எடுத்து வாருங்கள்"
+        ],
+        "instruction_documents_desc": [
+            .english: "Bring your test request form and identification.",
+            .sinhala: "ඔබේ පරීක්ෂණ ඉල්ලුම් පත්‍රය සහ හැඳුනුම්පත රැගෙන එන්න.",
+            .tamil: "உங்கள் பரிசோதனை கோரிக்கை படிவம் மற்றும் அடையாள அட்டையை கொண்டு வாருங்கள்."
+        ],
+        "instruction_inform_title": [
+            .english: "Inform the lab staff",
+            .sinhala: "රසායනාගාර කාර්ය මණ්ඩලයට දැනුම් දෙන්න",
+            .tamil: "ஆய்வக ஊழியர்களுக்குத் தெரிவிக்கவும்"
+        ],
+        "instruction_inform_desc": [
+            .english: "Tell staff if you are pregnant, diabetic, or have allergies.",
+            .sinhala: "ඔබ ගර්භිණී නම්, දියවැඩියා නම් හෝ අසාත්මිකතා ඇත්නම් කාර්ය මණ්ඩලයට දන්වන්න.",
+            .tamil: "நீங்கள் கர்ப்பமாக இருந்தால், நீரிழிவு இருந்தால் அல்லது ஒவ்வாமை இருந்தால் ஊழியர்களிடம் தெரிவிக்கவும்."
+        ],
+        "instruction_exercise_title": [
+            .english: "Avoid heavy exercise",
+            .sinhala: "දැඩි ව්‍යායාම වළක්වන්න",
+            .tamil: "கடுமையான உடற்பயிற்சியைத் தவிர்க்கவும்"
+        ],
+        "instruction_exercise_desc": [
+            .english: "Do not do strenuous activity before the test.",
+            .sinhala: "පරීක්ෂණයට පෙර දැඩි ක්‍රියාකාරකම් නොකරන්න.",
+            .tamil: "பரிசோதனைக்கு முன் கடுமையான செயல்பாடுகளைச் செய்யாதீர்கள்."
+        ],
+        "instructions_footer": [
+            .english: "Please follow these instructions for accurate test results.",
+            .sinhala: "නිවැරදි පරීක්ෂණ ප්‍රතිඵල සඳහා කරුණාකර මෙම උපදෙස් අනුගමනය කරන්න.",
+            .tamil: "துல்லியமான பரிசோதனை முடிவுகளுக்கு இந்த வழிமுறைகளைப் பின்பற்றவும்."
+        ],
+
+        // ── Lab Test Confirmation Modal ──
+        "current_status": [
+            .english: "Current Status",
+            .sinhala: "වත්මන් තත්ත්වය",
+            .tamil: "தற்போதைய நிலை"
+        ],
+        "before_you_proceed": [
+            .english: "Before You Proceed",
+            .sinhala: "ඉදිරියට යාමට පෙර",
+            .tamil: "தொடர்வதற்கு முன்"
+        ],
+        "fasting_required": [
+            .english: "Fasting required?",
+            .sinhala: "උපවාසය අවශ්‍යද?",
+            .tamil: "உண்ணாவிரதம் தேவையா?"
+        ],
+        "yes": [
+            .english: "Yes",
+            .sinhala: "ඔව්",
+            .tamil: "ஆம்"
+        ],
+        "no": [
+            .english: "No",
+            .sinhala: "නැත",
+            .tamil: "இல்லை"
+        ],
+        "estimated_duration": [
+            .english: "Estimated test duration :",
+            .sinhala: "ඇස්තමේන්තුගත පරීක්ෂණ කාලය :",
+            .tamil: "மதிப்பிடப்பட்ட பரிசோதனை காலம் :"
+        ],
+        "minutes": [
+            .english: "minutes",
+            .sinhala: "මිනිත්තු",
+            .tamil: "நிமிடங்கள்"
+        ],
+        "estimated_result_time": [
+            .english: "Estimated result time :",
+            .sinhala: "ඇස්තමේන්තුගත ප්‍රතිඵල කාලය :",
+            .tamil: "மதிப்பிடப்பட்ட முடிவு நேரம் :"
+        ],
+        "lab_test_fee": [
+            .english: "Lab test fee :",
+            .sinhala: "රසායනාගාර පරීක්ෂණ ගාස්තුව :",
+            .tamil: "ஆய்வக பரிசோதனை கட்டணம் :"
         ],
     ]
 

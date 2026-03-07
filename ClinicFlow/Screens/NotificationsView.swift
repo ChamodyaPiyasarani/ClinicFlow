@@ -96,6 +96,7 @@ struct NotificationsView: View {
 
 // MARK: - Header
 private struct NotificationHeader: View {
+    @Environment(LanguageManager.self) var languageManager
     let onBack: () -> Void
     let onClearAll: () -> Void
     
@@ -109,7 +110,7 @@ private struct NotificationHeader: View {
                 
                 // Clear All button
                 Button(action: onClearAll) {
-                    Text("Clear All")
+                    Text(languageManager.localized("clear_all"))
                         .font(.poppins(.medium, size: 14))
                         .foregroundColor(AppColors.brandBlue)
                 }
@@ -121,7 +122,7 @@ private struct NotificationHeader: View {
             VStack(spacing: 4) {
                 AppNameText(fontSize: 20)
                 
-                Text("Notifications")
+                Text(languageManager.localized("notifications"))
                     .font(.poppins(.regular, size: 14))
                     .foregroundColor(Color.gray.opacity(0.8))
             }
@@ -202,6 +203,8 @@ private struct NotificationRow: View {
 
 // MARK: - Empty State
 private struct EmptyNotificationsView: View {
+    @Environment(LanguageManager.self) var languageManager
+
     var body: some View {
         VStack(spacing: 16) {
             Spacer()
@@ -210,11 +213,11 @@ private struct EmptyNotificationsView: View {
                 .font(.system(size: 64))
                 .foregroundColor(Color.gray.opacity(0.3))
             
-            Text("No Notifications")
+            Text(languageManager.localized("no_notifications"))
                 .font(.poppins(.semiBold, size: 18))
                 .foregroundColor(AppColors.darkBlue)
             
-            Text("You're all caught up!")
+            Text(languageManager.localized("all_caught_up"))
                 .font(.poppins(.regular, size: 14))
                 .foregroundColor(Color.gray.opacity(0.7))
             

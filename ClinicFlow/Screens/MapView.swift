@@ -12,6 +12,10 @@ enum Floor: Int, CaseIterable {
         "Floor \(rawValue)"
     }
     
+    var displayNameKey: String {
+        "floor_prefix"
+    }
+    
     var icon: String {
         switch self {
         case .floor1: return "1.square.fill"
@@ -25,6 +29,14 @@ enum Floor: Int, CaseIterable {
         case .floor1: return "Main Entrance"
         case .floor2: return "Specialist Wing"
         case .floor3: return "Diagnostics"
+        }
+    }
+    
+    var subtitleKey: String {
+        switch self {
+        case .floor1: return "main_entrance"
+        case .floor2: return "specialist_wing"
+        case .floor3: return "map_diagnostics"
         }
     }
 }
@@ -46,6 +58,17 @@ enum ClinicArea: String, CaseIterable {
         case .pharmacy: return "Pharmacy"
         case .payment: return "Payment"
         case .restrooms: return "Restrooms"
+        }
+    }
+    
+    var localizationKey: String {
+        switch self {
+        case .registration: return "registration"
+        case .consultation: return "consultation"
+        case .laboratory: return "laboratory"
+        case .pharmacy: return "pharmacy_area"
+        case .payment: return "payment"
+        case .restrooms: return "restrooms"
         }
     }
     
@@ -209,6 +232,7 @@ private struct MapHeaderView: View {
 // MARK: - Floor Selector
 
 private struct FloorSelector: View {
+    @Environment(LanguageManager.self) var languageManager
     @Binding var selectedFloor: Floor
     @Binding var isNavigating: Bool
     
@@ -225,9 +249,9 @@ private struct FloorSelector: View {
                     VStack(spacing: 4) {
                         Image(systemName: floor.icon)
                             .font(.system(size: 18, weight: .semibold))
-                        Text(floor.displayName)
+                        Text("\(languageManager.localized(floor.displayNameKey)) \(floor.rawValue)")
                             .font(.poppins(.semiBold, size: 13))
-                        Text(floor.subtitle)
+                        Text(languageManager.localized(floor.subtitleKey))
                             .font(.poppins(.regular, size: 10))
                             .opacity(0.8)
                     }
@@ -256,6 +280,7 @@ private struct FloorSelector: View {
 // MARK: - Map Container
 
 private struct MapContainer: View {
+    @Environment(LanguageManager.self) var languageManager
     let selectedFloor: Floor
     @Binding var selectedArea: ClinicArea?
     let isNavigating: Bool
@@ -284,7 +309,7 @@ private struct MapContainer: View {
                     HStack(spacing: 6) {
                         Image(systemName: "building.2.fill")
                             .font(.system(size: 12))
-                        Text(selectedFloor.subtitle)
+                        Text(languageManager.localized(selectedFloor.subtitleKey))
                             .font(.poppins(.medium, size: 12))
                     }
                     .foregroundColor(AppColors.darkBlue.opacity(0.5))
@@ -310,7 +335,7 @@ private struct MapContainer: View {
                 .padding(.horizontal, 16)
                 
                 // Corridor 1
-                CorridorStrip(label: "Main Corridor")
+                CorridorStrip(label: languageManager.localized("main_corridor"))
                 
                 // Row 2: Laboratory, Pharmacy
                 HStack(spacing: 10) {
@@ -329,7 +354,7 @@ private struct MapContainer: View {
                 .padding(.horizontal, 16)
                 
                 // Corridor 2
-                CorridorStrip(label: "South Wing")
+                CorridorStrip(label: languageManager.localized("south_wing"))
                 
                 // Row 3: Payment, Restrooms
                 HStack(spacing: 10) {
@@ -365,13 +390,15 @@ private struct MapContainer: View {
 // MARK: - Entrance Marker
 
 private struct EntranceMarker: View {
+    @Environment(LanguageManager.self) var languageManager
+
     var body: some View {
         HStack(spacing: 8) {
             Image(systemName: "door.left.hand.open")
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(AppColors.brandBlue)
             
-            Text("Main Entrance")
+            Text(languageManager.localized("main_entrance"))
                 .font(.poppins(.semiBold, size: 12))
                 .foregroundColor(AppColors.brandBlue)
             
@@ -439,6 +466,7 @@ private struct CorridorDashedLine: View {
 // MARK: - Staircase Indicator
 
 private struct StaircaseIndicator: View {
+    @Environment(LanguageManager.self) var languageManager
     let currentFloor: Floor
     
     var body: some View {
@@ -455,10 +483,10 @@ private struct StaircaseIndicator: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Staircase")
+                    Text(languageManager.localized("staircase"))
                         .font(.poppins(.medium, size: 11))
                         .foregroundColor(AppColors.darkBlue)
-                    Text("Connects all floors")
+                    Text(languageManager.localized("connects_all_floors"))
                         .font(.poppins(.regular, size: 9))
                         .foregroundColor(AppColors.darkBlue.opacity(0.5))
                 }
@@ -478,10 +506,10 @@ private struct StaircaseIndicator: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Elevator")
+                    Text(languageManager.localized("elevator"))
                         .font(.poppins(.medium, size: 11))
                         .foregroundColor(AppColors.darkBlue)
-                    Text("Floor \(currentFloor.rawValue)")
+                    Text("\(languageManager.localized("floor_prefix")) \(currentFloor.rawValue)")
                         .font(.poppins(.regular, size: 9))
                         .foregroundColor(AppColors.darkBlue.opacity(0.5))
                 }
@@ -494,6 +522,7 @@ private struct StaircaseIndicator: View {
 // MARK: - Map Area Card
 
 private struct MapAreaCard: View {
+    @Environment(LanguageManager.self) var languageManager
     let area: ClinicArea
     let floor: Floor
     let isSelected: Bool
@@ -533,13 +562,13 @@ private struct MapAreaCard: View {
                     }
                     
                     // Area name
-                    Text(area.displayName)
+                    Text(languageManager.localized(area.localizationKey))
                         .font(.poppins(.semiBold, size: 12))
                         .foregroundColor(AppColors.darkBlue)
                         .lineLimit(1)
                     
                     // Room number
-                    Text("Rm \(area.roomNumber(floor: floor))")
+                    Text("\(languageManager.localized("room_prefix")) \(area.roomNumber(floor: floor))")
                         .font(.poppins(.regular, size: 10))
                         .foregroundColor(AppColors.darkBlue.opacity(0.5))
                 }
@@ -605,9 +634,11 @@ private struct MapAreaCard: View {
 // MARK: - Map Legend
 
 private struct MapLegend: View {
+    @Environment(LanguageManager.self) var languageManager
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Legend")
+            Text(languageManager.localized("legend"))
                 .font(.poppins(.semiBold, size: 13))
                 .foregroundColor(AppColors.darkBlue)
             
@@ -621,7 +652,7 @@ private struct MapLegend: View {
                         Circle()
                             .fill(area.backgroundColor)
                             .frame(width: 8, height: 8)
-                        Text(area.displayName)
+                        Text(languageManager.localized(area.localizationKey))
                             .font(.poppins(.regular, size: 10))
                             .foregroundColor(AppColors.darkBlue.opacity(0.7))
                             .lineLimit(1)
@@ -634,7 +665,7 @@ private struct MapLegend: View {
                     Circle()
                         .fill(AppColors.brandBlue)
                         .frame(width: 8, height: 8)
-                    Text("You are here")
+                    Text(languageManager.localized("you_are_here"))
                         .font(.poppins(.regular, size: 10))
                         .foregroundColor(AppColors.darkBlue.opacity(0.7))
                 }
@@ -643,7 +674,7 @@ private struct MapLegend: View {
                     Image(systemName: "stairs")
                         .font(.system(size: 10))
                         .foregroundColor(AppColors.brandBlue)
-                    Text("Staircase")
+                    Text(languageManager.localized("staircase"))
                         .font(.poppins(.regular, size: 10))
                         .foregroundColor(AppColors.darkBlue.opacity(0.7))
                 }
@@ -652,7 +683,7 @@ private struct MapLegend: View {
                     Image(systemName: "arrow.up.arrow.down")
                         .font(.system(size: 10))
                         .foregroundColor(Color(red: 75/255, green: 180/255, blue: 130/255))
-                    Text("Elevator")
+                    Text(languageManager.localized("elevator"))
                         .font(.poppins(.regular, size: 10))
                         .foregroundColor(AppColors.darkBlue.opacity(0.7))
                 }
@@ -799,6 +830,7 @@ private struct NavigationPathOverlay: View {
 // MARK: - Destination Info
 
 private struct DestinationInfoView: View {
+    @Environment(LanguageManager.self) var languageManager
     let area: ClinicArea
     let floor: Floor
     @Binding var isNavigating: Bool
@@ -819,19 +851,19 @@ private struct DestinationInfoView: View {
                 
                 // Destination details
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(area.displayName)
+                    Text(languageManager.localized(area.localizationKey))
                         .font(.poppins(.semiBold, size: 17))
                         .foregroundColor(AppColors.darkBlue)
                     
                     HStack(spacing: 8) {
-                        Text("Room \(area.roomNumber(floor: floor))")
+                        Text("\(languageManager.localized("room_full")) \(area.roomNumber(floor: floor))")
                             .font(.poppins(.regular, size: 12))
                             .foregroundColor(AppColors.darkBlue.opacity(0.6))
                         
                         Text("·")
                             .foregroundColor(AppColors.darkBlue.opacity(0.3))
                         
-                        Text(floor.displayName)
+                        Text("\(languageManager.localized(floor.displayNameKey)) \(floor.rawValue)")
                             .font(.poppins(.regular, size: 12))
                             .foregroundColor(AppColors.darkBlue.opacity(0.6))
                     }
@@ -844,12 +876,12 @@ private struct DestinationInfoView: View {
                     HStack(spacing: 4) {
                         Image(systemName: "figure.walk")
                             .font(.system(size: 12))
-                        Text("\(area.walkingTime(floor: floor)) min")
+                        Text("\(area.walkingTime(floor: floor)) \(languageManager.localized("min_suffix"))")
                             .font(.poppins(.semiBold, size: 16))
                     }
                     .foregroundColor(AppColors.darkBlue)
                     
-                    Text("walking")
+                    Text(languageManager.localized("walking"))
                         .font(.poppins(.regular, size: 11))
                         .foregroundColor(AppColors.darkBlue.opacity(0.5))
                 }
@@ -873,7 +905,7 @@ private struct DestinationInfoView: View {
                           ? "xmark.circle.fill"
                           : "location.fill")
                         .font(.system(size: 16))
-                    Text(isNavigating ? "Stop Navigation" : "Start Navigation")
+                    Text(isNavigating ? languageManager.localized("stop_navigation") : languageManager.localized("start_navigation"))
                         .font(.poppins(.semiBold, size: 17))
                 }
                 .foregroundColor(.white)

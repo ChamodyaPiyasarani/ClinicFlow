@@ -45,7 +45,7 @@ struct PharmacyView: View {
                 
                 // Pharmacy subtitle
                 HStack {
-                    Text("Pharmacy")
+                    Text(languageManager.localized("pharmacy_title"))
                         .font(.poppins(.semiBold, size: 16))
                         .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
                     Spacer()
@@ -77,7 +77,7 @@ struct PharmacyView: View {
                             impact.impactOccurred()
                             // Action will be implemented later
                         }) {
-                            Text("Send to Pharmacy")
+                            Text(languageManager.localized("send_to_pharmacy"))
                                 .font(.poppins(.semiBold, size: 17))
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
@@ -106,6 +106,8 @@ struct PharmacyView: View {
 
 // MARK: - Patient Info Card
 private struct PatientInfoCard: View {
+    @Environment(LanguageManager.self) var languageManager
+
     var body: some View {
         HStack(spacing: 12) {
             // Patient Avatar
@@ -134,7 +136,7 @@ private struct PatientInfoCard: View {
                     .font(.poppins(.semiBold, size: 17))
                     .foregroundColor(AppColors.darkBlue)
                 
-                Text("Patient ID: CLF-1024")
+                Text("\(languageManager.localized("patient_id_label")): CLF-1024")
                     .font(.poppins(.regular, size: 14))
                     .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
             }
@@ -151,6 +153,7 @@ private struct PatientInfoCard: View {
 
 // MARK: - Upload Prescription Section
 private struct UploadPrescriptionSection: View {
+    @Environment(LanguageManager.self) var languageManager
     @Binding var selectedImage: UIImage?
     @Binding var showCamera: Bool
     @Binding var showGallery: Bool
@@ -173,11 +176,11 @@ private struct UploadPrescriptionSection: View {
                 
                 // Text
                 VStack(spacing: 8) {
-                    Text("Upload Prescription Image")
+                    Text(languageManager.localized("upload_prescription"))
                         .font(.poppins(.semiBold, size: 16))
                         .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
                     
-                    Text("JPG or PNG supported")
+                    Text(languageManager.localized("jpg_png_supported"))
                         .font(.poppins(.regular, size: 13))
                         .foregroundColor(.gray)
                 }
@@ -192,7 +195,7 @@ private struct UploadPrescriptionSection: View {
                             showGallery = true
                         }
                     }) {
-                        Text("Choose from Gallery")
+                        Text(languageManager.localized("choose_from_gallery"))
                             .font(.poppins(.semiBold, size: 16))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
@@ -212,7 +215,7 @@ private struct UploadPrescriptionSection: View {
                         HStack(spacing: 8) {
                             Image(systemName: "camera.fill")
                                 .font(.system(size: 16))
-                            Text("Take Photo")
+                            Text(languageManager.localized("take_photo"))
                                 .font(.poppins(.semiBold, size: 16))
                         }
                         .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
@@ -246,6 +249,8 @@ private struct UploadPrescriptionSection: View {
 
 // MARK: - Important Info Section
 private struct ImportantInfoSection: View {
+    @Environment(LanguageManager.self) var languageManager
+
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             // Info icon
@@ -262,11 +267,11 @@ private struct ImportantInfoSection: View {
             
             // Info text
             VStack(alignment: .leading, spacing: 4) {
-                Text("Important")
+                Text(languageManager.localized("important"))
                     .font(.poppins(.semiBold, size: 14))
                     .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
                 
-                Text("Make sure your prescription is clearly visible and all text is readable before uploading.")
+                Text(languageManager.localized("prescription_info"))
                     .font(.poppins(.regular, size: 13))
                     .foregroundColor(.gray)
                     .fixedSize(horizontal: false, vertical: true)

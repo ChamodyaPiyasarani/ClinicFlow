@@ -67,6 +67,8 @@ private struct AccountHeaderView: View {
 
 // MARK: - Profile Card Section
 private struct ProfileCardSection: View {
+    @Environment(LanguageManager.self) var languageManager
+
     var body: some View {
         VStack(spacing: 16) {
             // Avatar
@@ -135,7 +137,7 @@ private struct ProfileCardSection: View {
                 .foregroundColor(AppColors.darkBlue)
             
             // Patient ID
-            Text("Patient ID: CF-2024-001")
+            Text("\(languageManager.localized("patient_id_label")): CF-2024-001")
                 .font(.poppins(.regular, size: 13))
                 .foregroundColor(.gray)
         }
@@ -151,6 +153,7 @@ private struct ProfileCardSection: View {
 
 // MARK: - Menu Items Section
 private struct MenuItemsSection: View {
+    @Environment(LanguageManager.self) var languageManager
     let router: AppRouter
     
     var body: some View {
@@ -159,7 +162,7 @@ private struct MenuItemsSection: View {
                 icon: "person.2.fill",
                 iconColor: Color(red: 70/255, green: 130/255, blue: 220/255),
                 iconBackground: Color(red: 70/255, green: 130/255, blue: 220/255).opacity(0.1),
-                title: "Patient Profiles"
+                title: languageManager.localized("patient_profiles")
             ) {
                 // Action: Navigate to patient profiles
                 router.navigate(to: .patientProfiles)
@@ -169,7 +172,7 @@ private struct MenuItemsSection: View {
                 icon: "clock.arrow.circlepath",
                 iconColor: Color(red: 80/255, green: 180/255, blue: 100/255),
                 iconBackground: Color(red: 80/255, green: 180/255, blue: 100/255).opacity(0.1),
-                title: "Visit History"
+                title: languageManager.localized("visit_history")
             ) {
                 // Action: Navigate to visit history
             }
@@ -178,7 +181,7 @@ private struct MenuItemsSection: View {
                 icon: "questionmark.circle.fill",
                 iconColor: Color(red: 255/255, green: 140/255, blue: 60/255),
                 iconBackground: Color(red: 255/255, green: 140/255, blue: 60/255).opacity(0.1),
-                title: "Help & Support"
+                title: languageManager.localized("help_support")
             ) {
                 // Action: Navigate to help & support
             }
@@ -187,7 +190,7 @@ private struct MenuItemsSection: View {
                 icon: "gearshape.fill",
                 iconColor: Color.gray,
                 iconBackground: Color.gray.opacity(0.1),
-                title: "Settings"
+                title: languageManager.localized("settings")
             ) {
                 // Action: Navigate to settings
             }
@@ -287,14 +290,14 @@ private struct LogoutButton: View {
                     )
             )
         }
-        .alert("Logout", isPresented: $showLogoutConfirmation) {
-            Button("Cancel", role: .cancel) { }
-            Button("Logout", role: .destructive) {
+        .alert(languageManager.localized("logout_title"), isPresented: $showLogoutConfirmation) {
+            Button(languageManager.localized("cancel"), role: .cancel) { }
+            Button(languageManager.localized("logout"), role: .destructive) {
                 // Navigate back to splash screen
                 router.goToRoot()
             }
         } message: {
-            Text("Are you sure you want to logout?")
+            Text(languageManager.localized("logout_confirmation"))
         }
     }
 }

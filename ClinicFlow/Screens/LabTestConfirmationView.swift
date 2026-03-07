@@ -59,7 +59,7 @@ struct LabTestConfirmationView: View {
                         VStack(alignment: .leading, spacing: 12) {
                             // Status Header
                             HStack {
-                                Text("Current Status")
+                                Text(languageManager.localized("current_status"))
                                     .font(.poppins(.regular, size: 14))
                                     .foregroundColor(.white.opacity(0.9))
                                 
@@ -68,7 +68,7 @@ struct LabTestConfirmationView: View {
                                 HStack(spacing: 4) {
                                     Image(systemName: "checkmark.circle.fill")
                                         .font(.system(size: 12))
-                                    Text("Done")
+                                    Text(languageManager.localized("done"))
                                         .font(.poppins(.medium, size: 13))
                                 }
                                 .foregroundColor(.white)
@@ -98,7 +98,7 @@ struct LabTestConfirmationView: View {
                             
                             // MARK: - Before You Proceed Card
                             VStack(alignment: .leading, spacing: 20) {
-                                Text("Before You Proceed")
+                                Text(languageManager.localized("before_you_proceed"))
                                     .font(.poppins(.bold, size: 20))
                                     .foregroundColor(.white)
                                     .padding(.bottom, 4)
@@ -106,23 +106,23 @@ struct LabTestConfirmationView: View {
                                 // Information Items
                                 VStack(alignment: .leading, spacing: 16) {
                                     ConfirmationInfoItem(
-                                        label: "Fasting required?",
-                                        value: testData.fastingRequired ? "Yes" : "No"
+                                        label: languageManager.localized("fasting_required"),
+                                        value: testData.fastingRequired ? languageManager.localized("yes") : languageManager.localized("no")
                                     )
                                     
                                     ConfirmationInfoItem(
-                                        label: "Estimated test duration :",
-                                        value: "\(testData.estimatedDuration) minutes"
+                                        label: languageManager.localized("estimated_duration"),
+                                        value: "\(testData.estimatedDuration) \(languageManager.localized("minutes"))"
                                     )
                                     
                                     ConfirmationInfoItem(
-                                        label: "Estimated result time :",
+                                        label: languageManager.localized("estimated_result_time"),
                                         value: testData.resultTimeDescription
 
                                     )
                                     
                                     ConfirmationInfoItem(
-                                        label: "Lab test fee :",
+                                        label: languageManager.localized("lab_test_fee"),
                                         value: "\(testData.currency) \(String(format: "%.2f", testData.fee))"
                                     )
                                 }
@@ -131,7 +131,7 @@ struct LabTestConfirmationView: View {
                                 Button(action: {
                                     handleConfirmation()
                                 }) {
-                                    Text("OK")
+                                    Text(languageManager.localized("ok"))
                                         .font(.poppins(.semiBold, size: 16))
                                         .foregroundColor(.white)
                                         .frame(maxWidth: .infinity)

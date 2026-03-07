@@ -26,7 +26,7 @@ struct OPDDepartmentsView: View {
                     }
                     
                     // Centered title
-                    Text("OPD Departments")
+                    Text(languageManager.localized("opd_departments"))
                         .font(.poppins(.bold, size: 20))
                         .foregroundColor(AppColors.darkBlue)
 
@@ -48,7 +48,7 @@ struct OPDDepartmentsView: View {
                             .font(.system(size: 16))
                             .foregroundColor(.gray.opacity(0.6))
                         
-                        TextField("Search departments...", text: $searchText)
+                        TextField(languageManager.localized("search_departments"), text: $searchText)
                             .font(.poppins(.regular, size: 15))
                             .foregroundColor(AppColors.darkBlue)
                         
@@ -81,7 +81,8 @@ struct OPDDepartmentsView: View {
                         ForEach(DepartmentCategory.allCases, id: \.self) { category in
                             DepartmentCategoryChip(
                                 category: category,
-                                isSelected: selectedCategory == category
+                                isSelected: selectedCategory == category,
+                                languageManager: languageManager
                             ) {
                                 withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                                     selectedCategory = category
@@ -102,10 +103,10 @@ struct OPDDepartmentsView: View {
                         // Section Header
                         HStack {
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Available Departments")
+                                Text(languageManager.localized("available_departments"))
                                     .font(.poppins(.semiBold, size: 16))
                                     .foregroundColor(AppColors.darkBlue)
-                                Text(filteredDepartments.count == 1 ? "1 department available" : "\(filteredDepartments.count) departments available")
+                                Text(filteredDepartments.count == 1 ? languageManager.localized("department_count_single") : "\(filteredDepartments.count) \(languageManager.localized("available_departments").lowercased())")
                                     .font(.poppins(.regular, size: 13))
                                     .foregroundColor(.gray)
                             }
@@ -118,7 +119,7 @@ struct OPDDepartmentsView: View {
                                 impact.impactOccurred()
                             }) {
                                 HStack(spacing: 4) {
-                                    Text("Sort")
+                                    Text(languageManager.localized("sort"))
                                         .font(.poppins(.medium, size: 13))
                                     Image(systemName: "arrow.up.arrow.down")
                                         .font(.system(size: 12))
@@ -209,12 +210,24 @@ enum DepartmentCategory: String, CaseIterable {
         case .emergency:   return "cross.circle.fill"
         }
     }
+    
+    var localizationKey: String {
+        switch self {
+        case .all:         return "cat_all"
+        case .general:     return "cat_general"
+        case .surgical:    return "cat_surgical"
+        case .specialized: return "cat_specialized"
+        case .diagnostic:  return "cat_diagnostic"
+        case .emergency:   return "cat_emergency"
+        }
+    }
 }
 
 // MARK: - Department Category Chip Component
 struct DepartmentCategoryChip: View {
     let category: DepartmentCategory
     let isSelected: Bool
+    let languageManager: LanguageManager
     let action: () -> Void
     
     var body: some View {
@@ -222,7 +235,7 @@ struct DepartmentCategoryChip: View {
             HStack(spacing: 6) {
                 Image(systemName: category.icon)
                     .font(.system(size: 14))
-                Text(category.rawValue)
+                Text(languageManager.localized(category.localizationKey))
                     .font(.poppins(.medium, size: 14))
             }
             .foregroundColor(isSelected ? .white : AppColors.darkBlue)
@@ -246,6 +259,14 @@ enum DepartmentAvailability {
     case busy
     case unavailable
     
+    var localizationKey: String {
+        switch self {
+        case .available:    return "status_available"
+        case .busy:         return "status_busy"
+        case .unavailable:  return "status_closed"
+        }
+    }
+    
     var statusText: String {
         switch self {
         case .available:    return "Available"
@@ -265,6 +286,7 @@ enum DepartmentAvailability {
 
 // MARK: - Department Card Component
 struct DepartmentCard: View {
+    @Environment(LanguageManager.self) var languageManager
     let icon: String
     let iconColor: Color
     let departmentName: String
@@ -311,7 +333,7 @@ struct DepartmentCard: View {
                             Circle()
                                 .fill(availabilityStatus.statusColor)
                                 .frame(width: 6, height: 6)
-                            Text(availabilityStatus.statusText)
+                            Text(languageManager.localized(availabilityStatus.localizationKey))
                                 .font(.poppins(.medium, size: 11))
                                 .foregroundColor(availabilityStatus.statusColor)
                         }
@@ -325,7 +347,7 @@ struct DepartmentCard: View {
                             HStack(spacing: 4) {
                                 Image(systemName: "person.2.fill")
                                     .font(.system(size: 10))
-                                Text("\(waitingCount) waiting")
+                                Text("\(waitingCount) \(languageManager.localized("waiting"))")
                                     .font(.poppins(.regular, size: 11))
                             }
                             .foregroundColor(.gray.opacity(0.8))

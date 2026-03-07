@@ -101,6 +101,7 @@ struct NotificationPermissionView: View {
                                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
                                     // Navigate regardless of result (no backend needed)
                                     DispatchQueue.main.async {
+                                        router.hasCompletedOnboarding = true
                                         router.navigate(to: .home)
                                     }
                                 }
@@ -108,6 +109,7 @@ struct NotificationPermissionView: View {
                             
                             // Secondary Button
                             Button {
+                                router.hasCompletedOnboarding = true
                                 router.navigate(to: .home)
                             } label: {
                                 Text(languageManager.localized("skip_for_now"))

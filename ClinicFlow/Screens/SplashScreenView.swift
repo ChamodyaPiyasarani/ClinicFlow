@@ -60,7 +60,11 @@ struct SplashScreenView: View {
                 }
                 // Navigate after progress completes
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                    router.navigate(to: .languageSelection)
+                    if router.hasCompletedOnboarding {
+                        router.navigate(to: .home)
+                    } else {
+                        router.navigate(to: .languageSelection)
+                    }
                 }
             }
     }

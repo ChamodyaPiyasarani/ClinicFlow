@@ -27,6 +27,13 @@ class AppRouter {
     
     var path = NavigationPath()
 
+    /// Whether the user has completed the full onboarding flow.
+    /// Persisted so returning users skip straight to Home.
+    var hasCompletedOnboarding: Bool {
+        get { UserDefaults.standard.bool(forKey: "hasCompletedOnboarding") }
+        set { UserDefaults.standard.set(newValue, forKey: "hasCompletedOnboarding") }
+    }
+
     func navigate(to route: AppRoute) {
         path.append(route)
     }

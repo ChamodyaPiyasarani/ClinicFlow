@@ -1,10 +1,3 @@
-//
-//  BottomNavBar.swift
-//  ClinicFlow
-//
-//  Created by cobsccomp242p-030 on 2026-03-01.
-//
-
 import SwiftUI
 
 /// The four tabs available in the bottom navigation bar.

@@ -1,10 +1,3 @@
-//
-//  PrimaryButton.swift
-//  ClinicFlow
-//
-//  Created by cobsccomp242p-030 on 2026-02-28.
-//
-
 import SwiftUI
 
 /// Reusable primary action button with rounded corners and brand styling.

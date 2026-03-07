@@ -1,10 +1,3 @@
-//
-//  BackButton.swift
-//  ClinicFlow
-//
-//  Created by cobsccomp242p-030 on 2026-02-28.
-//
-
 import SwiftUI
 
 /// Reusable circular back button with a left arrow icon.

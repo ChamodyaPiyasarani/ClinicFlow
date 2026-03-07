@@ -1,10 +1,3 @@
-//
-//  CustomTextField.swift
-//  ClinicFlow
-//
-//  Created by cobsccomp242p-030 on 2026-02-28.
-//
-
 import SwiftUI
 
 /// Reusable styled text field with a rounded border.

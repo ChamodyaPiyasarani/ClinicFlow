@@ -1,10 +1,3 @@
-//
-//  PoppinsFont.swift
-//  ClinicFlow
-//
-//  Created by cobsccomp242p-030 on 2026-02-25.
-//
-
 import SwiftUI
 
 enum PoppinsFont: String {

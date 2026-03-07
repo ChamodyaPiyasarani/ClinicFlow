@@ -19,22 +19,36 @@ struct PatientProfilesView: View {
                     // ── My Profiles Section ──
                     MyProfilesSection(
                         profiles: profiles,
-                        onAddProfile: { showAddProfile = true }
+                        onAddProfile: {
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                showAddProfile = true
+                            }
+                        }
                     )
+                    
+                    // ── Inline Add Family Member Form ──
+                    if showAddProfile {
+                        AddFamilyMemberForm(
+                            onSave: { newProfile in
+                                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                    profiles.append(newProfile)
+                                    showAddProfile = false
+                                }
+                            },
+                            onCancel: {
+                                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                    showAddProfile = false
+                                }
+                            }
+                        )
+                        .transition(.opacity.combined(with: .move(edge: .bottom)))
+                    }
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 100) // Space for bottom nav
             }
         }
         .background(AppColors.background)
-        .alert("Add Profile", isPresented: $showAddProfile) {
-            Button("Cancel", role: .cancel) { }
-            Button("Add") {
-                // Future: Add new profile functionality
-            }
-        } message: {
-            Text("Profile creation will be available in a future update.")
-        }
     }
 }
 
@@ -224,6 +238,295 @@ private struct ProfileCardRow: View {
                 .onChanged { _ in isPressed = true }
                 .onEnded { _ in isPressed = false }
         )
+    }
+}
+
+// MARK: - Add Family Member Form
+private struct AddFamilyMemberForm: View {
+    let onSave: (PatientProfile) -> Void
+    let onCancel: () -> Void
+    
+    @State private var fullName: String = ""
+    @State private var relationship: String = ""
+    @State private var dateOfBirth: String = ""
+    @State private var gender: String = "Male"
+    @State private var bloodType: String = ""
+    @State private var phone: String = ""
+    @State private var email: String = ""
+    @State private var allergies: [String] = []
+    @State private var newAllergyText: String = ""
+    @State private var showAllergyField: Bool = false
+    
+    private let genderOptions = ["Male", "Female", "Other"]
+    
+    private var isFormValid: Bool {
+        !fullName.trimmingCharacters(in: .whitespaces).isEmpty &&
+        !relationship.trimmingCharacters(in: .whitespaces).isEmpty
+    }
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            // ── Section Title ──
+            HStack {
+                Text("Add Family Member")
+                    .font(.poppins(.bold, size: 20))
+                    .foregroundColor(AppColors.darkBlue)
+                
+                Spacer()
+                
+                Button(action: {
+                    let impact = UIImpactFeedbackGenerator(style: .light)
+                    impact.impactOccurred()
+                    onCancel()
+                }) {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(.gray)
+                        .frame(width: 44, height: 44)
+                        .contentShape(Rectangle())
+                }
+                .accessibilityLabel("Cancel adding family member")
+            }
+            
+            // ── Profile Section ──
+            VStack(alignment: .leading, spacing: 14) {
+                Text("Profile")
+                    .font(.poppins(.semiBold, size: 17))
+                    .foregroundColor(AppColors.darkBlue)
+                
+                // Avatar preview
+                HStack {
+                    Spacer()
+                    ZStack {
+                        Circle()
+                            .fill(AppColors.brandBlue.opacity(0.15))
+                            .frame(width: 70, height: 70)
+                        
+                        Image(systemName: "person.fill")
+                            .font(.system(size: 30))
+                            .foregroundColor(AppColors.brandBlue)
+                    }
+                    Spacer()
+                }
+                
+                CustomTextField(placeholder: "Full Name", text: $fullName)
+                CustomTextField(placeholder: "Relationship (e.g. Spouse, Child)", text: $relationship)
+            }
+            .padding(20)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.white)
+                    .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 2)
+            )
+            
+            // ── Information Section ──
+            VStack(alignment: .leading, spacing: 14) {
+                Text("Information")
+                    .font(.poppins(.semiBold, size: 17))
+                    .foregroundColor(AppColors.darkBlue)
+                
+                CustomTextField(placeholder: "Date of Birth (e.g. June 22, 1990)", text: $dateOfBirth)
+                
+                // Gender picker
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Gender")
+                        .font(.poppins(.regular, size: 14))
+                        .foregroundColor(.gray)
+                    
+                    HStack(spacing: 10) {
+                        ForEach(genderOptions, id: \.self) { option in
+                            Button(action: {
+                                gender = option
+                            }) {
+                                Text(option)
+                                    .font(.poppins(.medium, size: 14))
+                                    .foregroundColor(gender == option ? .white : AppColors.darkBlue)
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 10)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(gender == option ? AppColors.brandBlue : Color.white)
+                                    )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(gender == option ? Color.clear : Color.gray.opacity(0.25), lineWidth: 1)
+                                    )
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                    }
+                }
+                
+                CustomTextField(placeholder: "Blood Type (e.g. A+, O-)", text: $bloodType)
+                CustomTextField(placeholder: "Phone Number", text: $phone, keyboardType: .phonePad)
+                CustomTextField(placeholder: "Email Address", text: $email, keyboardType: .emailAddress)
+            }
+            .padding(20)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.white)
+                    .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 2)
+            )
+            
+            // ── Allergies Section ──
+            VStack(alignment: .leading, spacing: 14) {
+                HStack {
+                    Text("Allergies")
+                        .font(.poppins(.semiBold, size: 17))
+                        .foregroundColor(AppColors.darkBlue)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        let impact = UIImpactFeedbackGenerator(style: .light)
+                        impact.impactOccurred()
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            showAllergyField = true
+                        }
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "plus")
+                                .font(.system(size: 12, weight: .bold))
+                            Text("Add")
+                                .font(.poppins(.medium, size: 14))
+                        }
+                        .foregroundColor(AppColors.brandBlue)
+                    }
+                }
+                
+                if allergies.isEmpty && !showAllergyField {
+                    Text("No allergies added")
+                        .font(.poppins(.regular, size: 14))
+                        .foregroundColor(.gray)
+                        .padding(.vertical, 8)
+                }
+                
+                // Allergy tags
+                if !allergies.isEmpty {
+                    VStack(spacing: 10) {
+                        ForEach(Array(allergies.enumerated()), id: \.offset) { index, allergy in
+                            HStack {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.red)
+                                
+                                Text(allergy)
+                                    .font(.poppins(.medium, size: 14))
+                                    .foregroundColor(.red)
+                                
+                                Spacer()
+                                
+                                Button(action: {
+                                    withAnimation {
+                                        allergies.remove(at: index)
+                                    }
+                                }) {
+                                    Image(systemName: "xmark")
+                                        .font(.system(size: 12, weight: .bold))
+                                        .foregroundColor(.red)
+                                        .frame(width: 44, height: 44)
+                                        .contentShape(Rectangle())
+                                }
+                                .accessibilityLabel("Remove \(allergy)")
+                            }
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 4)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color.red.opacity(0.08))
+                            )
+                        }
+                    }
+                }
+                
+                // Add allergy input
+                if showAllergyField {
+                    HStack(spacing: 10) {
+                        CustomTextField(placeholder: "Allergy name", text: $newAllergyText)
+                        
+                        Button(action: {
+                            let trimmed = newAllergyText.trimmingCharacters(in: .whitespaces)
+                            guard !trimmed.isEmpty else { return }
+                            withAnimation {
+                                allergies.append(trimmed)
+                                newAllergyText = ""
+                                showAllergyField = false
+                            }
+                        }) {
+                            Image(systemName: "checkmark")
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundColor(.white)
+                                .frame(width: 44, height: 44)
+                                .background(AppColors.brandBlue)
+                                .cornerRadius(12)
+                        }
+                        .accessibilityLabel("Confirm allergy")
+                        
+                        Button(action: {
+                            withAnimation {
+                                newAllergyText = ""
+                                showAllergyField = false
+                            }
+                        }) {
+                            Image(systemName: "xmark")
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundColor(.gray)
+                                .frame(width: 44, height: 44)
+                                .background(Color.gray.opacity(0.1))
+                                .cornerRadius(12)
+                        }
+                        .accessibilityLabel("Cancel adding allergy")
+                    }
+                }
+            }
+            .padding(20)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.white)
+                    .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 2)
+            )
+            
+            // ── Action Buttons ──
+            VStack(spacing: 12) {
+                PrimaryButton(title: "Save Profile") {
+                    let impact = UIImpactFeedbackGenerator(style: .medium)
+                    impact.impactOccurred()
+                    
+                    let newProfile = PatientProfile(
+                        id: "CF-2024-\(Int.random(in: 100...999))",
+                        name: fullName.trimmingCharacters(in: .whitespaces),
+                        relationship: relationship.trimmingCharacters(in: .whitespaces),
+                        avatarColor: Color(red: .random(in: 0.6...0.85), green: .random(in: 0.7...0.9), blue: .random(in: 0.6...0.85)),
+                        hairColor: Color(red: 139/255, green: 90/255, blue: 43/255),
+                        shirtColor: AppColors.brandBlue,
+                        isActive: true,
+                        allergiesCount: allergies.isEmpty ? nil : allergies.count,
+                        dateOfBirth: dateOfBirth,
+                        gender: gender,
+                        bloodType: bloodType,
+                        phone: phone,
+                        email: email,
+                        allergies: allergies,
+                        medicalHistory: []
+                    )
+                    onSave(newProfile)
+                }
+                .opacity(isFormValid ? 1.0 : 0.5)
+                .disabled(!isFormValid)
+                
+                Button(action: {
+                    let impact = UIImpactFeedbackGenerator(style: .light)
+                    impact.impactOccurred()
+                    onCancel()
+                }) {
+                    Text("Cancel")
+                        .font(.poppins(.medium, size: 16))
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
+                }
+            }
+        }
     }
 }
 

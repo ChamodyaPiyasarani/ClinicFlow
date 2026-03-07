@@ -114,6 +114,8 @@ private struct NotificationHeader: View {
                         .font(.poppins(.medium, size: 14))
                         .foregroundColor(AppColors.brandBlue)
                 }
+                
+                LanguageSwitcher(fontSize: 14, showBackground: false)
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 12)

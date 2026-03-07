@@ -46,9 +46,10 @@ private struct AccountHeaderView: View {
                 // Centered title
                 AppNameText(fontSize: 20)
 
-                // Notification bell (right)
-                HStack {
+                // Trailing icons (right)
+                HStack(spacing: 4) {
                     Spacer()
+                    LanguageSwitcher(fontSize: 14, showBackground: false)
                     NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
                 }
             }

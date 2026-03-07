@@ -213,9 +213,10 @@ private struct MapHeaderView: View {
         ZStack {
             AppNameText(fontSize: 20)
             
-            HStack {
+            HStack(spacing: 4) {
                 BackButton { router.goBack() }
                 Spacer()
+                LanguageSwitcher(fontSize: 14, showBackground: false)
                 NotificationIcon(unreadCount: 3, iconSize: 18)
             }
         }

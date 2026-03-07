@@ -32,9 +32,10 @@ struct PharmacyView: View {
                     // Centered title
                     AppNameText(fontSize: 20)
                     
-                    // Notification bell
-                    HStack {
+                    // Trailing icons
+                    HStack(spacing: 4) {
                         Spacer()
+                        LanguageSwitcher(fontSize: 14, showBackground: false)
                         NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
                     }
                 }

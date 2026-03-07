@@ -47,7 +47,7 @@ struct SplashScreenView: View {
                     .padding(.bottom, 40)
 
                     // Footer
-                    Text("@ClinicFlow 2026")
+                    Text("© ClinicFlow 2026")
                         .font(.poppins(.regular, size: 13))
                         .foregroundColor(.white.opacity(0.7))
                         .padding(.bottom, 20)

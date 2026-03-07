@@ -184,19 +184,21 @@ struct MapView: View {
 
 private struct MapHeaderView: View {
     @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
     
     var body: some View {
         ZStack {
             AppNameText(fontSize: 20)
             
             HStack {
-                BackButton { }
+                BackButton { router.goBack() }
                 Spacer()
                 NotificationIcon(unreadCount: 3, iconSize: 18)
             }
         }
         .padding(.horizontal, 20)
-        .padding(.vertical, 16)
+        .padding(.top, 8)
+        .padding(.bottom, 12)
         .background(
             Color.white
                 .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)

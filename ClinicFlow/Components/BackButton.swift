@@ -16,7 +16,7 @@ struct BackButton: View {
             ZStack {
                 Circle()
                     .fill(Color.white)
-                    .frame(width: 42, height: 42)
+                    .frame(width: 44, height: 44)
                     .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
 
                 Image(systemName: "chevron.left")
@@ -24,6 +24,7 @@ struct BackButton: View {
                     .foregroundColor(AppColors.darkBlue)
             }
         }
+        .accessibilityLabel("Go back")
     }
 }
 

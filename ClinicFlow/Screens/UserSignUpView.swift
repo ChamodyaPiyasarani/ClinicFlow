@@ -91,6 +91,8 @@ struct UserSignUpView: View {
                                                 .foregroundColor(AppColors.brandBlue)
                                         }
                                     }
+                                    .frame(width: 44, height: 44)
+                                    .contentShape(Rectangle())
                                 }
 
                                 Text(languageManager.localized("agree_to"))

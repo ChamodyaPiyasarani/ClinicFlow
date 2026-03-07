@@ -130,13 +130,14 @@ private struct MyProfilesSection: View {
                 }) {
                     Circle()
                         .fill(AppColors.brandBlue)
-                        .frame(width: 36, height: 36)
+                        .frame(width: 44, height: 44)
                         .overlay(
                             Image(systemName: "plus")
                                 .font(.system(size: 16, weight: .semibold))
                                 .foregroundColor(.white)
                         )
                 }
+                .accessibilityLabel("Add profile")
             }
             .padding(.bottom, 4)
             

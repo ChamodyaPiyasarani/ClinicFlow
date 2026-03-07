@@ -24,7 +24,7 @@ struct NotificationIcon: View {
                     ZStack {
                         Circle()
                             .fill(AppColors.darkBlue.opacity(0.08))
-                            .frame(width: iconSize * 2, height: iconSize * 2)
+                            .frame(width: max(iconSize * 2, 44), height: max(iconSize * 2, 44))
                         Image(systemName: "bell.fill")
                             .font(.system(size: iconSize))
                             .foregroundColor(AppColors.darkBlue)
@@ -33,6 +33,7 @@ struct NotificationIcon: View {
                     Image(systemName: "bell.fill")
                         .font(.system(size: iconSize))
                         .foregroundColor(AppColors.darkBlue)
+                        .frame(minWidth: 44, minHeight: 44)
                 }
 
                 // Badge
@@ -51,5 +52,6 @@ struct NotificationIcon: View {
             }
         }
         .buttonStyle(PlainButtonStyle())
+        .accessibilityLabel(unreadCount > 0 ? "Notifications, \(unreadCount) unread" : "Notifications")
     }
 }

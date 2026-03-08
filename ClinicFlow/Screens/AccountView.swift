@@ -147,8 +147,8 @@ private struct ProfileCardSection: View {
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color.white)
-                .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 2)
         )
+        .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
     }
 }
 
@@ -199,8 +199,8 @@ private struct MenuItemsSection: View {
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color.white)
-                .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 2)
         )
+        .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
     }
 }
 

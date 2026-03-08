@@ -223,10 +223,8 @@ private struct MapHeaderView: View {
         .padding(.horizontal, 20)
         .padding(.top, 8)
         .padding(.bottom, 12)
-        .background(
-            Color.white
-                .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
-        )
+        .background(Color.white)
+        .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
     }
 }
 
@@ -298,7 +296,7 @@ private struct MapContainer: View {
                             lineWidth: 1.5
                         )
                 )
-                .shadow(color: .black.opacity(0.06), radius: 10, x: 0, y: 4)
+                .shadow(color: Color.black.opacity(0.06), radius: 10, x: 0, y: 4)
             
             VStack(spacing: 0) {
                 // Entrance or floor label
@@ -694,8 +692,8 @@ private struct MapLegend: View {
         .background(
             RoundedRectangle(cornerRadius: 14)
                 .fill(Color.white)
-                .shadow(color: .black.opacity(0.04), radius: 6, x: 0, y: 2)
         )
+        .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 2)
         .padding(.horizontal, 20)
     }
 }
@@ -891,8 +889,8 @@ private struct DestinationInfoView: View {
             .background(
                 RoundedRectangle(cornerRadius: 16)
                     .fill(Color.white)
-                    .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 3)
             )
+            .shadow(color: Color.black.opacity(0.06), radius: 8, x: 0, y: 3)
             
             // Navigation button
             Button {

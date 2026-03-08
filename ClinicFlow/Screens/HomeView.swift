@@ -42,10 +42,8 @@ private struct HomeHeaderView: View {
         .padding(.horizontal, 20)
         .padding(.top, 12)
         .padding(.bottom, 8)
-        .background(
-            Color.white
-                .shadow(color: .black.opacity(0.03), radius: 8, x: 0, y: 2)
-        )
+        .background(Color.white)
+        .shadow(color: Color.black.opacity(0.03), radius: 8, x: 0, y: 2)
     }
 }
 
@@ -102,8 +100,8 @@ private struct VisitStatusSection: View {
                             .background(
                                 RoundedRectangle(cornerRadius: 14)
                                     .fill(Color.white)
-                                    .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
                             )
+                            .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
                     }
                     .buttonStyle(PlainButtonStyle())
 
@@ -120,8 +118,8 @@ private struct VisitStatusSection: View {
                             .background(
                                 RoundedRectangle(cornerRadius: 14)
                                     .fill(Color.white)
-                                    .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
                             )
+                            .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
                     }
                     .buttonStyle(PlainButtonStyle())
                 }

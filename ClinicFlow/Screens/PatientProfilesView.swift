@@ -120,8 +120,8 @@ private struct MainProfileSection: View {
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color.white)
-                .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 2)
         )
+        .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
     }
 }
 
@@ -386,30 +386,16 @@ private struct AddFamilyMemberForm: View {
     }
     
     private var allergiesSection: some View {
+        allergiesSectionContent
+            .padding(20)
+            .background(Color.white)
+            .cornerRadius(16)
+            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
+    }
+    
+    private var allergiesSectionContent: some View {
         VStack(alignment: .leading, spacing: 14) {
-            HStack {
-                Text(languageManager.localized("allergies"))
-                    .font(.poppins(.semiBold, size: 17))
-                    .foregroundColor(AppColors.darkBlue)
-                
-                Spacer()
-                
-                Button(action: {
-                    let impact = UIImpactFeedbackGenerator(style: .light)
-                    impact.impactOccurred()
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        showAllergyField = true
-                    }
-                }) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "plus")
-                            .font(.system(size: 12, weight: .bold))
-                        Text(languageManager.localized("add"))
-                            .font(.poppins(.medium, size: 14))
-                    }
-                    .foregroundColor(AppColors.brandBlue)
-                }
-            }
+            allergiesHeader
             
             if allergies.isEmpty && !showAllergyField {
                 Text(languageManager.localized("no_allergies_added"))
@@ -418,90 +404,120 @@ private struct AddFamilyMemberForm: View {
                     .padding(.vertical, 8)
             }
             
-            // Allergy tags
             if !allergies.isEmpty {
-                VStack(spacing: 10) {
-                    ForEach(Array(allergies.enumerated()), id: \.offset) { index, allergy in
-                        HStack {
-                            Image(systemName: "exclamationmark.triangle.fill")
-                                .font(.system(size: 14))
-                                .foregroundColor(.red)
-                            
-                            Text(allergy)
-                                .font(.poppins(.medium, size: 14))
-                                .foregroundColor(.red)
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                withAnimation {
-                                    allergies.remove(at: index)
-                                }
-                            }) {
-                                Image(systemName: "xmark")
-                                    .font(.system(size: 12, weight: .bold))
-                                    .foregroundColor(.red)
-                                    .frame(width: 44, height: 44)
-                                    .contentShape(Rectangle())
-                            }
-                            .accessibilityLabel("Remove \(allergy)")
-                        }
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 4)
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.red.opacity(0.08) as Color)
-                        )
-                    }
-                }
+                allergiesList
             }
             
-            // Add allergy input
             if showAllergyField {
-                HStack(spacing: 10) {
-                    CustomTextField(placeholder: languageManager.localized("allergy_name_placeholder"), text: $newAllergyText)
-                    
-                    Button(action: {
-                        let trimmed = newAllergyText.trimmingCharacters(in: .whitespaces)
-                        guard !trimmed.isEmpty else { return }
-                        withAnimation {
-                            allergies.append(trimmed)
-                            newAllergyText = ""
-                            showAllergyField = false
-                        }
-                    }) {
-                        Image(systemName: "checkmark")
-                            .font(.system(size: 14, weight: .bold))
-                            .foregroundColor(.white)
-                            .frame(width: 44, height: 44)
-                            .background(AppColors.brandBlue)
-                            .cornerRadius(12)
-                    }
-                    .accessibilityLabel("Confirm allergy")
-                    
-                    Button(action: {
-                        withAnimation {
-                            newAllergyText = ""
-                            showAllergyField = false
-                        }
-                    }) {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 14, weight: .bold))
-                            .foregroundColor(.gray)
-                            .frame(width: 44, height: 44)
-                            .background(Color.gray.opacity(0.1))
-                            .cornerRadius(12)
-                    }
-                    .accessibilityLabel("Cancel adding allergy")
-                }
+                allergyInputField
             }
         }
-        .padding(20)
+    }
+    
+    private var allergiesHeader: some View {
+        HStack {
+            Text(languageManager.localized("allergies"))
+                .font(.poppins(.semiBold, size: 17))
+                .foregroundColor(AppColors.darkBlue)
+            
+            Spacer()
+            
+            Button(action: {
+                let impact = UIImpactFeedbackGenerator(style: .light)
+                impact.impactOccurred()
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    showAllergyField = true
+                }
+            }) {
+                HStack(spacing: 4) {
+                    Image(systemName: "plus")
+                        .font(.system(size: 12, weight: .bold))
+                    Text(languageManager.localized("add"))
+                        .font(.poppins(.medium, size: 14))
+                }
+                .foregroundColor(AppColors.brandBlue)
+            }
+        }
+    }
+    
+    private var allergiesList: some View {
+        VStack(spacing: 10) {
+            ForEach(Array(allergies.enumerated()), id: \.offset) { index, allergy in
+                allergyTag(allergy: allergy, index: index)
+            }
+        }
+    }
+    
+    private func allergyTag(allergy: String, index: Int) -> some View {
+        HStack {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .font(.system(size: 14))
+                .foregroundColor(.red)
+            
+            Text(allergy)
+                .font(.poppins(.medium, size: 14))
+                .foregroundColor(.red)
+            
+            Spacer()
+            
+            Button(action: {
+                let _ = withAnimation {
+                    self.allergies.remove(at: index)
+                }
+            }) {
+                Image(systemName: "xmark")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundColor(.red)
+                    .frame(width: 44, height: 44)
+                    .contentShape(Rectangle())
+            }
+            .accessibilityLabel("Remove \(allergy)")
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 4)
         .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.red.opacity(0.08) as Color)
         )
+    }
+    
+    private var allergyInputField: some View {
+        HStack(spacing: 10) {
+            CustomTextField(placeholder: languageManager.localized("allergy_name_placeholder"), text: $newAllergyText)
+            
+            Button(action: {
+                let trimmed = newAllergyText.trimmingCharacters(in: .whitespaces)
+                guard !trimmed.isEmpty else { return }
+                withAnimation {
+                    allergies.append(trimmed)
+                    newAllergyText = ""
+                    showAllergyField = false
+                }
+            }) {
+                Image(systemName: "checkmark")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(.white)
+                    .frame(width: 44, height: 44)
+                    .background(AppColors.brandBlue)
+                    .cornerRadius(12)
+            }
+            .accessibilityLabel("Confirm allergy")
+            
+            Button(action: {
+                withAnimation {
+                    newAllergyText = ""
+                    showAllergyField = false
+                }
+            }) {
+                Image(systemName: "xmark")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(.gray)
+                    .frame(width: 44, height: 44)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(12)
+            }
+            .accessibilityLabel("Cancel adding allergy")
+        }
     }
     
     private var actionButtons: some View {

@@ -1210,6 +1210,300 @@ struct LocalizedStrings {
             .sinhala: "රසායනාගාර පරීක්ෂණ ගාස්තුව :",
             .tamil: "ஆய்வக பரிசோதனை கட்டணம் :"
         ],
+
+        // ── Appointments ──
+        "appointments_title": [
+            .english: "Appointments",
+            .sinhala: "හමුවීම්",
+            .tamil: "சந்திப்புகள்"
+        ],
+        "add_an_appointment": [
+            .english: "Add an Appointment",
+            .sinhala: "හමුවීමක් එක් කරන්න",
+            .tamil: "சந்திப்பைச் சேர்க்கவும்"
+        ],
+        "apt_upcoming": [
+            .english: "Upcoming",
+            .sinhala: "ඉදිරි",
+            .tamil: "வரவிருக்கும்"
+        ],
+        "apt_past": [
+            .english: "Past",
+            .sinhala: "පසුගිය",
+            .tamil: "கடந்த"
+        ],
+        "apt_today": [
+            .english: "Today",
+            .sinhala: "අද",
+            .tamil: "இன்று"
+        ],
+        "apt_tomorrow": [
+            .english: "Tomorrow",
+            .sinhala: "හෙට",
+            .tamil: "நாளை"
+        ],
+        "no_upcoming_appointments": [
+            .english: "No upcoming appointments",
+            .sinhala: "ඉදිරි හමුවීම් නොමැත",
+            .tamil: "வரவிருக்கும் சந்திப்புகள் இல்லை"
+        ],
+        "no_past_appointments": [
+            .english: "No past appointments",
+            .sinhala: "පසුගිය හමුවීම් නොමැත",
+            .tamil: "கடந்த சந்திப்புகள் இல்லை"
+        ],
+
+        // ── Book Appointment ──
+        "book_new_appointment": [
+            .english: "Book New Appointment",
+            .sinhala: "නව හමුවීමක් වෙන් කරන්න",
+            .tamil: "புதிய சந்திப்பை பதிவு செய்யவும்"
+        ],
+        "select_department": [
+            .english: "Select Department",
+            .sinhala: "දෙපාර්තමේන්තුව තෝරන්න",
+            .tamil: "துறையைத் தேர்ந்தெடுக்கவும்"
+        ],
+        "select_department_placeholder": [
+            .english: "Choose a department",
+            .sinhala: "දෙපාර්තමේන්තුවක් තෝරන්න",
+            .tamil: "ஒரு துறையைத் தேர்ந்தெடுக்கவும்"
+        ],
+        "select_doctor": [
+            .english: "Select Doctor",
+            .sinhala: "වෛද්‍යවරයා තෝරන්න",
+            .tamil: "மருத்துவரைத் தேர்ந்தெடுக்கவும்"
+        ],
+        "select_doctor_placeholder": [
+            .english: "Choose a doctor",
+            .sinhala: "වෛද්‍යවරයෙකු තෝරන්න",
+            .tamil: "ஒரு மருத்துவரைத் தேர்ந்தெடுக்கவும்"
+        ],
+        "doctors_specialization": [
+            .english: "Doctor's Specialization",
+            .sinhala: "වෛද්‍ය විශේෂීකරණය",
+            .tamil: "மருத்துவரின் நிபுணத்தம்"
+        ],
+        "doctors_name": [
+            .english: "Doctor's Name",
+            .sinhala: "වෛද්‍යවරයාගේ නම",
+            .tamil: "மருத்துவரின் பெயர்"
+        ],
+        "available_date_time": [
+            .english: "Available Date & Time",
+            .sinhala: "පවතින දිනය සහ වේලාව",
+            .tamil: "கிடைக்கும் தேதி & நேரம்"
+        ],
+        "select_time": [
+            .english: "Select Time",
+            .sinhala: "වේලාව තෝරන්න",
+            .tamil: "நேரத்தைத் தேர்ந்தெடுக்கவும்"
+        ],
+
+        // ── Patient Details Form ──
+        "fill_patient_details": [
+            .english: "Patient Details",
+            .sinhala: "රෝගී විස්තර",
+            .tamil: "நோயாளி விவரங்கள்"
+        ],
+        "patient_profile": [
+            .english: "Patient Profile",
+            .sinhala: "රෝගී පැතිකඩ",
+            .tamil: "நோயாளி சுயவிவரம்"
+        ],
+        "select_patient": [
+            .english: "Select a patient profile",
+            .sinhala: "රෝගී පැතිකඩක් තෝරන්න",
+            .tamil: "நோயாளி சுயவிவரத்தைத் தேர்ந்தெடுக்கவும்"
+        ],
+        "contact_number": [
+            .english: "Contact Number",
+            .sinhala: "සම්බන්ධ කර ගත හැකි අංකය",
+            .tamil: "தொடர்பு எண்"
+        ],
+        "reason_for_visit": [
+            .english: "Reason for Visit",
+            .sinhala: "පැමිණීමේ හේතුව",
+            .tamil: "வருகையின் காரணம்"
+        ],
+        "reason_placeholder": [
+            .english: "Describe your symptoms or reason...",
+            .sinhala: "ඔබේ රෝග ලක්ෂණ හෝ හේතුව විස්තර කරන්න...",
+            .tamil: "உங்கள் அறிகுறிகள் அல்லது காரணத்தை விவரிக்கவும்..."
+        ],
+        "upload_reports": [
+            .english: "Upload Reports",
+            .sinhala: "වාර්තා උඩුගත කරන්න",
+            .tamil: "அறிக்கைகளை பதிவேற்றவும்"
+        ],
+        "optional": [
+            .english: "Optional",
+            .sinhala: "අනිවාර්ය නොවේ",
+            .tamil: "விருப்பத்திற்குரியது"
+        ],
+        "upload_medical_reports": [
+            .english: "Upload Medical Reports",
+            .sinhala: "වෛද්‍ය වාර්තා උඩුගත කරන්න",
+            .tamil: "மருத்துவ அறிக்கைகளை பதிவேற்றவும்"
+        ],
+        "jpg_png_supported": [
+            .english: "JPG, PNG files supported",
+            .sinhala: "JPG, PNG ගොනු සහාය දක්වයි",
+            .tamil: "JPG, PNG கோப்புகள் ஆதரிக்கப்படுகின்றன"
+        ],
+        "choose_from_gallery": [
+            .english: "Choose from Gallery",
+            .sinhala: "ගැලරියෙන් තෝරන්න",
+            .tamil: "கேலரியிலிருந்து தேர்வு செய்யவும்"
+        ],
+        "discard": [
+            .english: "Discard",
+            .sinhala: "ඉවතලන්න",
+            .tamil: "நிராகரி"
+        ],
+        "discard_appointment": [
+            .english: "Discard Appointment?",
+            .sinhala: "හමුවීම ඉවතලන්නද?",
+            .tamil: "சந்திப்பை நிராகரிக்கவா?"
+        ],
+        "discard_appointment_message": [
+            .english: "Your booking progress will be lost. Are you sure?",
+            .sinhala: "ඔබේ වෙන්කිරීමේ ප්‍රගතිය නැති වේ. ඔබට විශ්වාසද?",
+            .tamil: "உங்கள் முன்பதிவு முன்னேற்றம் இழக்கப்படும். நீங்கள் நிச்சயமாக இருக்கிறீர்களா?"
+        ],
+
+        // ── Appointment Review ──
+        "appointment_details": [
+            .english: "Appointment Details",
+            .sinhala: "හමුවීම් විස්තර",
+            .tamil: "சந்திப்பு விவரங்கள்"
+        ],
+        "date": [
+            .english: "Date",
+            .sinhala: "දිනය",
+            .tamil: "தேதி"
+        ],
+        "time": [
+            .english: "Time",
+            .sinhala: "වේලාව",
+            .tamil: "நேரம்"
+        ],
+        "patient": [
+            .english: "Patient",
+            .sinhala: "රෝගියා",
+            .tamil: "நோயாளி"
+        ],
+        "contact": [
+            .english: "Contact",
+            .sinhala: "සම්බන්ධතා",
+            .tamil: "தொடர்பு"
+        ],
+        "reason": [
+            .english: "Reason",
+            .sinhala: "හේතුව",
+            .tamil: "காரணம்"
+        ],
+        "consultation_fee": [
+            .english: "Consultation Fee",
+            .sinhala: "උපදේශන ගාස්තුව",
+            .tamil: "ஆலோசனைக் கட்டணம்"
+        ],
+        "cancellation_policy_text": [
+            .english: "Free cancellation up to 24 hours before the appointment. Late cancellations may incur a fee.",
+            .sinhala: "හමුවීමට පැය 24 කට පෙර නොමිලේ අවලංගු කිරීම. ප්‍රමාද අවලංගු කිරීම් සඳහා ගාස්තුවක් අය විය හැකිය.",
+            .tamil: "சந்திப்புக்கு 24 மணி நேரம் முன்பு இலவச ரத்து. தாமதமான ரத்துகளுக்கு கட்டணம் விதிக்கப்படலாம்."
+        ],
+        "confirm_booking": [
+            .english: "Confirm Booking",
+            .sinhala: "වෙන්කිරීම තහවුරු කරන්න",
+            .tamil: "முன்பதிவை உறுதிப்படுத்தவும்"
+        ],
+
+        // ── Appointment Confirmed ──
+        "appointment_confirmed": [
+            .english: "Appointment Confirmed!",
+            .sinhala: "හමුවීම තහවුරු විය!",
+            .tamil: "சந்திப்பு உறுதிசெய்யப்பட்டது!"
+        ],
+        "appointment_confirmed_desc": [
+            .english: "Your appointment has been successfully booked. Please arrive 15 minutes early.",
+            .sinhala: "ඔබේ හමුවීම සාර්ථකව වෙන් කරන ලදී. කරුණාකර මිනිත්තු 15 කට පෙර පැමිණෙන්න.",
+            .tamil: "உங்கள் சந்திப்பு வெற்றிகரமாக பதிவு செய்யப்பட்டது. 15 நிமிடங்கள் முன்னதாக வருகை தரவும்."
+        ],
+        "token_number": [
+            .english: "Token Number",
+            .sinhala: "ටෝකන් අංකය",
+            .tamil: "டோக்கன் எண்"
+        ],
+        "doctor": [
+            .english: "Doctor",
+            .sinhala: "වෛද්‍ය",
+            .tamil: "மருத்துவர்"
+        ],
+        "department": [
+            .english: "Department",
+            .sinhala: "දෙපාර්තමේන්තුව",
+            .tamil: "துறை"
+        ],
+        "view_my_appointment": [
+            .english: "View My Appointment",
+            .sinhala: "මගේ හමුවීම බලන්න",
+            .tamil: "எனது சந்திப்பைக் காண்க"
+        ],
+
+        // ── Appointment Status ──
+        "status_confirmed": [
+            .english: "Confirmed",
+            .sinhala: "තහවුරු කළ",
+            .tamil: "உறுதிசெய்யப்பட்டது"
+        ],
+        "status_pending": [
+            .english: "Pending",
+            .sinhala: "බලාපොරොත්තුවෙන්",
+            .tamil: "நிலுவையில்"
+        ],
+        "status_completed": [
+            .english: "Completed",
+            .sinhala: "සම්පූර්ණ විය",
+            .tamil: "நிறைவடைந்தது"
+        ],
+        "status_cancelled": [
+            .english: "Cancelled",
+            .sinhala: "අවලංගු කළ",
+            .tamil: "ரத்துசெய்யப்பட்டது"
+        ],
+
+        // ── Departments ──
+        "dept_cardiology": [
+            .english: "Cardiology",
+            .sinhala: "හෘද රෝග",
+            .tamil: "இதயவியல்"
+        ],
+        "dept_orthopedics": [
+            .english: "Orthopedics",
+            .sinhala: "අස්ථි",
+            .tamil: "எலும்பியல்"
+        ],
+        "dept_dermatology": [
+            .english: "Dermatology",
+            .sinhala: "සම රෝග",
+            .tamil: "தோல் மருத்துவம்"
+        ],
+        "dept_pediatrics": [
+            .english: "Pediatrics",
+            .sinhala: "ළමා රෝග",
+            .tamil: "குழந்தை மருத்துவம்"
+        ],
+        "dept_neurology": [
+            .english: "Neurology",
+            .sinhala: "ස්නායු රෝග",
+            .tamil: "நரம்பியல்"
+        ],
+        "dept_general_medicine": [
+            .english: "General Medicine",
+            .sinhala: "සාමාන්‍ය වෛද්‍ය",
+            .tamil: "பொது மருத்துவம்"
+        ],
     ]
 
     // MARK: - Lookup

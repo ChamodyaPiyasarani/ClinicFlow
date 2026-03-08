@@ -63,6 +63,18 @@ struct ClinicFlowApp: App {
                         case .profileDetails(let profile):
                             ProfileDetailsView(profile: profile)
                                 .navigationBarHidden(true)
+                        case .bookAppointment:
+                            BookAppointmentView()
+                                .navigationBarHidden(true)
+                        case .patientDetailsForm(let doctor, let department, let date, let timeSlot):
+                            PatientDetailsFormView(doctor: doctor, department: department, selectedDate: date, selectedTimeSlot: timeSlot)
+                                .navigationBarHidden(true)
+                        case .appointmentReview(let doctor, let department, let date, let timeSlot, let patientName, let contactNumber, let reason):
+                            AppointmentReviewView(doctor: doctor, department: department, selectedDate: date, selectedTimeSlot: timeSlot, patientName: patientName, contactNumber: contactNumber, reasonForVisit: reason)
+                                .navigationBarHidden(true)
+                        case .appointmentConfirmed(let appointment):
+                            AppointmentConfirmedView(appointment: appointment)
+                                .navigationBarHidden(true)
                         }
                     }
             }

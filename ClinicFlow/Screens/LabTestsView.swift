@@ -8,7 +8,6 @@ struct LabTestsView: View {
     @State private var searchText: String = ""
     @State private var showInfoModal: Bool = true
     @State private var showConfirmationModal: Bool = false
-    @State private var selectedTab: BottomTab = .home
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -153,7 +152,7 @@ struct LabTestsView: View {
             }
             
             // MARK: - Bottom Nav Bar
-            BottomNavBar(selectedTab: $selectedTab)
+            BottomNavBar()
             
             // MARK: - Info Modal Overlay
             if showInfoModal {

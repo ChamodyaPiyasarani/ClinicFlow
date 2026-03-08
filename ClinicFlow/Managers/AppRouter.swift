@@ -26,6 +26,7 @@ class AppRouter {
     static let shared = AppRouter()
     
     var path = NavigationPath()
+    var selectedTab: BottomTab = .home
 
     /// Whether the user has completed the full onboarding flow.
     /// Persisted so returning users skip straight to Home.

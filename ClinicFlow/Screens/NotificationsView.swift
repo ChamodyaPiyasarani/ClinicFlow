@@ -3,7 +3,6 @@ import SwiftUI
 struct NotificationsView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(AppRouter.self) var router
-    @State private var selectedTab: BottomTab = .home
     @State private var notifications: [NotificationItem] = []
     
     var body: some View {
@@ -37,7 +36,7 @@ struct NotificationsView: View {
             Spacer()
             
             // ── Bottom Navigation Bar ──
-            BottomNavBar(selectedTab: $selectedTab)
+            BottomNavBar()
         }
         .background(Color.white)
         .navigationBarHidden(true)

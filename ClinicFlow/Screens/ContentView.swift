@@ -2,13 +2,13 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(LanguageManager.self) var languageManager
-    @State private var selectedTab: BottomTab = .home
+    @Environment(AppRouter.self) var router
 
     var body: some View {
         VStack(spacing: 0) {
             // Main content area
             Group {
-                switch selectedTab {
+                switch router.selectedTab {
                 case .home:
                     HomeView()
                 case .map:
@@ -30,7 +30,7 @@ struct ContentView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             // Bottom Navigation Bar
-            BottomNavBar(selectedTab: $selectedTab)
+            BottomNavBar()
         }
         .background(AppColors.background)
         .edgesIgnoringSafeArea(.bottom)
@@ -40,4 +40,5 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .environment(LanguageManager.shared)
+        .environment(AppRouter())
 }

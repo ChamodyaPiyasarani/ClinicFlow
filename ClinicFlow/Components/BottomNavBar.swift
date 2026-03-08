@@ -32,7 +32,6 @@ enum BottomTab: CaseIterable {
 struct BottomNavBar: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
-    @Binding var selectedTab: BottomTab
     
     @State private var pressedTab: BottomTab? = nil
 
@@ -44,13 +43,12 @@ struct BottomNavBar: View {
                     let impact = UIImpactFeedbackGenerator(style: .light)
                     impact.impactOccurred()
                     
-                    // Navigate to home and set the tab
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                        // If not in ContentView, navigate back to home route
-                        if !router.path.isEmpty {
-                            router.goToRoot()
+                        router.selectedTab = tab
+                        // If on a pushed screen, pop back to ContentView
+                        if router.path.count > 1 {
+                            router.path.removeLast(router.path.count - 1)
                         }
-                        selectedTab = tab
                     }
                 }) {
                     VStack(spacing: 6) {
@@ -62,7 +60,7 @@ struct BottomNavBar: View {
                             .font(.poppins(.medium, size: 11))
                             .lineLimit(1)
                     }
-                    .foregroundColor(selectedTab == tab ? AppColors.darkBlue : Color.gray.opacity(0.6))
+                    .foregroundColor(router.selectedTab == tab ? AppColors.darkBlue : Color.gray.opacity(0.6))
                     .frame(maxWidth: .infinity)
                     .frame(height: 64)
                     .contentShape(Rectangle())
@@ -99,7 +97,7 @@ struct BottomNavBar: View {
 }
 
 #Preview {
-    @Previewable @State var tab: BottomTab = .home
-    BottomNavBar(selectedTab: $tab)
+    BottomNavBar()
         .environment(LanguageManager.shared)
+        .environment(AppRouter())
 }

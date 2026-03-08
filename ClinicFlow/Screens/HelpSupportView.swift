@@ -3,7 +3,6 @@ import SwiftUI
 struct HelpSupportView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
-    @Binding var selectedTab: BottomTab
 
     /// Tracks which FAQ items are expanded
     @State private var expandedItems: Set<Int> = []
@@ -115,7 +114,7 @@ struct HelpSupportView: View {
                 }
 
                 // MARK: - Bottom Nav Bar
-                BottomNavBar(selectedTab: $selectedTab)
+                BottomNavBar()
             }
         }
     }
@@ -211,8 +210,7 @@ private struct ContactSupportCard: View {
 }
 
 #Preview {
-    @Previewable @State var tab: BottomTab = .account
-    HelpSupportView(selectedTab: $tab)
+    HelpSupportView()
         .environment(LanguageManager.shared)
         .environment(AppRouter())
 }

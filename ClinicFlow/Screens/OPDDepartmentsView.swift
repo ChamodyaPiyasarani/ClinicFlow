@@ -6,7 +6,6 @@ struct OPDDepartmentsView: View {
     
     @State private var selectedCategory: DepartmentCategory = .all
     @State private var searchText: String = ""
-    @State private var selectedTab: BottomTab = .home
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -155,7 +154,7 @@ struct OPDDepartmentsView: View {
             }
             
             // MARK: - Bottom Nav Bar
-            BottomNavBar(selectedTab: $selectedTab)
+            BottomNavBar()
         }
         .edgesIgnoringSafeArea(.bottom)
     }

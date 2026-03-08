@@ -4,7 +4,6 @@ struct PatientProfilesView: View {
     @Environment(AppRouter.self) var router
     @State private var profiles = PatientProfile.sampleProfiles
     @State private var showAddProfile = false
-    @State private var selectedTab: BottomTab = .account
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -53,7 +52,7 @@ struct PatientProfilesView: View {
             .background(AppColors.background)
             
             // ── Bottom Navigation Bar ──
-            BottomNavBar(selectedTab: $selectedTab)
+            BottomNavBar()
         }
         .edgesIgnoringSafeArea(.bottom)
     }

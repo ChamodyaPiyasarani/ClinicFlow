@@ -7,7 +7,6 @@ struct PharmacyView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
     
-    @State private var selectedTab: BottomTab = .home
     @State private var showCamera = false
     @State private var showGallery = false
     @State private var selectedImage: UIImage?
@@ -94,7 +93,7 @@ struct PharmacyView: View {
             }
             
             // Bottom Navigation Bar
-            BottomNavBar(selectedTab: $selectedTab)
+            BottomNavBar()
         }
         .edgesIgnoringSafeArea(.bottom)
         .sheet(isPresented: $showGallery) {

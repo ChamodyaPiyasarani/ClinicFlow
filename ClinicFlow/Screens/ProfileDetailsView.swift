@@ -5,7 +5,6 @@ struct ProfileDetailsView: View {
     @Environment(LanguageManager.self) var languageManager
     let profile: PatientProfile
     
-    @State private var selectedTab: BottomTab = .account
     @State private var isEditing: Bool = false
     @State private var showAddAllergyAlert: Bool = false
     @State private var showDeleteAlert: Bool = false
@@ -68,7 +67,7 @@ struct ProfileDetailsView: View {
             .background(AppColors.background)
             
             // ── Bottom Navigation ──
-            BottomNavBar(selectedTab: $selectedTab)
+            BottomNavBar()
         }
         .navigationBarHidden(true)
         .alert(languageManager.localized("add_allergy"), isPresented: $showAddAllergyAlert) {

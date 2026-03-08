@@ -14,15 +14,7 @@ struct ContentView: View {
                 case .map:
                     MapView()
                 case .appointment:
-                    VStack {
-                        Spacer()
-                        Text(languageManager.localized("tab_appointment"))
-                            .font(.poppins(.regular, size: 17))
-                            .foregroundColor(.gray)
-                        Spacer()
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(AppColors.background)
+                    AppointmentsView()
                 case .account:
                     AccountView()
                 }

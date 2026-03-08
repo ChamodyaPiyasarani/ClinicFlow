@@ -4,51 +4,58 @@ struct PatientProfilesView: View {
     @Environment(AppRouter.self) var router
     @State private var profiles = PatientProfile.sampleProfiles
     @State private var showAddProfile = false
+    @State private var selectedTab: BottomTab = .account
     
     var body: some View {
-        VStack(spacing: 0) {
-            // ── Header with Back Button ──
-            ProfilesHeaderView()
-            
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 24) {
-                    // ── Main Profile Card ──
-                    MainProfileSection()
-                        .padding(.top, 20)
-                    
-                    // ── My Profiles Section ──
-                    MyProfilesSection(
-                        profiles: profiles,
-                        onAddProfile: {
-                            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                                showAddProfile = true
-                            }
-                        }
-                    )
-                    
-                    // ── Inline Add Family Member Form ──
-                    if showAddProfile {
-                        AddFamilyMemberForm(
-                            onSave: { newProfile in
+        ZStack(alignment: .bottom) {
+            VStack(spacing: 0) {
+                // ── Header with Back Button ──
+                ProfilesHeaderView()
+                
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 24) {
+                        // ── Main Profile Card ──
+                        MainProfileSection()
+                            .padding(.top, 20)
+                        
+                        // ── My Profiles Section ──
+                        MyProfilesSection(
+                            profiles: profiles,
+                            onAddProfile: {
                                 withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                                    profiles.append(newProfile)
-                                    showAddProfile = false
-                                }
-                            },
-                            onCancel: {
-                                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                                    showAddProfile = false
+                                    showAddProfile = true
                                 }
                             }
                         )
-                        .transition(.opacity.combined(with: .move(edge: .bottom)))
+                        
+                        // ── Inline Add Family Member Form ──
+                        if showAddProfile {
+                            AddFamilyMemberForm(
+                                onSave: { newProfile in
+                                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                        profiles.append(newProfile)
+                                        showAddProfile = false
+                                    }
+                                },
+                                onCancel: {
+                                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                        showAddProfile = false
+                                    }
+                                }
+                            )
+                            .transition(.opacity.combined(with: .move(edge: .bottom)))
+                        }
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 100) // Space for bottom nav
                 }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 100) // Space for bottom nav
             }
+            .background(AppColors.background)
+            
+            // ── Bottom Navigation Bar ──
+            BottomNavBar(selectedTab: $selectedTab)
         }
-        .background(AppColors.background)
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 

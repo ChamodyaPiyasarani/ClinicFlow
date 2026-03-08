@@ -31,6 +31,7 @@ enum BottomTab: CaseIterable {
 /// Reusable bottom navigation bar component with localized labels.
 struct BottomNavBar: View {
     @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
     @Binding var selectedTab: BottomTab
     
     @State private var pressedTab: BottomTab? = nil
@@ -43,7 +44,12 @@ struct BottomNavBar: View {
                     let impact = UIImpactFeedbackGenerator(style: .light)
                     impact.impactOccurred()
                     
+                    // Navigate to home and set the tab
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        // If not in ContentView, navigate back to home route
+                        if !router.path.isEmpty {
+                            router.goToRoot()
+                        }
                         selectedTab = tab
                     }
                 }) {

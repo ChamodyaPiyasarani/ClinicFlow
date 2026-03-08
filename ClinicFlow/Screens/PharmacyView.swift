@@ -13,7 +13,7 @@ struct PharmacyView: View {
     @State private var selectedImage: UIImage?
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             // Background
             AppColors.background
                 .ignoresSafeArea()
@@ -87,15 +87,16 @@ struct PharmacyView: View {
                                 .cornerRadius(14)
                         }
                         .padding(.horizontal, 20)
-                        .padding(.bottom, 20)
+                        .padding(.bottom, 100)
                     }
                     .padding(.top, 20)
                 }
-                
-                // Bottom Navigation Bar
-                BottomNavBar(selectedTab: $selectedTab)
             }
+            
+            // Bottom Navigation Bar
+            BottomNavBar(selectedTab: $selectedTab)
         }
+        .edgesIgnoringSafeArea(.bottom)
         .sheet(isPresented: $showGallery) {
             ImagePicker(image: $selectedImage, sourceType: .photoLibrary)
         }

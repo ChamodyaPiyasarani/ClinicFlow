@@ -9,7 +9,7 @@ struct OPDDepartmentsView: View {
     @State private var selectedTab: BottomTab = .home
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             // Background
             AppColors.background
                 .ignoresSafeArea()
@@ -149,14 +149,15 @@ struct OPDDepartmentsView: View {
                             }
                         }
                         .padding(.horizontal, 20)
-                        .padding(.bottom, 24)
+                        .padding(.bottom, 100)
                     }
                 }
-
-                // MARK: - Bottom Nav Bar
-                BottomNavBar(selectedTab: $selectedTab)
             }
+            
+            // MARK: - Bottom Nav Bar
+            BottomNavBar(selectedTab: $selectedTab)
         }
+        .edgesIgnoringSafeArea(.bottom)
     }
     
     // Filter departments based on category and search

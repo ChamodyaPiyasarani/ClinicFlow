@@ -22,6 +22,8 @@ enum AppRoute: Hashable {
     case patientDetailsForm(doctor: Doctor, department: ClinicDepartment, date: Date, timeSlot: TimeSlot)
     case appointmentReview(doctor: Doctor, department: ClinicDepartment, date: Date, timeSlot: TimeSlot, patientName: String, contactNumber: String, reasonForVisit: String)
     case appointmentConfirmed(Appointment)
+    case appointmentDetail(Appointment)
+    case rescheduleAppointment(Appointment)
 }
 
 /// Centralized navigation manager using NavigationStack path.

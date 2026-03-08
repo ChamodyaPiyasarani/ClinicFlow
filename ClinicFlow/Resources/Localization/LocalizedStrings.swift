@@ -1504,6 +1504,132 @@ struct LocalizedStrings {
             .sinhala: "සාමාන්‍ය වෛද්‍ය",
             .tamil: "பொது மருத்துவம்"
         ],
+
+        // ── Appointment Detail ──
+        "details": [
+            .english: "Details",
+            .sinhala: "විස්තර",
+            .tamil: "விவரங்கள்"
+        ],
+        "arrive_early_note": [
+            .english: "Please arrive 15 minutes before your scheduled time. Bring your ID and any relevant medical records.",
+            .sinhala: "කරුණාකර ඔබේ නියමිත වේලාවට මිනිත්තු 15 කට පෙර පැමිණෙන්න. ඔබේ හැඳුනුම්පත සහ අදාළ වෛද්‍ය වාර්තා රැගෙන එන්න.",
+            .tamil: "தயவுசெய்து உங்கள் திட்டமிடப்பட்ட நேரத்திற்கு 15 நிமிடங்களுக்கு முன்பு வருகை தரவும். உங்கள் அடையாள அட்டை மற்றும் தொடர்புடைய மருத்துவ பதிவுகளை எடுத்து வாருங்கள்."
+        ],
+        "cancel_appointment": [
+            .english: "Cancel Appointment",
+            .sinhala: "හමුවීම අවලංගු කරන්න",
+            .tamil: "சந்திப்பை ரத்து செய்யவும்"
+        ],
+        "reschedule": [
+            .english: "Reschedule",
+            .sinhala: "නැවත කාලසටහන්ගත කරන්න",
+            .tamil: "மறு திட்டமிடல்"
+        ],
+
+        // ── Cancel Appointment Sheet ──
+        "cancel_confirm_title": [
+            .english: "Are you sure you want to cancel?",
+            .sinhala: "ඔබට අවලංගු කිරීමට අවශ්‍ය බව විශ්වාසද?",
+            .tamil: "நீங்கள் ரத்து செய்ய விரும்புகிறீர்களா?"
+        ],
+        "cancel_confirm_subtitle": [
+            .english: "This action cannot be undone. Please select a reason for cancellation.",
+            .sinhala: "මෙම ක්‍රියාව අවලංගු කළ නොහැක. කරුණාකර අවලංගු කිරීමට හේතුවක් තෝරන්න.",
+            .tamil: "இந்தச் செயலை மாற்றியமைக்க முடியாது. ரத்துக்கான காரணத்தை தேர்ந்தெடுக்கவும்."
+        ],
+        "cancel_select_reason": [
+            .english: "Select a reason",
+            .sinhala: "හේතුවක් තෝරන්න",
+            .tamil: "ஒரு காரணத்தைத் தேர்ந்தெடுக்கவும்"
+        ],
+        "cancel_reason_schedule": [
+            .english: "Schedule conflict",
+            .sinhala: "කාලසටහන් ගැටුමක්",
+            .tamil: "அட்டவணை முரண்பாடு"
+        ],
+        "cancel_reason_feeling_better": [
+            .english: "Feeling better",
+            .sinhala: "සනීප වෙමින් පවතී",
+            .tamil: "நலமாக உணர்கிறேன்"
+        ],
+        "cancel_reason_different_doctor": [
+            .english: "Want a different doctor",
+            .sinhala: "වෙනත් වෛද්‍යවරයෙකු අවශ්‍යයි",
+            .tamil: "வேறு மருத்துவர் வேண்டும்"
+        ],
+        "cancel_reason_other": [
+            .english: "Other reason",
+            .sinhala: "වෙනත් හේතුවක්",
+            .tamil: "மற்ற காரணம்"
+        ],
+        "go_back": [
+            .english: "Go Back",
+            .sinhala: "ආපසු යන්න",
+            .tamil: "திரும்பிச் செல்"
+        ],
+        "confirm_cancellation": [
+            .english: "Confirm Cancellation",
+            .sinhala: "අවලංගු කිරීම තහවුරු කරන්න",
+            .tamil: "ரத்துசெய்வதை உறுதிப்படுத்தவும்"
+        ],
+        "appointment_cancelled": [
+            .english: "Appointment Cancelled",
+            .sinhala: "හමුවීම අවලංගු කරන ලදී",
+            .tamil: "சந்திப்பு ரத்து செய்யப்பட்டது"
+        ],
+        "appointment_cancelled_desc": [
+            .english: "Your appointment has been successfully cancelled. You can book a new appointment anytime.",
+            .sinhala: "ඔබේ හමුවීම සාර්ථකව අවලංගු කරන ලදී. ඔබට ඕනෑම වේලාවක නව හමුවීමක් වෙන් කළ හැකිය.",
+            .tamil: "உங்கள் சந்திப்பு வெற்றிகரமாக ரத்து செய்யப்பட்டது. நீங்கள் எப்போது வேண்டுமானாலும் புதிய சந்திப்பை பதிவு செய்யலாம்."
+        ],
+        "done": [
+            .english: "Done",
+            .sinhala: "අවසන්",
+            .tamil: "முடிந்தது"
+        ],
+
+        // ── Reschedule Appointment ──
+        "reschedule_appointment": [
+            .english: "Reschedule Appointment",
+            .sinhala: "හමුවීම නැවත කාලසටහන්ගත කරන්න",
+            .tamil: "சந்திப்பை மறு திட்டமிடவும்"
+        ],
+        "current_slot": [
+            .english: "Current",
+            .sinhala: "දැනට",
+            .tamil: "தற்போதைய"
+        ],
+        "select_new_date": [
+            .english: "Select New Date",
+            .sinhala: "නව දිනයක් තෝරන්න",
+            .tamil: "புதிய தேதியைத் தேர்ந்தெடுக்கவும்"
+        ],
+        "select_new_time": [
+            .english: "Select New Time",
+            .sinhala: "නව වේලාවක් තෝරන්න",
+            .tamil: "புதிய நேரத்தைத் தேர்ந்தெடுக்கவும்"
+        ],
+        "confirm_reschedule": [
+            .english: "Confirm Reschedule",
+            .sinhala: "නැවත කාලසටහන්ගත කිරීම තහවුරු කරන්න",
+            .tamil: "மறு திட்டமிடலை உறுதிப்படுத்தவும்"
+        ],
+        "confirm": [
+            .english: "Confirm",
+            .sinhala: "තහවුරු කරන්න",
+            .tamil: "உறுதிப்படுத்தவும்"
+        ],
+        "reschedule_confirm_message": [
+            .english: "Your appointment will be moved to the new date and time. The doctor will be notified.",
+            .sinhala: "ඔබේ හමුවීම නව දිනය සහ වේලාවට මාරු කරනු ලැබේ. වෛද්‍යවරයාට දැනුම් දෙනු ලැබේ.",
+            .tamil: "உங்கள் சந்திப்பு புதிய தேதி மற்றும் நேரத்திற்கு மாற்றப்படும். மருத்துவருக்கு அறிவிக்கப்படும்."
+        ],
+        "reschedule_policy_text": [
+            .english: "You can reschedule up to 4 hours before your appointment time. The same doctor and department will be retained.",
+            .sinhala: "ඔබේ හමුවීමේ වේලාවට පැය 4 කට පෙර නැවත කාලසටහන්ගත කළ හැකිය. එම වෛද්‍යවරයා සහ දෙපාර්තමේන්තුව පවත්වාගෙන යනු ලැබේ.",
+            .tamil: "உங்கள் சந்திப்பு நேரத்திற்கு 4 மணி நேரம் முன்பு வரை மறு திட்டமிடலாம். அதே மருத்துவர் மற்றும் துறை தக்கவைக்கப்படும்."
+        ],
     ]
 
     // MARK: - Lookup

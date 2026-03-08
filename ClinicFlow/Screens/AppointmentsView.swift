@@ -79,6 +79,10 @@ struct AppointmentsView: View {
                     LazyVStack(spacing: 14) {
                         ForEach(Array(items.enumerated()), id: \.element.id) { index, appointment in
                             AppointmentCard(appointment: appointment)
+                                .onTapGesture {
+                                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                    router.navigate(to: .appointmentDetail(appointment))
+                                }
                                 .opacity(appearAnimation ? 1 : 0)
                                 .offset(y: appearAnimation ? 0 : 20)
                                 .animation(

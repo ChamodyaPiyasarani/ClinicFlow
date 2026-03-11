@@ -3,6 +3,7 @@ import SwiftUI
 struct NotificationsView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(AppRouter.self) var router
+    @Environment(ToastManager.self) var toastManager
     @State private var notifications: [NotificationItem] = []
     
     var body: some View {
@@ -90,6 +91,8 @@ struct NotificationsView: View {
         // Haptic feedback
         let notification = UINotificationFeedbackGenerator()
         notification.notificationOccurred(.success)
+        
+        toastManager.show(.success, message: "toast_notifications_cleared")
     }
 }
 

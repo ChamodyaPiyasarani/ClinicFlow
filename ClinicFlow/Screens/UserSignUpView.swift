@@ -3,6 +3,7 @@ import SwiftUI
 struct UserSignUpView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
+    @Environment(ToastManager.self) var toastManager
     @State private var userName: String = ""
     @State private var contactNumber: String = ""
     @State private var agreedToTerms: Bool = false
@@ -113,13 +114,20 @@ struct UserSignUpView: View {
 
                             // MARK: - Send OTP Button
                             PrimaryButton(title: languageManager.localized("send_otp")) {
+                                if !isFormValid {
+                                    if !agreedToTerms {
+                                        toastManager.show(.error, message: "toast_accept_terms")
+                                    } else {
+                                        toastManager.show(.error, message: "toast_fields_required")
+                                    }
+                                    return
+                                }
+                                toastManager.show(.success, message: "toast_otp_sent")
                                 router.navigate(to: .otpVerification)
                             }
                             .padding(.horizontal, 20)
                             .padding(.top, 28)
                             .padding(.bottom, 28)
-                            .opacity(isFormValid ? 1.0 : 0.6)
-                            .disabled(!isFormValid)
                         }
                         .frame(maxWidth: .infinity)
                         .background(Color.white)

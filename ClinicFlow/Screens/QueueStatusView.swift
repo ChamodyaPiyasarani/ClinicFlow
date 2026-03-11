@@ -5,6 +5,7 @@ import SwiftUI
 struct QueueStatusView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
+    @Environment(ToastManager.self) var toastManager
 
     let queueStatus: QueueStatus
 
@@ -70,6 +71,7 @@ struct QueueStatusView: View {
             Button(languageManager.localized("cancel"), role: .cancel) {}
             Button(languageManager.localized("leave_queue_confirm"), role: .destructive) {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                toastManager.show(.success, message: "toast_queue_left")
                 router.goBack()
             }
         } message: {

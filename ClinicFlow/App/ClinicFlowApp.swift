@@ -11,6 +11,7 @@ import SwiftUI
 struct ClinicFlowApp: App {
     @State private var languageManager = LanguageManager.shared
     @State private var router = AppRouter()
+    @State private var toastManager = ToastManager.shared
 
     var body: some Scene {
         WindowGroup {
@@ -99,6 +100,8 @@ struct ClinicFlowApp: App {
             }
             .environment(languageManager)
             .environment(router)
+            .environment(toastManager)
+            .toastOverlay()
         }
     }
 }

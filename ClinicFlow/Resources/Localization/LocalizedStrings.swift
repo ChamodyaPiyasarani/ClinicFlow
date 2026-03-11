@@ -1894,6 +1894,141 @@ struct LocalizedStrings {
             .sinhala: "පෝලිම් තත්ත්වය බලන්න",
             .tamil: "வரிசை நிலையைக் காண்க"
         ],
+
+        // ── Toast Messages ──
+
+        // Success
+        "toast_otp_sent": [
+            .english: "OTP sent to your number",
+            .sinhala: "OTP ඔබේ අංකයට යවන ලදී",
+            .tamil: "OTP உங்கள் எண்ணுக்கு அனுப்பப்பட்டது"
+        ],
+        "toast_otp_resent": [
+            .english: "OTP resent successfully",
+            .sinhala: "OTP සාර්ථකව නැවත යවන ලදී",
+            .tamil: "OTP வெற்றிகரமாக மீண்டும் அனுப்பப்பட்டது"
+        ],
+        "toast_language_changed": [
+            .english: "Language changed successfully",
+            .sinhala: "භාෂාව සාර්ථකව වෙනස් කරන ලදී",
+            .tamil: "மொழி வெற்றிகரமாக மாற்றப்பட்டது"
+        ],
+        "toast_appointment_cancelled": [
+            .english: "Appointment cancelled successfully",
+            .sinhala: "හමුවීම සාර්ථකව අවලංගු කරන ලදී",
+            .tamil: "சந்திப்பு வெற்றிகரமாக ரத்து செய்யப்பட்டது"
+        ],
+        "toast_appointment_rescheduled": [
+            .english: "Appointment rescheduled successfully",
+            .sinhala: "හමුවීම සාර්ථකව නැවත සැලසුම් කරන ලදී",
+            .tamil: "சந்திப்பு வெற்றிகரமாக மறுதிட்டமிடப்பட்டது"
+        ],
+        "toast_profile_updated": [
+            .english: "Profile updated successfully",
+            .sinhala: "පැතිකඩ සාර්ථකව යාවත්කාලීන කරන ලදී",
+            .tamil: "சுயவிவரம் வெற்றிகரமாக புதுப்பிக்கப்பட்டது"
+        ],
+        "toast_profile_deleted": [
+            .english: "Profile deleted successfully",
+            .sinhala: "පැතිකඩ සාර්ථකව මකන ලදී",
+            .tamil: "சுயவிவரம் வெற்றிகரமாக நீக்கப்பட்டது"
+        ],
+        "toast_allergy_removed": [
+            .english: "Allergy removed from profile",
+            .sinhala: "අසාත්මිකතාව පැතිකඩෙන් ඉවත් කරන ලදී",
+            .tamil: "ஒவ்வாமை சுயவிவரத்தில் இருந்து நீக்கப்பட்டது"
+        ],
+        "toast_prescription_sent": [
+            .english: "Prescription sent to pharmacy",
+            .sinhala: "බෙහෙත් වට්ටෝරුව ෆාමසියට යවන ලදී",
+            .tamil: "மருந்துச் சீட்டு மருந்தகத்திற்கு அனுப்பப்பட்டது"
+        ],
+        "toast_queue_joined": [
+            .english: "You have joined the queue",
+            .sinhala: "ඔබ පෝලිමට එක් විය",
+            .tamil: "நீங்கள் வரிசையில் சேர்ந்துள்ளீர்கள்"
+        ],
+        "toast_queue_left": [
+            .english: "You have left the queue",
+            .sinhala: "ඔබ පෝලිමෙන් ඉවත් විය",
+            .tamil: "நீங்கள் வரிசையை விட்டு வெளியேறினீர்கள்"
+        ],
+        "toast_logged_out": [
+            .english: "Logged out successfully",
+            .sinhala: "සාර්ථකව ඉවත් විය",
+            .tamil: "வெற்றிகரமாக வெளியேறினீர்கள்"
+        ],
+        "toast_notifications_cleared": [
+            .english: "All notifications cleared",
+            .sinhala: "සියලු දැනුම්දීම් මකා දමන ලදී",
+            .tamil: "அனைத்து அறிவிப்புகளும் நீக்கப்பட்டன"
+        ],
+        "toast_lab_test_confirmed": [
+            .english: "Lab test confirmed — joining queue",
+            .sinhala: "රසායනාගාර පරීක්ෂණය තහවුරු කරන ලදී — පෝලිමට එක්වෙමින්",
+            .tamil: "ஆய்வக பரிசோதனை உறுதிசெய்யப்பட்டது — வரிசையில் சேருகிறது"
+        ],
+        "toast_image_uploaded": [
+            .english: "Image uploaded successfully",
+            .sinhala: "රූපය සාර්ථකව උඩුගත කරන ලදී",
+            .tamil: "படம் வெற்றிகரமாக பதிவேற்றப்பட்டது"
+        ],
+
+        // Error
+        "toast_fields_required": [
+            .english: "Please fill in all required fields",
+            .sinhala: "කරුණාකර අවශ්‍ය සියලු ක්ෂේත්‍ර පුරවන්න",
+            .tamil: "தேவையான அனைத்து புலங்களையும் நிரப்பவும்"
+        ],
+        "toast_accept_terms": [
+            .english: "Please accept the terms and conditions",
+            .sinhala: "කරුණාකර නියම සහ කොන්දේසි පිළිගන්න",
+            .tamil: "விதிமுறைகள் மற்றும் நிபந்தனைகளை ஏற்கவும்"
+        ],
+        "toast_invalid_otp": [
+            .english: "Invalid OTP. Please try again",
+            .sinhala: "වලංගු නොවන OTP. කරුණාකර නැවත උත්සාහ කරන්න",
+            .tamil: "தவறான OTP. மீண்டும் முயற்சிக்கவும்"
+        ],
+        "toast_camera_denied": [
+            .english: "Camera access denied. Enable in Settings",
+            .sinhala: "කැමරා ප්‍රවේශය ප්‍රතික්ෂේප විය. සැකසීම් තුළ සක්‍රීය කරන්න",
+            .tamil: "கேமரா அணுகல் மறுக்கப்பட்டது. அமைப்புகளில் இயக்கவும்"
+        ],
+        "toast_gallery_denied": [
+            .english: "Photo library access denied. Enable in Settings",
+            .sinhala: "ඡායාරූප පුස්තකාල ප්‍රවේශය ප්‍රතික්ෂේප විය. සැකසීම් තුළ සක්‍රීය කරන්න",
+            .tamil: "புகைப்பட நூலக அணுகல் மறுக்கப்பட்டது. அமைப்புகளில் இயக்கவும்"
+        ],
+        "toast_select_time_slot": [
+            .english: "Please select a time slot",
+            .sinhala: "කරුණාකර වේලා කාණ්ඩයක් තෝරන්න",
+            .tamil: "நேர இடைவெளியை தேர்ந்தெடுக்கவும்"
+        ],
+
+        // Info
+        "toast_joining_queue": [
+            .english: "Joining queue...",
+            .sinhala: "පෝලිමට එක්වෙමින්...",
+            .tamil: "வரிசையில் சேருகிறது..."
+        ],
+        "toast_permission_location": [
+            .english: "Location permission is needed for nearby services",
+            .sinhala: "සේවා සඳහා ස්ථාන අවසරය අවශ්‍යයි",
+            .tamil: "அருகிலுள்ள சேவைகளுக்கு இருப்பிட அனுமதி தேவை"
+        ],
+        "toast_permission_notification": [
+            .english: "Enable notifications to receive queue updates",
+            .sinhala: "පෝලිම් යාවත්කාලීන කිරීම් ලබා ගැනීමට දැනුම්දීම් සක්‍රීය කරන්න",
+            .tamil: "வரிசை புதுப்பிப்புகளைப் பெற அறிவிப்புகளை இயக்கவும்"
+        ],
+
+        // Warning
+        "toast_discard_changes": [
+            .english: "Changes discarded",
+            .sinhala: "වෙනස්කම් ඉවත දමන ලදී",
+            .tamil: "மாற்றங்கள் நிராகரிக்கப்பட்டன"
+        ],
     ]
 
     // MARK: - Lookup

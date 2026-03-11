@@ -210,6 +210,7 @@ private struct SegmentTabBar: View {
 
 private struct VisitCard: View {
     @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
     let visit: Visit
 
     private var dateString: String {
@@ -262,7 +263,7 @@ private struct VisitCard: View {
             // View Details button
             Button(action: {
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                // TODO: Navigate to visit details
+                router.navigate(to: .appointmentDetail(visit.toAppointment()))
             }) {
                 Text(languageManager.localized("view_details"))
                     .font(.poppins(.semiBold, size: 14))

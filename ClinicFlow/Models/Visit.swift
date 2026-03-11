@@ -31,6 +31,30 @@ struct Visit: Identifiable, Hashable {
     let doctorName: String
     let date: Date
     let status: VisitStatus
+    
+    // Convert Visit to Appointment for detail view
+    func toAppointment() -> Appointment {
+        let appointmentStatus: AppointmentStatus = status == .completed ? .completed : .cancelled
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        let timeSlot = formatter.string(from: date)
+        
+        return Appointment(
+            id: id,
+            doctorName: doctorName,
+            department: visitType,
+            departmentKey: visitTypeKey,
+            specialization: visitType,
+            date: date,
+            timeSlot: timeSlot,
+            status: appointmentStatus,
+            consultationFee: 2500,
+            tokenNumber: "CF-\(id)",
+            patientName: "John Doe",
+            contactNumber: "+94 71 123 4567",
+            reasonForVisit: "Regular checkup"
+        )
+    }
 }
 
 // MARK: - Sample Data

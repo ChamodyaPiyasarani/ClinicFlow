@@ -36,7 +36,7 @@ struct LabTestConfirmationView: View {
                     HStack {
                         Text(languageManager.localized("current_status"))
                             .font(.poppins(.regular, size: 14))
-                            .foregroundColor(AppColors.darkBlue.opacity(0.8))
+                            .foregroundColor(Color(red: 52/255, green: 73/255, blue: 94/255))
                         
                         Spacer()
                         
@@ -49,14 +49,23 @@ struct LabTestConfirmationView: View {
                         .foregroundColor(.white)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
-                        .background(Color(red: 60/255, green: 150/255, blue: 100/255))
+                        .background(
+                            LinearGradient(
+                                colors: [
+                                    Color(red: 46/255, green: 213/255, blue: 115/255),
+                                    Color(red: 39/255, green: 174/255, blue: 96/255)
+                                ],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
                         .cornerRadius(12)
                     }
                     
                     // Consultation Status
                     Text(testData.consultationStatus)
                         .font(.poppins(.bold, size: 22))
-                        .foregroundColor(Color(red: 50/255, green: 130/255, blue: 90/255))
+                        .foregroundColor(Color(red: 39/255, green: 174/255, blue: 96/255))
                         .padding(.top, 4)
                     
                     // Doctor Info
@@ -75,7 +84,7 @@ struct LabTestConfirmationView: View {
                     VStack(alignment: .leading, spacing: 20) {
                         Text(languageManager.localized("before_you_proceed"))
                             .font(.poppins(.bold, size: 20))
-                            .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
+                            .foregroundColor(Color(red: 52/255, green: 73/255, blue: 94/255))
                             .padding(.bottom, 4)
                         
                         // Information Items
@@ -114,15 +123,15 @@ struct LabTestConfirmationView: View {
                                 .background(
                                     LinearGradient(
                                         colors: [
-                                            Color(red: 60/255, green: 150/255, blue: 100/255),
-                                            Color(red: 50/255, green: 130/255, blue: 85/255)
+                                            Color(red: 46/255, green: 213/255, blue: 115/255),
+                                            Color(red: 39/255, green: 174/255, blue: 96/255)
                                         ],
                                         startPoint: .leading,
                                         endPoint: .trailing
                                     )
                                 )
                                 .cornerRadius(25)
-                                .shadow(color: Color(red: 60/255, green: 150/255, blue: 100/255).opacity(0.3), radius: 4, x: 0, y: 2)
+                                .shadow(color: Color(red: 39/255, green: 174/255, blue: 96/255).opacity(0.4), radius: 8, x: 0, y: 4)
                         }
                         .padding(.top, 8)
                     }
@@ -136,15 +145,15 @@ struct LabTestConfirmationView: View {
                 .background(
                     LinearGradient(
                         colors: [
-                            Color(red: 200/255, green: 235/255, blue: 220/255),
-                            Color(red: 180/255, green: 225/255, blue: 210/255)
+                            Color(red: 232/255, green: 248/255, blue: 240/255),
+                            Color(red: 217/255, green: 242/255, blue: 232/255)
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
                 )
                 .cornerRadius(20)
-                .shadow(color: Color.black.opacity(0.3), radius: 20, x: 0, y: 10)
+                .shadow(color: Color.black.opacity(0.15), radius: 20, x: 0, y: 8)
             }
             .padding(.horizontal, 24)
             .frame(maxHeight: .infinity)
@@ -188,11 +197,11 @@ struct ConfirmationInfoItem: View {
         HStack(alignment: .firstTextBaseline, spacing: 4) {
             Text(label)
                 .font(.poppins(.regular, size: 15))
-                .foregroundColor(.gray.opacity(0.9))
+                .foregroundColor(Color(red: 127/255, green: 140/255, blue: 141/255))
             
             Text(value)
                 .font(.poppins(.semiBold, size: 15))
-                .foregroundColor(AppColors.darkBlue)
+                .foregroundColor(Color(red: 52/255, green: 73/255, blue: 94/255))
         }
     }
 }

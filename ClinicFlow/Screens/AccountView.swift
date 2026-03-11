@@ -148,6 +148,7 @@ private struct MenuItemsSection: View {
                 title: languageManager.localized("visit_history")
             ) {
                 // Action: Navigate to visit history
+                router.navigate(to: .visitHistory)
             }
             
             MenuItemRow(

@@ -904,6 +904,11 @@ struct LocalizedStrings {
             .sinhala: "අක්‍රියයි",
             .tamil: "செயலற்றது"
         ],
+        "account_status": [
+            .english: "Account Status",
+            .sinhala: "ගිණුම් තත්වය",
+            .tamil: "கணக்கு நிலை"
+        ],
         "personal_information": [
             .english: "Personal Information",
             .sinhala: "පුද්ගලික තොරතුරු",
@@ -1604,6 +1609,38 @@ struct LocalizedStrings {
             .english: "You can reschedule up to 4 hours before your appointment time. The same doctor and department will be retained.",
             .sinhala: "ඔබේ හමුවීමේ වේලාවට පැය 4 කට පෙර නැවත කාලසටහන්ගත කළ හැකිය. එම වෛද්‍යවරයා සහ දෙපාර්තමේන්තුව පවත්වාගෙන යනු ලැබේ.",
             .tamil: "உங்கள் சந்திப்பு நேரத்திற்கு 4 மணி நேரம் முன்பு வரை மறு திட்டமிடலாம். அதே மருத்துவர் மற்றும் துறை தக்கவைக்கப்படும்."
+        ],
+
+        // ── Visit History ──
+        "filter_all": [
+            .english: "All",
+            .sinhala: "සියල්ල",
+            .tamil: "அனைத்தும்"
+        ],
+        "search_placeholder": [
+            .english: "Search",
+            .sinhala: "සොයන්න",
+            .tamil: "தேடு"
+        ],
+        "view_details": [
+            .english: "View Details",
+            .sinhala: "විස්තර බලන්න",
+            .tamil: "விவரங்களைக் காண்க"
+        ],
+        "no_visits_found": [
+            .english: "No visits found",
+            .sinhala: "පැමිණීම් හමු නොවීය",
+            .tamil: "வருகைகள் இல்லை"
+        ],
+        "no_search_results": [
+            .english: "No search results found",
+            .sinhala: "සෙවුම් ප්‍රතිඵල හමු නොවීය",
+            .tamil: "தேடல் முடிவுகள் இல்லை"
+        ],
+        "visit_laboratory": [
+            .english: "Laboratory",
+            .sinhala: "රසායනාගාර",
+            .tamil: "ஆய்வகம்"
         ],
     ]
 

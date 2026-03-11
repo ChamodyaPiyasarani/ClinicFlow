@@ -13,6 +13,7 @@ struct MedicalRecord: Identifiable, Hashable {
 struct PatientProfile: Identifiable, Hashable {
     let id: String
     let name: String
+    let nickname: String?
     let relationship: String
     let avatarColor: Color
     let hairColor: Color
@@ -34,6 +35,7 @@ struct PatientProfile: Identifiable, Hashable {
         PatientProfile(
             id: "CF-2024-002",
             name: "Sarah Johnson",
+            nickname: "Mother",
             relationship: "Family Member",
             avatarColor: Color(red: 200/255, green: 220/255, blue: 200/255),
             hairColor: Color(red: 160/255, green: 120/255, blue: 80/255),
@@ -73,6 +75,7 @@ struct PatientProfile: Identifiable, Hashable {
         PatientProfile(
             id: "CF-2024-001",
             name: "John Doe",
+            nickname: nil,
             relationship: "Primary Account",
             avatarColor: Color(red: 200/255, green: 220/255, blue: 160/255),
             hairColor: Color(red: 139/255, green: 90/255, blue: 43/255),
@@ -90,6 +93,7 @@ struct PatientProfile: Identifiable, Hashable {
         PatientProfile(
             id: "CF-2024-003",
             name: "Emma Johnson",
+            nickname: "Daughter",
             relationship: "Daughter",
             avatarColor: Color(red: 180/255, green: 200/255, blue: 210/255),
             hairColor: Color(red: 200/255, green: 150/255, blue: 90/255),

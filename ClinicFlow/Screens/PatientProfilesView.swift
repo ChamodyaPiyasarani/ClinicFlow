@@ -243,6 +243,7 @@ private struct AddFamilyMemberForm: View {
     let onCancel: () -> Void
     
     @State private var fullName: String = ""
+    @State private var nickname: String = ""
     @State private var relationship: String = ""
     @State private var dateOfBirth: String = ""
     @State private var gender: String = "Male"
@@ -252,6 +253,7 @@ private struct AddFamilyMemberForm: View {
     @State private var allergies: [String] = []
     @State private var newAllergyText: String = ""
     @State private var showAllergyField: Bool = false
+    @State private var isActive: Bool = true
     
     private let genderOptions = ["Male", "Female", "Other"]
     
@@ -314,7 +316,24 @@ private struct AddFamilyMemberForm: View {
             }
             
             CustomTextField(placeholder: languageManager.localized("full_name"), text: $fullName)
+            CustomTextField(placeholder: "Nickname (e.g., Mother, Daughter)", text: $nickname)
             CustomTextField(placeholder: languageManager.localized("relationship_placeholder"), text: $relationship)
+            
+            // Account Status Toggle
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(languageManager.localized("account_status"))
+                        .font(.poppins(.semiBold, size: 15))
+                        .foregroundColor(AppColors.darkBlue)
+                    Text(isActive ? languageManager.localized("active") : "Inactive")
+                        .font(.poppins(.regular, size: 13))
+                        .foregroundColor(isActive ? Color(red: 80/255, green: 180/255, blue: 100/255) : .gray)
+                }
+                Spacer()
+                Toggle("", isOn: $isActive)
+                    .labelsHidden()
+                    .tint(AppColors.brandBlue)
+            }
         }
         .padding(20)
         .background(
@@ -518,11 +537,12 @@ private struct AddFamilyMemberForm: View {
                 let newProfile = PatientProfile(
                     id: "CF-2024-\(Int.random(in: 100...999))",
                     name: fullName.trimmingCharacters(in: .whitespaces),
+                    nickname: nickname.trimmingCharacters(in: .whitespaces).isEmpty ? nil : nickname.trimmingCharacters(in: .whitespaces),
                     relationship: relationship.trimmingCharacters(in: .whitespaces),
                     avatarColor: Color(red: .random(in: 0.6...0.85), green: .random(in: 0.7...0.9), blue: .random(in: 0.6...0.85)),
                     hairColor: Color(red: 139/255, green: 90/255, blue: 43/255),
                     shirtColor: AppColors.brandBlue,
-                    isActive: true,
+                    isActive: isActive,
                     allergiesCount: allergies.isEmpty ? nil : allergies.count,
                     dateOfBirth: dateOfBirth,
                     gender: gender,

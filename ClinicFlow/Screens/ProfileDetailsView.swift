@@ -202,6 +202,9 @@ private struct PersonalInformationSection: View {
             
             VStack(spacing: 14) {
                 InfoRow(label: languageManager.localized("full_name"), value: profile.name, isEditing: isEditing)
+                if let nickname = profile.nickname, !nickname.isEmpty {
+                    InfoRow(label: "Nickname", value: nickname, isEditing: isEditing)
+                }
                 InfoRow(label: languageManager.localized("date_of_birth"), value: profile.dateOfBirth, isEditing: isEditing)
                 InfoRow(label: languageManager.localized("gender"), value: profile.gender, isEditing: isEditing)
                 InfoRow(label: languageManager.localized("blood_type"), value: profile.bloodType, isEditing: isEditing)

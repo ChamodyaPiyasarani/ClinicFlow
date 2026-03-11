@@ -18,6 +18,7 @@ enum AppRoute: Hashable {
     case notifications
     case patientProfiles
     case profileDetails(PatientProfile)
+    case visitHistory
     case bookAppointment
     case patientDetailsForm(doctor: Doctor, department: ClinicDepartment, date: Date, timeSlot: TimeSlot)
     case appointmentReview(doctor: Doctor, department: ClinicDepartment, date: Date, timeSlot: TimeSlot, patientName: String, contactNumber: String, reasonForVisit: String)

@@ -64,6 +64,9 @@ struct ClinicFlowApp: App {
                         case .profileDetails(let profile):
                             ProfileDetailsView(profile: profile)
                                 .navigationBarHidden(true)
+                        case .visitHistory:
+                            VisitHistoryView()
+                                .navigationBarHidden(true)
                         case .bookAppointment:
                             BookAppointmentView()
                                 .navigationBarHidden(true)

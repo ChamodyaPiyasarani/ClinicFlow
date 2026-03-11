@@ -126,6 +126,12 @@ private struct ProfileDetailsHeaderView: View {
 private struct ProfileHeaderSection: View {
     @Environment(LanguageManager.self) var languageManager
     let profile: PatientProfile
+    @State private var isActive: Bool
+    
+    init(profile: PatientProfile) {
+        self.profile = profile
+        self._isActive = State(initialValue: profile.isActive)
+    }
     
     var body: some View {
         VStack(spacing: 12) {
@@ -147,17 +153,26 @@ private struct ProfileHeaderSection: View {
                 .font(.poppins(.regular, size: 13))
                 .foregroundColor(.gray)
             
-            // Status badge
-            HStack(spacing: 6) {
-                Text(profile.isActive ? languageManager.localized("active") : languageManager.localized("inactive"))
-                    .font(.poppins(.medium, size: 13))
-                    .foregroundColor(profile.isActive ? Color(red: 80/255, green: 180/255, blue: 100/255) : Color.orange)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 6)
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(profile.isActive ? Color(red: 80/255, green: 180/255, blue: 100/255).opacity(0.15) : Color.orange.opacity(0.15))
-                    )
+            // Status toggle
+            HStack(spacing: 12) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(isActive ? languageManager.localized("active") : languageManager.localized("inactive"))
+                        .font(.poppins(.semiBold, size: 15))
+                        .foregroundColor(AppColors.darkBlue)
+                    Text(languageManager.localized("account_status"))
+                        .font(.poppins(.regular, size: 12))
+                        .foregroundColor(.gray)
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(isActive ? Color(red: 80/255, green: 180/255, blue: 100/255).opacity(0.15) : Color.orange.opacity(0.15))
+                )
+                
+                Toggle("", isOn: $isActive)
+                    .labelsHidden()
+                    .tint(AppColors.brandBlue)
             }
         }
         .frame(maxWidth: .infinity)

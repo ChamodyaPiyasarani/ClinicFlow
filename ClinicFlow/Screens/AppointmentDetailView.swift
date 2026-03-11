@@ -54,32 +54,10 @@ struct AppointmentDetailView: View {
                         heroCard
                             .opacity(headerAppear ? 1 : 0)
                             .offset(y: headerAppear ? 0 : 30)
-
-                        // ── Quick Info Pills ──
-                        quickInfoStrip
-                            .opacity(headerAppear ? 1 : 0)
-                            .offset(y: headerAppear ? 0 : 20)
-
-                        // ── Details Section ──
-                        detailsSection
-                            .opacity(detailsAppear ? 1 : 0)
-                            .offset(y: detailsAppear ? 0 : 20)
-
-                        // ── Fee Card ──
-                        feeCard
-                            .opacity(detailsAppear ? 1 : 0)
-                            .offset(y: detailsAppear ? 0 : 16)
-
-                        // ── Note Banner ──
-                        if isUpcoming {
-                            noteBanner
-                                .opacity(actionsAppear ? 1 : 0)
-                                .offset(y: actionsAppear ? 0 : 12)
-                        }
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 8)
-                    .padding(.bottom, isUpcoming ? 120 : 40)
+                    .padding(.bottom, isUpcoming ? 140 : 40)
                 }
 
                 // ── Bottom Action Bar ──
@@ -122,97 +100,164 @@ struct AppointmentDetailView: View {
 
     private var heroCard: some View {
         VStack(spacing: 0) {
-            // Top gradient section
-            ZStack(alignment: .topTrailing) {
-                LinearGradient(
-                    colors: [departmentColor, departmentColor.opacity(0.7)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-
-                // Decorative circles
-                Circle()
-                    .fill(Color.white.opacity(0.06))
-                    .frame(width: 120, height: 120)
-                    .offset(x: 40, y: -30)
-                Circle()
-                    .fill(Color.white.opacity(0.04))
-                    .frame(width: 80, height: 80)
-                    .offset(x: -20, y: 60)
-
-                VStack(spacing: 16) {
-                    // Status chip at top
-                    HStack {
-                        Spacer()
-                        HStack(spacing: 6) {
-                            Circle()
-                                .fill(Color.white)
-                                .frame(width: 7, height: 7)
-                            Text(languageManager.localized(appointment.status.localizationKey).uppercased())
-                                .font(.poppins(.bold, size: 11))
-                                .foregroundColor(.white)
-                                .tracking(0.8)
-                        }
+            // Blue header section
+            ZStack(alignment: .top) {
+                departmentColor
+                
+                HStack(alignment: .top) {
+                    // Status badge
+                    Text(languageManager.localized(appointment.status.localizationKey))
+                        .font(.poppins(.semiBold, size: 12))
+                        .foregroundColor(.white)
                         .padding(.horizontal, 14)
-                        .padding(.vertical, 7)
+                        .padding(.vertical, 6)
                         .background(
-                            Capsule().fill(Color.white.opacity(0.2))
+                            Capsule()
+                                .fill(Color.white.opacity(0.25))
                         )
-                    }
-
-                    // Doctor info
-                    HStack(spacing: 14) {
-                        ZStack {
-                            Circle()
-                                .fill(Color.white.opacity(0.15))
-                                .frame(width: 56, height: 56)
-                            Image(systemName: departmentIcon)
-                                .font(.system(size: 24, weight: .medium))
-                                .foregroundColor(.white)
-                        }
-
-                        VStack(alignment: .leading, spacing: 3) {
-                            Text(appointment.doctorName)
-                                .font(.poppins(.bold, size: 19))
-                                .foregroundColor(.white)
-                            Text(languageManager.localized(appointment.departmentKey))
-                                .font(.poppins(.medium, size: 13))
-                                .foregroundColor(.white.opacity(0.85))
-                        }
-                        Spacer()
+                    
+                    Spacer()
+                    
+                    // Calendar icon
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .fill(Color.white.opacity(0.25))
+                            .frame(width: 44, height: 44)
+                        Image(systemName: "calendar")
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(.white)
                     }
                 }
-                .padding(20)
+                .padding(.horizontal, 20)
+                .padding(.top, 16)
+                .padding(.bottom, 12)
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Spacer().frame(height: 50)
+                    
+                    Text(languageManager.localized(appointment.departmentKey))
+                        .font(.poppins(.bold, size: 22))
+                        .foregroundColor(.white)
+                    
+                    Text("Department of \(languageManager.localized(appointment.departmentKey))")
+                        .font(.poppins(.medium, size: 14))
+                        .foregroundColor(.white.opacity(0.9))
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 20)
             }
-            .frame(minHeight: 140)
-
-            // Token strip
-            HStack {
-                HStack(spacing: 8) {
-                    Image(systemName: "number.square.fill")
-                        .font(.system(size: 18))
-                        .foregroundColor(departmentColor)
-                    VStack(alignment: .leading, spacing: 1) {
-                        Text(languageManager.localized("token_number").uppercased())
-                            .font(.poppins(.medium, size: 10))
-                            .foregroundColor(.gray)
-                            .tracking(0.5)
-                        Text(appointment.tokenNumber)
+            .frame(height: 180)
+            
+            // White section with doctor and details
+            VStack(spacing: 0) {
+                // Doctor info
+                HStack(spacing: 14) {
+                    // Doctor photo placeholder (circular)
+                    ZStack {
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [departmentColor.opacity(0.2), departmentColor.opacity(0.1)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 64, height: 64)
+                        
+                        Image(systemName: "person.fill")
+                            .font(.system(size: 28))
+                            .foregroundColor(departmentColor.opacity(0.6))
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(appointment.doctorName)
                             .font(.poppins(.bold, size: 18))
-                            .foregroundColor(AppColors.darkBlue)
+                            .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5))
+                        
+                        Text(languageManager.localized(appointment.departmentKey))
+                            .font(.poppins(.regular, size: 14))
+                            .foregroundColor(.gray.opacity(0.8))
                     }
+                    
+                    Spacer()
                 }
-                Spacer()
-                Image(systemName: "qrcode")
-                    .font(.system(size: 22))
-                    .foregroundColor(AppColors.darkBlue.opacity(0.25))
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+                .padding(.bottom, 16)
+                
+                // Divider
+                Rectangle()
+                    .fill(Color.gray.opacity(0.15))
+                    .frame(height: 1)
+                    .padding(.horizontal, 20)
+                
+                // Appointment details
+                VStack(spacing: 0) {
+                    // Date
+                    AppointmentDetailRow(
+                        icon: "calendar",
+                        iconBg: Color(red: 0.9, green: 0.94, blue: 1.0),
+                        iconColor: departmentColor,
+                        label: "Date",
+                        value: dateString
+                    )
+                    
+                    // Time
+                    AppointmentDetailRow(
+                        icon: "clock.fill",
+                        iconBg: Color(red: 0.9, green: 0.94, blue: 1.0),
+                        iconColor: departmentColor,
+                        label: "Time",
+                        value: appointment.timeSlot
+                    )
+                    
+                    // Location
+                    VStack(alignment: .leading, spacing: 0) {
+                        HStack(alignment: .center, spacing: 14) {
+                            ZStack {
+                                Circle()
+                                    .fill(Color(red: 0.9, green: 0.94, blue: 1.0))
+                                    .frame(width: 40, height: 40)
+                                Image(systemName: "mappin.circle.fill")
+                                    .font(.system(size: 18))
+                                    .foregroundColor(departmentColor)
+                            }
+                            
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Location")
+                                    .font(.poppins(.regular, size: 12))
+                                    .foregroundColor(.gray.opacity(0.8))
+                                Text("Building A, Room 12")
+                                    .font(.poppins(.semiBold, size: 15))
+                                    .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5))
+                                Text("1st Floor")
+                                    .font(.poppins(.regular, size: 13))
+                                    .foregroundColor(.gray.opacity(0.7))
+                            }
+                            
+                            Spacer()
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 16)
+                    }
+                    
+                    // Token Number
+                    AppointmentDetailRow(
+                        icon: "number",
+                        iconBg: Color(red: 0.9, green: 0.94, blue: 1.0),
+                        iconColor: departmentColor,
+                        label: "Token Number",
+                        value: appointment.tokenNumber
+                    )
+                }
+                .padding(.top, 8)
+                .padding(.bottom, 16)
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 14)
             .background(Color.white)
         }
-        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
-        .shadow(color: departmentColor.opacity(0.18), radius: 16, x: 0, y: 8)
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .shadow(color: Color.black.opacity(0.08), radius: 20, x: 0, y: 8)
     }
 
     // MARK: - Quick Info Strip
@@ -500,6 +545,42 @@ private struct DetailRow: View {
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
+    }
+}
+
+// MARK: - Appointment Detail Row
+
+private struct AppointmentDetailRow: View {
+    let icon: String
+    let iconBg: Color
+    let iconColor: Color
+    let label: String
+    let value: String
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 14) {
+            ZStack {
+                Circle()
+                    .fill(iconBg)
+                    .frame(width: 40, height: 40)
+                Image(systemName: icon)
+                    .font(.system(size: 18))
+                    .foregroundColor(iconColor)
+            }
+            
+            VStack(alignment: .leading, spacing: 2) {
+                Text(label)
+                    .font(.poppins(.regular, size: 12))
+                    .foregroundColor(.gray.opacity(0.8))
+                Text(value)
+                    .font(.poppins(.semiBold, size: 15))
+                    .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5))
+            }
+            
+            Spacer()
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 16)
     }
 }
 

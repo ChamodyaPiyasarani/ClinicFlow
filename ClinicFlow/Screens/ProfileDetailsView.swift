@@ -115,18 +115,10 @@ private struct ProfileDetailsHeaderView: View {
             
             // Centered title
             AppNameText(fontSize: 20)
-
-            // Trailing icons (right)
-            HStack(spacing: 4) {
-                Spacer()
-                LanguageSwitcher(fontSize: 14, showBackground: false)
-                NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
-            }
         }
         .padding(.horizontal, 20)
         .padding(.top, 8)
         .padding(.bottom, 12)
-        .background(Color.white)
     }
 }
 

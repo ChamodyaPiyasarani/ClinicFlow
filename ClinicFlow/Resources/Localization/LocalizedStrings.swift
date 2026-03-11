@@ -1217,11 +1217,6 @@ struct LocalizedStrings {
             .sinhala: "හමුවීම්",
             .tamil: "சந்திப்புகள்"
         ],
-        "add_an_appointment": [
-            .english: "Add an Appointment",
-            .sinhala: "හමුවීමක් එක් කරන්න",
-            .tamil: "சந்திப்பைச் சேர்க்கவும்"
-        ],
         "apt_upcoming": [
             .english: "Upcoming",
             .sinhala: "ඉදිරි",
@@ -1345,16 +1340,6 @@ struct LocalizedStrings {
             .english: "Upload Medical Reports",
             .sinhala: "වෛද්‍ය වාර්තා උඩුගත කරන්න",
             .tamil: "மருத்துவ அறிக்கைகளை பதிவேற்றவும்"
-        ],
-        "jpg_png_supported": [
-            .english: "JPG, PNG files supported",
-            .sinhala: "JPG, PNG ගොනු සහාය දක්වයි",
-            .tamil: "JPG, PNG கோப்புகள் ஆதரிக்கப்படுகின்றன"
-        ],
-        "choose_from_gallery": [
-            .english: "Choose from Gallery",
-            .sinhala: "ගැලරියෙන් තෝරන්න",
-            .tamil: "கேலரியிலிருந்து தேர்வு செய்யவும்"
         ],
         "discard": [
             .english: "Discard",
@@ -1582,11 +1567,6 @@ struct LocalizedStrings {
             .english: "Your appointment has been successfully cancelled. You can book a new appointment anytime.",
             .sinhala: "ඔබේ හමුවීම සාර්ථකව අවලංගු කරන ලදී. ඔබට ඕනෑම වේලාවක නව හමුවීමක් වෙන් කළ හැකිය.",
             .tamil: "உங்கள் சந்திப்பு வெற்றிகரமாக ரத்து செய்யப்பட்டது. நீங்கள் எப்போது வேண்டுமானாலும் புதிய சந்திப்பை பதிவு செய்யலாம்."
-        ],
-        "done": [
-            .english: "Done",
-            .sinhala: "අවසන්",
-            .tamil: "முடிந்தது"
         ],
 
         // ── Reschedule Appointment ──

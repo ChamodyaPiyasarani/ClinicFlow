@@ -42,53 +42,61 @@ struct AppointmentDetailView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            // ── Minimal Header ──
-            DetailHeaderBar()
+        ZStack(alignment: .bottom) {
+            VStack(spacing: 0) {
+                // ── Minimal Header ──
+                DetailHeaderBar()
 
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 24) {
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 24) {
 
-                    // ── Hero Card: Doctor + Status ──
-                    heroCard
-                        .opacity(headerAppear ? 1 : 0)
-                        .offset(y: headerAppear ? 0 : 30)
+                        // ── Hero Card: Doctor + Status ──
+                        heroCard
+                            .opacity(headerAppear ? 1 : 0)
+                            .offset(y: headerAppear ? 0 : 30)
 
-                    // ── Quick Info Pills ──
-                    quickInfoStrip
-                        .opacity(headerAppear ? 1 : 0)
-                        .offset(y: headerAppear ? 0 : 20)
+                        // ── Quick Info Pills ──
+                        quickInfoStrip
+                            .opacity(headerAppear ? 1 : 0)
+                            .offset(y: headerAppear ? 0 : 20)
 
-                    // ── Details Section ──
-                    detailsSection
-                        .opacity(detailsAppear ? 1 : 0)
-                        .offset(y: detailsAppear ? 0 : 20)
+                        // ── Details Section ──
+                        detailsSection
+                            .opacity(detailsAppear ? 1 : 0)
+                            .offset(y: detailsAppear ? 0 : 20)
 
-                    // ── Fee Card ──
-                    feeCard
-                        .opacity(detailsAppear ? 1 : 0)
-                        .offset(y: detailsAppear ? 0 : 16)
+                        // ── Fee Card ──
+                        feeCard
+                            .opacity(detailsAppear ? 1 : 0)
+                            .offset(y: detailsAppear ? 0 : 16)
 
-                    // ── Note Banner ──
-                    if isUpcoming {
-                        noteBanner
-                            .opacity(actionsAppear ? 1 : 0)
-                            .offset(y: actionsAppear ? 0 : 12)
+                        // ── Note Banner ──
+                        if isUpcoming {
+                            noteBanner
+                                .opacity(actionsAppear ? 1 : 0)
+                                .offset(y: actionsAppear ? 0 : 12)
+                        }
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 8)
+                    .padding(.bottom, isUpcoming ? 230 : 120)
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 8)
-                .padding(.bottom, isUpcoming ? 140 : 40)
-            }
 
-            // ── Bottom Action Bar ──
-            if isUpcoming {
-                bottomActionBar
-                    .opacity(actionsAppear ? 1 : 0)
-                    .offset(y: actionsAppear ? 0 : 30)
+                // ── Bottom Action Bar ──
+                if isUpcoming {
+                    bottomActionBar
+                        .opacity(actionsAppear ? 1 : 0)
+                        .offset(y: actionsAppear ? 0 : 30)
+                }
+            }
+            .background(AppColors.background)
+            
+            // ── Bottom Navigation Bar ──
+            VStack(spacing: 0) {
+                Spacer()
+                BottomNavBar()
             }
         }
-        .background(AppColors.background)
         .onAppear { triggerStaggeredAnimations() }
         .sheet(isPresented: $showCancelSheet) {
             CancelAppointmentSheet(appointment: appointment) {
@@ -375,8 +383,6 @@ struct AppointmentDetailView: View {
                 router.navigate(to: .rescheduleAppointment(appointment))
             } label: {
                 HStack(spacing: 8) {
-                    Image(systemName: "calendar.badge.clock")
-                        .font(.system(size: 16, weight: .semibold))
                     Text(languageManager.localized("reschedule"))
                         .font(.poppins(.semiBold, size: 16))
                 }
@@ -385,13 +391,7 @@ struct AppointmentDetailView: View {
                 .padding(.vertical, 16)
                 .background(
                     RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .fill(
-                            LinearGradient(
-                                colors: [AppColors.brandBlue, AppColors.brandBlue.opacity(0.85)],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
+                        .fill(AppColors.brandBlue)
                 )
                 .shadow(color: AppColors.brandBlue.opacity(0.3), radius: 8, x: 0, y: 4)
             }
@@ -403,23 +403,23 @@ struct AppointmentDetailView: View {
             } label: {
                 Text(languageManager.localized("cancel_appointment"))
                     .font(.poppins(.semiBold, size: 15))
-                    .foregroundColor(.red.opacity(0.8))
+                    .foregroundColor(AppColors.brandBlue)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
                     .background(
                         RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .stroke(Color.red.opacity(0.2), lineWidth: 1.5)
+                            .stroke(AppColors.brandBlue.opacity(0.3), lineWidth: 1.5)
+                            .background(
+                                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                    .fill(Color.white)
+                            )
                     )
             }
         }
         .padding(.horizontal, 20)
         .padding(.top, 12)
         .padding(.bottom, 8)
-        .background(
-            Rectangle()
-                .fill(.ultraThinMaterial)
-                .ignoresSafeArea(edges: .bottom)
-        )
+        .background(AppColors.background)
     }
 }
 
@@ -440,10 +440,7 @@ private struct DetailHeaderBar: View {
         .padding(.horizontal, 20)
         .padding(.top, 8)
         .padding(.bottom, 10)
-        .background(
-            Color.white
-                .shadow(color: Color.black.opacity(0.03), radius: 4, x: 0, y: 2)
-        )
+        .background(AppColors.background)
     }
 }
 

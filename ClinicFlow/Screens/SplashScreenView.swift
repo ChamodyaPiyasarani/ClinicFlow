@@ -54,6 +54,8 @@ struct SplashScreenView: View {
                 }
             }
             .onAppear {
+                // Reset progress
+                progress = 0.0
                 // Animate progress bar
                 withAnimation(.easeInOut(duration: 2.5)) {
                     progress = 1.0
@@ -61,6 +63,7 @@ struct SplashScreenView: View {
                 // Navigate after progress completes
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                     if router.hasCompletedOnboarding {
+                        router.selectedTab = .home
                         router.navigate(to: .home)
                     } else {
                         router.navigate(to: .languageSelection)

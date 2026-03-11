@@ -45,9 +45,10 @@ struct BottomNavBar: View {
                     
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                         router.selectedTab = tab
-                        // If on a pushed screen, pop back to ContentView
-                        if router.path.count > 1 {
-                            router.path.removeLast(router.path.count - 1)
+                        // If on a deeper screen (beyond ContentView), pop back to ContentView
+                        // ContentView is at path count 1 (.home route)
+                        while router.path.count > 1 {
+                            router.path.removeLast()
                         }
                     }
                 }) {

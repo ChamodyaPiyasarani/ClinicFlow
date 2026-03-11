@@ -16,6 +16,7 @@ struct ClinicFlowApp: App {
         WindowGroup {
             NavigationStack(path: $router.path) {
                 SplashScreenView()
+                    .id(router.splashScreenId)
                     .navigationBarHidden(true)
                     .navigationDestination(for: AppRoute.self) { route in
                         switch route {

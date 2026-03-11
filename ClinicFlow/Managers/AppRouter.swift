@@ -33,6 +33,7 @@ class AppRouter {
     
     var path = NavigationPath()
     var selectedTab: BottomTab = .home
+    var splashScreenId = UUID()
 
     /// Whether the user has completed the full onboarding flow.
     /// Persisted so returning users skip straight to Home.
@@ -52,5 +53,6 @@ class AppRouter {
 
     func goToRoot() {
         path = NavigationPath()
+        splashScreenId = UUID() // Force splash screen to recreate
     }
 }

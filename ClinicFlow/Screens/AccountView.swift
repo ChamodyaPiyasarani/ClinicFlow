@@ -43,7 +43,7 @@ private struct AccountHeaderView: View {
             // Profile subtitle
             Text(languageManager.localized("profile"))
                 .font(.poppins(.medium, size: 14))
-                .foregroundColor(AppColors.primaryText)
+                .foregroundColor(AppColors.darkBlue)
         }
         .padding(.horizontal, 20)
         .padding(.top, 8)

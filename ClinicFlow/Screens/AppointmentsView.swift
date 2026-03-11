@@ -108,6 +108,9 @@ struct AppointmentsView: View {
                 withAnimation { appearAnimation = true }
             }
         }
+
+        // ── Bottom Nav Bar ──
+        BottomNavBar()
     }
 }
 

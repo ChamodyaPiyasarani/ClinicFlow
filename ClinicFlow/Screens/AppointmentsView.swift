@@ -78,23 +78,17 @@ struct AppointmentsView: View {
                 } else {
                     LazyVStack(spacing: 14) {
                         ForEach(Array(items.enumerated()), id: \.element.id) { index, appointment in
-                            AppointmentCard(appointment: appointment)
-                                .onTapGesture {
-                                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                                    // Navigate to reschedule for upcoming, detail for past
-                                    if selectedSegment == 0 {
-                                        router.navigate(to: .rescheduleAppointment(appointment))
-                                    } else {
-                                        router.navigate(to: .appointmentDetail(appointment))
-                                    }
-                                }
-                                .opacity(appearAnimation ? 1 : 0)
-                                .offset(y: appearAnimation ? 0 : 20)
-                                .animation(
-                                    .spring(response: 0.5, dampingFraction: 0.8)
-                                        .delay(Double(index) * 0.08),
-                                    value: appearAnimation
-                                )
+                            AppointmentCard(
+                                appointment: appointment,
+                                isUpcoming: selectedSegment == 0
+                            )
+                            .opacity(appearAnimation ? 1 : 0)
+                            .offset(y: appearAnimation ? 0 : 20)
+                            .animation(
+                                .spring(response: 0.5, dampingFraction: 0.8)
+                                    .delay(Double(index) * 0.08),
+                                value: appearAnimation
+                            )
                         }
                     }
                     .padding(.horizontal, 20)
@@ -181,7 +175,9 @@ private struct SegmentTabBar: View {
 
 private struct AppointmentCard: View {
     @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
     let appointment: Appointment
+    let isUpcoming: Bool
     @State private var isPressed = false
 
     private var dateString: String {
@@ -198,6 +194,21 @@ private struct AppointmentCard: View {
     }
 
     var body: some View {
+        Button(action: {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            // Navigate to reschedule for upcoming, detail for past
+            if isUpcoming {
+                router.navigate(to: .rescheduleAppointment(appointment))
+            } else {
+                router.navigate(to: .appointmentDetail(appointment))
+            }
+        }) {
+            cardContent
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+    
+    private var cardContent: some View {
         HStack(spacing: 16) {
             // Doctor icon
             ZStack {
@@ -232,11 +243,17 @@ private struct AppointmentCard: View {
                     .background(
                         Capsule()
                             .fill(appointment.status.color.opacity(0.12))
-                    )
-                    .padding(.top, 2)
+         simultaneously(gesture: DragGesture(minimumDistance: 0)
+            .onChanged { _ in
+                withAnimation(.easeInOut(duration: 0.1)) {
+                    isPressed = true
+                }
             }
-
-            Spacer()
+            .onEnded { _ in
+                withAnimation(.easeInOut(duration: 0.1)) {
+                    isPressed = false
+                }
+           
 
             Image(systemName: "chevron.right")
                 .font(.system(size: 14, weight: .semibold))

@@ -50,7 +50,6 @@ struct PharmacyView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 16)
                     .padding(.bottom, 12)
-                    .background(Color.white)
                 
                 // MARK: - Content
                 ScrollView(showsIndicators: false) {

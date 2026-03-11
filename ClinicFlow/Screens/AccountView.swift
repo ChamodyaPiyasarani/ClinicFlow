@@ -295,7 +295,8 @@ private struct LogoutButton: View {
         .alert(languageManager.localized("logout_title"), isPresented: $showLogoutConfirmation) {
             Button(languageManager.localized("cancel"), role: .cancel) { }
             Button(languageManager.localized("logout"), role: .destructive) {
-                // Navigate back to splash screen
+                // Reset onboarding status and navigate to splash screen
+                router.hasCompletedOnboarding = false
                 router.goToRoot()
             }
         } message: {

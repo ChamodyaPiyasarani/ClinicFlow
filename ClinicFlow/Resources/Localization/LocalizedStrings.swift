@@ -1311,11 +1311,6 @@ struct LocalizedStrings {
             .sinhala: "රෝගී පැතිකඩක් තෝරන්න",
             .tamil: "நோயாளி சுயவிவரத்தைத் தேர்ந்தெடுக்கவும்"
         ],
-        "contact_number": [
-            .english: "Contact Number",
-            .sinhala: "සම්බන්ධ කර ගත හැකි අංකය",
-            .tamil: "தொடர்பு எண்"
-        ],
         "reason_for_visit": [
             .english: "Reason for Visit",
             .sinhala: "පැමිණීමේ හේතුව",

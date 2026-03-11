@@ -101,7 +101,7 @@ struct LabTestsView: View {
                 
                 // MARK: - Test List
                 ScrollView(showsIndicators: false) {
-                    VStack(spacing: 16) {
+                    LazyVStack(spacing: 16) {
                         // Section Header
                         HStack {
                             VStack(alignment: .leading, spacing: 2) {
@@ -126,10 +126,10 @@ struct LabTestsView: View {
                                     Image(systemName: "arrow.up.arrow.down")
                                         .font(.system(size: 12))
                                 }
-                                .foregroundColor(AppColors.brandBlue)
+                                .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
-                                .background(AppColors.brandBlue.opacity(0.1))
+                                .background(Color(red: 60/255, green: 150/255, blue: 100/255).opacity(0.1))
                                 .cornerRadius(8)
                             }
                         }
@@ -146,7 +146,7 @@ struct LabTestsView: View {
                             }
                         }
                         .padding(.horizontal, 20)
-                        .padding(.bottom, 100)
+                        .padding(.bottom, 120)
                     }
                 }
             }
@@ -351,7 +351,7 @@ struct LabTestCard: View {
                     
                     // Price and Chevron
                     VStack(alignment: .trailing, spacing: 8) {
-                        Text("$\(String(format: "%.2f", test.price))")
+                        Text("Rs. \(String(format: "%.2f", test.price))")
                             .font(.poppins(.bold, size: 16))
                             .foregroundColor(AppColors.darkBlue)
                         
@@ -440,7 +440,7 @@ let mockLabTests: [LabTest] = [
         name: "Complete Blood Count (CBC)",
         description: "Comprehensive blood analysis including RBC, WBC, and platelet count",
         category: .blood,
-        price: 35.00,
+        price: 2500.00,
         duration: "30 mins",
         availability: .available,
         preparationRequired: false,
@@ -452,7 +452,7 @@ let mockLabTests: [LabTest] = [
         name: "Lipid Panel",
         description: "Cholesterol and triglyceride levels assessment",
         category: .blood,
-        price: 45.00,
+        price: 3500.00,
         duration: "20 mins",
         availability: .available,
         preparationRequired: true,
@@ -464,7 +464,7 @@ let mockLabTests: [LabTest] = [
         name: "Urinalysis",
         description: "Physical, chemical and microscopic urine examination",
         category: .urine,
-        price: 25.00,
+        price: 2000.00,
         duration: "15 mins",
         availability: .available,
         preparationRequired: false,
@@ -476,7 +476,7 @@ let mockLabTests: [LabTest] = [
         name: "Chest X-Ray",
         description: "Digital radiographic imaging of chest and lungs",
         category: .imaging,
-        price: 85.00,
+        price: 6000.00,
         duration: "10 mins",
         availability: .limitedSlots,
         preparationRequired: false,
@@ -488,7 +488,7 @@ let mockLabTests: [LabTest] = [
         name: "ECG (Electrocardiogram)",
         description: "Heart rhythm and electrical activity recording",
         category: .cardiac,
-        price: 55.00,
+        price: 4000.00,
         duration: "15 mins",
         availability: .available,
         preparationRequired: false,
@@ -500,7 +500,7 @@ let mockLabTests: [LabTest] = [
         name: "Thyroid Panel (TSH, T3, T4)",
         description: "Comprehensive thyroid function assessment",
         category: .metabolic,
-        price: 65.00,
+        price: 4500.00,
         duration: "30 mins",
         availability: .available,
         preparationRequired: true,
@@ -512,7 +512,7 @@ let mockLabTests: [LabTest] = [
         name: "Blood Glucose (Fasting)",
         description: "Fasting blood sugar level measurement",
         category: .metabolic,
-        price: 20.00,
+        price: 1500.00,
         duration: "10 mins",
         availability: .available,
         preparationRequired: true,
@@ -524,7 +524,7 @@ let mockLabTests: [LabTest] = [
         name: "COVID-19 PCR Test",
         description: "RT-PCR molecular test for COVID-19 detection",
         category: .infectious,
-        price: 75.00,
+        price: 5000.00,
         duration: "24-48 hrs",
         availability: .available,
         preparationRequired: false,
@@ -536,7 +536,7 @@ let mockLabTests: [LabTest] = [
         name: "Liver Function Test (LFT)",
         description: "Complete liver enzyme and protein analysis",
         category: .blood,
-        price: 50.00,
+        price: 3800.00,
         duration: "25 mins",
         availability: .available,
         preparationRequired: true,
@@ -548,7 +548,7 @@ let mockLabTests: [LabTest] = [
         name: "Kidney Function Test",
         description: "Creatinine and BUN measurement for kidney health",
         category: .blood,
-        price: 40.00,
+        price: 3000.00,
         duration: "20 mins",
         availability: .limitedSlots,
         preparationRequired: false,
@@ -560,7 +560,7 @@ let mockLabTests: [LabTest] = [
         name: "Ultrasound Scan",
         description: "Abdominal or pelvic ultrasound imaging",
         category: .imaging,
-        price: 120.00,
+        price: 8500.00,
         duration: "30 mins",
         availability: .limitedSlots,
         preparationRequired: true,
@@ -572,7 +572,7 @@ let mockLabTests: [LabTest] = [
         name: "Hemoglobin A1C",
         description: "3-month average blood sugar control measurement",
         category: .metabolic,
-        price: 35.00,
+        price: 2500.00,
         duration: "20 mins",
         availability: .available,
         preparationRequired: false,
@@ -584,7 +584,7 @@ let mockLabTests: [LabTest] = [
         name: "Vitamin D Test",
         description: "25-hydroxyvitamin D blood level assessment",
         category: .blood,
-        price: 55.00,
+        price: 4000.00,
         duration: "30 mins",
         availability: .available,
         preparationRequired: false,
@@ -596,7 +596,7 @@ let mockLabTests: [LabTest] = [
         name: "Stool Analysis",
         description: "Comprehensive stool examination for digestive issues",
         category: .infectious,
-        price: 30.00,
+        price: 2200.00,
         duration: "48-72 hrs",
         availability: .unavailable,
         preparationRequired: true,
@@ -608,7 +608,7 @@ let mockLabTests: [LabTest] = [
         name: "Pregnancy Test (Beta-hCG)",
         description: "Quantitative blood pregnancy hormone measurement",
         category: .blood,
-        price: 30.00,
+        price: 2200.00,
         duration: "15 mins",
         availability: .available,
         preparationRequired: false,

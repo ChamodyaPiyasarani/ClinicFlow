@@ -107,7 +107,7 @@ struct LabTestsView: View {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(languageManager.localized("available_tests"))
                                     .font(.poppins(.semiBold, size: 16))
-                                    .foregroundColor(AppColors.darkBlue)
+                                    .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
                                 Text(filteredTests.count == 1 ? languageManager.localized("test_count_single") : "\(filteredTests.count) \(languageManager.localized("available_tests").lowercased())")
                                     .font(.poppins(.regular, size: 13))
                                     .foregroundColor(.gray)
@@ -248,10 +248,10 @@ struct CategoryChip: View {
             .foregroundColor(isSelected ? .white : AppColors.darkBlue)
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
-            .background(isSelected ? AppColors.brandBlue : Color.white)
+            .background(isSelected ? Color(red: 60/255, green: 150/255, blue: 100/255) : Color.white)
             .cornerRadius(20)
             .shadow(
-                color: isSelected ? AppColors.brandBlue.opacity(0.3) : Color.black.opacity(0.04),
+                color: isSelected ? Color(red: 60/255, green: 150/255, blue: 100/255).opacity(0.3) : Color.black.opacity(0.04),
                 radius: isSelected ? 8 : 4,
                 x: 0,
                 y: isSelected ? 4 : 2

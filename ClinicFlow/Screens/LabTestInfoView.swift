@@ -17,7 +17,7 @@ struct LabTestInfoView: View {
                 }
             
             // MARK: - Floating Instructions Card
-            VStack(spacing: 16) {
+            VStack(spacing: 0) {
                 // Instructions Card
                 VStack(alignment: .leading, spacing: 16) {
                     // Title
@@ -60,46 +60,46 @@ struct LabTestInfoView: View {
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity)
                         .padding(.top, 8)
-                        .padding(.bottom, 4)
+                        .padding(.bottom, 8)
+                    
+                    // OK Button
+                    Button(action: {
+                        // Haptic feedback
+                        let impact = UIImpactFeedbackGenerator(style: .medium)
+                        impact.impactOccurred()
+                        
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                            isPresented = false
+                        }
+                        
+                        // Small delay before proceeding
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            onProceed()
+                        }
+                    }) {
+                        Text(languageManager.localized("ok"))
+                            .font(.poppins(.semiBold, size: 17))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(
+                                LinearGradient(
+                                    colors: [
+                                        Color(red: 60/255, green: 150/255, blue: 100/255),
+                                        Color(red: 50/255, green: 130/255, blue: 85/255)
+                                    ],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .cornerRadius(14)
+                            .shadow(color: Color(red: 60/255, green: 150/255, blue: 100/255).opacity(0.4), radius: 8, x: 0, y: 4)
+                    }
                 }
                 .padding(20)
                 .background(Color.white)
                 .cornerRadius(20)
                 .shadow(color: Color.black.opacity(0.3), radius: 20, x: 0, y: 10)
-                
-                // OK Button
-                Button(action: {
-                    // Haptic feedback
-                    let impact = UIImpactFeedbackGenerator(style: .medium)
-                    impact.impactOccurred()
-                    
-                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                        isPresented = false
-                    }
-                    
-                    // Small delay before proceeding
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        onProceed()
-                    }
-                }) {
-                    Text(languageManager.localized("ok"))
-                        .font(.poppins(.semiBold, size: 17))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
-                        .background(
-                            LinearGradient(
-                                colors: [
-                                    Color(red: 60/255, green: 150/255, blue: 100/255),
-                                    Color(red: 50/255, green: 130/255, blue: 85/255)
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .cornerRadius(14)
-                        .shadow(color: Color(red: 60/255, green: 150/255, blue: 100/255).opacity(0.4), radius: 8, x: 0, y: 4)
-                }
             }
             .padding(.horizontal, 24)
             .frame(maxHeight: .infinity)

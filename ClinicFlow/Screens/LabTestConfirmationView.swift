@@ -36,7 +36,7 @@ struct LabTestConfirmationView: View {
                     HStack {
                         Text(languageManager.localized("current_status"))
                             .font(.poppins(.regular, size: 14))
-                            .foregroundColor(.white.opacity(0.9))
+                            .foregroundColor(AppColors.darkBlue)
                         
                         Spacer()
                         
@@ -46,28 +46,28 @@ struct LabTestConfirmationView: View {
                             Text(languageManager.localized("done"))
                                 .font(.poppins(.medium, size: 13))
                         }
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
-                        .background(Color.white.opacity(0.25))
+                        .background(Color(red: 60/255, green: 150/255, blue: 100/255).opacity(0.15))
                         .cornerRadius(12)
                     }
                     
                     // Consultation Status
                     Text(testData.consultationStatus)
                         .font(.poppins(.bold, size: 22))
-                        .foregroundColor(.white)
+                        .foregroundColor(AppColors.darkBlue)
                         .padding(.top, 4)
                     
                     // Doctor Info
                     VStack(alignment: .leading, spacing: 4) {
                         Text(testData.doctorName)
                             .font(.poppins(.semiBold, size: 15))
-                            .foregroundColor(.white.opacity(0.95))
+                            .foregroundColor(AppColors.darkBlue.opacity(0.9))
                         
                         Text(testData.date)
                             .font(.poppins(.regular, size: 13))
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(.gray)
                     }
                     .padding(.top, 4)
                     
@@ -112,10 +112,17 @@ struct LabTestConfirmationView: View {
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 14)
                                 .background(
-                                    Color(red: 40/255, green: 90/255, blue: 70/255)
+                                    LinearGradient(
+                                        colors: [
+                                            Color(red: 220/255, green: 100/255, blue: 80/255),
+                                            Color(red: 200/255, green: 80/255, blue: 60/255)
+                                        ],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
                                 )
                                 .cornerRadius(25)
-                                .shadow(color: Color.black.opacity(0.15), radius: 4, x: 0, y: 2)
+                                .shadow(color: Color(red: 220/255, green: 100/255, blue: 80/255).opacity(0.3), radius: 4, x: 0, y: 2)
                         }
                         .padding(.top, 8)
                     }
@@ -135,16 +142,7 @@ struct LabTestConfirmationView: View {
                     .padding(.top, 12)
                 }
                 .padding(20)
-                .background(
-                    LinearGradient(
-                        colors: [
-                            Color(red: 100/255, green: 180/255, blue: 150/255).opacity(0.9),
-                            Color(red: 80/255, green: 160/255, blue: 130/255).opacity(0.95)
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
+                .background(Color.white)
                 .cornerRadius(20)
                 .shadow(color: Color.black.opacity(0.3), radius: 20, x: 0, y: 10)
             }

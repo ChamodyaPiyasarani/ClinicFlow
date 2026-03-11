@@ -9,11 +9,19 @@ struct AppointmentDetailView: View {
     let appointment: Appointment
 
     @State private var showCancelSheet = false
-    @State private var cardAppear = false
+    @State private var headerAppear = false
+    @State private var detailsAppear = false
+    @State private var actionsAppear = false
 
     private var dateString: String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMM d, yyyy"
+        formatter.dateFormat = "EEEE, MMMM d, yyyy"
+        return formatter.string(from: appointment.date)
+    }
+
+    private var shortDateString: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy"
         return formatter.string(from: appointment.date)
     }
 
@@ -29,229 +37,61 @@ struct AppointmentDetailView: View {
         appointment.status == .confirmed || appointment.status == .pending
     }
 
+    private var statusColor: Color {
+        appointment.status.color
+    }
+
     var body: some View {
         VStack(spacing: 0) {
-            // ── Header ──
-            DetailHeaderView(subtitle: languageManager.localized("appointment_details"))
+            // ── Minimal Header ──
+            DetailHeaderBar()
 
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 20) {
+                VStack(spacing: 24) {
 
-                    // ── Doctor Card ──
-                    VStack(spacing: 0) {
-                        // Gradient top section
-                        HStack(spacing: 16) {
-                            ZStack {
-                                Circle()
-                                    .fill(Color.white.opacity(0.2))
-                                    .frame(width: 60, height: 60)
-                                Image(systemName: "stethoscope")
-                                    .font(.system(size: 26, weight: .medium))
-                                    .foregroundColor(.white)
-                            }
+                    // ── Hero Card: Doctor + Status ──
+                    heroCard
+                        .opacity(headerAppear ? 1 : 0)
+                        .offset(y: headerAppear ? 0 : 30)
 
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(appointment.doctorName)
-                                    .font(.poppins(.bold, size: 18))
-                                    .foregroundColor(.white)
-                                Text(languageManager.localized(appointment.departmentKey))
-                                    .font(.poppins(.medium, size: 14))
-                                    .foregroundColor(.white.opacity(0.8))
-                            }
+                    // ── Quick Info Pills ──
+                    quickInfoStrip
+                        .opacity(headerAppear ? 1 : 0)
+                        .offset(y: headerAppear ? 0 : 20)
 
-                            Spacer()
+                    // ── Details Section ──
+                    detailsSection
+                        .opacity(detailsAppear ? 1 : 0)
+                        .offset(y: detailsAppear ? 0 : 20)
 
-                            // Status badge
-                            Text(languageManager.localized(appointment.status.localizationKey))
-                                .font(.poppins(.semiBold, size: 12))
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 6)
-                                .background(
-                                    Capsule()
-                                        .fill(Color.white.opacity(0.2))
-                                )
-                        }
-                        .padding(20)
-                        .background(
-                            LinearGradient(
-                                colors: [departmentColor, departmentColor.opacity(0.8)],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
+                    // ── Fee Card ──
+                    feeCard
+                        .opacity(detailsAppear ? 1 : 0)
+                        .offset(y: detailsAppear ? 0 : 16)
 
-                        // Token number strip
-                        HStack {
-                            HStack(spacing: 8) {
-                                Image(systemName: "ticket.fill")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(AppColors.brandBlue)
-                                Text(languageManager.localized("token_number"))
-                                    .font(.poppins(.medium, size: 13))
-                                    .foregroundColor(.gray)
-                            }
-                            Spacer()
-                            Text(appointment.tokenNumber)
-                                .font(.poppins(.bold, size: 16))
-                                .foregroundColor(AppColors.darkBlue)
-                        }
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 14)
-                        .background(Color.white)
-                    }
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .shadow(color: Color.black.opacity(0.06), radius: 10, x: 0, y: 4)
-                    .opacity(cardAppear ? 1 : 0)
-                    .offset(y: cardAppear ? 0 : 20)
-
-                    // ── Appointment Details Card ──
-                    VStack(alignment: .leading, spacing: 18) {
-                        Text(languageManager.localized("details"))
-                            .font(.poppins(.bold, size: 17))
-                            .foregroundColor(AppColors.darkBlue)
-
-                        DetailInfoRow(icon: "calendar", label: languageManager.localized("date"), value: dateString)
-                        DetailInfoRow(icon: "clock.fill", label: languageManager.localized("time"), value: appointment.timeSlot)
-                        DetailInfoRow(icon: "person.fill", label: languageManager.localized("patient"), value: appointment.patientName)
-                        DetailInfoRow(icon: "phone.fill", label: languageManager.localized("contact"), value: appointment.contactNumber)
-
-                        if !appointment.reasonForVisit.isEmpty {
-                            DetailInfoRow(icon: "text.alignleft", label: languageManager.localized("reason"), value: appointment.reasonForVisit)
-                        }
-
-                        // Divider
-                        Rectangle()
-                            .fill(Color.gray.opacity(0.08))
-                            .frame(height: 1)
-
-                        // Fee row
-                        HStack {
-                            HStack(spacing: 10) {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .fill(Color.green.opacity(0.08))
-                                        .frame(width: 36, height: 36)
-                                    Image(systemName: "creditcard.fill")
-                                        .font(.system(size: 15))
-                                        .foregroundColor(.green)
-                                }
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(languageManager.localized("consultation_fee"))
-                                        .font(.poppins(.regular, size: 12))
-                                        .foregroundColor(.gray)
-                                    Text("LKR \(appointment.consultationFee).00")
-                                        .font(.poppins(.bold, size: 17))
-                                        .foregroundColor(AppColors.darkBlue)
-                                }
-                            }
-                            Spacer()
-                        }
-                    }
-                    .padding(20)
-                    .background(
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(Color.white)
-                            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 3)
-                    )
-                    .opacity(cardAppear ? 1 : 0)
-                    .offset(y: cardAppear ? 0 : 16)
-
-                    // ── Important Note ──
+                    // ── Note Banner ──
                     if isUpcoming {
-                        HStack(spacing: 12) {
-                            Image(systemName: "info.circle.fill")
-                                .font(.system(size: 18))
-                                .foregroundColor(AppColors.brandBlue)
-                            Text(languageManager.localized("arrive_early_note"))
-                                .font(.poppins(.regular, size: 13))
-                                .foregroundColor(.gray)
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
-                        .padding(16)
-                        .background(
-                            RoundedRectangle(cornerRadius: 14)
-                                .fill(AppColors.brandBlue.opacity(0.04))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 14)
-                                        .stroke(AppColors.brandBlue.opacity(0.12), lineWidth: 1)
-                                )
-                        )
-                        .opacity(cardAppear ? 1 : 0)
+                        noteBanner
+                            .opacity(actionsAppear ? 1 : 0)
+                            .offset(y: actionsAppear ? 0 : 12)
                     }
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, 16)
-                .padding(.bottom, isUpcoming ? 120 : 40)
+                .padding(.top, 8)
+                .padding(.bottom, isUpcoming ? 140 : 40)
             }
 
-            // ── Action Buttons (only for upcoming) ──
+            // ── Bottom Action Bar ──
             if isUpcoming {
-                VStack(spacing: 12) {
-                    HStack(spacing: 14) {
-                        // Cancel button
-                        Button(action: {
-                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                            showCancelSheet = true
-                        }) {
-                            HStack(spacing: 8) {
-                                Image(systemName: "xmark.circle")
-                                    .font(.system(size: 16, weight: .medium))
-                                Text(languageManager.localized("cancel_appointment"))
-                                    .font(.poppins(.semiBold, size: 15))
-                            }
-                            .foregroundColor(.red)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 16)
-                            .background(
-                                RoundedRectangle(cornerRadius: 14)
-                                    .fill(Color.red.opacity(0.06))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 14)
-                                            .stroke(Color.red.opacity(0.2), lineWidth: 1.5)
-                                    )
-                            )
-                        }
-
-                        // Reschedule button
-                        Button(action: {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            router.navigate(to: .rescheduleAppointment(appointment))
-                        }) {
-                            HStack(spacing: 8) {
-                                Image(systemName: "calendar.badge.clock")
-                                    .font(.system(size: 16, weight: .medium))
-                                Text(languageManager.localized("reschedule"))
-                                    .font(.poppins(.semiBold, size: 15))
-                            }
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 16)
-                            .background(
-                                RoundedRectangle(cornerRadius: 14)
-                                    .fill(AppColors.brandBlue)
-                            )
-                        }
-                    }
-                }
-                .padding(.horizontal, 20)
-                .padding(.vertical, 12)
-                .background(
-                    Color.white
-                        .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: -4)
-                        .ignoresSafeArea(edges: .bottom)
-                )
+                bottomActionBar
+                    .opacity(actionsAppear ? 1 : 0)
+                    .offset(y: actionsAppear ? 0 : 30)
             }
         }
         .background(AppColors.background)
-        .onAppear {
-            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                cardAppear = true
-            }
-        }
+        .onAppear { triggerStaggeredAnimations() }
         .sheet(isPresented: $showCancelSheet) {
             CancelAppointmentSheet(appointment: appointment) {
-                // On confirm cancel — go back to appointment list
                 showCancelSheet = false
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     router.goBack()
@@ -261,59 +101,401 @@ struct AppointmentDetailView: View {
             .presentationDragIndicator(.visible)
         }
     }
-}
 
-// MARK: - Detail Header
+    // MARK: - Staggered Animations
 
-private struct DetailHeaderView: View {
-    @Environment(AppRouter.self) var router
-    let subtitle: String
+    private func triggerStaggeredAnimations() {
+        withAnimation(.spring(response: 0.55, dampingFraction: 0.82).delay(0.05)) {
+            headerAppear = true
+        }
+        withAnimation(.spring(response: 0.55, dampingFraction: 0.82).delay(0.15)) {
+            detailsAppear = true
+        }
+        withAnimation(.spring(response: 0.55, dampingFraction: 0.82).delay(0.25)) {
+            actionsAppear = true
+        }
+    }
 
-    var body: some View {
-        VStack(spacing: 4) {
-            ZStack {
-                HStack {
-                    BackButton { router.goBack() }
-                    Spacer()
+    // MARK: - Hero Card
+
+    private var heroCard: some View {
+        VStack(spacing: 0) {
+            // Top gradient section
+            ZStack(alignment: .topTrailing) {
+                LinearGradient(
+                    colors: [departmentColor, departmentColor.opacity(0.7)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+
+                // Decorative circles
+                Circle()
+                    .fill(Color.white.opacity(0.06))
+                    .frame(width: 120, height: 120)
+                    .offset(x: 40, y: -30)
+                Circle()
+                    .fill(Color.white.opacity(0.04))
+                    .frame(width: 80, height: 80)
+                    .offset(x: -20, y: 60)
+
+                VStack(spacing: 16) {
+                    // Status chip at top
+                    HStack {
+                        Spacer()
+                        HStack(spacing: 6) {
+                            Circle()
+                                .fill(Color.white)
+                                .frame(width: 7, height: 7)
+                            Text(languageManager.localized(appointment.status.localizationKey).uppercased())
+                                .font(.poppins(.bold, size: 11))
+                                .foregroundColor(.white)
+                                .tracking(0.8)
+                        }
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 7)
+                        .background(
+                            Capsule().fill(Color.white.opacity(0.2))
+                        )
+                    }
+
+                    // Doctor info
+                    HStack(spacing: 14) {
+                        ZStack {
+                            Circle()
+                                .fill(Color.white.opacity(0.15))
+                                .frame(width: 56, height: 56)
+                            Image(systemName: departmentIcon)
+                                .font(.system(size: 24, weight: .medium))
+                                .foregroundColor(.white)
+                        }
+
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text(appointment.doctorName)
+                                .font(.poppins(.bold, size: 19))
+                                .foregroundColor(.white)
+                            Text(languageManager.localized(appointment.departmentKey))
+                                .font(.poppins(.medium, size: 13))
+                                .foregroundColor(.white.opacity(0.85))
+                        }
+                        Spacer()
+                    }
                 }
-                AppNameText(fontSize: 20)
-                HStack(spacing: 4) {
-                    Spacer()
-                    NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
-                }
+                .padding(20)
             }
-            Text(subtitle)
-                .font(.poppins(.medium, size: 14))
-                .foregroundColor(.gray)
+            .frame(minHeight: 140)
+
+            // Token strip
+            HStack {
+                HStack(spacing: 8) {
+                    Image(systemName: "number.square.fill")
+                        .font(.system(size: 18))
+                        .foregroundColor(departmentColor)
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(languageManager.localized("token_number").uppercased())
+                            .font(.poppins(.medium, size: 10))
+                            .foregroundColor(.gray)
+                            .tracking(0.5)
+                        Text(appointment.tokenNumber)
+                            .font(.poppins(.bold, size: 18))
+                            .foregroundColor(AppColors.darkBlue)
+                    }
+                }
+                Spacer()
+                Image(systemName: "qrcode")
+                    .font(.system(size: 22))
+                    .foregroundColor(AppColors.darkBlue.opacity(0.25))
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 14)
+            .background(Color.white)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+        .shadow(color: departmentColor.opacity(0.18), radius: 16, x: 0, y: 8)
+    }
+
+    // MARK: - Quick Info Strip
+
+    private var quickInfoStrip: some View {
+        HStack(spacing: 10) {
+            DetailPill(icon: "calendar", text: shortDateString, color: AppColors.brandBlue)
+            DetailPill(icon: "clock.fill", text: appointment.timeSlot, color: .orange)
+            DetailPill(icon: "mappin.circle.fill", text: languageManager.localized("department"), color: .purple)
+        }
+    }
+
+    // MARK: - Details Section
+
+    private var detailsSection: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            // Section header
+            HStack {
+                Text(languageManager.localized("details").uppercased())
+                    .font(.poppins(.bold, size: 12))
+                    .foregroundColor(.gray)
+                    .tracking(1)
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 18)
+            .padding(.bottom, 14)
+
+            // Rows
+            DetailRow(
+                icon: "calendar",
+                iconColor: AppColors.brandBlue,
+                label: languageManager.localized("date"),
+                value: dateString
+            )
+            thinDivider
+            DetailRow(
+                icon: "clock.fill",
+                iconColor: .orange,
+                label: languageManager.localized("time"),
+                value: appointment.timeSlot
+            )
+            thinDivider
+            DetailRow(
+                icon: "person.fill",
+                iconColor: .purple,
+                label: languageManager.localized("patient"),
+                value: appointment.patientName
+            )
+            thinDivider
+            DetailRow(
+                icon: "phone.fill",
+                iconColor: .green,
+                label: languageManager.localized("contact"),
+                value: appointment.contactNumber
+            )
+
+            if !appointment.reasonForVisit.isEmpty {
+                thinDivider
+                DetailRow(
+                    icon: "text.alignleft",
+                    iconColor: .teal,
+                    label: languageManager.localized("reason"),
+                    value: appointment.reasonForVisit
+                )
+            }
+
+            Spacer().frame(height: 6)
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(Color.white)
+        )
+        .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 4)
+    }
+
+    private var thinDivider: some View {
+        Rectangle()
+            .fill(Color.gray.opacity(0.08))
+            .frame(height: 1)
+            .padding(.leading, 68)
+    }
+
+    // MARK: - Fee Card
+
+    private var feeCard: some View {
+        HStack(spacing: 14) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            colors: [Color.green.opacity(0.12), Color.green.opacity(0.06)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 48, height: 48)
+                Image(systemName: "creditcard.fill")
+                    .font(.system(size: 20))
+                    .foregroundColor(.green)
+            }
+
+            VStack(alignment: .leading, spacing: 3) {
+                Text(languageManager.localized("consultation_fee"))
+                    .font(.poppins(.medium, size: 12))
+                    .foregroundColor(.gray)
+                Text("LKR \(appointment.consultationFee).00")
+                    .font(.poppins(.bold, size: 20))
+                    .foregroundColor(AppColors.darkBlue)
+            }
+
+            Spacer()
+
+            Image(systemName: "checkmark.seal.fill")
+                .font(.system(size: 22))
+                .foregroundColor(.green.opacity(0.6))
+        }
+        .padding(18)
+        .background(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(Color.white)
+        )
+        .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 4)
+    }
+
+    // MARK: - Note Banner
+
+    private var noteBanner: some View {
+        HStack(alignment: .top, spacing: 14) {
+            ZStack {
+                Circle()
+                    .fill(AppColors.brandBlue.opacity(0.1))
+                    .frame(width: 36, height: 36)
+                Image(systemName: "lightbulb.fill")
+                    .font(.system(size: 15))
+                    .foregroundColor(AppColors.brandBlue)
+            }
+            Text(languageManager.localized("arrive_early_note"))
+                .font(.poppins(.regular, size: 13))
+                .foregroundColor(AppColors.darkBlue.opacity(0.7))
+                .fixedSize(horizontal: false, vertical: true)
+                .lineSpacing(3)
+        }
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(AppColors.brandBlue.opacity(0.04))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .stroke(AppColors.brandBlue.opacity(0.1), lineWidth: 1)
+                )
+        )
+    }
+
+    // MARK: - Bottom Action Bar
+
+    private var bottomActionBar: some View {
+        VStack(spacing: 10) {
+            // Primary: Reschedule
+            Button {
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                router.navigate(to: .rescheduleAppointment(appointment))
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: "calendar.badge.clock")
+                        .font(.system(size: 16, weight: .semibold))
+                    Text(languageManager.localized("reschedule"))
+                        .font(.poppins(.semiBold, size: 16))
+                }
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .background(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .fill(
+                            LinearGradient(
+                                colors: [AppColors.brandBlue, AppColors.brandBlue.opacity(0.85)],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                )
+                .shadow(color: AppColors.brandBlue.opacity(0.3), radius: 8, x: 0, y: 4)
+            }
+
+            // Secondary: Cancel
+            Button {
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                showCancelSheet = true
+            } label: {
+                Text(languageManager.localized("cancel_appointment"))
+                    .font(.poppins(.semiBold, size: 15))
+                    .foregroundColor(.red.opacity(0.8))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 14)
+                    .background(
+                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                            .stroke(Color.red.opacity(0.2), lineWidth: 1.5)
+                    )
+            }
         }
         .padding(.horizontal, 20)
-        .padding(.top, 8)
+        .padding(.top, 12)
         .padding(.bottom, 8)
-        .background(Color.white)
+        .background(
+            Rectangle()
+                .fill(.ultraThinMaterial)
+                .ignoresSafeArea(edges: .bottom)
+        )
     }
 }
 
-// MARK: - Detail Info Row
+// MARK: - Detail Header Bar (Minimal)
 
-private struct DetailInfoRow: View {
+private struct DetailHeaderBar: View {
+    @Environment(AppRouter.self) var router
+    @Environment(LanguageManager.self) var languageManager
+
+    var body: some View {
+        ZStack {
+            HStack {
+                BackButton { router.goBack() }
+                Spacer()
+            }
+            AppNameText(fontSize: 20)
+        }
+        .padding(.horizontal, 20)
+        .padding(.top, 8)
+        .padding(.bottom, 10)
+        .background(
+            Color.white
+                .shadow(color: Color.black.opacity(0.03), radius: 4, x: 0, y: 2)
+        )
+    }
+}
+
+// MARK: - Detail Pill
+
+private struct DetailPill: View {
     let icon: String
+    let text: String
+    let color: Color
+
+    var body: some View {
+        HStack(spacing: 5) {
+            Image(systemName: icon)
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundColor(color)
+            Text(text)
+                .font(.poppins(.medium, size: 11))
+                .foregroundColor(AppColors.darkBlue)
+                .lineLimit(1)
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 8)
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(color.opacity(0.06))
+        )
+    }
+}
+
+// MARK: - Detail Row
+
+private struct DetailRow: View {
+    let icon: String
+    let iconColor: Color
     let label: String
     let value: String
 
     var body: some View {
-        HStack(alignment: .top, spacing: 14) {
+        HStack(alignment: .center, spacing: 14) {
             ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(AppColors.brandBlue.opacity(0.08))
-                    .frame(width: 36, height: 36)
+                RoundedRectangle(cornerRadius: 11, style: .continuous)
+                    .fill(iconColor.opacity(0.1))
+                    .frame(width: 38, height: 38)
                 Image(systemName: icon)
-                    .font(.system(size: 15))
-                    .foregroundColor(AppColors.brandBlue)
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundColor(iconColor)
             }
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(label)
-                    .font(.poppins(.regular, size: 12))
+                    .font(.poppins(.regular, size: 11))
                     .foregroundColor(.gray)
                 Text(value)
                     .font(.poppins(.medium, size: 15))
@@ -322,6 +504,8 @@ private struct DetailInfoRow: View {
 
             Spacer()
         }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 10)
     }
 }
 

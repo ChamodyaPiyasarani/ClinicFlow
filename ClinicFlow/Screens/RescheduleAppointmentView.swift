@@ -28,9 +28,10 @@ struct RescheduleAppointmentView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            // ── Header ──
-            RescheduleHeaderView(subtitle: languageManager.localized("reschedule_appointment"))
+        ZStack {
+            VStack(spacing: 0) {
+                // ── Header ──
+                RescheduleHeaderView(subtitle: languageManager.localized("reschedule_appointment"))
 
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 22) {
@@ -286,74 +287,13 @@ struct RescheduleAppointmentView: View {
         } message: {
             Text(languageManager.localized("reschedule_confirm_message"))
         }
-        .sheet(isPresented: $showSuccessSheet) {
-            RescheduleSuccessView(
-                appointment: appointment,
-                newDate: selectedDate,
-                newTimeSlot: selectedTimeSlot?.time ?? ""
-            )
-            .environment(languageManager)
-            .environment(router)
-        }
-    }
-
-    private func dayAbbreviation(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEE"
-        return formatter.string(from: date).uppercased()
-    }
-}
-
-// MARK: - Reschedule Header
-
-private struct RescheduleHeaderView: View {
-    @Environment(AppRouter.self) var router
-    let subtitle: String
-
-    var body: some View {
-        VStack(spacing: 4) {
-            ZStack {
-                HStack {
-                    BackButton { router.goBack() }
-                    Spacer()
-                }
-                AppNameText(fontSize: 20)
-                HStack(spacing: 4) {
-                    Spacer()
-                    NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
-                }
-            }
-            Text(subtitle)
-                .font(.poppins(.medium, size: 14))
-                .foregroundColor(AppColors.darkBlue)
-        }
-        .padding(.horizontal, 20)
-        .padding(.top, 8)
-        .padding(.bottom, 8)
-        .background(AppColors.background)
-    }
-}
-
-// MARK: - Reschedule Success View
-
-struct RescheduleSuccessView: View {
-    @Environment(\.dismiss) var dismiss
-    @Environment(LanguageManager.self) var languageManager
-    @Environment(AppRouter.self) var router
-    
-    let appointment: Appointment
-    let newDate: Date
-    let newTimeSlot: String
-    
-    private var formattedDate: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd MMMM yyyy"
-        return formatter.string(from: newDate)
-    }
-    
-    var body: some View {
-        // Success Card
-        VStack(spacing: 24) {
+            
+            // Success Card Overlay
+            if showSuccessSheet {
+                Color.black.opacity(0.4)
+                    .ignoresSafeArea()
+                
+                VStack(spacing: 24) {
                     // Success Icon
                     ZStack {
                         Circle()
@@ -411,7 +351,7 @@ struct RescheduleSuccessView: View {
                                 Text("Date:")
                                     .font(.poppins(.medium, size: 14))
                                     .foregroundColor(Color(red: 0.3, green: 0.5, blue: 0.4))
-                                Text(formattedDate)
+                                Text(formattedAppointmentDate(selectedDate))
                                     .font(.poppins(.semiBold, size: 14))
                                     .foregroundColor(Color(red: 0.15, green: 0.45, blue: 0.25))
                             }
@@ -423,7 +363,7 @@ struct RescheduleSuccessView: View {
                                 Text("Time:")
                                     .font(.poppins(.medium, size: 14))
                                     .foregroundColor(Color(red: 0.3, green: 0.5, blue: 0.4))
-                                Text(newTimeSlot)
+                                Text(selectedTimeSlot?.time ?? "")
                                     .font(.poppins(.semiBold, size: 14))
                                     .foregroundColor(Color(red: 0.15, green: 0.45, blue: 0.25))
                             }
@@ -448,8 +388,7 @@ struct RescheduleSuccessView: View {
                     // Action Button
                     Button(action: {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        dismiss()
-                        // Navigate back to appointments list
+                        showSuccessSheet = false
                         router.goBack() // Pop to detail
                         router.goBack() // Pop to appointments list
                     }) {
@@ -476,6 +415,57 @@ struct RescheduleSuccessView: View {
                     .padding(.horizontal, 24)
                     .padding(.bottom, 32)
                 }
+                .background(
+                    RoundedRectangle(cornerRadius: 32)
+                        .fill(Color.white)
+                        .shadow(color: Color.black.opacity(0.2), radius: 30, x: 0, y: 10)
+                )
+                .padding(.horizontal, 32)
+                .transition(.scale.combined(with: .opacity))
+            }
+        }
+    }
+    
+    private func formattedAppointmentDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMMM yyyy"
+        return formatter.string(from: date)
+    }
+
+    private func dayAbbreviation(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE"
+        return formatter.string(from: date).uppercased()
+    }
+}
+
+// MARK: - Reschedule Header
+
+private struct RescheduleHeaderView: View {
+    @Environment(AppRouter.self) var router
+    let subtitle: String
+
+    var body: some View {
+        VStack(spacing: 4) {
+            ZStack {
+                HStack {
+                    BackButton { router.goBack() }
+                    Spacer()
+                }
+                AppNameText(fontSize: 20)
+                HStack(spacing: 4) {
+                    Spacer()
+                    NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
+                }
+            }
+            Text(subtitle)
+                .font(.poppins(.medium, size: 14))
+                .foregroundColor(AppColors.darkBlue)
+        }
+        .padding(.horizontal, 20)
+        .padding(.top, 8)
+        .padding(.bottom, 8)
+        .background(AppColors.background)
     }
 }
 

@@ -44,16 +44,14 @@ struct PharmacyView: View {
                 .background(Color.white)
                 
                 // Pharmacy subtitle
-                HStack {
-                    Text(languageManager.localized("pharmacy_title"))
-                        .font(.poppins(.semiBold, size: 18))
-                        .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255))
-                    Spacer()
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 16)
-                .padding(.bottom, 12)
-                .background(Color.white)
+                Text(languageManager.localized("pharmacy_title"))
+                    .font(.poppins(.semiBold, size: 18))
+                    .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255))
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 16)
+                    .padding(.bottom, 12)
+                    .background(Color.white)
                 
                 // MARK: - Content
                 ScrollView(showsIndicators: false) {
@@ -125,21 +123,61 @@ private struct PatientInfoCard: View {
             // Patient Avatar
             ZStack {
                 Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                Color(red: 140/255, green: 200/255, blue: 115/255),
-                                Color(red: 95/255, green: 175/255, blue: 155/255)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
+                    .fill(Color(red: 200/255, green: 220/255, blue: 160/255))
                     .frame(width: 60, height: 60)
-                
-                Image(systemName: "person.fill")
-                    .font(.system(size: 30))
-                    .foregroundColor(.white)
+
+                // Simple avatar illustration
+                VStack(spacing: 1) {
+                    // Head
+                    Circle()
+                        .fill(Color(red: 240/255, green: 200/255, blue: 170/255))
+                        .frame(width: 22, height: 22)
+                        .overlay(
+                            // Simple facial features
+                            VStack(spacing: 2) {
+                                // Hair/curls
+                                HStack(spacing: 2) {
+                                    Circle().fill(Color(red: 139/255, green: 90/255, blue: 43/255))
+                                        .frame(width: 4, height: 4)
+                                    Circle().fill(Color(red: 139/255, green: 90/255, blue: 43/255))
+                                        .frame(width: 4, height: 4)
+                                    Circle().fill(Color(red: 139/255, green: 90/255, blue: 43/255))
+                                        .frame(width: 4, height: 4)
+                                }
+                                .offset(y: -8)
+                                
+                                Spacer()
+                                
+                                // Eyes
+                                HStack(spacing: 5) {
+                                    Circle().fill(Color.black)
+                                        .frame(width: 2, height: 2)
+                                    Circle().fill(Color.black)
+                                        .frame(width: 2, height: 2)
+                                }
+                                
+                                // Smile arc
+                                Path { path in
+                                    path.addArc(
+                                        center: CGPoint(x: 11, y: 14),
+                                        radius: 4,
+                                        startAngle: .degrees(0),
+                                        endAngle: .degrees(180),
+                                        clockwise: false
+                                    )
+                                }
+                                .stroke(Color.black, lineWidth: 0.7)
+                                .frame(width: 22, height: 22)
+                            }
+                            .frame(width: 22, height: 22)
+                        )
+                    
+                    // Body/shirt
+                    Capsule()
+                        .fill(Color(red: 70/255, green: 130/255, blue: 220/255))
+                        .frame(width: 28, height: 16)
+                        .offset(y: -3)
+                }
             }
             
             // Patient details
@@ -312,24 +350,52 @@ private struct ImportantInfoSection: View {
 
 // MARK: - Permission Helper Functions
 private func requestCameraPermission(completion: @escaping () -> Void) {
-    AVCaptureDevice.requestAccess(for: .video) { granted in
-        DispatchQueue.main.async {
-            if granted {
-                completion()
+    let status = AVCaptureDevice.authorizationStatus(for: .video)
+    
+    switch status {
+    case .authorized:
+        // Already authorized, proceed
+        completion()
+    case .notDetermined:
+        // Request permission - this will show the iOS permission popup
+        AVCaptureDevice.requestAccess(for: .video) { granted in
+            DispatchQueue.main.async {
+                if granted {
+                    completion()
+                }
             }
-            // Even if denied, the system permission popup will have appeared
         }
+    case .denied, .restricted:
+        // Permission was denied - the user needs to enable it in Settings
+        // The app can show an alert here if needed
+        break
+    @unknown default:
+        break
     }
 }
 
 private func requestPhotoLibraryPermission(completion: @escaping () -> Void) {
-    PHPhotoLibrary.requestAuthorization { status in
-        DispatchQueue.main.async {
-            if status == .authorized || status == .limited {
-                completion()
+    let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+    
+    switch status {
+    case .authorized, .limited:
+        // Already authorized, proceed
+        completion()
+    case .notDetermined:
+        // Request permission - this will show the iOS permission popup
+        PHPhotoLibrary.requestAuthorization(for: .readWrite) { newStatus in
+            DispatchQueue.main.async {
+                if newStatus == .authorized || newStatus == .limited {
+                    completion()
+                }
             }
-            // Even if denied, the system permission popup will have appeared
         }
+    case .denied, .restricted:
+        // Permission was denied - the user needs to enable it in Settings
+        // The app can show an alert here if needed
+        break
+    @unknown default:
+        break
     }
 }
 

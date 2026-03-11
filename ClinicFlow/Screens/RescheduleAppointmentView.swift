@@ -327,7 +327,14 @@ private struct RescheduleHeaderView: View {
                 .font(.poppins(.medium, size: 14))
                 .foregroundColor(AppColors.darkBlue)
         }
-        .paReschedule Success View
+        .padding(.horizontal, 20)
+        .padding(.top, 8)
+        .padding(.bottom, 8)
+        .background(AppColors.background)
+    }
+}
+
+// MARK: - Reschedule Success View
 
 struct RescheduleSuccessView: View {
     @Environment(\.dismiss) var dismiss
@@ -495,13 +502,6 @@ struct RescheduleSuccessView: View {
             }
         }
         .interactiveDismissDisabled()
-    }
-}
-
-// MARK: - dding(.horizontal, 20)
-        .padding(.top, 8)
-        .padding(.bottom, 8)
-        .background(AppColors.background)
     }
 }
 

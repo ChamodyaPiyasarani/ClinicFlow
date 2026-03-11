@@ -185,6 +185,7 @@ private struct MenuItemsSection: View {
                 title: languageManager.localized("help_support")
             ) {
                 // Action: Navigate to help & support
+                router.navigate(to: .helpSupport)
             }
             
             MenuItemRow(

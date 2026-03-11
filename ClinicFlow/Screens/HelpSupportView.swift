@@ -38,7 +38,7 @@ struct HelpSupportView: View {
 
                         Text(languageManager.localized("faq_title"))
                             .font(.poppins(.medium, size: 13))
-                            .foregroundColor(.gray)
+                            .foregroundColor(AppColors.darkBlue)
                     }
 
                     // Trailing icons (right)
@@ -74,22 +74,24 @@ struct HelpSupportView: View {
 
                         // MARK: - Contact Support Title
                         Text(languageManager.localized("contact_support"))
-                            .font(.poppins(.semiBold, size: 16))
+                            .font(.poppins(.semiBold, size: 18))
                             .foregroundColor(AppColors.darkBlue)
-                            .padding(.top, 12)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, 16)
+                            .padding(.bottom, 4)
 
                         // MARK: - Support Cards
                         ContactSupportCard(
                             icon: "phone.fill",
-                            iconColor: Color(red: 34/255, green: 139/255, blue: 34/255),
-                            bgColor: Color(red: 230/255, green: 255/255, blue: 230/255),
+                            iconColor: Color(red: 70/255, green: 130/255, blue: 220/255),
+                            bgColor: Color(red: 220/255, green: 235/255, blue: 255/255),
                             title: languageManager.localized("phone_support"),
                             subtitle: languageManager.localized("phone_support_number")
                         )
 
                         ContactSupportCard(
                             icon: "envelope.fill",
-                            iconColor: Color(red: 34/255, green: 139/255, blue: 34/255),
+                            iconColor: Color(red: 80/255, green: 180/255, blue: 100/255),
                             bgColor: Color(red: 230/255, green: 255/255, blue: 230/255),
                             title: languageManager.localized("email_support"),
                             subtitle: languageManager.localized("email_support_address")
@@ -97,8 +99,8 @@ struct HelpSupportView: View {
 
                         ContactSupportCard(
                             icon: "bubble.left.and.bubble.right.fill",
-                            iconColor: Color(red: 34/255, green: 139/255, blue: 34/255),
-                            bgColor: Color(red: 230/255, green: 255/255, blue: 230/255),
+                            iconColor: Color(red: 150/255, green: 100/255, blue: 220/255),
+                            bgColor: Color(red: 240/255, green: 230/255, blue: 255/255),
                             title: languageManager.localized("live_chat"),
                             subtitle: languageManager.localized("live_chat_subtitle")
                         )
@@ -177,35 +179,36 @@ private struct ContactSupportCard: View {
     let subtitle: String
 
     var body: some View {
-        HStack(spacing: 14) {
+        HStack(spacing: 16) {
             // Icon circle
             ZStack {
                 Circle()
-                    .fill(bgColor)
-                    .frame(width: 44, height: 44)
+                    .fill(Color.white)
+                    .frame(width: 52, height: 52)
 
                 Image(systemName: icon)
-                    .font(.system(size: 18, weight: .semibold))
+                    .font(.system(size: 22, weight: .semibold))
                     .foregroundColor(iconColor)
             }
 
             // Text
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(title)
-                    .font(.poppins(.semiBold, size: 14))
+                    .font(.poppins(.semiBold, size: 16))
                     .foregroundColor(AppColors.darkBlue)
 
                 Text(subtitle)
-                    .font(.poppins(.regular, size: 12))
+                    .font(.poppins(.regular, size: 13))
                     .foregroundColor(.gray)
             }
 
             Spacer()
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 14)
-        .background(bgColor.opacity(0.5))
-        .cornerRadius(14)
+        .padding(.horizontal, 20)
+        .padding(.vertical, 18)
+        .background(bgColor)
+        .cornerRadius(20)
+        .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
     }
 }
 

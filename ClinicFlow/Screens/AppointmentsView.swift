@@ -243,17 +243,11 @@ private struct AppointmentCard: View {
                     .background(
                         Capsule()
                             .fill(appointment.status.color.opacity(0.12))
-         simultaneously(gesture: DragGesture(minimumDistance: 0)
-            .onChanged { _ in
-                withAnimation(.easeInOut(duration: 0.1)) {
-                    isPressed = true
-                }
+                    )
+                    .padding(.top, 2)
             }
-            .onEnded { _ in
-                withAnimation(.easeInOut(duration: 0.1)) {
-                    isPressed = false
-                }
-           
+
+            Spacer()
 
             Image(systemName: "chevron.right")
                 .font(.system(size: 14, weight: .semibold))
@@ -266,11 +260,18 @@ private struct AppointmentCard: View {
                 .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 3)
         )
         .scaleEffect(isPressed ? 0.98 : 1.0)
-        .animation(.easeInOut(duration: 0.1), value: isPressed)
         .simultaneousGesture(
             DragGesture(minimumDistance: 0)
-                .onChanged { _ in isPressed = true }
-                .onEnded { _ in isPressed = false }
+                .onChanged { _ in
+                    withAnimation(.easeInOut(duration: 0.1)) {
+                        isPressed = true
+                    }
+                }
+                .onEnded { _ in
+                    withAnimation(.easeInOut(duration: 0.1)) {
+                        isPressed = false
+                    }
+                }
         )
     }
 }

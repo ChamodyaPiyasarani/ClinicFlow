@@ -21,29 +21,9 @@ struct PatientProfilesView: View {
                         MyProfilesSection(
                             profiles: profiles,
                             onAddProfile: {
-                                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                                    showAddProfile = true
-                                }
+                                showAddProfile = true
                             }
                         )
-                        
-                        // ── Inline Add Family Member Form ──
-                        if showAddProfile {
-                            AddFamilyMemberForm(
-                                onSave: { newProfile in
-                                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                                        profiles.append(newProfile)
-                                        showAddProfile = false
-                                    }
-                                },
-                                onCancel: {
-                                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                                        showAddProfile = false
-                                    }
-                                }
-                            )
-                            .transition(.opacity.combined(with: .move(edge: .bottom)))
-                        }
                     }
                     .padding(.horizontal, 20)
                     .padding(.bottom, 100) // Space for bottom nav
@@ -55,6 +35,17 @@ struct PatientProfilesView: View {
             BottomNavBar()
         }
         .edgesIgnoringSafeArea(.bottom)
+        .sheet(isPresented: $showAddProfile) {
+            AddFamilyMemberForm(
+                onSave: { newProfile in
+                    profiles.append(newProfile)
+                    showAddProfile = false
+                },
+                onCancel: {
+                    showAddProfile = false
+                }
+            )
+        }
     }
 }
 
@@ -135,7 +126,7 @@ private struct MyProfilesSection: View {
             HStack {
                 Text(languageManager.localized("my_profiles"))
                     .font(.poppins(.semiBold, size: 20))
-                    .foregroundColor(AppColors.brandBlue)
+                    .foregroundColor(AppColors.darkBlue)
                 
                 Spacer()
                 
@@ -146,7 +137,7 @@ private struct MyProfilesSection: View {
                     onAddProfile()
                 }) {
                     Circle()
-                        .fill(AppColors.brandBlue)
+                        .fill(AppColors.darkBlue)
                         .frame(width: 44, height: 44)
                         .overlay(
                             Image(systemName: "plus")
@@ -206,11 +197,11 @@ private struct ProfileCardRow: View {
                     // Status badge
                     if let allergies = profile.allergiesCount, allergies > 0 {
                         Text("\(allergies) \(languageManager.localized("allergies"))")
-                            .font(.poppins(.medium, size: 12))
+                            .font(.poppins(.medium, size: 13))
                             .foregroundColor(.red)
                     } else if profile.isActive {
                         Text(languageManager.localized("active"))
-                            .font(.poppins(.medium, size: 12))
+                            .font(.poppins(.medium, size: 13))
                             .foregroundColor(Color(red: 80/255, green: 180/255, blue: 100/255))
                     }
                 }
@@ -561,13 +552,19 @@ private struct AddFamilyMemberForm: View {
     }
     
     var body: some View {
-        VStack(spacing: 16) {
-            headerSection
-            profileSection
-            informationSection
-            allergiesSection
-            actionButtons
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 16) {
+                headerSection
+                profileSection
+                informationSection
+                allergiesSection
+                actionButtons
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 20)
+            .padding(.bottom, 40)
         }
+        .background(AppColors.background)
     }
 }
 

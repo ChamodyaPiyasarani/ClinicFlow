@@ -144,7 +144,7 @@ private struct ProfileHeaderSection: View {
             
             // Relationship
             Text(profile.relationship)
-                .font(.poppins(.regular, size: 14))
+                .font(.poppins(.regular, size: 13))
                 .foregroundColor(.gray)
             
             // Status badge

@@ -497,9 +497,9 @@ struct LocalizedStrings {
             .tamil: "தொலைபேசி ஆதரவு"
         ],
         "phone_support_number": [
-            .english: "+1 (555) 123-4567",
-            .sinhala: "+1 (555) 123-4567",
-            .tamil: "+1 (555) 123-4567"
+            .english: "+94 71 123 4567",
+            .sinhala: "+94 71 123 4567",
+            .tamil: "+94 71 123 4567"
         ],
         "email_support": [
             .english: "Email Support",

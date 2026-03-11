@@ -140,23 +140,6 @@ struct AppointmentConfirmedView: View {
                     )
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .opacity(contentOpacity)
-
-                    // ── Status Badge ──
-                    HStack(spacing: 8) {
-                        Image(systemName: "checkmark.seal.fill")
-                            .font(.system(size: 16))
-                            .foregroundColor(.green)
-                        Text(languageManager.localized("status_confirmed"))
-                            .font(.poppins(.semiBold, size: 15))
-                            .foregroundColor(.green)
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 10)
-                    .background(
-                        Capsule()
-                            .fill(Color.green.opacity(0.1))
-                    )
-                    .opacity(contentOpacity)
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 120)

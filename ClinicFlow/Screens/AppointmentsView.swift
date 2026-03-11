@@ -81,7 +81,12 @@ struct AppointmentsView: View {
                             AppointmentCard(appointment: appointment)
                                 .onTapGesture {
                                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                                    router.navigate(to: .appointmentDetail(appointment))
+                                    // Navigate to reschedule for upcoming, detail for past
+                                    if selectedSegment == 0 {
+                                        router.navigate(to: .rescheduleAppointment(appointment))
+                                    } else {
+                                        router.navigate(to: .appointmentDetail(appointment))
+                                    }
                                 }
                                 .opacity(appearAnimation ? 1 : 0)
                                 .offset(y: appearAnimation ? 0 : 20)

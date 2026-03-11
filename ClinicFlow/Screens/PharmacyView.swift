@@ -14,7 +14,7 @@ struct PharmacyView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             // Background
-            AppColors.background
+            Color(red: 248/255, green: 249/255, blue: 252/255)
                 .ignoresSafeArea()
             
             VStack(spacing: 0) {
@@ -46,12 +46,13 @@ struct PharmacyView: View {
                 // Pharmacy subtitle
                 HStack {
                     Text(languageManager.localized("pharmacy_title"))
-                        .font(.poppins(.semiBold, size: 16))
-                        .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
+                        .font(.poppins(.semiBold, size: 18))
+                        .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255))
                     Spacer()
                 }
                 .padding(.horizontal, 20)
-                .padding(.vertical, 12)
+                .padding(.top, 16)
+                .padding(.bottom, 12)
                 .background(Color.white)
                 
                 // MARK: - Content
@@ -81,9 +82,19 @@ struct PharmacyView: View {
                                 .font(.poppins(.semiBold, size: 17))
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
-                                .padding(.vertical, 16)
-                                .background(Color(red: 50/255, green: 160/255, blue: 140/255))
-                                .cornerRadius(14)
+                                .padding(.vertical, 17)
+                                .background(
+                                    LinearGradient(
+                                        colors: [
+                                            Color(red: 70/255, green: 175/255, blue: 155/255),
+                                            Color(red: 60/255, green: 165/255, blue: 145/255)
+                                        ],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .cornerRadius(16)
+                                .shadow(color: Color(red: 70/255, green: 175/255, blue: 155/255).opacity(0.3), radius: 10, x: 0, y: 5)
                         }
                         .padding(.horizontal, 20)
                         .padding(.bottom, 100)
@@ -110,44 +121,44 @@ private struct PatientInfoCard: View {
     @Environment(LanguageManager.self) var languageManager
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 14) {
             // Patient Avatar
             ZStack {
                 Circle()
                     .fill(
                         LinearGradient(
                             colors: [
-                                Color(red: 100/255, green: 180/255, blue: 120/255),
-                                Color(red: 80/255, green: 160/255, blue: 140/255)
+                                Color(red: 140/255, green: 200/255, blue: 115/255),
+                                Color(red: 95/255, green: 175/255, blue: 155/255)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 56, height: 56)
+                    .frame(width: 60, height: 60)
                 
                 Image(systemName: "person.fill")
-                    .font(.system(size: 28))
+                    .font(.system(size: 30))
                     .foregroundColor(.white)
             }
             
             // Patient details
             VStack(alignment: .leading, spacing: 4) {
                 Text("John Doe")
-                    .font(.poppins(.semiBold, size: 17))
-                    .foregroundColor(AppColors.darkBlue)
+                    .font(.poppins(.semiBold, size: 18))
+                    .foregroundColor(Color(red: 35/255, green: 60/255, blue: 95/255))
                 
                 Text("\(languageManager.localized("patient_id_label")): CLF-1024")
                     .font(.poppins(.regular, size: 14))
-                    .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
+                    .foregroundColor(Color(red: 130/255, green: 145/255, blue: 160/255))
             }
             
             Spacer()
         }
-        .padding(16)
+        .padding(18)
         .background(Color.white)
-        .cornerRadius(16)
-        .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 2)
+        .cornerRadius(18)
+        .shadow(color: Color.black.opacity(0.06), radius: 8, x: 0, y: 3)
         .padding(.horizontal, 20)
     }
 }
@@ -166,28 +177,28 @@ private struct UploadPrescriptionSection: View {
                 // Camera icon
                 ZStack {
                     Circle()
-                        .fill(Color(red: 50/255, green: 160/255, blue: 140/255).opacity(0.15))
-                        .frame(width: 64, height: 64)
+                        .fill(Color(red: 70/255, green: 175/255, blue: 155/255).opacity(0.18))
+                        .frame(width: 72, height: 72)
                     
                     Image(systemName: "camera.fill")
-                        .font(.system(size: 28))
-                        .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
+                        .font(.system(size: 32))
+                        .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255))
                 }
-                .padding(.top, 8)
+                .padding(.top, 12)
                 
                 // Text
                 VStack(spacing: 8) {
                     Text(languageManager.localized("upload_prescription"))
-                        .font(.poppins(.semiBold, size: 16))
-                        .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
+                        .font(.poppins(.semiBold, size: 17))
+                        .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255))
                     
                     Text(languageManager.localized("jpg_png_supported"))
                         .font(.poppins(.regular, size: 13))
-                        .foregroundColor(.gray)
+                        .foregroundColor(Color(red: 150/255, green: 160/255, blue: 170/255))
                 }
                 
                 // Buttons
-                VStack(spacing: 12) {
+                VStack(spacing: 13) {
                     // Choose from Gallery
                     Button(action: {
                         let impact = UIImpactFeedbackGenerator(style: .light)
@@ -200,9 +211,19 @@ private struct UploadPrescriptionSection: View {
                             .font(.poppins(.semiBold, size: 16))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
-                            .background(Color(red: 50/255, green: 160/255, blue: 140/255))
-                            .cornerRadius(12)
+                            .padding(.vertical, 15)
+                            .background(
+                                LinearGradient(
+                                    colors: [
+                                        Color(red: 70/255, green: 175/255, blue: 155/255),
+                                        Color(red: 60/255, green: 165/255, blue: 145/255)
+                                    ],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .cornerRadius(14)
+                            .shadow(color: Color(red: 70/255, green: 175/255, blue: 155/255).opacity(0.25), radius: 8, x: 0, y: 4)
                     }
                     
                     // Take Photo
@@ -215,34 +236,35 @@ private struct UploadPrescriptionSection: View {
                     }) {
                         HStack(spacing: 8) {
                             Image(systemName: "camera.fill")
-                                .font(.system(size: 16))
+                                .font(.system(size: 17))
                             Text(languageManager.localized("take_photo"))
                                 .font(.poppins(.semiBold, size: 16))
                         }
-                        .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
+                        .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255))
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 14)
+                        .padding(.vertical, 15)
                         .background(Color.white)
-                        .cornerRadius(12)
+                        .cornerRadius(14)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(Color(red: 50/255, green: 160/255, blue: 140/255).opacity(0.3), lineWidth: 1.5)
+                            RoundedRectangle(cornerRadius: 14)
+                                .stroke(Color(red: 70/255, green: 175/255, blue: 155/255).opacity(0.25), lineWidth: 1.5)
                         )
                     }
                 }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 8)
+                .padding(.horizontal, 18)
+                .padding(.bottom, 12)
             }
-            .padding(.vertical, 24)
-            .background(Color.white)
-            .cornerRadius(16)
+            .padding(.vertical, 28)
+            .background(Color(red: 252/255, green: 253/255, blue: 254/255))
+            .cornerRadius(18)
             .overlay(
-                RoundedRectangle(cornerRadius: 16)
+                RoundedRectangle(cornerRadius: 18)
                     .strokeBorder(
-                        style: StrokeStyle(lineWidth: 2, dash: [8, 6])
+                        style: StrokeStyle(lineWidth: 2.5, dash: [10, 6])
                     )
-                    .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255).opacity(0.4))
+                    .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255).opacity(0.35))
             )
+            .shadow(color: Color.black.opacity(0.04), radius: 4, x: 0, y: 2)
         }
         .padding(.horizontal, 20)
     }
@@ -257,32 +279,33 @@ private struct ImportantInfoSection: View {
             // Info icon
             ZStack {
                 Circle()
-                    .fill(Color(red: 50/255, green: 160/255, blue: 140/255).opacity(0.15))
-                    .frame(width: 24, height: 24)
+                    .fill(Color(red: 70/255, green: 175/255, blue: 155/255).opacity(0.18))
+                    .frame(width: 28, height: 28)
                 
-                Image(systemName: "info.circle.fill")
-                    .font(.system(size: 12))
-                    .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
+                Text("i")
+                    .font(.poppins(.semiBold, size: 14))
+                    .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255))
             }
-            .padding(.top, 2)
+            .padding(.top, 1)
             
             // Info text
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 5) {
                 Text(languageManager.localized("important"))
-                    .font(.poppins(.semiBold, size: 14))
-                    .foregroundColor(Color(red: 50/255, green: 160/255, blue: 140/255))
+                    .font(.poppins(.semiBold, size: 15))
+                    .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255))
                 
                 Text(languageManager.localized("prescription_info"))
                     .font(.poppins(.regular, size: 13))
-                    .foregroundColor(.gray)
+                    .foregroundColor(Color(red: 135/255, green: 150/255, blue: 165/255))
                     .fixedSize(horizontal: false, vertical: true)
+                    .lineSpacing(2)
             }
             
             Spacer()
         }
-        .padding(16)
-        .background(Color(red: 50/255, green: 160/255, blue: 140/255).opacity(0.05))
-        .cornerRadius(12)
+        .padding(18)
+        .background(Color(red: 245/255, green: 252/255, blue: 250/255))
+        .cornerRadius(14)
         .padding(.horizontal, 20)
     }
 }

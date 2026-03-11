@@ -102,6 +102,7 @@ struct NotificationPermissionView: View {
                                     // Navigate regardless of result (no backend needed)
                                     DispatchQueue.main.async {
                                         router.hasCompletedOnboarding = true
+                                        router.selectedTab = .home
                                         router.navigate(to: .home)
                                     }
                                 }
@@ -110,6 +111,7 @@ struct NotificationPermissionView: View {
                             // Secondary Button
                             Button {
                                 router.hasCompletedOnboarding = true
+                                router.selectedTab = .home
                                 router.navigate(to: .home)
                             } label: {
                                 Text(languageManager.localized("skip_for_now"))

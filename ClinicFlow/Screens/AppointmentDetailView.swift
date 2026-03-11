@@ -242,9 +242,6 @@ struct AppointmentDetailView: View {
                         .ignoresSafeArea(edges: .bottom)
                 )
             }
-
-            // ── Bottom Nav Bar ──
-            BottomNavBar()
         }
         .background(AppColors.background)
         .onAppear {

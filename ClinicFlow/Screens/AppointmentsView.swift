@@ -97,9 +97,6 @@ struct AppointmentsView: View {
                     .padding(.bottom, 20)
                 }
             }
-
-            // ── Bottom Nav Bar ──
-            BottomNavBar()
         }
         .background(AppColors.background)
         .onAppear {

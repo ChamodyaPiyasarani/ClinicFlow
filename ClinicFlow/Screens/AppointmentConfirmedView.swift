@@ -182,9 +182,6 @@ struct AppointmentConfirmedView: View {
                     .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: -4)
                     .ignoresSafeArea(edges: .bottom)
             )
-
-            // ── Bottom Nav Bar ──
-            BottomNavBar()
         }
         .background(AppColors.background)
         .onAppear {

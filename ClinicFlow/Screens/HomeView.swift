@@ -42,7 +42,6 @@ private struct HomeHeaderView: View {
         .padding(.horizontal, 20)
         .padding(.top, 12)
         .padding(.bottom, 8)
-        .background(Color.white)
         .shadow(color: Color.black.opacity(0.03), radius: 8, x: 0, y: 2)
     }
 }
@@ -50,16 +49,15 @@ private struct HomeHeaderView: View {
 // MARK: - Visit Status Section
 private struct VisitStatusSection: View {
     @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
 
     var body: some View {
         VStack(spacing: 14) {
-            HStack {
-                Text(languageManager.localized("current_visit_status"))
-                    .font(.poppins(.medium, size: 16))
-                    .foregroundColor(AppColors.darkBlue.opacity(0.7))
-                Spacer()
-            }
-            .padding(.horizontal, 20)
+            Text(languageManager.localized("current_visit_status"))
+                .font(.poppins(.medium, size: 16))
+                .foregroundColor(AppColors.darkBlue)
+                .frame(maxWidth: .infinity)
+                .padding(.top, 16)
 
             // Visit status card
             VStack(spacing: 16) {
@@ -91,7 +89,9 @@ private struct VisitStatusSection: View {
 
                 // Buttons area
                 VStack(spacing: 10) {
-                    Button(action: {}) {
+                    Button(action: {
+                        router.navigate(to: .opdDepartments)
+                    }) {
                         Text(languageManager.localized("start_walk_in_visit"))
                             .font(.poppins(.semiBold, size: 16))
                             .foregroundColor(AppColors.darkBlue)
@@ -109,7 +109,9 @@ private struct VisitStatusSection: View {
                         .font(.poppins(.medium, size: 14))
                         .foregroundColor(.white.opacity(0.95))
 
-                    Button(action: {}) {
+                    Button(action: {
+                        router.navigate(to: .bookAppointment)
+                    }) {
                         Text(languageManager.localized("add_an_appointment"))
                             .font(.poppins(.semiBold, size: 16))
                             .foregroundColor(AppColors.darkBlue)
@@ -130,8 +132,10 @@ private struct VisitStatusSection: View {
                     .fill(
                         LinearGradient(
                             colors: [
+                                AppColors.brandBlue,
                                 AppColors.gradientBlueStart,
-                                AppColors.gradientBlueEnd
+                                AppColors.gradientBlueEnd,
+                                AppColors.lightBlue
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
@@ -150,13 +154,10 @@ private struct ClinicServiceSection: View {
 
     var body: some View {
         VStack(spacing: 14) {
-            HStack {
-                Text(languageManager.localized("clinic_service_list"))
-                    .font(.poppins(.medium, size: 16))
-                    .foregroundColor(AppColors.darkBlue.opacity(0.7))
-                Spacer()
-            }
-            .padding(.horizontal, 20)
+            Text(languageManager.localized("clinic_service_list"))
+                .font(.poppins(.medium, size: 16))
+                .foregroundColor(AppColors.darkBlue)
+                .frame(maxWidth: .infinity)
 
             VStack(spacing: 12) {
                 ServiceCard(
@@ -165,7 +166,10 @@ private struct ClinicServiceSection: View {
                     iconBgColor: AppColors.opdBlue.opacity(0.12),
                     titleKey: "service_opd",
                     subtitleKey: "service_opd_desc",
-                    borderColor: AppColors.opdBlue.opacity(0.2),
+                    borderColor: Color(red: 0x2D/255, green: 0x4A/255, blue: 0x73/255),
+                    fillColor: Color(red: 0xE3/255, green: 0xE9/255, blue: 0xFF/255),
+                    textColor: AppColors.darkBlue,
+                    chevronColor: Color(red: 0x2D/255, green: 0x4A/255, blue: 0x73/255),
                     action: .opdDepartments
                 )
                 ServiceCard(
@@ -174,7 +178,10 @@ private struct ClinicServiceSection: View {
                     iconBgColor: AppColors.labGreen.opacity(0.12),
                     titleKey: "service_lab",
                     subtitleKey: "service_lab_desc",
-                    borderColor: AppColors.labGreen.opacity(0.2),
+                    borderColor: Color(red: 0x3D/255, green: 0x77/255, blue: 0x7D/255),
+                    fillColor: Color(red: 0xE5/255, green: 0xE7/255, blue: 0xEB/255),
+                    textColor: Color(red: 0x3D/255, green: 0x77/255, blue: 0x7D/255),
+                    chevronColor: Color(red: 0x3D/255, green: 0x77/255, blue: 0x7D/255),
                     action: .labTests
                 )
                 ServiceCard(
@@ -183,7 +190,10 @@ private struct ClinicServiceSection: View {
                     iconBgColor: AppColors.pharmacyGreen.opacity(0.12),
                     titleKey: "service_pharmacy",
                     subtitleKey: "service_pharmacy_desc",
-                    borderColor: AppColors.pharmacyGreen.opacity(0.2),
+                    borderColor: Color(red: 0x35/255, green: 0x84/255, blue: 0x64/255),
+                    fillColor: Color(red: 0xF1/255, green: 0xFA/255, blue: 0xF7/255),
+                    textColor: Color(red: 0x35/255, green: 0x84/255, blue: 0x64/255),
+                    chevronColor: Color(red: 0x35/255, green: 0x84/255, blue: 0x64/255),
                     action: .pharmacy
                 )
             }
@@ -203,6 +213,9 @@ private struct ServiceCard: View {
     let titleKey: String
     let subtitleKey: String
     let borderColor: Color
+    let fillColor: Color
+    let textColor: Color
+    let chevronColor: Color
     let action: AppRoute?
     
     @State private var isPressed = false
@@ -241,7 +254,7 @@ private struct ServiceCard: View {
                 VStack(alignment: .leading, spacing: 3) {
                     Text(languageManager.localized(titleKey))
                         .font(.poppins(.semiBold, size: 17))
-                        .foregroundColor(AppColors.darkBlue)
+                        .foregroundColor(textColor)
                     Text(languageManager.localized(subtitleKey))
                         .font(.poppins(.regular, size: 14))
                         .foregroundColor(.gray.opacity(0.75))
@@ -252,17 +265,17 @@ private struct ServiceCard: View {
                 // Chevron
                 ZStack {
                     Circle()
-                        .fill(Color.gray.opacity(0.08))
+                        .fill(chevronColor.opacity(0.1))
                         .frame(width: 36, height: 36)
                     Image(systemName: "chevron.right")
                         .font(.system(size: 15, weight: .semibold))
-                        .foregroundColor(.gray.opacity(0.6))
+                        .foregroundColor(chevronColor)
                 }
             }
             .padding(20)
             .background(
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.white)
+                    .fill(fillColor)
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
                             .stroke(borderColor, lineWidth: 1.5)

@@ -134,7 +134,6 @@ private struct AppointmentsHeaderView: View {
         .padding(.horizontal, 20)
         .padding(.top, 8)
         .padding(.bottom, 8)
-        .background(Color.white)
     }
 }
 

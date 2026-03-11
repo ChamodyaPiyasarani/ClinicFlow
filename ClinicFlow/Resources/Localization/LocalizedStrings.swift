@@ -772,6 +772,26 @@ struct LocalizedStrings {
             .sinhala: "මහල",
             .tamil: "தளம்"
         ],
+        "first_floor": [
+            .english: "First Floor",
+            .sinhala: "පළමු මහල",
+            .tamil: "முதல் தளம்"
+        ],
+        "second_floor": [
+            .english: "Second Floor",
+            .sinhala: "දෙවන මහල",
+            .tamil: "இரண்டாவது தளம்"
+        ],
+        "third_floor": [
+            .english: "Third Floor",
+            .sinhala: "තුන්වන මහල",
+            .tamil: "மூன்றாவது தளம்"
+        ],
+        "directions_to": [
+            .english: "Directions to",
+            .sinhala: "යන්න සඳහා මාර්ගය",
+            .tamil: "திசைகள்"
+        ],
         "main_entrance": [
             .english: "Main Entrance",
             .sinhala: "ප්‍රධාන පිවිසුම",
@@ -817,6 +837,41 @@ struct LocalizedStrings {
             .sinhala: "විවේක කාමර",
             .tamil: "கழிவறைகள்"
         ],
+        "radiology": [
+            .english: "Radiology",
+            .sinhala: "විකිරණ චිකිත්සාව",
+            .tamil: "கதிரியக்கவியல்"
+        ],
+        "imaging": [
+            .english: "Imaging",
+            .sinhala: "රූප ගැනීම",
+            .tamil: "இமேஜிங்"
+        ],
+        "blood_test": [
+            .english: "Blood Test",
+            .sinhala: "රුධිර පරීක්ෂණය",
+            .tamil: "இரத்த சோதனை"
+        ],
+        "pathology": [
+            .english: "Pathology",
+            .sinhala: "ව්‍යාධි විද්‍යාව",
+            .tamil: "நோயியல்"
+        ],
+        "waiting_area": [
+            .english: "Waiting Area",
+            .sinhala: "පරීක්ෂාවට බලාපොරොත්තුවීමේ ක්ෂේත්‍රය",
+            .tamil: "காத்திருப்பு பகுதி"
+        ],
+        "specimen_collection": [
+            .english: "Specimen Collection",
+            .sinhala: "නියැඳිය එකතු කිරීම",
+            .tamil: "மாதிரி சேகரிப்பு"
+        ],
+        "elevator": [
+            .english: "Elevator",
+            .sinhala: "විදුලි සෝපානය",
+            .tamil: "லிஃப்ட்"
+        ],
         "main_corridor": [
             .english: "Main Corridor",
             .sinhala: "ප්‍රධාන කොරිඩෝව",
@@ -827,6 +882,16 @@ struct LocalizedStrings {
             .sinhala: "දකුණු අංශය",
             .tamil: "தெற்கு பிரிவு"
         ],
+        "east_corridor": [
+            .english: "East Corridor",
+            .sinhala: "නැගෙනහිර කොරිඩෝව",
+            .tamil: "கிழக்கு நடைபாதை"
+        ],
+        "central_corridor": [
+            .english: "Central Corridor",
+            .sinhala: "මධ්‍යම කොරිඩෝව",
+            .tamil: "மத்திய நடைபாதை"
+        ],
         "staircase": [
             .english: "Staircase",
             .sinhala: "පඩිපෙළ",
@@ -836,11 +901,6 @@ struct LocalizedStrings {
             .english: "Connects all floors",
             .sinhala: "සියලුම මහල් සම්බන්ධ කරයි",
             .tamil: "அனைத்து தளங்களையும் இணைக்கிறது"
-        ],
-        "elevator": [
-            .english: "Elevator",
-            .sinhala: "සෝපානය",
-            .tamil: "மின்தூக்கி"
         ],
         "room_prefix": [
             .english: "Rm",

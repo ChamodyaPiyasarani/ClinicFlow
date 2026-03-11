@@ -271,7 +271,7 @@ private struct VisitCard: View {
                     .padding(.vertical, 10)
                     .background(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(AppColors.brandBlue, lineWidth: 1.5)
+                            .stroke(Color.gray.opacity(0.3), lineWidth: 1.5)
                     )
             }
         }

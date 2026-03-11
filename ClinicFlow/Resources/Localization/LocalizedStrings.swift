@@ -1732,6 +1732,168 @@ struct LocalizedStrings {
             .sinhala: "රසායනාගාර",
             .tamil: "ஆய்வகம்"
         ],
+
+        // ── Queue Status ──
+        "queue_status": [
+            .english: "Queue Status",
+            .sinhala: "පෝලිම් තත්ත්වය",
+            .tamil: "வரிசை நிலை"
+        ],
+        "queue_position": [
+            .english: "Queue Position",
+            .sinhala: "පෝලිම් ස්ථානය",
+            .tamil: "வரிசை நிலை எண்"
+        ],
+        "people_ahead": [
+            .english: "People Ahead",
+            .sinhala: "ඉදිරියෙන් සිටින අය",
+            .tamil: "முன்னால் உள்ளவர்கள்"
+        ],
+        "estimated_wait": [
+            .english: "Est. Wait",
+            .sinhala: "ඇස්තමේන්තු රැඳීම",
+            .tamil: "மதிப்பிடப்பட்ட காத்திருப்பு"
+        ],
+        "estimated_wait_time": [
+            .english: "Estimated Wait Time",
+            .sinhala: "ඇස්තමේන්තු රැඳීමේ කාලය",
+            .tamil: "மதிப்பிடப்பட்ட காத்திருப்பு நேரம்"
+        ],
+        "minutes_short": [
+            .english: "min",
+            .sinhala: "මිනි",
+            .tamil: "நிமி"
+        ],
+        "check_in_time": [
+            .english: "Check-in Time",
+            .sinhala: "පැමිණීමේ වේලාව",
+            .tamil: "செக்-இன் நேரம்"
+        ],
+        "token_number": [
+            .english: "Token Number",
+            .sinhala: "ටෝකන් අංකය",
+            .tamil: "டோக்கன் எண்"
+        ],
+        "current_status": [
+            .english: "Current Status",
+            .sinhala: "වත්මන් තත්ත්වය",
+            .tamil: "தற்போதைய நிலை"
+        ],
+        "active_status": [
+            .english: "Active",
+            .sinhala: "සක්‍රීය",
+            .tamil: "செயலில்"
+        ],
+        "location": [
+            .english: "Location",
+            .sinhala: "ස්ථානය",
+            .tamil: "இடம்"
+        ],
+        "visit_progress": [
+            .english: "Visit Progress",
+            .sinhala: "සංචාර ප්‍රගතිය",
+            .tamil: "வருகை முன்னேற்றம்"
+        ],
+        "leave_queue": [
+            .english: "Leave Queue",
+            .sinhala: "පෝලිමෙන් ඉවත්වන්න",
+            .tamil: "வரிசையை விடு"
+        ],
+        "leave_queue_message": [
+            .english: "Are you sure you want to leave the queue? You will lose your current position.",
+            .sinhala: "ඔබට පෝලිමෙන් ඉවත්වීමට අවශ්‍ය බව විශ්වාසද? ඔබගේ වත්මන් ස්ථානය අහිමි වේ.",
+            .tamil: "நீங்கள் வரிசையை விட்டு வெளியேற விரும்புகிறீர்களா? உங்கள் தற்போதைய நிலையை இழப்பீர்கள்."
+        ],
+        "leave_queue_confirm": [
+            .english: "Yes, Leave",
+            .sinhala: "ඔව්, ඉවත්වන්න",
+            .tamil: "ஆம், வெளியேறு"
+        ],
+        "step_registration": [
+            .english: "Registration",
+            .sinhala: "ලියාපදිංචිය",
+            .tamil: "பதிவு"
+        ],
+        "step_consultation": [
+            .english: "Consultation",
+            .sinhala: "උපදේශනය",
+            .tamil: "ஆலோசனை"
+        ],
+        "step_lab_tests": [
+            .english: "Lab Tests",
+            .sinhala: "රසායනාගාර පරීක්ෂණ",
+            .tamil: "ஆய்வக பரிசோதனைகள்"
+        ],
+        "step_pharmacy": [
+            .english: "Pharmacy",
+            .sinhala: "ෆාමසිය",
+            .tamil: "மருந்தகம்"
+        ],
+        "step_report_collection": [
+            .english: "Report Collection",
+            .sinhala: "වාර්තා එකතුව",
+            .tamil: "அறிக்கை சேகரிப்பு"
+        ],
+        "step_completed": [
+            .english: "Completed",
+            .sinhala: "සම්පූර්ණයි",
+            .tamil: "நிறைவடைந்தது"
+        ],
+        "step_in_progress": [
+            .english: "In Progress",
+            .sinhala: "ක්‍රියාත්මක වෙමින්",
+            .tamil: "செயல்பாட்டில்"
+        ],
+        "step_pending": [
+            .english: "Pending",
+            .sinhala: "බලාපොරොත්තුවෙන්",
+            .tamil: "நிலுவையில்"
+        ],
+        "step_skipped": [
+            .english: "Skipped",
+            .sinhala: "මඟ හරිනු ලැබීය",
+            .tamil: "தவிர்க்கப்பட்டது"
+        ],
+        "queue_type_opd": [
+            .english: "OPD Queue",
+            .sinhala: "OPD පෝලිම",
+            .tamil: "OPD வரிசை"
+        ],
+        "queue_type_lab": [
+            .english: "Lab Queue",
+            .sinhala: "රසායනාගාර පෝලිම",
+            .tamil: "ஆய்வக வரிசை"
+        ],
+        "queue_type_lab_report": [
+            .english: "Lab Report Queue",
+            .sinhala: "රසායනාගාර වාර්තා පෝලිම",
+            .tamil: "ஆய்வக அறிக்கை வரிசை"
+        ],
+        "queue_type_appointment": [
+            .english: "Appointment Queue",
+            .sinhala: "හමුවීම් පෝලිම",
+            .tamil: "சந்திப்பு வரிசை"
+        ],
+        "queue_type_pharmacy": [
+            .english: "Pharmacy Queue",
+            .sinhala: "ෆාමසි පෝලිම",
+            .tamil: "மருந்தக வரிசை"
+        ],
+        "waiting_for_turn": [
+            .english: "You're in the queue. We'll notify you when it's your turn.",
+            .sinhala: "ඔබ පෝලිමේ ය. ඔබේ වාරය පැමිණි විට අපි දැනුම් දෙන්නෙමු.",
+            .tamil: "நீங்கள் வரிசையில் உள்ளீர்கள். உங்கள் முறை வரும்போது நாங்கள் உங்களுக்கு தெரிவிப்போம்."
+        ],
+        "cancel": [
+            .english: "Cancel",
+            .sinhala: "අවලංගු කරන්න",
+            .tamil: "ரத்து செய்"
+        ],
+        "view_queue_status": [
+            .english: "View Queue Status",
+            .sinhala: "පෝලිම් තත්ත්වය බලන්න",
+            .tamil: "வரிசை நிலையைக் காண்க"
+        ],
     ]
 
     // MARK: - Lookup

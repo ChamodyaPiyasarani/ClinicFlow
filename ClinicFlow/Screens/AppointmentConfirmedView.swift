@@ -145,19 +145,17 @@ struct AppointmentConfirmedView: View {
                 .padding(.bottom, 120)
             }
 
-            // ── View My Appointment Button ──
-            VStack {
+            // ── Bottom Buttons ──
+            VStack(spacing: 10) {
+                // View Queue Status Button
                 Button(action: {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    // Navigate back to appointment tab
-                    router.selectedTab = .appointment
-                    router.goToRoot()
-                    router.navigate(to: .home)
+                    router.navigate(to: .queueStatus(.appointmentSample))
                 }) {
                     HStack(spacing: 10) {
-                        Image(systemName: "calendar.badge.checkmark")
+                        Image(systemName: "person.line.dotted.person.fill")
                             .font(.system(size: 18))
-                        Text(languageManager.localized("view_my_appointment"))
+                        Text(languageManager.localized("view_queue_status"))
                             .font(.poppins(.semiBold, size: 17))
                     }
                     .foregroundColor(.white)
@@ -172,6 +170,31 @@ struct AppointmentConfirmedView: View {
                     )
                     .cornerRadius(14)
                     .shadow(color: AppColors.brandBlue.opacity(0.3), radius: 8, x: 0, y: 4)
+                }
+                .opacity(contentOpacity)
+
+                // View My Appointment Button
+                Button(action: {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    router.selectedTab = .appointment
+                    router.goToRoot()
+                    router.navigate(to: .home)
+                }) {
+                    HStack(spacing: 10) {
+                        Image(systemName: "calendar.badge.checkmark")
+                            .font(.system(size: 18))
+                        Text(languageManager.localized("view_my_appointment"))
+                            .font(.poppins(.semiBold, size: 17))
+                    }
+                    .foregroundColor(AppColors.brandBlue)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(Color.white)
+                    .cornerRadius(14)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(AppColors.brandBlue.opacity(0.3), lineWidth: 1.5)
+                    )
                 }
                 .opacity(contentOpacity)
             }

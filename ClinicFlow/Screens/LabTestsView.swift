@@ -166,8 +166,8 @@ struct LabTestsView: View {
             // MARK: - Confirmation Modal Overlay
             if showConfirmationModal {
                 LabTestConfirmationView(isPresented: $showConfirmationModal) {
-                    // Action after confirming test details
-                    print("User confirmed lab test - adding to queue")
+                    // Navigate to lab queue status after confirming
+                    router.navigate(to: .queueStatus(.labSample))
                 }
                 .zIndex(2)
             }

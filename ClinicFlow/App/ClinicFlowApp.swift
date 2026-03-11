@@ -91,6 +91,9 @@ struct ClinicFlowApp: App {
                         case .rescheduleAppointment(let appointment):
                             RescheduleAppointmentView(appointment: appointment)
                                 .navigationBarHidden(true)
+                        case .queueStatus(let queueStatus):
+                            QueueStatusView(queueStatus: queueStatus)
+                                .navigationBarHidden(true)
                         }
                     }
             }

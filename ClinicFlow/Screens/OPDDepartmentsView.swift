@@ -288,6 +288,7 @@ enum DepartmentAvailability {
 // MARK: - Department Card Component
 struct DepartmentCard: View {
     @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
     let icon: String
     let iconColor: Color
     let departmentName: String
@@ -303,7 +304,8 @@ struct DepartmentCard: View {
             let impact = UIImpactFeedbackGenerator(style: .light)
             impact.impactOccurred()
             
-            // Action will be implemented when navigation is added
+            // Navigate to OPD queue status
+            router.navigate(to: .queueStatus(.opdSample))
         }) {
             HStack(spacing: 14) {
                 // Icon

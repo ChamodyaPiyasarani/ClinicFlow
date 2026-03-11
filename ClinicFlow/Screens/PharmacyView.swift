@@ -72,7 +72,8 @@ struct PharmacyView: View {
                             // Haptic feedback
                             let impact = UIImpactFeedbackGenerator(style: .medium)
                             impact.impactOccurred()
-                            // Action will be implemented later
+                            // Navigate to pharmacy queue status
+                            router.navigate(to: .queueStatus(.pharmacySample))
                         }) {
                             Text(languageManager.localized("send_to_pharmacy"))
                                 .font(.poppins(.semiBold, size: 17))

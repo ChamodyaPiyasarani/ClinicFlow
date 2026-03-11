@@ -296,6 +296,115 @@ private struct PastAppointmentDetailRow: View {
     }
 }
 
+// MARK: - Doctor Avatar View
+
+private struct DoctorAvatarView: View {
+    let avatarColor: Color
+    let hairColor: Color
+    let shirtColor: Color
+    let size: CGFloat
+    
+    private var faceSize: CGFloat { size * 0.40 }
+    private var bodyWidth: CGFloat { size * 0.50 }
+    private var bodyHeight: CGFloat { size * 0.30 }
+    private var eyeSize: CGFloat { size * 0.04 }
+    private var glassesWidth: CGFloat { size * 0.60 }
+    
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(
+                    LinearGradient(
+                        colors: [avatarColor, avatarColor.opacity(0.7)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .frame(width: size, height: size)
+                .shadow(color: shirtColor.opacity(0.2), radius: 8, x: 0, y: 4)
+            
+            // Doctor avatar illustration
+            VStack(spacing: size * 0.025) {
+                // Head
+                ZStack {
+                    Circle()
+                        .fill(Color(red: 240/255, green: 205/255, blue: 175/255))
+                        .frame(width: faceSize, height: faceSize)
+                    
+                    // Facial features
+                    VStack(spacing: size * 0.04) {
+                        // Eyes with glasses
+                        ZStack {
+                            // Glasses frame
+                            HStack(spacing: size * 0.06) {
+                                // Left lens
+                                Circle()
+                                    .stroke(Color.black.opacity(0.7), lineWidth: size * 0.014)
+                                    .frame(width: size * 0.17, height: size * 0.17)
+                                // Right lens
+                                Circle()
+                                    .stroke(Color.black.opacity(0.7), lineWidth: size * 0.014)
+                                    .frame(width: size * 0.17, height: size * 0.17)
+                            }
+                            // Bridge
+                            .overlay(
+                                Rectangle()
+                                    .fill(Color.black.opacity(0.7))
+                                    .frame(width: size * 0.04, height: size * 0.01)
+                            )
+                            
+                            // Eyes behind glasses
+                            HStack(spacing: size * 0.10) {
+                                Circle().fill(Color.black)
+                                    .frame(width: eyeSize, height: eyeSize)
+                                Circle().fill(Color.black)
+                                    .frame(width: eyeSize, height: eyeSize)
+                            }
+                        }
+                        .offset(y: -size * 0.02)
+                        
+                        // Friendly smile
+                        Path { path in
+                            path.addArc(
+                                center: CGPoint(x: faceSize/2, y: faceSize * 0.68),
+                                radius: faceSize * 0.20,
+                                startAngle: .degrees(10),
+                                endAngle: .degrees(170),
+                                clockwise: false
+                            )
+                        }
+                        .stroke(Color.black.opacity(0.8), lineWidth: size * 0.014)
+                        .frame(width: faceSize, height: faceSize)
+                        .offset(y: -size * 0.05)
+                    }
+                    .frame(width: faceSize, height: faceSize)
+                }
+                
+                // Body/white coat
+                Capsule()
+                    .fill(
+                        LinearGradient(
+                            colors: [shirtColor, shirtColor.opacity(0.9)],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .frame(width: bodyWidth, height: bodyHeight)
+                    .overlay(
+                        // Collar detail
+                        VStack {
+                            Rectangle()
+                                .fill(Color.white.opacity(0.3))
+                                .frame(width: bodyWidth * 0.4, height: size * 0.02)
+                            Spacer()
+                        }
+                    )
+                    .offset(y: -size * 0.05)
+            }
+        }
+    }
+}
+
 // MARK: - Preview
 
 #Preview {

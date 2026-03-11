@@ -95,6 +95,9 @@ struct ClinicFlowApp: App {
                         case .queueStatus(let queueStatus):
                             QueueStatusView(queueStatus: queueStatus)
                                 .navigationBarHidden(true)
+                        case .afterVisitProgress(let journey):
+                            AfterVisitProgressView(journey: journey)
+                                .navigationBarHidden(true)
                         }
                     }
             }

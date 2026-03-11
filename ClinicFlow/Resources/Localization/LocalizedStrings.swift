@@ -2029,6 +2029,94 @@ struct LocalizedStrings {
             .sinhala: "වෙනස්කම් ඉවත දමන ලදී",
             .tamil: "மாற்றங்கள் நிராகரிக்கப்பட்டன"
         ],
+
+        // ── After Visit Progress Screen ──
+
+        "avp_current_status": [
+            .english: "Current Status",
+            .sinhala: "වර්තමාන තත්ත්වය",
+            .tamil: "தற்போதைய நிலை"
+        ],
+        "avp_done": [
+            .english: "Done",
+            .sinhala: "සම්පූර්ණයි",
+            .tamil: "முடிந்தது"
+        ],
+        "avp_consultation_completed": [
+            .english: "Consultation Completed !",
+            .sinhala: "උපදේශනය සම්පූර්ණයි !",
+            .tamil: "ஆலோசனை நிறைவடைந்தது !"
+        ],
+        "avp_next_step": [
+            .english: "Next Step",
+            .sinhala: "ඊළඟ පියවර",
+            .tamil: "அடுத்த படி"
+        ],
+        "avp_visit_complete": [
+            .english: "Visit Complete",
+            .sinhala: "සංචාරය සම්පූර්ණයි",
+            .tamil: "வருகை நிறைவடைந்தது"
+        ],
+        "avp_visit_complete_desc": [
+            .english: "Your visit is complete. No further steps are needed. Thank you for visiting!",
+            .sinhala: "ඔබේ සංචාරය සම්පූර්ණයි. තවත් පියවර අවශ්‍ය නැත. පැමිණීමට ස්තුතියි!",
+            .tamil: "உங்கள் வருகை நிறைவடைந்தது. மேலும் படிகள் தேவையில்லை. வருகைக்கு நன்றி!"
+        ],
+        "avp_back_to_home": [
+            .english: "Home",
+            .sinhala: "මුල් පිටුව",
+            .tamil: "முகப்பு"
+        ],
+        "next_action_lab_test": [
+            .english: "Lab Test Required",
+            .sinhala: "රසායනාගාර පරීක්ෂණය අවශ්‍යයි",
+            .tamil: "ஆய்வக பரிசோதனை தேவை"
+        ],
+        "next_action_lab_desc": [
+            .english: "Consultation Completed → Lab Test Required",
+            .sinhala: "උපදේශනය සම්පූර්ණයි → රසායනාගාර පරීක්ෂණය අවශ්‍යයි",
+            .tamil: "ஆலோசனை நிறைவடைந்தது → ஆய்வக பரிசோதனை தேவை"
+        ],
+        "next_action_pharmacy": [
+            .english: "Collect Medication",
+            .sinhala: "ඖෂධ එකතු කරන්න",
+            .tamil: "மருந்து பெறுங்கள்"
+        ],
+        "next_action_pharmacy_desc": [
+            .english: "Consultation Completed → Collect Medication from Pharmacy",
+            .sinhala: "උපදේශනය සම්පූර්ණයි → ෆාමසියෙන් ඖෂධ එකතු කරන්න",
+            .tamil: "ஆலோசனை நிறைவடைந்தது → மருந்தகத்தில் மருந்து பெறுங்கள்"
+        ],
+        "next_detail_test_category": [
+            .english: "Test Category",
+            .sinhala: "පරීක්ෂණ වර්ගය",
+            .tamil: "பரிசோதனை வகை"
+        ],
+        "next_detail_lab_location": [
+            .english: "Lab",
+            .sinhala: "රසායනාගාරය",
+            .tamil: "ஆய்வகம்"
+        ],
+        "next_detail_priority": [
+            .english: "Priority Level",
+            .sinhala: "ප්‍රමුඛතා මට්ටම",
+            .tamil: "முன்னுரிமை நிலை"
+        ],
+        "next_detail_prescription": [
+            .english: "Prescription",
+            .sinhala: "බෙහෙත් වට්ටෝරුව",
+            .tamil: "மருந்துச்சீட்டு"
+        ],
+        "next_detail_pharmacy_location": [
+            .english: "Pharmacy",
+            .sinhala: "ෆාමසිය",
+            .tamil: "மருந்தகம்"
+        ],
+        "join_queue": [
+            .english: "Join Queue",
+            .sinhala: "පෝලිමට සම්බන්ධ වන්න",
+            .tamil: "வரிசையில் சேரவும்"
+        ],
     ]
 
     // MARK: - Lookup

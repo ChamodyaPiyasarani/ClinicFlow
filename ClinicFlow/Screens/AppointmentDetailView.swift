@@ -79,7 +79,7 @@ struct AppointmentDetailView: View {
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 8)
-                    .padding(.bottom, isUpcoming ? 230 : 120)
+                    .padding(.bottom, isUpcoming ? 120 : 40)
                 }
 
                 // ── Bottom Action Bar ──
@@ -90,12 +90,6 @@ struct AppointmentDetailView: View {
                 }
             }
             .background(AppColors.background)
-            
-            // ── Bottom Navigation Bar ──
-            VStack(spacing: 0) {
-                Spacer()
-                BottomNavBar()
-            }
         }
         .onAppear { triggerStaggeredAnimations() }
         .sheet(isPresented: $showCancelSheet) {
@@ -418,8 +412,11 @@ struct AppointmentDetailView: View {
         }
         .padding(.horizontal, 20)
         .padding(.top, 12)
-        .padding(.bottom, 8)
-        .background(AppColors.background)
+        .padding(.bottom, 24)
+        .background(
+            Color.white
+                .shadow(color: Color.black.opacity(0.08), radius: 12, x: 0, y: -4)
+        )
     }
 }
 

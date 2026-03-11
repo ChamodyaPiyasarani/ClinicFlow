@@ -383,7 +383,7 @@ struct RescheduleSuccessView: View {
                     VStack(spacing: 18) {
                         // Token Number
                         VStack(spacing: 4) {
-                            Text("Token # \(appointment.tokenNumber)")
+                            Text("Token \(appointment.tokenNumber)")
                                 .font(.poppins(.bold, size: 26))
                                 .foregroundColor(Color(red: 0.15, green: 0.45, blue: 0.25))
                         }
@@ -476,16 +476,6 @@ struct RescheduleSuccessView: View {
                     .padding(.horizontal, 24)
                     .padding(.bottom, 32)
                 }
-                .background(
-                    RoundedRectangle(cornerRadius: 32)
-                        .fill(Color.white)
-                        .shadow(color: Color.black.opacity(0.15), radius: 30, x: 0, y: 10)
-                )
-                .padding(.horizontal, 32)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.clear)
-                .presentationBackground(.ultraThinMaterial)
-                .interactiveDismissDisabled()
     }
 }
 

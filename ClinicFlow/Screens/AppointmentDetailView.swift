@@ -8,7 +8,6 @@ struct AppointmentDetailView: View {
 
     let appointment: Appointment
 
-    @State private var showCancelSheet = false
     @State private var headerAppear = false
     @State private var detailsAppear = false
     @State private var actionsAppear = false
@@ -81,16 +80,6 @@ struct AppointmentDetailView: View {
             }
         }
         .onAppear { triggerStaggeredAnimations() }
-        .sheet(isPresented: $showCancelSheet) {
-            CancelAppointmentSheet(appointment: appointment) {
-                showCancelSheet = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    router.goBack()
-                }
-            }
-            .presentationDetents([.medium, .large])
-            .presentationDragIndicator(.visible)
-        }
     }
 
     // MARK: - Staggered Animations
@@ -455,7 +444,7 @@ struct AppointmentDetailView: View {
             // Secondary: Cancel
             Button {
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                // TODO: Implement cancel appointment functionality
+                router.navigate(to: .cancelAppointment(appointment))
             } label: {
                 Text(languageManager.localized("cancel_appointment"))
                     .font(.poppins(.semiBold, size: 15))

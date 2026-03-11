@@ -1394,7 +1394,7 @@ struct LocalizedStrings {
             .tamil: "ஆலோசனைக் கட்டணம்"
         ],
         "cancellation_policy_text": [
-            .english: "Free cancellation up to 24 hours before the appointment. Late cancellations may incur a fee.",
+            .english: "Free cancellation up to 2 hours before the appointment. Late cancellations may incur a fee.",
             .sinhala: "හමුවීමට පැය 24 කට පෙර නොමිලේ අවලංගු කිරීම. ප්‍රමාද අවලංගු කිරීම් සඳහා ගාස්තුවක් අය විය හැකිය.",
             .tamil: "சந்திப்புக்கு 24 மணி நேரம் முன்பு இலவச ரத்து. தாமதமான ரத்துகளுக்கு கட்டணம் விதிக்கப்படலாம்."
         ],
@@ -1567,6 +1567,36 @@ struct LocalizedStrings {
             .english: "Your appointment has been successfully cancelled. You can book a new appointment anytime.",
             .sinhala: "ඔබේ හමුවීම සාර්ථකව අවලංගු කරන ලදී. ඔබට ඕනෑම වේලාවක නව හමුවීමක් වෙන් කළ හැකිය.",
             .tamil: "உங்கள் சந்திப்பு வெற்றிகரமாக ரத்து செய்யப்பட்டது. நீங்கள் எப்போது வேண்டுமானாலும் புதிய சந்திப்பை பதிவு செய்யலாம்."
+        ],
+        "reason_for_cancellation_optional": [
+            .english: "Reason for cancellation (optional)",
+            .sinhala: "අවලංගු කිරීමේ හේතුව (අත්‍යවශ්‍ය නොවේ)",
+            .tamil: "ரத்து செய்வதற்கான காரணம் (விருப்பமானது)"
+        ],
+        "note": [
+            .english: "Note",
+            .sinhala: "සටහන",
+            .tamil: "குறிப்பு"
+        ],
+        "cancel_this_appointment": [
+            .english: "Cancel this Appointment",
+            .sinhala: "මෙම හමුවීම අවලංගු කරන්න",
+            .tamil: "இந்த சந்திப்பை ரத்து செய்யவும்"
+        ],
+        "cancellation_policy_note": [
+            .english: "(Appointments can be canceled up to 2 hours before the scheduled time)",
+            .sinhala: "(නියමිත වේලාවට පැය 2කට පෙර හමුවීම් අවලංගු කළ හැකිය)",
+            .tamil: "(திட்டமிடப்பட்ட நேரத்திற்கு 2 மணி நேரத்திற்கு முன்பு சந்திப்புகளை ரத்து செய்யலாம்)"
+        ],
+        "are_you_sure_cancel_appointment": [
+            .english: "Are you sure you want to cancel this appointment?",
+            .sinhala: "ඔබට මෙම හමුවීම අවලංගු කිරීමට අවශ්‍ය බව විශ්වාසද?",
+            .tamil: "இந்த சந்திப்பை ரத்து செய்ய விரும்புகிறீர்களா?"
+        ],
+        "confirm_cancel": [
+            .english: "Confirm Cancel",
+            .sinhala: "අවලංගු කිරීම තහවුරු කරන්න",
+            .tamil: "ரத்தை உறுதிப்படுத்தவும்"
         ],
 
         // ── Reschedule Appointment ──

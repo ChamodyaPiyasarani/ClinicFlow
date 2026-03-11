@@ -25,6 +25,7 @@ enum AppRoute: Hashable {
     case appointmentConfirmed(Appointment)
     case appointmentDetail(Appointment)
     case pastAppointmentDetail(Appointment)
+    case cancelAppointment(Appointment)
     case rescheduleAppointment(Appointment)
 }
 

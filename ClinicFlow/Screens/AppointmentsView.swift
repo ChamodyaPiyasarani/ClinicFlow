@@ -196,12 +196,8 @@ private struct AppointmentCard: View {
     var body: some View {
         Button(action: {
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
-            // Navigate to reschedule for upcoming, detail for past
-            if isUpcoming {
-                router.navigate(to: .rescheduleAppointment(appointment))
-            } else {
-                router.navigate(to: .appointmentDetail(appointment))
-            }
+            // Navigate to appointment detail view
+            router.navigate(to: .appointmentDetail(appointment))
         }) {
             cardContent
         }

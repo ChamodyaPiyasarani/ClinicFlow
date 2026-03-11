@@ -123,12 +123,11 @@ private struct VisitHistoryHeaderView: View {
                 AppNameText(fontSize: 20)
                 Text(languageManager.localized("visit_history"))
                     .font(.poppins(.medium, size: 14))
-                    .foregroundColor(.gray)
+                    .foregroundColor(AppColors.darkBlue)
             }
         }
         .padding(.top, 8)
         .padding(.bottom, 12)
-        .background(Color.white)
     }
 }
 
@@ -202,6 +201,7 @@ private struct SegmentTabBar: View {
                 }
                 .buttonStyle(PlainButtonStyle())
             }
+            Spacer()
         }
     }
 }

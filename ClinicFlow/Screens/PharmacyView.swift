@@ -41,7 +41,6 @@ struct PharmacyView: View {
                 .padding(.horizontal, 20)
                 .padding(.top, 8)
                 .padding(.bottom, 12)
-                .background(Color.white)
                 
                 // Pharmacy subtitle
                 Text(languageManager.localized("pharmacy_title"))

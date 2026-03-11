@@ -148,27 +148,22 @@ private struct ProfileHeaderSection: View {
                 .font(.poppins(.semiBold, size: 22))
                 .foregroundColor(AppColors.darkBlue)
             
-            // Relationship
-            Text(profile.relationship)
+            // Nickname
+            Text(profile.nickname ?? profile.relationship)
                 .font(.poppins(.regular, size: 13))
                 .foregroundColor(.gray)
             
             // Status toggle
             HStack(spacing: 12) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(isActive ? languageManager.localized("active") : languageManager.localized("inactive"))
-                        .font(.poppins(.semiBold, size: 15))
-                        .foregroundColor(AppColors.darkBlue)
-                    Text(languageManager.localized("account_status"))
-                        .font(.poppins(.regular, size: 12))
-                        .foregroundColor(.gray)
-                }
-                .padding(.horizontal, 14)
-                .padding(.vertical, 8)
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(isActive ? Color(red: 80/255, green: 180/255, blue: 100/255).opacity(0.15) : Color.orange.opacity(0.15))
-                )
+                Text(isActive ? languageManager.localized("active") : languageManager.localized("inactive"))
+                    .font(.poppins(.semiBold, size: 15))
+                    .foregroundColor(AppColors.darkBlue)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(isActive ? Color(red: 80/255, green: 180/255, blue: 100/255).opacity(0.15) : Color.orange.opacity(0.15))
+                    )
                 
                 Toggle("", isOn: $isActive)
                     .labelsHidden()

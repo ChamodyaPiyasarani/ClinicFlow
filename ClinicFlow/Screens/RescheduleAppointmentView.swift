@@ -353,22 +353,15 @@ struct RescheduleSuccessView: View {
     
     var body: some View {
         ZStack {
-            // Background with subtle gradient
-            LinearGradient(
-                colors: [
-                    Color(red: 0.83, green: 0.95, blue: 0.88),
-                    Color(red: 0.90, green: 0.97, blue: 0.92)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            // Semi-transparent background
+            Color.black.opacity(0.4)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    // Prevent dismissal on background tap
+                }
             
-            VStack(spacing: 0) {
-                Spacer()
-                
-                // Success Card
-                VStack(spacing: 24) {
+            // Success Card
+            VStack(spacing: 24) {
                     // Success Icon
                     ZStack {
                         Circle()
@@ -456,7 +449,7 @@ struct RescheduleSuccessView: View {
                     .padding(.horizontal, 20)
                     .background(
                         RoundedRectangle(cornerRadius: 20)
-                            .fill(Color.white.opacity(0.7))
+                            .fill(Color(red: 0.96, green: 0.99, blue: 0.97))
                     )
                     .padding(.horizontal, 24)
                     
@@ -494,12 +487,9 @@ struct RescheduleSuccessView: View {
                 .background(
                     RoundedRectangle(cornerRadius: 32)
                         .fill(Color.white)
-                        .shadow(color: Color.black.opacity(0.08), radius: 20, x: 0, y: 10)
+                        .shadow(color: Color.black.opacity(0.15), radius: 30, x: 0, y: 10)
                 )
-                .padding(.horizontal, 20)
-                
-                Spacer()
-            }
+                .padding(.horizontal, 32)
         }
         .interactiveDismissDisabled()
     }

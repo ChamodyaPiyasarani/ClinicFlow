@@ -152,43 +152,45 @@ struct AppointmentDetailView: View {
             // White section with doctor and details
             VStack(spacing: 0) {
                 // Doctor info
-                HStack(spacing: 14) {
-                    // Doctor photo placeholder (circular)
-                    ZStack {
-                        Circle()
-                            .fill(
-                                LinearGradient(
-                                    colors: [departmentColor.opacity(0.2), departmentColor.opacity(0.1)],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-                            .frame(width: 64, height: 64)
-                        
-                        Image(systemName: "person.fill")
-                            .font(.system(size: 28))
-                            .foregroundColor(departmentColor.opacity(0.6))
-                    }
+                HStack(spacing: 16) {
+                    // Doctor avatar
+                    DoctorAvatarView(
+                        avatarColor: departmentColor.opacity(0.15),
+                        hairColor: Color(red: 0.4, green: 0.26, blue: 0.13),
+                        shirtColor: departmentColor,
+                        size: 70
+                    )
                     
-                    VStack(alignment: .leading, spacing: 4) {
+                    VStack(alignment: .leading, spacing: 6) {
                         Text(appointment.doctorName)
-                            .font(.poppins(.bold, size: 18))
-                            .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5))
+                            .font(.poppins(.bold, size: 19))
+                            .foregroundColor(Color(red: 0.15, green: 0.25, blue: 0.45))
                         
-                        Text(languageManager.localized(appointment.departmentKey))
-                            .font(.poppins(.regular, size: 14))
-                            .foregroundColor(.gray.opacity(0.8))
+                        HStack(spacing: 6) {
+                            Image(systemName: "stethoscope")
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundColor(departmentColor.opacity(0.8))
+                            Text(languageManager.localized(appointment.departmentKey))
+                                .font(.poppins(.medium, size: 14))
+                                .foregroundColor(.gray.opacity(0.9))
+                        }
                     }
                     
                     Spacer()
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, 20)
-                .padding(.bottom, 16)
+                .padding(.top, 24)
+                .padding(.bottom, 20)
                 
                 // Divider
                 Rectangle()
-                    .fill(Color.gray.opacity(0.15))
+                    .fill(
+                        LinearGradient(
+                            colors: [Color.clear, departmentColor.opacity(0.15), Color.clear],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
                     .frame(height: 1)
                     .padding(.horizontal, 20)
                 
@@ -256,8 +258,12 @@ struct AppointmentDetailView: View {
             }
             .background(Color.white)
         }
-        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-        .shadow(color: Color.black.opacity(0.08), radius: 20, x: 0, y: 8)
+        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .shadow(color: departmentColor.opacity(0.15), radius: 24, x: 0, y: 10)
+        .overlay(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .stroke(Color.white.opacity(0.5), lineWidth: 1)
+        )
     }
 
     // MARK: - Quick Info Strip
@@ -438,7 +444,7 @@ struct AppointmentDetailView: View {
             // Secondary: Cancel
             Button {
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                showCancelSheet = true
+                // TODO: Implement cancel appointment functionality
             } label: {
                 Text(languageManager.localized("cancel_appointment"))
                     .font(.poppins(.semiBold, size: 15))
@@ -826,6 +832,115 @@ private struct CancelAppointmentSheet: View {
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 16)
+        }
+    }
+}
+
+// MARK: - Doctor Avatar View
+
+private struct DoctorAvatarView: View {
+    let avatarColor: Color
+    let hairColor: Color
+    let shirtColor: Color
+    let size: CGFloat
+    
+    private var faceSize: CGFloat { size * 0.40 }
+    private var bodyWidth: CGFloat { size * 0.50 }
+    private var bodyHeight: CGFloat { size * 0.30 }
+    private var eyeSize: CGFloat { size * 0.04 }
+    private var glassesWidth: CGFloat { size * 0.60 }
+    
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(
+                    LinearGradient(
+                        colors: [avatarColor, avatarColor.opacity(0.7)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .frame(width: size, height: size)
+                .shadow(color: shirtColor.opacity(0.2), radius: 8, x: 0, y: 4)
+            
+            // Doctor avatar illustration
+            VStack(spacing: size * 0.025) {
+                // Head
+                ZStack {
+                    Circle()
+                        .fill(Color(red: 240/255, green: 205/255, blue: 175/255))
+                        .frame(width: faceSize, height: faceSize)
+                    
+                    // Facial features
+                    VStack(spacing: size * 0.04) {
+                        // Eyes with glasses
+                        ZStack {
+                            // Glasses frame
+                            HStack(spacing: size * 0.06) {
+                                // Left lens
+                                Circle()
+                                    .stroke(Color.black.opacity(0.7), lineWidth: size * 0.014)
+                                    .frame(width: size * 0.17, height: size * 0.17)
+                                // Right lens
+                                Circle()
+                                    .stroke(Color.black.opacity(0.7), lineWidth: size * 0.014)
+                                    .frame(width: size * 0.17, height: size * 0.17)
+                            }
+                            // Bridge
+                            .overlay(
+                                Rectangle()
+                                    .fill(Color.black.opacity(0.7))
+                                    .frame(width: size * 0.04, height: size * 0.01)
+                            )
+                            
+                            // Eyes behind glasses
+                            HStack(spacing: size * 0.10) {
+                                Circle().fill(Color.black)
+                                    .frame(width: eyeSize, height: eyeSize)
+                                Circle().fill(Color.black)
+                                    .frame(width: eyeSize, height: eyeSize)
+                            }
+                        }
+                        .offset(y: -size * 0.02)
+                        
+                        // Friendly smile
+                        Path { path in
+                            path.addArc(
+                                center: CGPoint(x: faceSize/2, y: faceSize * 0.68),
+                                radius: faceSize * 0.20,
+                                startAngle: .degrees(10),
+                                endAngle: .degrees(170),
+                                clockwise: false
+                            )
+                        }
+                        .stroke(Color.black.opacity(0.8), lineWidth: size * 0.014)
+                        .frame(width: faceSize, height: faceSize)
+                        .offset(y: -size * 0.05)
+                    }
+                    .frame(width: faceSize, height: faceSize)
+                }
+                
+                // Body/white coat
+                Capsule()
+                    .fill(
+                        LinearGradient(
+                            colors: [shirtColor, shirtColor.opacity(0.9)],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .frame(width: bodyWidth, height: bodyHeight)
+                    .overlay(
+                        // Collar detail
+                        VStack {
+                            Rectangle()
+                                .fill(Color.white.opacity(0.3))
+                                .frame(width: bodyWidth * 0.4, height: size * 0.02)
+                            Spacer()
+                        }
+                    )
+                    .offset(y: -size * 0.05)
+            }
         }
     }
 }

@@ -190,7 +190,7 @@ private struct ProfileCardRow: View {
                         .font(.poppins(.semiBold, size: 17))
                         .foregroundColor(AppColors.darkBlue)
                     
-                    Text(profile.relationship)
+                    Text(profile.nickname ?? profile.relationship)
                         .font(.poppins(.regular, size: 13))
                         .foregroundColor(.gray)
                     

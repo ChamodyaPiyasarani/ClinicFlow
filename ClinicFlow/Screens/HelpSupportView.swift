@@ -40,13 +40,6 @@ struct HelpSupportView: View {
                             .font(.poppins(.medium, size: 13))
                             .foregroundColor(AppColors.darkBlue)
                     }
-
-                    // Trailing icons (right)
-                    HStack(spacing: 4) {
-                        Spacer()
-                        LanguageSwitcher(fontSize: 14, showBackground: false)
-                        NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
-                    }
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 8)
@@ -72,38 +65,47 @@ struct HelpSupportView: View {
                             }
                         }
 
-                        // MARK: - Contact Support Title
-                        Text(languageManager.localized("contact_support"))
-                            .font(.poppins(.semiBold, size: 18))
-                            .foregroundColor(AppColors.darkBlue)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.top, 16)
-                            .padding(.bottom, 4)
+                        // MARK: - Contact Support Card
+                        VStack(spacing: 12) {
+                            // Contact Support Title
+                            Text(languageManager.localized("contact_support"))
+                                .font(.poppins(.semiBold, size: 18))
+                                .foregroundColor(AppColors.darkBlue)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.bottom, 4)
 
-                        // MARK: - Support Cards
-                        ContactSupportCard(
-                            icon: "phone.fill",
-                            iconColor: Color(red: 70/255, green: 130/255, blue: 220/255),
-                            bgColor: Color(red: 220/255, green: 235/255, blue: 255/255),
-                            title: languageManager.localized("phone_support"),
-                            subtitle: languageManager.localized("phone_support_number")
-                        )
+                            // Support Cards
+                            ContactSupportCard(
+                                icon: "phone.fill",
+                                iconColor: Color(hex: "2D4A73"),
+                                bgColor: Color(hex: "EFF6FF"),
+                                strokeColor: Color(hex: "BFDBFE"),
+                                title: languageManager.localized("phone_support"),
+                                subtitle: languageManager.localized("phone_support_number")
+                            )
 
-                        ContactSupportCard(
-                            icon: "envelope.fill",
-                            iconColor: Color(red: 80/255, green: 180/255, blue: 100/255),
-                            bgColor: Color(red: 230/255, green: 255/255, blue: 230/255),
-                            title: languageManager.localized("email_support"),
-                            subtitle: languageManager.localized("email_support_address")
-                        )
+                            ContactSupportCard(
+                                icon: "envelope.fill",
+                                iconColor: Color(hex: "16A34A"),
+                                bgColor: Color(hex: "F0FDF4"),
+                                strokeColor: Color(hex: "BBF7D0"),
+                                title: languageManager.localized("email_support"),
+                                subtitle: languageManager.localized("email_support_address")
+                            )
 
-                        ContactSupportCard(
-                            icon: "bubble.left.and.bubble.right.fill",
-                            iconColor: Color(red: 150/255, green: 100/255, blue: 220/255),
-                            bgColor: Color(red: 240/255, green: 230/255, blue: 255/255),
-                            title: languageManager.localized("live_chat"),
-                            subtitle: languageManager.localized("live_chat_subtitle")
-                        )
+                            ContactSupportCard(
+                                icon: "bubble.left.and.bubble.right.fill",
+                                iconColor: Color(hex: "9333EA"),
+                                bgColor: Color(hex: "FAF5FF"),
+                                strokeColor: Color(hex: "E9D5FF"),
+                                title: languageManager.localized("live_chat"),
+                                subtitle: languageManager.localized("live_chat_subtitle")
+                            )
+                        }
+                        .padding(20)
+                        .background(Color.white)
+                        .cornerRadius(16)
+                        .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
 
                         // MARK: - Support Hours
                         Text(languageManager.localized("support_hours"))
@@ -113,12 +115,14 @@ struct HelpSupportView: View {
                             .padding(.bottom, 24)
                     }
                     .padding(.horizontal, 20)
+                    .padding(.top, 20)
                 }
 
                 // MARK: - Bottom Nav Bar
                 BottomNavBar()
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -175,6 +179,7 @@ private struct ContactSupportCard: View {
     let icon: String
     let iconColor: Color
     let bgColor: Color
+    let strokeColor: Color
     let title: String
     let subtitle: String
 
@@ -207,8 +212,38 @@ private struct ContactSupportCard: View {
         .padding(.horizontal, 20)
         .padding(.vertical, 18)
         .background(bgColor)
-        .cornerRadius(20)
-        .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
+        .cornerRadius(16)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(strokeColor, lineWidth: 1.5)
+        )
+    }
+}
+
+// MARK: - Color Extension for Hex
+extension Color {
+    init(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (a, r, g, b) = (255, 0, 0, 0)
+        }
+        self.init(
+            .sRGB,
+            red: Double(r) / 255,
+            green: Double(g) / 255,
+            blue: Double(b) / 255,
+            opacity: Double(a) / 255
+        )
     }
 }
 

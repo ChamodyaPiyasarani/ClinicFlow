@@ -352,16 +352,8 @@ struct RescheduleSuccessView: View {
     }
     
     var body: some View {
-        ZStack {
-            // Semi-transparent background
-            Color.black.opacity(0.4)
-                .ignoresSafeArea()
-                .onTapGesture {
-                    // Prevent dismissal on background tap
-                }
-            
-            // Success Card
-            VStack(spacing: 24) {
+        // Success Card
+        VStack(spacing: 24) {
                     // Success Icon
                     ZStack {
                         Circle()
@@ -490,8 +482,10 @@ struct RescheduleSuccessView: View {
                         .shadow(color: Color.black.opacity(0.15), radius: 30, x: 0, y: 10)
                 )
                 .padding(.horizontal, 32)
-        }
-        .interactiveDismissDisabled()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.clear)
+                .presentationBackground(.ultraThinMaterial)
+                .interactiveDismissDisabled()
     }
 }
 

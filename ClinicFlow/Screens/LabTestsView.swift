@@ -29,7 +29,7 @@ struct LabTestsView: View {
                     // Centered title
                     Text(languageManager.localized("lab_tests"))
                         .font(.poppins(.bold, size: 20))
-                        .foregroundColor(AppColors.darkBlue)
+                        .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
 
                     // Trailing icons (right)
                     HStack(spacing: 4) {
@@ -52,7 +52,7 @@ struct LabTestsView: View {
                         
                         TextField(languageManager.localized("search_lab_tests"), text: $searchText)
                             .font(.poppins(.regular, size: 15))
-                            .foregroundColor(AppColors.darkBlue)
+                            .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
                         
                         if !searchText.isEmpty {
                             Button(action: {
@@ -245,7 +245,7 @@ struct CategoryChip: View {
                 Text(languageManager.localized(category.localizationKey))
                     .font(.poppins(.medium, size: 14))
             }
-            .foregroundColor(isSelected ? .white : AppColors.darkBlue)
+            .foregroundColor(isSelected ? .white : Color(red: 60/255, green: 150/255, blue: 100/255))
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
             .background(isSelected ? Color(red: 60/255, green: 150/255, blue: 100/255) : Color.white)
@@ -337,7 +337,7 @@ struct LabTestCard: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(test.name)
                             .font(.poppins(.semiBold, size: 16))
-                            .foregroundColor(AppColors.darkBlue)
+                            .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
                             .lineLimit(1)
                         
                         Text(test.description)
@@ -353,7 +353,7 @@ struct LabTestCard: View {
                     VStack(alignment: .trailing, spacing: 8) {
                         Text("Rs. \(String(format: "%.2f", test.price))")
                             .font(.poppins(.bold, size: 16))
-                            .foregroundColor(AppColors.darkBlue)
+                            .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
                         
                         Image(systemName: "chevron.right")
                             .font(.system(size: 14, weight: .semibold))

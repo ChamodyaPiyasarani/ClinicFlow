@@ -490,19 +490,6 @@ private struct ProfileAvatarView: View {
                     .overlay(
                         // Simple facial features
                         VStack(spacing: size * 0.033) {
-                            // Hair/curls
-                            HStack(spacing: size * 0.033) {
-                                Circle().fill(hairColor)
-                                    .frame(width: hairSize, height: hairSize)
-                                Circle().fill(hairColor)
-                                    .frame(width: hairSize, height: hairSize)
-                                Circle().fill(hairColor)
-                                    .frame(width: hairSize, height: hairSize)
-                            }
-                            .offset(y: -faceSize * 0.375)
-                            
-                            Spacer()
-                            
                             // Eyes
                             HStack(spacing: size * 0.089) {
                                 Circle().fill(Color.black)

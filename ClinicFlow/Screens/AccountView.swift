@@ -37,27 +37,13 @@ private struct AccountHeaderView: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            ZStack {
-                // Back button (left aligned) - Hidden for now as it's in the bottom nav
-                HStack {
-                    Spacer()
-                }
-
-                // Centered title
-                AppNameText(fontSize: 20)
-
-                // Trailing icons (right)
-                HStack(spacing: 4) {
-                    Spacer()
-                    LanguageSwitcher(fontSize: 14, showBackground: false)
-                    NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
-                }
-            }
+            // Centered title
+            AppNameText(fontSize: 20)
 
             // Profile subtitle
             Text(languageManager.localized("profile"))
                 .font(.poppins(.medium, size: 14))
-                .foregroundColor(.gray)
+                .foregroundColor(AppColors.primaryText)
         }
         .padding(.horizontal, 20)
         .padding(.top, 8)
@@ -87,19 +73,6 @@ private struct ProfileCardSection: View {
                         .overlay(
                             // Simple facial features
                             VStack(spacing: 3) {
-                                // Hair/curls
-                                HStack(spacing: 3) {
-                                    Circle().fill(Color(red: 139/255, green: 90/255, blue: 43/255))
-                                        .frame(width: 6, height: 6)
-                                    Circle().fill(Color(red: 139/255, green: 90/255, blue: 43/255))
-                                        .frame(width: 6, height: 6)
-                                    Circle().fill(Color(red: 139/255, green: 90/255, blue: 43/255))
-                                        .frame(width: 6, height: 6)
-                                }
-                                .offset(y: -12)
-                                
-                                Spacer()
-                                
                                 // Eyes
                                 HStack(spacing: 8) {
                                     Circle().fill(Color.black)
@@ -158,7 +131,7 @@ private struct MenuItemsSection: View {
     let router: AppRouter
     
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 16) {
             MenuItemRow(
                 icon: "person.2.fill",
                 iconColor: Color(red: 70/255, green: 130/255, blue: 220/255),
@@ -197,11 +170,6 @@ private struct MenuItemsSection: View {
                 // Action: Navigate to settings
             }
         }
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color.white)
-        )
-        .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
     }
 }
 
@@ -248,7 +216,11 @@ private struct MenuItemRow: View {
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
-            .background(Color.white)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.white)
+            )
+            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
             .contentShape(Rectangle())
         }
         .buttonStyle(PlainButtonStyle())

@@ -135,19 +135,6 @@ private struct PatientInfoCard: View {
                         .overlay(
                             // Simple facial features
                             VStack(spacing: 2) {
-                                // Hair/curls
-                                HStack(spacing: 2) {
-                                    Circle().fill(Color(red: 139/255, green: 90/255, blue: 43/255))
-                                        .frame(width: 4, height: 4)
-                                    Circle().fill(Color(red: 139/255, green: 90/255, blue: 43/255))
-                                        .frame(width: 4, height: 4)
-                                    Circle().fill(Color(red: 139/255, green: 90/255, blue: 43/255))
-                                        .frame(width: 4, height: 4)
-                                }
-                                .offset(y: -8)
-                                
-                                Spacer()
-                                
                                 // Eyes
                                 HStack(spacing: 5) {
                                     Circle().fill(Color.black)

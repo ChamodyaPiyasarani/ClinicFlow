@@ -24,6 +24,7 @@ enum AppRoute: Hashable {
     case appointmentReview(doctor: Doctor, department: ClinicDepartment, date: Date, timeSlot: TimeSlot, patientName: String, contactNumber: String, reasonForVisit: String)
     case appointmentConfirmed(Appointment)
     case appointmentDetail(Appointment)
+    case pastAppointmentDetail(Appointment)
     case rescheduleAppointment(Appointment)
 }
 

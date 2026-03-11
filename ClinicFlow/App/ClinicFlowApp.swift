@@ -82,6 +82,9 @@ struct ClinicFlowApp: App {
                         case .appointmentDetail(let appointment):
                             AppointmentDetailView(appointment: appointment)
                                 .navigationBarHidden(true)
+                        case .pastAppointmentDetail(let appointment):
+                            PastAppointmentDetailView(appointment: appointment)
+                                .navigationBarHidden(true)
                         case .rescheduleAppointment(let appointment):
                             RescheduleAppointmentView(appointment: appointment)
                                 .navigationBarHidden(true)

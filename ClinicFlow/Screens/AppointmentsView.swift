@@ -194,14 +194,16 @@ private struct AppointmentCard: View {
     }
 
     var body: some View {
-        Button(action: {
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-            // Navigate to appointment detail view
-            router.navigate(to: .appointmentDetail(appointment))
-        }) {
-            cardContent
-        }
-        .buttonStyle(PlainButtonStyle())
+        cardContent
+            .onTapGesture {
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                // Navigate to appointment detail view
+                if isUpcoming {
+                    router.navigate(to: .appointmentDetail(appointment))
+                } else {
+                    router.navigate(to: .pastAppointmentDetail(appointment))
+                }
+            }
     }
     
     private var cardContent: some View {
@@ -256,19 +258,12 @@ private struct AppointmentCard: View {
                 .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 3)
         )
         .scaleEffect(isPressed ? 0.98 : 1.0)
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { _ in
-                    withAnimation(.easeInOut(duration: 0.1)) {
-                        isPressed = true
-                    }
-                }
-                .onEnded { _ in
-                    withAnimation(.easeInOut(duration: 0.1)) {
-                        isPressed = false
-                    }
-                }
-        )
+        .animation(.easeInOut(duration: 0.1), value: isPressed)
+        .onLongPressGesture(minimumDuration: .infinity, maximumDistance: .infinity, pressing: { pressing in
+            withAnimation(.easeInOut(duration: 0.1)) {
+                isPressed = pressing
+            }
+        }, perform: {})
     }
 }
 

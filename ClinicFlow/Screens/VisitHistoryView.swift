@@ -263,7 +263,7 @@ private struct VisitCard: View {
             // View Details button
             Button(action: {
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                router.navigate(to: .appointmentDetail(visit.toAppointment()))
+                router.navigate(to: .pastAppointmentDetail(visit.toAppointment()))
             }) {
                 Text(languageManager.localized("view_details"))
                     .font(.poppins(.semiBold, size: 14))

@@ -59,15 +59,15 @@ struct AppointmentDetailView: View {
                     .padding(.top, 8)
                     .padding(.bottom, isUpcoming ? 140 : 40)
                 }
-
-                // ── Bottom Action Bar ──
-                if isUpcoming {
-                    bottomActionBar
-                        .opacity(actionsAppear ? 1 : 0)
-                        .offset(y: actionsAppear ? 0 : 30)
-                }
             }
             .background(AppColors.background)
+            
+            // ── Bottom Action Bar (Floating) ──
+            if isUpcoming {
+                bottomActionBar
+                    .opacity(actionsAppear ? 1 : 0)
+                    .offset(y: actionsAppear ? 0 : 30)
+            }
         }
         .onAppear { triggerStaggeredAnimations() }
         .sheet(isPresented: $showCancelSheet) {

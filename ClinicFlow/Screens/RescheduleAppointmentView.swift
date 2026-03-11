@@ -12,6 +12,7 @@ struct RescheduleAppointmentView: View {
     @State private var selectedTimeSlot: TimeSlot? = nil
     @State private var timeSlots: [TimeSlot] = TimeSlot.generateSlots()
     @State private var showConfirmAlert = false
+    @State private var showSuccessSheet = false
 
     // Calendar helpers
     private var currentWeekDates: [Date] {
@@ -280,12 +281,19 @@ struct RescheduleAppointmentView: View {
         .alert(languageManager.localized("confirm_reschedule"), isPresented: $showConfirmAlert) {
             Button(languageManager.localized("cancel"), role: .cancel) { }
             Button(languageManager.localized("confirm"), role: .none) {
-                // Pop back to detail, then back to list
-                router.goBack()
-                router.goBack()
+                showSuccessSheet = true
             }
         } message: {
             Text(languageManager.localized("reschedule_confirm_message"))
+        }
+        .sheet(isPresented: $showSuccessSheet) {
+            RescheduleSuccessView(
+                appointment: appointment,
+                newDate: selectedDate,
+                newTimeSlot: selectedTimeSlot?.time ?? ""
+            )
+            .environment(languageManager)
+            .environment(router)
         }
     }
 
@@ -317,12 +325,183 @@ private struct RescheduleHeaderView: View {
             }
             Text(subtitle)
                 .font(.poppins(.medium, size: 14))
-                .foregroundColor(.gray)
+                .foregroundColor(AppColors.darkBlue)
         }
-        .padding(.horizontal, 20)
+        .paReschedule Success View
+
+struct RescheduleSuccessView: View {
+    @Environment(\.dismiss) var dismiss
+    @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
+    
+    let appointment: Appointment
+    let newDate: Date
+    let newTimeSlot: String
+    
+    private var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMMM yyyy"
+        return formatter.string(from: newDate)
+    }
+    
+    var body: some View {
+        ZStack {
+            // Background with subtle gradient
+            LinearGradient(
+                colors: [
+                    Color(red: 0.83, green: 0.95, blue: 0.88),
+                    Color(red: 0.90, green: 0.97, blue: 0.92)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+            
+            VStack(spacing: 0) {
+                Spacer()
+                
+                // Success Card
+                VStack(spacing: 24) {
+                    // Success Icon
+                    ZStack {
+                        Circle()
+                            .fill(Color(red: 0.2, green: 0.7, blue: 0.4).opacity(0.15))
+                            .frame(width: 80, height: 80)
+                        
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 50))
+                            .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.4))
+                    }
+                    .padding(.top, 32)
+                    
+                    // Success Message
+                    VStack(spacing: 8) {
+                        Text("Appointment Rescheduled")
+                            .font(.poppins(.bold, size: 22))
+                            .foregroundColor(Color(red: 0.15, green: 0.45, blue: 0.25))
+                            .multilineTextAlignment(.center)
+                        
+                        Text("Successfully!")
+                            .font(.poppins(.semiBold, size: 20))
+                            .foregroundColor(Color(red: 0.2, green: 0.6, blue: 0.35))
+                            .multilineTextAlignment(.center)
+                    }
+                    
+                    // Appointment Details Card
+                    VStack(spacing: 18) {
+                        // Token Number
+                        VStack(spacing: 4) {
+                            Text("Token # \(appointment.tokenNumber)")
+                                .font(.poppins(.bold, size: 26))
+                                .foregroundColor(Color(red: 0.15, green: 0.45, blue: 0.25))
+                        }
+                        
+                        // Doctor Info
+                        VStack(spacing: 2) {
+                            Text(appointment.doctorName)
+                                .font(.poppins(.semiBold, size: 16))
+                                .foregroundColor(Color(red: 0.2, green: 0.35, blue: 0.25))
+                            Text(languageManager.localized(appointment.departmentKey))
+                                .font(.poppins(.regular, size: 14))
+                                .foregroundColor(Color(red: 0.3, green: 0.5, blue: 0.4))
+                        }
+                        
+                        Divider()
+                            .background(Color(red: 0.2, green: 0.7, blue: 0.4).opacity(0.2))
+                            .padding(.horizontal, 20)
+                        
+                        // Date & Time
+                        VStack(spacing: 10) {
+                            HStack(spacing: 8) {
+                                Image(systemName: "calendar")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(Color(red: 0.2, green: 0.6, blue: 0.35))
+                                Text("Date:")
+                                    .font(.poppins(.medium, size: 14))
+                                    .foregroundColor(Color(red: 0.3, green: 0.5, blue: 0.4))
+                                Text(formattedDate)
+                                    .font(.poppins(.semiBold, size: 14))
+                                    .foregroundColor(Color(red: 0.15, green: 0.45, blue: 0.25))
+                            }
+                            
+                            HStack(spacing: 8) {
+                                Image(systemName: "clock")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(Color(red: 0.2, green: 0.6, blue: 0.35))
+                                Text("Time:")
+                                    .font(.poppins(.medium, size: 14))
+                                    .foregroundColor(Color(red: 0.3, green: 0.5, blue: 0.4))
+                                Text(newTimeSlot)
+                                    .font(.poppins(.semiBold, size: 14))
+                                    .foregroundColor(Color(red: 0.15, green: 0.45, blue: 0.25))
+                            }
+                        }
+                        
+                        // Reminder Text
+                        Text("You will receive a reminder before your appointment.")
+                            .font(.poppins(.regular, size: 12))
+                            .foregroundColor(Color(red: 0.3, green: 0.5, blue: 0.4))
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 20)
+                            .padding(.top, 8)
+                    }
+                    .padding(.vertical, 24)
+                    .padding(.horizontal, 20)
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color.white.opacity(0.7))
+                    )
+                    .padding(.horizontal, 24)
+                    
+                    // Action Button
+                    Button(action: {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        dismiss()
+                        // Navigate back to appointments list
+                        router.goBack() // Pop to detail
+                        router.goBack() // Pop to appointments list
+                    }) {
+                        Text("View Appointments")
+                            .font(.poppins(.semiBold, size: 17))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [
+                                                Color(red: 0.2, green: 0.7, blue: 0.4),
+                                                Color(red: 0.15, green: 0.6, blue: 0.35)
+                                            ],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
+                            )
+                            .shadow(color: Color(red: 0.2, green: 0.7, blue: 0.4).opacity(0.3), radius: 8, x: 0, y: 4)
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 32)
+                }
+                .background(
+                    RoundedRectangle(cornerRadius: 32)
+                        .fill(Color.white)
+                        .shadow(color: Color.black.opacity(0.08), radius: 20, x: 0, y: 10)
+                )
+                .padding(.horizontal, 20)
+                
+                Spacer()
+            }
+        }
+        .interactiveDismissDisabled()
+    }
+}
+
+// MARK: - dding(.horizontal, 20)
         .padding(.top, 8)
         .padding(.bottom, 8)
-        .background(Color.white)
+        .background(AppColors.background)
     }
 }
 

@@ -29,6 +29,17 @@ struct AppointmentDetailView: View {
         ClinicDepartment.samples.first { $0.localizationKey == appointment.departmentKey }?.color ?? AppColors.brandBlue
     }
 
+    private var cardColor: Color {
+        switch appointment.status {
+        case .confirmed:
+            return AppColors.brandBlue
+        case .pending:
+            return Color.orange
+        default:
+            return departmentColor
+        }
+    }
+
     private var departmentIcon: String {
         ClinicDepartment.samples.first { $0.localizationKey == appointment.departmentKey }?.icon ?? "stethoscope"
     }
@@ -102,7 +113,7 @@ struct AppointmentDetailView: View {
         VStack(spacing: 0) {
             // Blue header section
             ZStack(alignment: .top) {
-                departmentColor
+                cardColor
                 
                 HStack(alignment: .top) {
                     // Status badge
@@ -155,9 +166,9 @@ struct AppointmentDetailView: View {
                 HStack(spacing: 16) {
                     // Doctor avatar
                     DoctorAvatarView(
-                        avatarColor: departmentColor.opacity(0.15),
+                        avatarColor: cardColor.opacity(0.15),
                         hairColor: Color(red: 0.4, green: 0.26, blue: 0.13),
-                        shirtColor: departmentColor,
+                        shirtColor: cardColor,
                         size: 70
                     )
                     
@@ -169,7 +180,7 @@ struct AppointmentDetailView: View {
                         HStack(spacing: 6) {
                             Image(systemName: "stethoscope")
                                 .font(.system(size: 12, weight: .medium))
-                                .foregroundColor(departmentColor.opacity(0.8))
+                                .foregroundColor(cardColor.opacity(0.8))
                             Text(languageManager.localized(appointment.departmentKey))
                                 .font(.poppins(.medium, size: 14))
                                 .foregroundColor(.gray.opacity(0.9))
@@ -186,7 +197,7 @@ struct AppointmentDetailView: View {
                 Rectangle()
                     .fill(
                         LinearGradient(
-                            colors: [Color.clear, departmentColor.opacity(0.15), Color.clear],
+                            colors: [Color.clear, cardColor.opacity(0.15), Color.clear],
                             startPoint: .leading,
                             endPoint: .trailing
                         )
@@ -200,7 +211,7 @@ struct AppointmentDetailView: View {
                     AppointmentDetailRow(
                         icon: "calendar",
                         iconBg: Color(red: 0.9, green: 0.94, blue: 1.0),
-                        iconColor: departmentColor,
+                        iconColor: cardColor,
                         label: "Date",
                         value: dateString
                     )
@@ -209,7 +220,7 @@ struct AppointmentDetailView: View {
                     AppointmentDetailRow(
                         icon: "clock.fill",
                         iconBg: Color(red: 0.9, green: 0.94, blue: 1.0),
-                        iconColor: departmentColor,
+                        iconColor: cardColor,
                         label: "Time",
                         value: appointment.timeSlot
                     )
@@ -223,7 +234,7 @@ struct AppointmentDetailView: View {
                                     .frame(width: 40, height: 40)
                                 Image(systemName: "mappin.circle.fill")
                                     .font(.system(size: 18))
-                                    .foregroundColor(departmentColor)
+                                    .foregroundColor(cardColor)
                             }
                             
                             VStack(alignment: .leading, spacing: 2) {
@@ -248,7 +259,7 @@ struct AppointmentDetailView: View {
                     AppointmentDetailRow(
                         icon: "number",
                         iconBg: Color(red: 0.9, green: 0.94, blue: 1.0),
-                        iconColor: departmentColor,
+                        iconColor: cardColor,
                         label: "Token Number",
                         value: appointment.tokenNumber
                     )
@@ -259,7 +270,7 @@ struct AppointmentDetailView: View {
             .background(Color.white)
         }
         .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-        .shadow(color: departmentColor.opacity(0.15), radius: 24, x: 0, y: 10)
+        .shadow(color: cardColor.opacity(0.15), radius: 24, x: 0, y: 10)
         .overlay(
             RoundedRectangle(cornerRadius: 24, style: .continuous)
                 .stroke(Color.white.opacity(0.5), lineWidth: 1)

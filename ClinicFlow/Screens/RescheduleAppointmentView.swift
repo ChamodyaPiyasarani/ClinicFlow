@@ -292,10 +292,11 @@ struct RescheduleAppointmentView: View {
             
             // Success Card Overlay
             if showSuccessSheet {
-                Color.black.opacity(0.4)
-                    .ignoresSafeArea()
-                
-                VStack(spacing: 24) {
+                ZStack {
+                    Color.black.opacity(0.4)
+                        .ignoresSafeArea()
+                    
+                    VStack(spacing: 24) {
                     // Success Icon
                     ZStack {
                         Circle()
@@ -423,7 +424,9 @@ struct RescheduleAppointmentView: View {
                         .shadow(color: Color.black.opacity(0.2), radius: 30, x: 0, y: 10)
                 )
                 .padding(.horizontal, 32)
+                }
                 .transition(.scale.combined(with: .opacity))
+                .zIndex(100)
             }
         }
         .edgesIgnoringSafeArea(.bottom)

@@ -5,7 +5,6 @@ import SwiftUI
 struct AfterVisitProgressView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
-    @Environment(ToastManager.self) var toastManager
 
     let journey: VisitJourney
 
@@ -293,7 +292,6 @@ struct AfterVisitProgressView: View {
                 // Join Queue button
                 Button(action: {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    toastManager.show(.info, message: "toast_joining_queue")
                     router.navigate(to: .queueStatus(action.queueStatus))
                 }) {
                     HStack(spacing: 8) {
@@ -426,7 +424,6 @@ struct AfterVisitProgressView: View {
                 if let action = journey.nextAction {
                     Button(action: {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        toastManager.show(.info, message: "toast_joining_queue")
                         router.navigate(to: .queueStatus(action.queueStatus))
                     }) {
                         HStack(spacing: 6) {
@@ -571,19 +568,16 @@ private struct ProgressStepRow: View {
     AfterVisitProgressView(journey: .consultationToLab)
         .environment(LanguageManager.shared)
         .environment(AppRouter())
-        .environment(ToastManager.shared)
 }
 
 #Preview("Consultation → Pharmacy") {
     AfterVisitProgressView(journey: .consultationToPharmacy)
         .environment(LanguageManager.shared)
         .environment(AppRouter())
-        .environment(ToastManager.shared)
 }
 
 #Preview("Visit Complete") {
     AfterVisitProgressView(journey: .consultationComplete)
         .environment(LanguageManager.shared)
         .environment(AppRouter())
-        .environment(ToastManager.shared)
 }

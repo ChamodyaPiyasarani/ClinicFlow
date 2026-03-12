@@ -3,7 +3,6 @@ import SwiftUI
 struct OTPVerificationView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
-    @Environment(ToastManager.self) var toastManager
     @State private var otpCode: String = ""
     @State private var resendTimer: Int = 30
     @State private var canResend: Bool = false
@@ -138,7 +137,6 @@ struct OTPVerificationView: View {
 
     private func resendOTP() {
         // TODO: Trigger OTP resend
-        toastManager.show(.success, message: "toast_otp_resent")
         startResendTimer()
     }
 }

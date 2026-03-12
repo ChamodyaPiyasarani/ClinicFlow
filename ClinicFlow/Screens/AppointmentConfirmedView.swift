@@ -5,7 +5,6 @@ import SwiftUI
 struct AppointmentConfirmedView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
-    @Environment(ToastManager.self) var toastManager
 
     let appointment: Appointment
 
@@ -151,7 +150,6 @@ struct AppointmentConfirmedView: View {
                 // View Queue Status Button
                 Button(action: {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    toastManager.show(.info, message: "toast_joining_queue")
                     router.navigate(to: .queueStatus(.appointmentSample))
                 }) {
                     HStack(spacing: 10) {

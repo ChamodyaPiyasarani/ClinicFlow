@@ -6,7 +6,6 @@ import Photos
 struct PharmacyView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
-    @Environment(ToastManager.self) var toastManager
     
     @State private var showCamera = false
     @State private var showGallery = false
@@ -74,7 +73,6 @@ struct PharmacyView: View {
                             let impact = UIImpactFeedbackGenerator(style: .medium)
                             impact.impactOccurred()
                             // Navigate to pharmacy queue status
-                            toastManager.show(.success, message: "toast_prescription_sent")
                             router.navigate(to: .queueStatus(.pharmacySample))
                         }) {
                             Text(languageManager.localized("send_to_pharmacy"))
@@ -108,9 +106,13 @@ struct PharmacyView: View {
         .edgesIgnoringSafeArea(.bottom)
         .sheet(isPresented: $showGallery) {
             ImagePicker(image: $selectedImage, sourceType: .photoLibrary)
+                .environment(languageManager)
+                .environment(router)
         }
         .sheet(isPresented: $showCamera) {
             ImagePicker(image: $selectedImage, sourceType: .camera)
+                .environment(languageManager)
+                .environment(router)
         }
     }
 }

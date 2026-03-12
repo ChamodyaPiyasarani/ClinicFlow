@@ -248,6 +248,8 @@ struct PatientDetailsFormView: View {
             PatientProfileSheet(selectedProfile: $selectedProfile)
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
+                .environment(languageManager)
+                .environment(router)
         }
         .alert(languageManager.localized("discard_appointment"), isPresented: $showDiscardAlert) {
             Button(languageManager.localized("cancel"), role: .cancel) { }

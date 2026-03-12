@@ -309,4 +309,5 @@ private struct ServiceCard: View {
 #Preview {
     HomeView()
         .environment(LanguageManager.shared)
+        .environment(AppRouter())
 }

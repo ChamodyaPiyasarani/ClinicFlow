@@ -1769,16 +1769,6 @@ struct LocalizedStrings {
             .sinhala: "පැමිණීමේ වේලාව",
             .tamil: "செக்-இன் நேரம்"
         ],
-        "token_number": [
-            .english: "Token Number",
-            .sinhala: "ටෝකන් අංකය",
-            .tamil: "டோக்கன் எண்"
-        ],
-        "current_status": [
-            .english: "Current Status",
-            .sinhala: "වත්මන් තත්ත්වය",
-            .tamil: "தற்போதைய நிலை"
-        ],
         "active_status": [
             .english: "Active",
             .sinhala: "සක්‍රීය",
@@ -1883,11 +1873,6 @@ struct LocalizedStrings {
             .english: "You're in the queue. We'll notify you when it's your turn.",
             .sinhala: "ඔබ පෝලිමේ ය. ඔබේ වාරය පැමිණි විට අපි දැනුම් දෙන්නෙමු.",
             .tamil: "நீங்கள் வரிசையில் உள்ளீர்கள். உங்கள் முறை வரும்போது நாங்கள் உங்களுக்கு தெரிவிப்போம்."
-        ],
-        "cancel": [
-            .english: "Cancel",
-            .sinhala: "අවලංගු කරන්න",
-            .tamil: "ரத்து செய்"
         ],
         "view_queue_status": [
             .english: "View Queue Status",

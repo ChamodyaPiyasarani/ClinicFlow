@@ -34,3 +34,4 @@ struct ContentView: View {
         .environment(LanguageManager.shared)
         .environment(AppRouter())
 }
+

@@ -267,6 +267,8 @@ struct BookAppointmentView: View {
             }
             .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
+            .environment(languageManager)
+            .environment(router)
         }
         .sheet(isPresented: $showDoctorPicker) {
             SelectionSheet(
@@ -285,6 +287,8 @@ struct BookAppointmentView: View {
             }
             .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
+            .environment(languageManager)
+            .environment(router)
         }
     }
 

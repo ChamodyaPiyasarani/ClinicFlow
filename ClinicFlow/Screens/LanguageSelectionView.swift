@@ -3,7 +3,6 @@ import SwiftUI
 struct LanguageSelectionView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
-    @Environment(ToastManager.self) var toastManager
     @State private var selectedLanguage: AppLanguage = .english
 
     var body: some View {
@@ -77,7 +76,6 @@ struct LanguageSelectionView: View {
                         // MARK: - Continue Button
                         PrimaryButton(title: languageManager.localized("continue")) {
                             languageManager.setLanguage(selectedLanguage)
-                            toastManager.show(.success, message: "toast_language_changed")
                             router.navigate(to: .userSignUp)
                         }
                         .padding(.horizontal, 28)

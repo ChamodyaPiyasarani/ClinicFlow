@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PatientProfilesView: View {
     @Environment(AppRouter.self) var router
+    @Environment(LanguageManager.self) var languageManager
     @State private var profiles = PatientProfile.sampleProfiles
     @State private var showAddProfile = false
     
@@ -45,6 +46,8 @@ struct PatientProfilesView: View {
                     showAddProfile = false
                 }
             )
+            .environment(languageManager)
+            .environment(router)
         }
     }
 }
@@ -654,4 +657,5 @@ private struct ProfileAvatarView: View {
 #Preview {
     PatientProfilesView()
         .environment(AppRouter())
+        .environment(LanguageManager.shared)
 }

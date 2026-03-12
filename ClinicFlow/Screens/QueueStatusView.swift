@@ -107,7 +107,7 @@ struct QueueStatusView: View {
 
     private var headerBar: some View {
         HStack {
-            BackButton()
+            BackButton { router.goBack() }
             Spacer()
             AppNameText(fontSize: 18)
             Spacer()

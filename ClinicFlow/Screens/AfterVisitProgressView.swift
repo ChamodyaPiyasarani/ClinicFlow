@@ -402,7 +402,10 @@ struct AfterVisitProgressView: View {
                 // Back to Home
                 Button(action: {
                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                    router.goToRoot()
+                    router.selectedTab = .home
+                    while router.path.count > 1 {
+                        router.path.removeLast()
+                    }
                 }) {
                     HStack(spacing: 6) {
                         Image(systemName: "house.fill")

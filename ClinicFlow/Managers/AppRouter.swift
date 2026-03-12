@@ -29,6 +29,7 @@ enum AppRoute: Hashable {
     case rescheduleAppointment(Appointment)
     case queueStatus(QueueStatus)
     case afterVisitProgress(VisitJourney)
+    case settings
 }
 
 /// Centralized navigation manager using NavigationStack path.

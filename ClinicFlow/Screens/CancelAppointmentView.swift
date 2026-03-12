@@ -242,8 +242,10 @@ struct CancelAppointmentView: View {
                 
                 // Done button
                 Button(action: {
-                    // Navigate back to home or appointments
-                    router.goToRoot()
+                    // Navigate back to appointments tab
+                    while router.path.count > 1 {
+                        router.path.removeLast()
+                    }
                     router.selectedTab = .appointment
                 }) {
                     Text(languageManager.localized("done"))

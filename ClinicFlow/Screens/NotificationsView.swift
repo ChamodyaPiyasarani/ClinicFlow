@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct NotificationsView: View {
-    @Environment(\.dismiss) var dismiss
     @Environment(AppRouter.self) var router
     @Environment(ToastManager.self) var toastManager
     @State private var notifications: [NotificationItem] = []
@@ -10,7 +9,7 @@ struct NotificationsView: View {
         VStack(spacing: 0) {
             // ── Header ──
             NotificationHeader(
-                onBack: { dismiss() },
+                onBack: { router.goBack() },
                 onClearAll: { clearAllNotifications() }
             )
             

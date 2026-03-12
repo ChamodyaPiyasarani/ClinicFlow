@@ -179,8 +179,9 @@ struct AppointmentConfirmedView: View {
                 Button(action: {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     router.selectedTab = .appointment
-                    router.goToRoot()
-                    router.navigate(to: .home)
+                    while router.path.count > 1 {
+                        router.path.removeLast()
+                    }
                 }) {
                     HStack(spacing: 10) {
                         Image(systemName: "calendar.badge.checkmark")

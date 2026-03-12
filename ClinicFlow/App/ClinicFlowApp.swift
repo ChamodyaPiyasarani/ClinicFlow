@@ -98,6 +98,9 @@ struct ClinicFlowApp: App {
                         case .afterVisitProgress(let journey):
                             AfterVisitProgressView(journey: journey)
                                 .navigationBarHidden(true)
+                        case .settings:
+                            SettingsView()
+                                .navigationBarHidden(true)
                         }
                     }
             }

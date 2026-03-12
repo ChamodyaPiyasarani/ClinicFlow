@@ -168,6 +168,7 @@ private struct MenuItemsSection: View {
                 title: languageManager.localized("settings")
             ) {
                 // Action: Navigate to settings
+                router.navigate(to: .settings)
             }
         }
     }

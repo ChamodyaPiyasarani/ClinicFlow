@@ -128,7 +128,7 @@ private struct AppointmentsHeaderView: View {
 
             Text(languageManager.localized("appointments_title"))
                 .font(.poppins(.medium, size: 14))
-                .foregroundColor(.gray)
+                .foregroundColor(AppColors.darkBlue)
         }
         .padding(.horizontal, 20)
         .padding(.top, 8)

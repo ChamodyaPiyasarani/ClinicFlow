@@ -263,7 +263,7 @@ private struct ReviewHeaderView: View {
             }
             Text(subtitle)
                 .font(.poppins(.medium, size: 14))
-                .foregroundColor(.gray)
+                .foregroundColor(AppColors.darkBlue)
         }
         .padding(.horizontal, 20)
         .padding(.top, 8)

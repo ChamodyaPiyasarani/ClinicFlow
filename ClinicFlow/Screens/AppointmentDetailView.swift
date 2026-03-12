@@ -102,54 +102,59 @@ struct AppointmentDetailView: View {
 
     private var heroCard: some View {
         VStack(spacing: 0) {
-            // Blue header section
+            // Vibrant gradient header section
             ZStack(alignment: .top) {
-                cardColor
-                
-                HStack(alignment: .top) {
-                    // Status badge
-                    Text(languageManager.localized(appointment.status.localizationKey))
-                        .font(.poppins(.semiBold, size: 12))
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 6)
-                        .background(
-                            Capsule()
-                                .fill(Color.white.opacity(0.25))
-                        )
-                    
+                LinearGradient(
+                    colors: [cardColor.opacity(0.8), cardColor],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+
+                VStack(alignment: .leading, spacing: 0) {
+                    HStack(alignment: .top) {
+                        // Status badge
+                        Text(languageManager.localized(appointment.status.localizationKey))
+                            .font(.poppins(.semiBold, size: 12))
+                            .foregroundColor(cardColor)
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 6)
+                            .background(
+                                Capsule()
+                                    .fill(Color.white.opacity(0.95))
+                                    .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
+                            )
+
+                        Spacer()
+
+                        // Calendar icon
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                .fill(Color.white.opacity(0.2))
+                                .frame(width: 44, height: 44)
+                            Image(systemName: "calendar")
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(.white)
+                        }
+                    }
+
                     Spacer()
-                    
-                    // Calendar icon
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .fill(Color.white.opacity(0.25))
-                            .frame(width: 44, height: 44)
-                        Image(systemName: "calendar")
-                            .font(.system(size: 20, weight: .semibold))
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(languageManager.localized(appointment.departmentKey))
+                            .font(.poppins(.bold, size: 22))
                             .foregroundColor(.white)
+                            .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+
+                        Text("Department of \(languageManager.localized(appointment.departmentKey))")
+                            .font(.poppins(.medium, size: 14))
+                            .foregroundColor(.white.opacity(0.9))
                     }
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 16)
-                .padding(.bottom, 12)
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    Spacer().frame(height: 50)
-                    
-                    Text(languageManager.localized(appointment.departmentKey))
-                        .font(.poppins(.bold, size: 22))
-                        .foregroundColor(.white)
-                    
-                    Text("Department of \(languageManager.localized(appointment.departmentKey))")
-                        .font(.poppins(.medium, size: 14))
-                        .foregroundColor(.white.opacity(0.9))
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 20)
-                .padding(.bottom, 20)
+                .padding(.horizontal, 24)
+                .padding(.top, 24)
+                .padding(.bottom, 24)
             }
-            .frame(height: 180)
+            .frame(height: 165)
             
             // White section with doctor and details
             VStack(spacing: 0) {
@@ -157,114 +162,119 @@ struct AppointmentDetailView: View {
                 HStack(spacing: 16) {
                     // Doctor avatar
                     DoctorAvatarView(
-                        avatarColor: cardColor.opacity(0.15),
+                        avatarColor: cardColor.opacity(0.12),
                         hairColor: Color(red: 0.4, green: 0.26, blue: 0.13),
                         shirtColor: cardColor,
-                        size: 70
+                        size: 64
                     )
-                    
-                    VStack(alignment: .leading, spacing: 6) {
+                    .shadow(color: cardColor.opacity(0.15), radius: 6, x: 0, y: 3)
+
+                    VStack(alignment: .leading, spacing: 4) {
                         Text(appointment.doctorName)
-                            .font(.poppins(.bold, size: 19))
-                            .foregroundColor(Color(red: 0.15, green: 0.25, blue: 0.45))
-                        
-                        HStack(spacing: 6) {
+                            .font(.poppins(.bold, size: 18))
+                            .foregroundColor(AppColors.darkBlue)
+
+                        HStack(spacing: 4) {
                             Image(systemName: "stethoscope")
-                                .font(.system(size: 12, weight: .medium))
-                                .foregroundColor(cardColor.opacity(0.8))
+                                .font(.system(size: 11, weight: .medium))
+                                .foregroundColor(cardColor.opacity(0.9))
                             Text(languageManager.localized(appointment.departmentKey))
-                                .font(.poppins(.medium, size: 14))
+                                .font(.poppins(.medium, size: 13))
                                 .foregroundColor(.gray.opacity(0.9))
                         }
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 2)
+                        .background(cardColor.opacity(0.08))
+                        .cornerRadius(6)
                     }
-                    
+
                     Spacer()
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, 24)
-                .padding(.bottom, 20)
+                .padding(.top, 16)
+                .padding(.bottom, 16)
                 
                 // Divider
                 Rectangle()
                     .fill(
                         LinearGradient(
-                            colors: [Color.clear, cardColor.opacity(0.15), Color.clear],
+                            colors: [Color.clear, cardColor.opacity(0.2), Color.clear],
                             startPoint: .leading,
                             endPoint: .trailing
                         )
                     )
                     .frame(height: 1)
-                    .padding(.horizontal, 20)
-                
+                    .padding(.horizontal, 24)
+
                 // Appointment details
-                VStack(spacing: 0) {
+                VStack(spacing: 4) {
                     // Date
                     AppointmentDetailRow(
                         icon: "calendar",
-                        iconBg: Color(red: 0.9, green: 0.94, blue: 1.0),
+                        iconBg: cardColor.opacity(0.08),
                         iconColor: cardColor,
                         label: "Date",
                         value: dateString
                     )
-                    
+
                     // Time
                     AppointmentDetailRow(
                         icon: "clock.fill",
-                        iconBg: Color(red: 0.9, green: 0.94, blue: 1.0),
+                        iconBg: cardColor.opacity(0.08),
                         iconColor: cardColor,
                         label: "Time",
                         value: appointment.timeSlot
                     )
-                    
+
                     // Location
                     VStack(alignment: .leading, spacing: 0) {
-                        HStack(alignment: .center, spacing: 14) {
+                        HStack(alignment: .center, spacing: 16) {
                             ZStack {
                                 Circle()
-                                    .fill(Color(red: 0.9, green: 0.94, blue: 1.0))
-                                    .frame(width: 40, height: 40)
+                                    .fill(cardColor.opacity(0.08))
+                                    .frame(width: 44, height: 44)
                                 Image(systemName: "mappin.circle.fill")
-                                    .font(.system(size: 18))
+                                    .font(.system(size: 20))
                                     .foregroundColor(cardColor)
                             }
-                            
-                            VStack(alignment: .leading, spacing: 2) {
+
+                            VStack(alignment: .leading, spacing: 3) {
                                 Text("Location")
-                                    .font(.poppins(.regular, size: 12))
+                                    .font(.poppins(.regular, size: 13))
                                     .foregroundColor(.gray.opacity(0.8))
                                 Text("Building A, Room 12")
-                                    .font(.poppins(.semiBold, size: 15))
-                                    .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5))
+                                    .font(.poppins(.semiBold, size: 16))
+                                    .foregroundColor(AppColors.darkBlue)
                                 Text("1st Floor")
-                                    .font(.poppins(.regular, size: 13))
-                                    .foregroundColor(.gray.opacity(0.7))
+                                    .font(.poppins(.regular, size: 14))
+                                    .foregroundColor(.gray)
                             }
-                            
+
                             Spacer()
                         }
                         .padding(.horizontal, 20)
-                        .padding(.vertical, 16)
+                        .padding(.vertical, 8)
                     }
-                    
+
                     // Token Number
                     AppointmentDetailRow(
                         icon: "number",
-                        iconBg: Color(red: 0.9, green: 0.94, blue: 1.0),
+                        iconBg: cardColor.opacity(0.08),
                         iconColor: cardColor,
                         label: "Token Number",
                         value: appointment.tokenNumber
                     )
                 }
                 .padding(.top, 8)
-                .padding(.bottom, 16)
+                .padding(.bottom, 12)
             }
             .background(Color.white)
         }
         .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-        .shadow(color: cardColor.opacity(0.15), radius: 24, x: 0, y: 10)
+        .shadow(color: cardColor.opacity(0.12), radius: 20, x: 0, y: 8)
         .overlay(
             RoundedRectangle(cornerRadius: 24, style: .continuous)
-                .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                .stroke(Color.white.opacity(0.6), lineWidth: 1.5)
         )
     }
 
@@ -464,8 +474,8 @@ struct AppointmentDetailView: View {
             }
         }
         .padding(.horizontal, 20)
-        .padding(.top, 12)
-        .padding(.bottom, 24)
+        .padding(.top, 8)
+        .padding(.bottom, 16)
         .background(
             Color.white
                 .shadow(color: Color.black.opacity(0.08), radius: 12, x: 0, y: -4)
@@ -588,7 +598,7 @@ private struct AppointmentDetailRow: View {
             Spacer()
         }
         .padding(.horizontal, 20)
-        .padding(.vertical, 16)
+        .padding(.vertical, 8)
     }
 }
 

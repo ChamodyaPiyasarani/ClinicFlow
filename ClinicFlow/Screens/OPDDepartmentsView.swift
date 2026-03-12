@@ -28,7 +28,7 @@ struct OPDDepartmentsView: View {
                     // Trailing icons (right)
                     HStack(spacing: 4) {
                         Spacer()
-                        NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
+                        NotificationIcon(unreadCount: 3, iconSize: 22)
                     }
                 }
                 .padding(.horizontal, 20)
@@ -94,40 +94,6 @@ struct OPDDepartmentsView: View {
                 // MARK: - Department List
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 16) {
-                        // Section Header
-                        HStack {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(languageManager.localized("available_departments"))
-                                    .font(.poppins(.semiBold, size: 16))
-                                    .foregroundColor(AppColors.darkBlue)
-                                Text(filteredDepartments.count == 1 ? languageManager.localized("department_count_single") : "\(filteredDepartments.count) \(languageManager.localized("available_departments").lowercased())")
-                                    .font(.poppins(.regular, size: 13))
-                                    .foregroundColor(.gray)
-                            }
-                            Spacer()
-                            
-                            // Sort button
-                            Button(action: {
-                                // Sort action
-                                let impact = UIImpactFeedbackGenerator(style: .light)
-                                impact.impactOccurred()
-                            }) {
-                                HStack(spacing: 4) {
-                                    Text(languageManager.localized("sort"))
-                                        .font(.poppins(.medium, size: 13))
-                                    Image(systemName: "arrow.up.arrow.down")
-                                        .font(.system(size: 12))
-                                }
-                                .foregroundColor(AppColors.brandBlue)
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 6)
-                                .background(AppColors.brandBlue.opacity(0.1))
-                                .cornerRadius(8)
-                            }
-                        }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 4)
-                        
                         // Department Cards
                         LazyVStack(spacing: 12) {
                             ForEach(filteredDepartments) { department in
@@ -279,6 +245,21 @@ enum DepartmentAvailability {
     }
 }
 
+// MARK: - Department Card Button Style
+struct DepartmentCardButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .shadow(
+                color: Color.black.opacity(configuration.isPressed ? 0.08 : 0.04),
+                radius: configuration.isPressed ? 4 : 8,
+                x: 0,
+                y: configuration.isPressed ? 2 : 4
+            )
+            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
+    }
+}
+
 // MARK: - Department Card Component
 struct DepartmentCard: View {
     @Environment(LanguageManager.self) var languageManager
@@ -290,8 +271,6 @@ struct DepartmentCard: View {
     let description: String
     let availabilityStatus: DepartmentAvailability
     let waitingCount: Int
-    
-    @State private var isPressed = false
     
     var body: some View {
         Button(action: {
@@ -323,36 +302,23 @@ struct DepartmentCard: View {
                     Text(description)
                         .font(.poppins(.regular, size: 13))
                         .foregroundColor(.gray)
-                        .lineLimit(1)
+                        .lineLimit(2)
                     
-                    // Status and waiting count
-                    HStack(spacing: 12) {
-                        // Availability badge
+                    // Queue Position Information
+                    if availabilityStatus != .unavailable {
                         HStack(spacing: 4) {
-                            Circle()
-                                .fill(availabilityStatus.statusColor)
-                                .frame(width: 6, height: 6)
-                            Text(languageManager.localized(availabilityStatus.localizationKey))
-                                .font(.poppins(.medium, size: 11))
-                                .foregroundColor(availabilityStatus.statusColor)
+                            Image(systemName: "person.3.sequence.fill")
+                                .font(.system(size: 11))
+                            
+                            let maxPos = waitingCount > 0 ? waitingCount : 1
+                            let samplePosition = Int.random(in: 1...maxPos)
+                            
+                            Text("Current Position: \(samplePosition)")
+                                .font(.poppins(.medium, size: 12))
                         }
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(availabilityStatus.statusColor.opacity(0.1))
-                        .cornerRadius(6)
-                        
-                        // Waiting count (only show if available or busy)
-                        if availabilityStatus != .unavailable && waitingCount > 0 {
-                            HStack(spacing: 4) {
-                                Image(systemName: "person.2.fill")
-                                    .font(.system(size: 10))
-                                Text("\(waitingCount) \(languageManager.localized("waiting"))")
-                                    .font(.poppins(.regular, size: 11))
-                            }
-                            .foregroundColor(.gray.opacity(0.8))
-                        }
+                        .foregroundColor(AppColors.brandBlue)
+                        .padding(.top, 2)
                     }
-                    .padding(.top, 2)
                 }
                 
                 Spacer()
@@ -365,28 +331,8 @@ struct DepartmentCard: View {
             .padding(16)
             .background(Color.white)
             .cornerRadius(16)
-            .shadow(
-                color: Color.black.opacity(isPressed ? 0.08 : 0.04),
-                radius: isPressed ? 4 : 8,
-                x: 0,
-                y: isPressed ? 2 : 4
-            )
-            .scaleEffect(isPressed ? 0.98 : 1.0)
         }
-        .buttonStyle(PlainButtonStyle())
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { _ in
-                    withAnimation(.easeInOut(duration: 0.1)) {
-                        isPressed = true
-                    }
-                }
-                .onEnded { _ in
-                    withAnimation(.easeInOut(duration: 0.1)) {
-                        isPressed = false
-                    }
-                }
-        )
+        .buttonStyle(DepartmentCardButtonStyle())
     }
 }
 

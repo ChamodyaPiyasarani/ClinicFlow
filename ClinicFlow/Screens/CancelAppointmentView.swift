@@ -277,7 +277,6 @@ struct CancelAppointmentView: View {
             HStack {
                 BackButton { router.goBack() }
                 Spacer()
-                NotificationIcon()
             }
             AppNameText(fontSize: 20)
         }
@@ -291,9 +290,8 @@ struct CancelAppointmentView: View {
     
     private var confirmationPopup: some View {
         ZStack {
-            // Dimmed translucent background with blur
-            Color.black.opacity(0.25)
-                .background(.ultraThinMaterial)
+            // Dimmed translucent background without heavy blur
+            Color.black.opacity(0.4)
                 .ignoresSafeArea()
                 .onTapGesture {
                     withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
@@ -355,11 +353,6 @@ struct CancelAppointmentView: View {
                             .foregroundColor(AppColors.darkBlue)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 24)
-                        
-                        Text("This action cannot be undone")
-                            .font(.poppins(.regular, size: 13))
-                            .foregroundColor(.gray.opacity(0.8))
-                            .multilineTextAlignment(.center)
                     }
                     
                     // Buttons with glass effect
@@ -451,21 +444,12 @@ struct CancelAppointmentView: View {
             }
             .background(
                 ZStack {
-                    // Glass material base
+                    // White glassy base
                     RoundedRectangle(cornerRadius: 32, style: .continuous)
-                        .fill(.ultraThinMaterial)
-                    
-                    // Subtle gradient overlay for depth
-                    RoundedRectangle(cornerRadius: 32, style: .continuous)
-                        .fill(
-                            LinearGradient(
-                                colors: [
-                                    Color.white.opacity(0.4),
-                                    Color.white.opacity(0.1)
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
+                        .fill(Color.white.opacity(0.85))
+                        .background(
+                            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                                .fill(.regularMaterial)
                         )
                     
                     // Light edge highlight (top-left)
@@ -473,8 +457,8 @@ struct CancelAppointmentView: View {
                         .stroke(
                             LinearGradient(
                                 colors: [
-                                    Color.white.opacity(0.8),
-                                    Color.white.opacity(0.0)
+                                    Color.white.opacity(0.9),
+                                    Color.white.opacity(0.3)
                                 ],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing

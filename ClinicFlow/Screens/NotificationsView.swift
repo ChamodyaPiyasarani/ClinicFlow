@@ -107,9 +107,24 @@ private struct NotificationHeader: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            HStack(alignment: .center) {
-                // Back button
-                BackButton(action: onBack)
+            ZStack(alignment: .center) {
+                HStack {
+                    // Back button
+                    BackButton(action: onBack)
+                    Spacer()
+                }
+                
+                // Centered App Name
+                AppNameText(fontSize: 20)
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 12)
+            
+            // Title section
+            HStack {
+                Text(languageManager.localized("notifications"))
+                    .font(.poppins(.regular, size: 14))
+                    .foregroundColor(AppColors.darkBlue)
                 
                 Spacer()
                 
@@ -119,20 +134,8 @@ private struct NotificationHeader: View {
                         .font(.poppins(.medium, size: 14))
                         .foregroundColor(AppColors.brandBlue)
                 }
-                
-                LanguageSwitcher(fontSize: 14, showBackground: false)
             }
             .padding(.horizontal, 20)
-            .padding(.vertical, 12)
-            
-            // Title section
-            VStack(spacing: 4) {
-                AppNameText(fontSize: 20)
-                
-                Text(languageManager.localized("notifications"))
-                    .font(.poppins(.regular, size: 14))
-                    .foregroundColor(Color.gray.opacity(0.8))
-            }
             .padding(.bottom, 16)
         }
         .background(Color.white)

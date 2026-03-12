@@ -96,15 +96,45 @@ struct LabTestInfoView: View {
                             .shadow(color: Color(red: 60/255, green: 150/255, blue: 100/255).opacity(0.4), radius: 8, x: 0, y: 4)
                     }
                 }
-                .padding(20)
-                .background(Color.white)
-                .cornerRadius(20)
-                .shadow(color: Color.black.opacity(0.3), radius: 20, x: 0, y: 10)
+                .padding(24)
+                .background(
+                    ZStack {
+                        // White glassy base
+                        RoundedRectangle(cornerRadius: 32, style: .continuous)
+                            .fill(Color.white.opacity(0.85))
+                            .background(
+                                RoundedRectangle(cornerRadius: 32, style: .continuous)
+                                    .fill(.regularMaterial)
+                            )
+                        
+                        // Light edge highlight (top-left)
+                        RoundedRectangle(cornerRadius: 32, style: .continuous)
+                            .stroke(
+                                LinearGradient(
+                                    colors: [
+                                        Color.white.opacity(0.9),
+                                        Color.white.opacity(0.3)
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 1.5
+                            )
+                    }
+                )
+                .overlay(
+                    // Outer border for definition
+                    RoundedRectangle(cornerRadius: 32, style: .continuous)
+                        .stroke(Color.black.opacity(0.05), lineWidth: 0.5)
+                )
+                .shadow(color: Color.black.opacity(0.15), radius: 30, x: 0, y: 15)
+                .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
             }
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 28)
+            .scaleEffect(isPresented ? 1 : 0.9)
             .frame(maxHeight: .infinity)
         }
-        .transition(.scale.combined(with: .opacity))
+        .transition(.opacity)
     }
     
     private func dismissModal() {

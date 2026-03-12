@@ -281,14 +281,11 @@ struct RescheduleAppointmentView: View {
         .onAppear {
             selectedDate = appointment.date
         }
-        .alert(languageManager.localized("confirm_reschedule"), isPresented: $showConfirmAlert) {
-            Button(languageManager.localized("cancel"), role: .cancel) { }
-            Button(languageManager.localized("confirm"), role: .none) {
-                showSuccessSheet = true
+            
+            // Confirmation Popup overlay
+            if showConfirmAlert {
+                confirmationPopup
             }
-        } message: {
-            Text(languageManager.localized("reschedule_confirm_message"))
-        }
             
             // Success Card Overlay
             if showSuccessSheet {
@@ -419,10 +416,37 @@ struct RescheduleAppointmentView: View {
                     .padding(.bottom, 32)
                 }
                 .background(
-                    RoundedRectangle(cornerRadius: 32)
-                        .fill(Color.white)
-                        .shadow(color: Color.black.opacity(0.2), radius: 30, x: 0, y: 10)
+                    ZStack {
+                        // White glassy base
+                        RoundedRectangle(cornerRadius: 32, style: .continuous)
+                            .fill(Color.white.opacity(0.85))
+                            .background(
+                                RoundedRectangle(cornerRadius: 32, style: .continuous)
+                                    .fill(.regularMaterial)
+                            )
+                        
+                        // Light edge highlight (top-left)
+                        RoundedRectangle(cornerRadius: 32, style: .continuous)
+                            .stroke(
+                                LinearGradient(
+                                    colors: [
+                                        Color.white.opacity(0.9),
+                                        Color.white.opacity(0.3)
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 1.5
+                            )
+                    }
                 )
+                .overlay(
+                    // Outer border for definition
+                    RoundedRectangle(cornerRadius: 32, style: .continuous)
+                        .stroke(Color.black.opacity(0.05), lineWidth: 0.5)
+                )
+                .shadow(color: Color.black.opacity(0.15), radius: 30, x: 0, y: 15)
+                .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
                 .padding(.horizontal, 32)
                 }
                 .transition(.scale.combined(with: .opacity))
@@ -443,6 +467,203 @@ struct RescheduleAppointmentView: View {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEE"
         return formatter.string(from: date).uppercased()
+    }
+    
+    // MARK: - Confirmation Popup (Glassy Style)
+    
+    private var confirmationPopup: some View {
+        ZStack {
+            // Dimmed translucent background without heavy blur
+            Color.black.opacity(0.4)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
+                        showConfirmAlert = false
+                    }
+                }
+            
+            // Glassy Popup Card
+            VStack(spacing: 0) {
+                // Content Container
+                VStack(spacing: 28) {
+                    // Icon with glass effect
+                    ZStack {
+                        // Outer glow
+                        Circle()
+                            .fill(AppColors.brandBlue.opacity(0.15))
+                            .frame(width: 72, height: 72)
+                            .blur(radius: 8)
+                        
+                        // Glass circle
+                        Circle()
+                            .fill(.ultraThinMaterial)
+                            .frame(width: 64, height: 64)
+                            .overlay(
+                                Circle()
+                                    .stroke(
+                                        LinearGradient(
+                                            colors: [
+                                                Color.white.opacity(0.8),
+                                                Color.white.opacity(0.2)
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        ),
+                                        lineWidth: 1.5
+                                    )
+                            )
+                            .shadow(color: AppColors.brandBlue.opacity(0.2), radius: 12, x: 0, y: 4)
+                        
+                        Image(systemName: "calendar.badge.clock")
+                            .font(.system(size: 26, weight: .semibold))
+                            .foregroundStyle(
+                                LinearGradient(
+                                    colors: [
+                                        AppColors.brandBlue,
+                                        Color(red: 0.15, green: 0.35, blue: 0.75)
+                                    ],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                    }
+                    .padding(.top, 36)
+                    
+                    // Text content
+                    VStack(spacing: 10) {
+                        Text(languageManager.localized("confirm_reschedule"))
+                            .font(.poppins(.semiBold, size: 17))
+                            .foregroundColor(AppColors.darkBlue)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 24)
+                        
+                        Text(languageManager.localized("reschedule_confirm_message"))
+                            .font(.poppins(.regular, size: 13))
+                            .foregroundColor(.gray.opacity(0.8))
+                            .multilineTextAlignment(.center)
+                    }
+                    
+                    // Buttons with glass effect
+                    VStack(spacing: 12) {
+                        // Confirm action
+                        Button(action: {
+                            UINotificationFeedbackGenerator().notificationOccurred(.success)
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
+                                showConfirmAlert = false
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                withAnimation {
+                                    showSuccessSheet = true
+                                }
+                            }
+                        }) {
+                            Text(languageManager.localized("confirm"))
+                                .font(.poppins(.semiBold, size: 16))
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(
+                                    ZStack {
+                                        LinearGradient(
+                                            colors: [
+                                                AppColors.brandBlue,
+                                                Color(red: 0.15, green: 0.35, blue: 0.75)
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                        
+                                        LinearGradient(
+                                            colors: [
+                                                Color.white.opacity(0.3),
+                                                Color.clear
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .center
+                                        )
+                                    }
+                                )
+                                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                                )
+                                .shadow(color: AppColors.brandBlue.opacity(0.4), radius: 12, x: 0, y: 6)
+                        }
+                        
+                        // Go Back action
+                        Button(action: {
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
+                                showConfirmAlert = false
+                            }
+                        }) {
+                            Text(languageManager.localized("cancel"))
+                                .font(.poppins(.medium, size: 16))
+                                .foregroundColor(AppColors.darkBlue)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(.regularMaterial)
+                                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                        .stroke(
+                                            LinearGradient(
+                                                colors: [
+                                                    Color.white.opacity(0.6),
+                                                    Color.gray.opacity(0.2)
+                                                ],
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            ),
+                                            lineWidth: 1
+                                        )
+                                )
+                                .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
+                        }
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 32)
+                }
+            }
+            .background(
+                ZStack {
+                    // White glassy base
+                    RoundedRectangle(cornerRadius: 32, style: .continuous)
+                        .fill(Color.white.opacity(0.85))
+                        .background(
+                            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                                .fill(.regularMaterial)
+                        )
+                    
+                    // Light edge highlight (top-left)
+                    RoundedRectangle(cornerRadius: 32, style: .continuous)
+                        .stroke(
+                            LinearGradient(
+                                colors: [
+                                    Color.white.opacity(0.9),
+                                    Color.white.opacity(0.3)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 1.5
+                        )
+                }
+            )
+            .overlay(
+                // Outer border for definition
+                RoundedRectangle(cornerRadius: 32, style: .continuous)
+                    .stroke(Color.black.opacity(0.05), lineWidth: 0.5)
+            )
+            .shadow(color: Color.black.opacity(0.15), radius: 30, x: 0, y: 15)
+            .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
+            .padding(.horizontal, 28)
+            .scaleEffect(showConfirmAlert ? 1 : 0.9)
+            .opacity(showConfirmAlert ? 1 : 0)
+        }
+        .transition(.opacity)
+        .zIndex(200)
     }
 }
 

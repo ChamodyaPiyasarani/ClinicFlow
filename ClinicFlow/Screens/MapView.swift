@@ -276,7 +276,7 @@ struct MapView: View {
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
                 }
-                .padding(.bottom, 32)
+                .padding(.bottom, 16)
             }
         }
         .background(AppColors.background)
@@ -359,7 +359,7 @@ private struct FloorSelectorButton: View {
             if isSelected {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(AppColors.brandBlue)
-                    .shadow(color: AppColors.brandBlue.opacity(0.3), radius: 4, x: 0, y: 2)
+                    .shadow(color: AppColors.brandBlue.opacity(0.3), radius: 4, x: 0, y: 5)
                     .matchedGeometryEffect(id: "floor_selector", in: animation)
             }
             
@@ -367,9 +367,9 @@ private struct FloorSelectorButton: View {
                 .font(.poppins(isSelected ? .semiBold : .medium, size: isSelected ? 15 : 14))
                 .foregroundColor(isSelected ? .white : AppColors.darkBlue.opacity(0.6))
                 .animation(.easeInOut(duration: 0.2), value: selectedFloor)
+                .padding(.vertical, 15)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 28)
         .contentShape(Rectangle())
     }
 }
@@ -602,7 +602,7 @@ private struct Floor2Layout: View {
                 floor: .floor2,
                 isSelected: selectedArea == .consultation,
                 fullWidth: true,
-                height: 100
+                height: 75
             ) { 
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                     selectedArea = .consultation
@@ -788,7 +788,7 @@ private struct Floor3Layout: View {
                 floor: .floor3,
                 isSelected: selectedArea == .laboratory,
                 fullWidth: true,
-                height: 110
+                height: 75
             ) { 
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                     selectedArea = .laboratory
@@ -896,7 +896,7 @@ private struct CorridorStrip: View {
                 .frame(height: 1)
         }
         .padding(.horizontal, 20)
-        .padding(.vertical, 8)
+        .padding(.vertical, 4)
     }
 }
 
@@ -1007,14 +1007,14 @@ private struct MapAreaCard: View {
                             )
                     )
                 
-                VStack(spacing: compactSize ? 4 : 6) {
+                VStack(spacing: compactSize ? 2 : 4) {
                     // Icon with colored circle
                     ZStack {
                         Circle()
                             .fill(area.backgroundColor.opacity(0.15))
-                            .frame(width: compactSize ? 30 : 40, height: compactSize ? 30 : 40)
+                            .frame(width: compactSize ? 24 : 34, height: compactSize ? 24 : 34)
                         Image(systemName: area.icon)
-                            .font(.system(size: compactSize ? 14 : 18, weight: .medium))
+                            .font(.system(size: compactSize ? 12 : 16, weight: .medium))
                             .foregroundColor(area.backgroundColor)
                     }
                     
@@ -1029,12 +1029,12 @@ private struct MapAreaCard: View {
                     // Room number
                     if !compactSize {
                         Text("\(languageManager.localized("room_prefix")) \(area.roomNumber(floor: floor))")
-                            .font(.poppins(.regular, size: 10))
+                            .font(.poppins(.regular, size: 9))
                             .foregroundColor(AppColors.darkBlue.opacity(0.5))
                     }
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, compactSize ? 8 : 12)
+                .padding(.vertical, compactSize ? 6 : 8)
                 .padding(.horizontal, compactSize ? 4 : 8)
                 
                 // "You are here" pulse indicator
@@ -1081,7 +1081,7 @@ private struct MapAreaCard: View {
                 }
             }
             .frame(maxWidth: fullWidth ? .infinity : nil)
-            .frame(height: height ?? (compactSize ? 75 : 110))
+            .frame(height: height ?? (compactSize ? 60 : 85))
         }
         .buttonStyle(PlainButtonStyle())
         .frame(maxWidth: fullWidth ? .infinity : .infinity)
@@ -1102,89 +1102,92 @@ private struct NavigationPathOverlay: View {
     
     var body: some View {
         Canvas { context, size in
-            // Row centers relative to container height
-            let row0Y = size.height * 0.20
-            let row1Y = size.height * 0.48
-            let row2Y = size.height * 0.76
-            
-            // Corridor Y positions (between rows)
-            let corridor0Y = size.height * 0.34
-            let corridor1Y = size.height * 0.62
-            
             let leftX = size.width * 0.28
+            let centerX = size.width * 0.5
             let rightX = size.width * 0.72
             
-            let startX = leftX
-            let startY = row0Y
+            let rowYs: [CGFloat]
+            let corridorYs: [CGFloat]
+            let startX: CGFloat
+            let startY: CGFloat
             
-            let rowYs = [row0Y, row1Y, row2Y]
+            if floor == .floor1 {
+                rowYs = [size.height * 0.18, size.height * 0.48, size.height * 0.78]
+                corridorYs = [size.height * 0.33, size.height * 0.63]
+                startX = leftX
+                startY = rowYs[0]
+            } else if floor == .floor2 {
+                rowYs = [size.height * 0.11, size.height * 0.30, size.height * 0.56, size.height * 0.83]
+                corridorYs = [size.height * 0.20, size.height * 0.43, size.height * 0.70]
+                startX = centerX
+                startY = rowYs[0]
+            } else { // Floor 3
+                rowYs = [size.height * 0.14, size.height * 0.34, size.height * 0.56, size.height * 0.82]
+                corridorYs = [size.height * 0.24, size.height * 0.45, size.height * 0.69]
+                startX = centerX
+                startY = rowYs[0]
+            }
+            
             let dest = areaRowCol(for: to, floor: floor)
-            let endX = dest.col == 0 ? leftX : (dest.col == 2 ? size.width * 0.5 : rightX)
-            let endY = rowYs[dest.row]
+            let endX = dest.col == 0 ? leftX : (dest.col == 1 ? rightX : centerX)
             
-            // Build corridor-following path
+            // Safety check for array bounds
+            let safeRow = max(0, min(dest.row, rowYs.count - 1))
+            let endY = rowYs[safeRow]
+            
             var path = Path()
             path.move(to: CGPoint(x: startX, y: startY))
             
-            if dest.row == 0 && dest.col == 1 {
-                // Same row, go through corridor
-                path.addLine(to: CGPoint(x: startX, y: corridor0Y))
-                path.addLine(to: CGPoint(x: endX, y: corridor0Y))
-                path.addLine(to: CGPoint(x: endX, y: endY))
-            } else if dest.col == 0 {
-                // Same column, straight down
-                path.addLine(to: CGPoint(x: startX, y: endY))
+            if floor == .floor1 {
+                if dest.row == 0 && dest.col == 1 {
+                    // Same row, go through corridor
+                    path.addLine(to: CGPoint(x: startX, y: corridorYs[0]))
+                    path.addLine(to: CGPoint(x: endX, y: corridorYs[0]))
+                    path.addLine(to: CGPoint(x: endX, y: endY))
+                } else if startX == endX {
+                    // Same column, straight down
+                    path.addLine(to: CGPoint(x: startX, y: endY))
+                } else {
+                    // Different row and column, route through corridor
+                    let corridorIdx = max(0, min(dest.row - 1, corridorYs.count - 1))
+                    let corridorY = corridorYs[corridorIdx]
+                    path.addLine(to: CGPoint(x: startX, y: corridorY))
+                    path.addLine(to: CGPoint(x: endX, y: corridorY))
+                    path.addLine(to: CGPoint(x: endX, y: endY))
+                }
             } else {
-                // Different row and column, route through corridor
-                let corridorY = dest.row >= 2 ? corridor1Y : corridor0Y
-                path.addLine(to: CGPoint(x: startX, y: corridorY))
-                path.addLine(to: CGPoint(x: endX, y: corridorY))
-                path.addLine(to: CGPoint(x: endX, y: endY))
+                // For Floor 2 & 3
+                if startX == endX {
+                    path.addLine(to: CGPoint(x: startX, y: endY))
+                } else {
+                    let corridorIdx = max(0, min(dest.row - 1, corridorYs.count - 1))
+                    let corridorY = corridorYs[corridorIdx]
+                    path.addLine(to: CGPoint(x: startX, y: corridorY))
+                    path.addLine(to: CGPoint(x: endX, y: corridorY))
+                    path.addLine(to: CGPoint(x: endX, y: endY))
+                }
             }
             
             // Draw dashed navigation line
             context.stroke(
                 path,
                 with: .color(AppColors.brandBlue.opacity(0.7)),
-                style: StrokeStyle(
-                    lineWidth: 3,
-                    lineCap: .round,
-                    lineJoin: .round,
-                    dash: [8, 6]
-                )
+                style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round, dash: [8, 6])
             )
             
             // Draw start point
-            context.fill(
-                Path(ellipseIn: CGRect(
-                    x: startX - 5, y: startY - 5,
-                    width: 10, height: 10
-                )),
-                with: .color(AppColors.brandBlue)
-            )
+            context.fill(Path(ellipseIn: CGRect(x: startX - 5, y: startY - 5, width: 10, height: 10)), with: .color(AppColors.brandBlue))
             
             // Draw end point (outer glow + inner dot)
-            context.fill(
-                Path(ellipseIn: CGRect(
-                    x: endX - 7, y: endY - 7,
-                    width: 14, height: 14
-                )),
-                with: .color(AppColors.brandBlue.opacity(0.25))
-            )
-            context.fill(
-                Path(ellipseIn: CGRect(
-                    x: endX - 4, y: endY - 4,
-                    width: 8, height: 8
-                )),
-                with: .color(AppColors.brandBlue)
-            )
+            context.fill(Path(ellipseIn: CGRect(x: endX - 7, y: endY - 7, width: 14, height: 14)), with: .color(AppColors.brandBlue.opacity(0.25)))
+            context.fill(Path(ellipseIn: CGRect(x: endX - 4, y: endY - 4, width: 8, height: 8)), with: .color(AppColors.brandBlue))
             
             // Draw arrowhead at destination
             let arrowSize: CGFloat = 10
             let angle: CGFloat
-            if dest.row == 0 && dest.col == 1 {
-                angle = -.pi / 2
-            } else if dest.col == 0 {
+            if floor == .floor1 && dest.row == 0 && dest.col == 1 {
+                angle = -.pi / 2 // Pointing upwards
+            } else if startX == endX {
                 angle = .pi / 2
             } else {
                 angle = .pi / 2
@@ -1192,56 +1195,47 @@ private struct NavigationPathOverlay: View {
             
             var arrowPath = Path()
             arrowPath.move(to: CGPoint(x: endX, y: endY))
-            arrowPath.addLine(to: CGPoint(
-                x: endX - arrowSize * cos(angle - .pi / 6),
-                y: endY - arrowSize * sin(angle - .pi / 6)
-            ))
+            arrowPath.addLine(to: CGPoint(x: endX - arrowSize * cos(angle - .pi / 6), y: endY - arrowSize * sin(angle - .pi / 6)))
             arrowPath.move(to: CGPoint(x: endX, y: endY))
-            arrowPath.addLine(to: CGPoint(
-                x: endX - arrowSize * cos(angle + .pi / 6),
-                y: endY - arrowSize * sin(angle + .pi / 6)
-            ))
+            arrowPath.addLine(to: CGPoint(x: endX - arrowSize * cos(angle + .pi / 6), y: endY - arrowSize * sin(angle + .pi / 6)))
             
-            context.stroke(
-                arrowPath,
-                with: .color(AppColors.brandBlue),
-                style: StrokeStyle(lineWidth: 3, lineCap: .round)
-            )
+            context.stroke(arrowPath, with: .color(AppColors.brandBlue), style: StrokeStyle(lineWidth: 3, lineCap: .round))
         }
         .allowsHitTesting(false)
     }
     
     private func areaRowCol(for area: ClinicArea, floor: Floor) -> (row: Int, col: Int) {
-        // Position varies by floor based on actual layout
         switch floor {
         case .floor1:
             switch area {
             case .registration: return (0, 0)
             case .consultation: return (0, 1)
-            case .pharmacy:     return (1, 0) // Full width but positioned left
+            case .pharmacy:     return (1, 2)
             case .payment:      return (2, 0)
             case .restrooms:    return (2, 1)
-            default:            return (1, 0) // Default position
+            default:            return (1, 0)
             }
         case .floor2:
             switch area {
-            case .consultation: return (0, 0) // Full width
-            case .laboratory:   return (1, 0)
-            case .registration: return (1, 1)
-            case .restrooms:    return (1, 1)
-            case .radiology:    return (2, 0)
-            case .imaging:      return (2, 1)
+            case .elevator:     return (0, 2)
+            case .consultation: return (1, 2)
+            case .laboratory:   return (2, 0)
+            case .waitingArea:  return (2, 1)
+            case .restrooms:    return (2, 1)
+            case .radiology:    return (3, 0)
+            case .imaging:      return (3, 1)
             default:            return (1, 0)
             }
         case .floor3:
             switch area {
-            case .registration: return (0, 0)
-            case .bloodTest:    return (0, 2) // Center position
-            case .restrooms:    return (0, 1)
-            case .laboratory:   return (1, 0) // Full width
-            case .consultation: return (2, 0)
-            case .pathology:    return (2, 1)
-            default:            return (1, 0)
+            case .elevator:           return (0, 2)
+            case .specimenCollection: return (1, 0)
+            case .bloodTest:          return (1, 2)
+            case .restrooms:          return (1, 1)
+            case .laboratory:         return (2, 2)
+            case .consultation:       return (3, 0)
+            case .pathology:          return (3, 1)
+            default:                  return (1, 0)
             }
         }
     }

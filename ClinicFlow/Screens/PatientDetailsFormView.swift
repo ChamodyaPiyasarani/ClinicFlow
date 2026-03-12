@@ -250,6 +250,17 @@ struct PatientDetailsFormView: View {
         .background(AppColors.background)
         .edgesIgnoringSafeArea(.bottom)
         .navigationBarHidden(true)
+        .onChange(of: selectedProfile) { _, newValue in
+            if newValue != nil {
+                contactNumber = "+94 71 123 4567 "
+            }
+        }
+        .onChange(of: contactNumber) { _, newValue in
+            let filtered = newValue.filter { "0123456789+ ".contains($0) }
+            if filtered != newValue {
+                contactNumber = filtered
+            }
+        }
         .sheet(isPresented: $showProfilePicker) {
             PatientProfileSheet(selectedProfile: $selectedProfile)
                 .presentationDetents([.medium])
@@ -304,7 +315,7 @@ private struct PatientFormHeaderView: View {
             }
             Text(subtitle)
                 .font(.poppins(.medium, size: 14))
-                .foregroundColor(.gray)
+                .foregroundColor(AppColors.darkBlue)
         }
         .padding(.horizontal, 20)
         .padding(.top, 8)

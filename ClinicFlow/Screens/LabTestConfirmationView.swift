@@ -30,61 +30,56 @@ struct LabTestConfirmationView: View {
             
             // MARK: - Floating Confirmation Card
             VStack(spacing: 0) {
-                // MARK: - Status Card (Light Green)
-                VStack(alignment: .leading, spacing: 12) {
-                    // Status Header
-                    HStack {
-                        Text(languageManager.localized("current_status"))
-                            .font(.poppins(.regular, size: 14))
-                            .foregroundColor(Color(red: 52/255, green: 73/255, blue: 94/255))
+                // MARK: - Before You Proceed Card
+                VStack(spacing: 28) {
+                    
+                    // Icon with glass effect
+                    ZStack {
+                        // Outer glow
+                        Circle()
+                            .fill(Color(red: 46/255, green: 213/255, blue: 115/255).opacity(0.15))
+                            .frame(width: 72, height: 72)
+                            .blur(radius: 8)
                         
-                        Spacer()
-                        
-                        HStack(spacing: 4) {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.system(size: 12))
-                            Text(languageManager.localized("done"))
-                                .font(.poppins(.medium, size: 13))
-                        }
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 4)
-                        .background(
-                            LinearGradient(
-                                colors: [
-                                    Color(red: 46/255, green: 213/255, blue: 115/255),
-                                    Color(red: 39/255, green: 174/255, blue: 96/255)
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
+                        // Glass circle
+                        Circle()
+                            .fill(.ultraThinMaterial)
+                            .frame(width: 64, height: 64)
+                            .overlay(
+                                Circle()
+                                    .stroke(
+                                        LinearGradient(
+                                            colors: [
+                                                Color.white.opacity(0.8),
+                                                Color.white.opacity(0.2)
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        ),
+                                        lineWidth: 1.5
+                                    )
                             )
-                        )
-                        .cornerRadius(12)
-                    }
-                    
-                    // Consultation Status
-                    Text(testData.consultationStatus)
-                        .font(.poppins(.bold, size: 22))
-                        .foregroundColor(Color(red: 39/255, green: 174/255, blue: 96/255))
-                        .padding(.top, 4)
-                    
-                    // Doctor Info
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(testData.doctorName)
-                            .font(.poppins(.semiBold, size: 15))
-                            .foregroundColor(AppColors.darkBlue.opacity(0.9))
+                            .shadow(color: Color(red: 39/255, green: 174/255, blue: 96/255).opacity(0.2), radius: 12, x: 0, y: 4)
                         
-                        Text(testData.date)
-                            .font(.poppins(.regular, size: 13))
-                            .foregroundColor(.gray.opacity(0.8))
+                        Image(systemName: "flask.fill")
+                            .font(.system(size: 28, weight: .semibold))
+                            .foregroundStyle(
+                                LinearGradient(
+                                    colors: [
+                                        Color(red: 46/255, green: 213/255, blue: 115/255),
+                                        Color(red: 39/255, green: 174/255, blue: 96/255)
+                                    ],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
                     }
-                    .padding(.top, 4)
+                    .padding(.top, 36)
                     
-                    // MARK: - Before You Proceed Card (White)
-                    VStack(alignment: .leading, spacing: 20) {
+                    VStack(alignment: .center, spacing: 20) {
                         Text(languageManager.localized("before_you_proceed"))
                             .font(.poppins(.bold, size: 20))
-                            .foregroundColor(Color(red: 52/255, green: 73/255, blue: 94/255))
+                            .foregroundColor(AppColors.darkBlue)
                             .padding(.bottom, 4)
                         
                         // Information Items
@@ -110,8 +105,11 @@ struct LabTestConfirmationView: View {
                                 value: "\(testData.currency) \(String(format: "%.2f", testData.fee))"
                             )
                         }
+                    }
                         
-                        // OK Button (Green)
+                    // Buttons with glass effect
+                    VStack(spacing: 12) {
+                        // OK Button (Primary - Glass)
                         Button(action: {
                             handleConfirmation()
                         }) {
@@ -119,46 +117,110 @@ struct LabTestConfirmationView: View {
                                 .font(.poppins(.semiBold, size: 16))
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
-                                .padding(.vertical, 14)
+                                .padding(.vertical, 16)
                                 .background(
-                                    LinearGradient(
-                                        colors: [
-                                            Color(red: 46/255, green: 213/255, blue: 115/255),
-                                            Color(red: 39/255, green: 174/255, blue: 96/255)
-                                        ],
-                                        startPoint: .leading,
-                                        endPoint: .trailing
-                                    )
+                                    ZStack {
+                                        // Base gradient
+                                        LinearGradient(
+                                            colors: [
+                                                Color(red: 46/255, green: 213/255, blue: 115/255),
+                                                Color(red: 39/255, green: 174/255, blue: 96/255)
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                        
+                                        // Glass highlight overlay
+                                        LinearGradient(
+                                            colors: [
+                                                Color.white.opacity(0.3),
+                                                Color.clear
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .center
+                                        )
+                                    }
                                 )
-                                .cornerRadius(25)
-                                .shadow(color: Color(red: 39/255, green: 174/255, blue: 96/255).opacity(0.4), radius: 8, x: 0, y: 4)
+                                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                                )
+                                .shadow(color: Color(red: 39/255, green: 174/255, blue: 96/255).opacity(0.4), radius: 12, x: 0, y: 6)
                         }
-                        .padding(.top, 8)
+                        
+                        // Cancel Button (Secondary - Glass)
+                        Button(action: {
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
+                                isPresented = false
+                            }
+                        }) {
+                            Text(languageManager.localized("cancel"))
+                                .font(.poppins(.medium, size: 16))
+                                .foregroundColor(AppColors.darkBlue)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(.regularMaterial)
+                                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                        .stroke(
+                                            LinearGradient(
+                                                colors: [
+                                                    Color.white.opacity(0.6),
+                                                    Color.gray.opacity(0.2)
+                                                ],
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            ),
+                                            lineWidth: 1
+                                        )
+                                )
+                                .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
+                        }
                     }
-                    .padding(24)
-                    .background(Color.white)
-                    .cornerRadius(20)
-                    .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
-                    .padding(.top, 12)
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 32)
                 }
-                .padding(20)
-                .background(
-                    LinearGradient(
-                        colors: [
-                            Color(red: 232/255, green: 248/255, blue: 240/255),
-                            Color(red: 217/255, green: 242/255, blue: 232/255)
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .cornerRadius(20)
-                .shadow(color: Color.black.opacity(0.15), radius: 20, x: 0, y: 8)
             }
-            .padding(.horizontal, 24)
+            .background(
+                ZStack {
+                    // White glassy base
+                    RoundedRectangle(cornerRadius: 32, style: .continuous)
+                        .fill(Color.white.opacity(0.85))
+                        .background(
+                            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                                .fill(.regularMaterial)
+                        )
+                    
+                    // Light edge highlight (top-left)
+                    RoundedRectangle(cornerRadius: 32, style: .continuous)
+                        .stroke(
+                            LinearGradient(
+                                colors: [
+                                    Color.white.opacity(0.9),
+                                    Color.white.opacity(0.3)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 1.5
+                        )
+                }
+            )
+            .overlay(
+                // Outer border for definition
+                RoundedRectangle(cornerRadius: 32, style: .continuous)
+                    .stroke(Color.black.opacity(0.05), lineWidth: 0.5)
+            )
+            .shadow(color: Color.black.opacity(0.15), radius: 30, x: 0, y: 15)
+            .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
+            .padding(.horizontal, 28)
+            .scaleEffect(isPresented ? 1 : 0.9)
             .frame(maxHeight: .infinity)
         }
-        .transition(.scale(scale: 0.95).combined(with: .opacity))
+        .transition(.opacity)
     }
     
     // MARK: - Actions

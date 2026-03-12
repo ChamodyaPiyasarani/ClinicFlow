@@ -1454,9 +1454,9 @@ struct LocalizedStrings {
             .tamil: "ஆலோசனைக் கட்டணம்"
         ],
         "cancellation_policy_text": [
-            .english: "Free cancellation up to 2 hours before the appointment. Late cancellations may incur a fee.",
-            .sinhala: "හමුවීමට පැය 24 කට පෙර නොමිලේ අවලංගු කිරීම. ප්‍රමාද අවලංගු කිරීම් සඳහා ගාස්තුවක් අය විය හැකිය.",
-            .tamil: "சந்திப்புக்கு 24 மணி நேரம் முன்பு இலவச ரத்து. தாமதமான ரத்துகளுக்கு கட்டணம் விதிக்கப்படலாம்."
+            .english: "Free cancellation up to 4 hours before the appointment. Late cancellations may incur a fee.",
+            .sinhala: "හමුවීමට පැය 4 කට පෙර නොමිලේ අවලංගු කිරීම. ප්‍රමාද අවලංගු කිරීම් සඳහා ගාස්තුවක් අය විය හැකිය.",
+            .tamil: "சந்திப்புக்கு 4 மணி நேரம் முன்பு இலவச ரத்து. தாமதமான ரத்துகளுக்கு கட்டணம் விதிக்கப்படலாம்."
         ],
         "confirm_booking": [
             .english: "Confirm Booking",
@@ -1644,9 +1644,9 @@ struct LocalizedStrings {
             .tamil: "இந்த சந்திப்பை ரத்து செய்யவும்"
         ],
         "cancellation_policy_note": [
-            .english: "(Appointments can be canceled up to 2 hours before the scheduled time)",
-            .sinhala: "(නියමිත වේලාවට පැය 2කට පෙර හමුවීම් අවලංගු කළ හැකිය)",
-            .tamil: "(திட்டமிடப்பட்ட நேரத்திற்கு 2 மணி நேரத்திற்கு முன்பு சந்திப்புகளை ரத்து செய்யலாம்)"
+            .english: "(Appointments can be canceled up to 4 hours before the scheduled time)",
+            .sinhala: "(නියමිත වේලාවට පැය 4කට පෙර හමුවීම් අවලංගු කළ හැකිය)",
+            .tamil: "(திட்டமிடப்பட்ட நேரத்திற்கு 4 மணி நேரத்திற்கு முன்பு சந்திப்புகளை ரத்து செய்யலாம்)"
         ],
         "are_you_sure_cancel_appointment": [
             .english: "Are you sure you want to cancel this appointment?",

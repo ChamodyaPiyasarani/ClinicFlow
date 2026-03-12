@@ -31,7 +31,7 @@ struct LabTestsView: View {
                     // Trailing icons (right)
                     HStack(spacing: 4) {
                         Spacer()
-                        NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
+                        NotificationIcon(unreadCount: 3, iconSize: 22)
                     }
                 }
                 .padding(.horizontal, 20)
@@ -97,40 +97,6 @@ struct LabTestsView: View {
                 // MARK: - Test List
                 ScrollView(showsIndicators: false) {
                     LazyVStack(spacing: 16) {
-                        // Section Header
-                        HStack {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(languageManager.localized("available_tests"))
-                                    .font(.poppins(.semiBold, size: 16))
-                                    .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
-                                Text(filteredTests.count == 1 ? languageManager.localized("test_count_single") : "\(filteredTests.count) \(languageManager.localized("available_tests").lowercased())")
-                                    .font(.poppins(.regular, size: 13))
-                                    .foregroundColor(.gray)
-                            }
-                            Spacer()
-                            
-                            // Sort button
-                            Button(action: {
-                                // Sort action
-                                let impact = UIImpactFeedbackGenerator(style: .light)
-                                impact.impactOccurred()
-                            }) {
-                                HStack(spacing: 4) {
-                                    Text(languageManager.localized("sort"))
-                                        .font(.poppins(.medium, size: 13))
-                                    Image(systemName: "arrow.up.arrow.down")
-                                        .font(.system(size: 12))
-                                }
-                                .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 6)
-                                .background(Color(red: 60/255, green: 150/255, blue: 100/255).opacity(0.1))
-                                .cornerRadius(8)
-                            }
-                        }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 4)
-                        
                         // Test Cards
                         LazyVStack(spacing: 12) {
                             ForEach(filteredTests) { test in
@@ -305,12 +271,26 @@ enum TestAvailability {
     }
 }
 
+// MARK: - Lab Test Card Button Style
+struct LabTestCardButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .shadow(
+                color: Color.black.opacity(configuration.isPressed ? 0.08 : 0.04),
+                radius: configuration.isPressed ? 4 : 8,
+                x: 0,
+                y: configuration.isPressed ? 2 : 4
+            )
+            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
+    }
+}
+
 // MARK: - Lab Test Card Component
 struct LabTestCard: View {
     @Environment(LanguageManager.self) var languageManager
     let test: LabTest
     let onTap: () -> Void
-    @State private var isPressed = false
     
     var body: some View {
         Button(action: {
@@ -344,17 +324,12 @@ struct LabTestCard: View {
                             .font(.poppins(.regular, size: 13))
                             .foregroundColor(.gray)
                             .lineLimit(2)
-                            .fixedSize(horizontal: false, vertical: true)
                     }
                     
                     Spacer()
                     
-                    // Price and Chevron
+                    // Chevron
                     VStack(alignment: .trailing, spacing: 8) {
-                        Text("Rs. \(String(format: "%.2f", test.price))")
-                            .font(.poppins(.bold, size: 16))
-                            .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
-                        
                         Image(systemName: "chevron.right")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.gray.opacity(0.4))
@@ -367,28 +342,23 @@ struct LabTestCard: View {
                     .padding(.horizontal, 16)
                 
                 HStack(spacing: 16) {
-                    // Availability badge
-                    HStack(spacing: 4) {
-                        Circle()
-                            .fill(test.availability.statusColor)
-                            .frame(width: 6, height: 6)
-                        Text(languageManager.localized(test.availability.localizationKey))
-                            .font(.poppins(.medium, size: 11))
-                            .foregroundColor(test.availability.statusColor)
-                    }
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(test.availability.statusColor.opacity(0.1))
-                    .cornerRadius(6)
-                    
                     // Duration
                     HStack(spacing: 4) {
                         Image(systemName: "clock.fill")
-                            .font(.system(size: 10))
+                            .font(.system(size: 11))
                         Text(test.duration)
-                            .font(.poppins(.regular, size: 11))
+                            .font(.poppins(.medium, size: 12))
                     }
                     .foregroundColor(.gray.opacity(0.8))
+                    
+                    // Price
+                    HStack(spacing: 4) {
+                        Image(systemName: "banknote.fill")
+                            .font(.system(size: 11))
+                        Text("Rs. \(String(format: "%.0f", test.price))")
+                            .font(.poppins(.semiBold, size: 13))
+                    }
+                    .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
                     
                     // Preparation required
                     if test.preparationRequired {
@@ -408,28 +378,8 @@ struct LabTestCard: View {
             }
             .background(Color.white)
             .cornerRadius(16)
-            .shadow(
-                color: Color.black.opacity(isPressed ? 0.08 : 0.04),
-                radius: isPressed ? 4 : 8,
-                x: 0,
-                y: isPressed ? 2 : 4
-            )
-            .scaleEffect(isPressed ? 0.98 : 1.0)
         }
-        .buttonStyle(PlainButtonStyle())
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { _ in
-                    withAnimation(.easeInOut(duration: 0.1)) {
-                        isPressed = true
-                    }
-                }
-                .onEnded { _ in
-                    withAnimation(.easeInOut(duration: 0.1)) {
-                        isPressed = false
-                    }
-                }
-        )
+        .buttonStyle(LabTestCardButtonStyle())
     }
 }
 

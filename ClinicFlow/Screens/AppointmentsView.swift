@@ -195,9 +195,28 @@ private struct AppointmentCard: View {
         cardContent
             .onTapGesture {
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                // Navigate to appointment detail view
                 if isUpcoming {
-                    router.navigate(to: .appointmentDetail(appointment))
+                    if appointment.status == .confirmed {
+                        let queueStatus = QueueStatus(
+                            id: "Q-\(appointment.id)",
+                            queueType: .appointment,
+                            tokenNumber: appointment.tokenNumber,
+                            queuePosition: 5,
+                            peopleAhead: 4,
+                            estimatedWaitMinutes: 25,
+                            checkInTime: appointment.timeSlot,
+                            locationName: "Room - 1st floor (Room No. A01)",
+                            locationDetail: "Building A, 1st Floor",
+                            steps: [
+                                VisitStep(id: "s1", localizationKey: "step_registration", icon: "pencil.and.list.clipboard", status: .completed, completedTime: nil),
+                                VisitStep(id: "s2", localizationKey: "step_consultation", icon: "stethoscope", status: .inProgress, completedTime: nil),
+                            ],
+                            isActive: true
+                        )
+                        router.navigate(to: .queueStatus(queueStatus))
+                    } else {
+                        router.navigate(to: .appointmentDetail(appointment))
+                    }
                 } else {
                     router.navigate(to: .pastAppointmentDetail(appointment))
                 }

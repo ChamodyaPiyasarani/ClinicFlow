@@ -281,87 +281,211 @@ struct CancelAppointmentView: View {
         .background(AppColors.background)
     }
     
-    // MARK: - Confirmation Popup
+    // MARK: - Confirmation Popup (Liquid Glass Style)
     
     private var confirmationPopup: some View {
         ZStack {
-            // Dimmed background
-            Color.black.opacity(0.4)
+            // Dimmed translucent background with blur
+            Color.black.opacity(0.25)
+                .background(.ultraThinMaterial)
                 .ignoresSafeArea()
                 .onTapGesture {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
                         showConfirmPopup = false
                     }
                 }
             
-            // Popup card
-            VStack(spacing: 24) {
-                Text(languageManager.localized("are_you_sure_cancel_appointment"))
-                    .font(.poppins(.semiBold, size: 18))
-                    .foregroundColor(Color(red: 0.3, green: 0.4, blue: 0.6))
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 20)
-                    .padding(.top, 32)
-                
-                // Buttons
-                HStack(spacing: 14) {
-                    // Go Back button
-                    Button(action: {
-                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                            showConfirmPopup = false
-                        }
-                    }) {
-                        Text(languageManager.localized("go_back"))
-                            .font(.poppins(.semiBold, size: 16))
-                            .foregroundColor(Color(red: 230/255, green: 100/255, blue: 70/255))
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
-                            .background(
-                                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                    .stroke(Color(red: 230/255, green: 100/255, blue: 70/255).opacity(0.3), lineWidth: 1.5)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                            .fill(Color.white)
+            // Liquid Glass Popup Card
+            VStack(spacing: 0) {
+                // Content Container
+                VStack(spacing: 28) {
+                    // Icon with glass effect
+                    ZStack {
+                        // Outer glow
+                        Circle()
+                            .fill(Color(red: 230/255, green: 100/255, blue: 70/255).opacity(0.15))
+                            .frame(width: 72, height: 72)
+                            .blur(radius: 8)
+                        
+                        // Glass circle
+                        Circle()
+                            .fill(.ultraThinMaterial)
+                            .frame(width: 64, height: 64)
+                            .overlay(
+                                Circle()
+                                    .stroke(
+                                        LinearGradient(
+                                            colors: [
+                                                Color.white.opacity(0.8),
+                                                Color.white.opacity(0.2)
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        ),
+                                        lineWidth: 1.5
                                     )
                             )
+                            .shadow(color: Color(red: 230/255, green: 100/255, blue: 70/255).opacity(0.2), radius: 12, x: 0, y: 4)
+                        
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .font(.system(size: 28, weight: .semibold))
+                            .foregroundStyle(
+                                LinearGradient(
+                                    colors: [
+                                        Color(red: 230/255, green: 100/255, blue: 70/255),
+                                        Color(red: 210/255, green: 80/255, blue: 50/255)
+                                    ],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                    }
+                    .padding(.top, 36)
+                    
+                    // Text content
+                    VStack(spacing: 10) {
+                        Text(languageManager.localized("are_you_sure_cancel_appointment"))
+                            .font(.poppins(.semiBold, size: 17))
+                            .foregroundColor(AppColors.darkBlue)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 24)
+                        
+                        Text("This action cannot be undone")
+                            .font(.poppins(.regular, size: 13))
+                            .foregroundColor(.gray.opacity(0.8))
+                            .multilineTextAlignment(.center)
                     }
                     
-                    // Confirm Cancel button
-                    Button(action: {
-                        UINotificationFeedbackGenerator().notificationOccurred(.warning)
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                            showConfirmPopup = false
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            // Pop back to ContentView (keeping .home route in path)
-                            while router.path.count > 1 {
-                                router.path.removeLast()
+                    // Buttons with glass effect
+                    VStack(spacing: 12) {
+                        // Confirm Cancel button (Primary - Glass)
+                        Button(action: {
+                            UINotificationFeedbackGenerator().notificationOccurred(.warning)
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
+                                showConfirmPopup = false
                             }
-                            router.selectedTab = .appointment
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                while router.path.count > 1 {
+                                    router.path.removeLast()
+                                }
+                                router.selectedTab = .appointment
+                            }
+                        }) {
+                            Text(languageManager.localized("confirm_cancel"))
+                                .font(.poppins(.semiBold, size: 16))
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(
+                                    ZStack {
+                                        // Base gradient
+                                        LinearGradient(
+                                            colors: [
+                                                Color(red: 230/255, green: 100/255, blue: 70/255),
+                                                Color(red: 210/255, green: 80/255, blue: 50/255)
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                        
+                                        // Glass highlight overlay
+                                        LinearGradient(
+                                            colors: [
+                                                Color.white.opacity(0.3),
+                                                Color.clear
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .center
+                                        )
+                                    }
+                                )
+                                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                                )
+                                .shadow(color: Color(red: 230/255, green: 100/255, blue: 70/255).opacity(0.4), radius: 12, x: 0, y: 6)
                         }
-                    }) {
-                        Text(languageManager.localized("confirm_cancel"))
-                            .font(.poppins(.semiBold, size: 16))
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
-                            .background(
-                                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                    .fill(Color(red: 230/255, green: 100/255, blue: 70/255))
-                            )
-                            .shadow(color: Color(red: 230/255, green: 100/255, blue: 70/255).opacity(0.3), radius: 8, x: 0, y: 4)
+                        
+                        // Go Back button (Secondary - Glass)
+                        Button(action: {
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
+                                showConfirmPopup = false
+                            }
+                        }) {
+                            Text(languageManager.localized("go_back"))
+                                .font(.poppins(.medium, size: 16))
+                                .foregroundColor(AppColors.darkBlue)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(.regularMaterial)
+                                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                        .stroke(
+                                            LinearGradient(
+                                                colors: [
+                                                    Color.white.opacity(0.6),
+                                                    Color.gray.opacity(0.2)
+                                                ],
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            ),
+                                            lineWidth: 1
+                                        )
+                                )
+                                .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
+                        }
                     }
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 32)
                 }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 28)
             }
             .background(
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .fill(Color.white)
-                    .shadow(color: Color.black.opacity(0.15), radius: 20, x: 0, y: 10)
+                ZStack {
+                    // Glass material base
+                    RoundedRectangle(cornerRadius: 32, style: .continuous)
+                        .fill(.ultraThinMaterial)
+                    
+                    // Subtle gradient overlay for depth
+                    RoundedRectangle(cornerRadius: 32, style: .continuous)
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color.white.opacity(0.4),
+                                    Color.white.opacity(0.1)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                    
+                    // Light edge highlight (top-left)
+                    RoundedRectangle(cornerRadius: 32, style: .continuous)
+                        .stroke(
+                            LinearGradient(
+                                colors: [
+                                    Color.white.opacity(0.8),
+                                    Color.white.opacity(0.0)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 1.5
+                        )
+                }
             )
-            .padding(.horizontal, 32)
+            .overlay(
+                // Outer border for definition
+                RoundedRectangle(cornerRadius: 32, style: .continuous)
+                    .stroke(Color.black.opacity(0.05), lineWidth: 0.5)
+            )
+            .shadow(color: Color.black.opacity(0.15), radius: 30, x: 0, y: 15)
+            .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
+            .padding(.horizontal, 28)
+            .scaleEffect(showConfirmPopup ? 1 : 0.9)
+            .opacity(showConfirmPopup ? 1 : 0)
         }
         .transition(.opacity)
     }

@@ -26,24 +26,75 @@ struct NotificationPermissionView: View {
                 GeometryReader { geometry in
                 ScrollView {
                     VStack(spacing: 24) {
-                        // Notification Icon with Badge
+                        // Notification Icon with Badge (Liquid Glass Style)
                         ZStack(alignment: .topTrailing) {
                             ZStack {
+                                // Outer glow
                                 Circle()
-                                    .fill(Color.white)
+                                    .fill(AppColors.brandBlue.opacity(0.15))
+                                    .frame(width: 150, height: 150)
+                                    .blur(radius: 12)
+                                
+                                // Glass circle
+                                Circle()
+                                    .fill(.ultraThinMaterial)
                                     .frame(width: 140, height: 140)
-                                    .shadow(color: Color.black.opacity(0.08), radius: 12, x: 0, y: 4)
+                                    .overlay(
+                                        Circle()
+                                            .stroke(
+                                                LinearGradient(
+                                                    colors: [
+                                                        Color.white.opacity(0.8),
+                                                        Color.white.opacity(0.2)
+                                                    ],
+                                                    startPoint: .topLeading,
+                                                    endPoint: .bottomTrailing
+                                                ),
+                                                lineWidth: 2
+                                            )
+                                    )
+                                    .shadow(color: Color.black.opacity(0.08), radius: 20, x: 0, y: 8)
+                                    .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 4)
                                 
                                 Image(systemName: "bell.fill")
                                     .font(.system(size: 55, weight: .semibold))
-                                    .foregroundColor(AppColors.darkBlue)
+                                    .foregroundStyle(
+                                        LinearGradient(
+                                            colors: [
+                                                AppColors.darkBlue,
+                                                AppColors.brandBlue
+                                            ],
+                                            startPoint: .top,
+                                            endPoint: .bottom
+                                        )
+                                    )
                             }
                             
-                            // Red notification badge
+                            // Red notification badge (glass effect)
                             ZStack {
+                                // Badge glow
                                 Circle()
-                                    .fill(Color.red)
+                                    .fill(Color.red.opacity(0.3))
+                                    .frame(width: 32, height: 32)
+                                    .blur(radius: 4)
+                                
+                                Circle()
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [
+                                                Color.red,
+                                                Color.red.opacity(0.8)
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
                                     .frame(width: 28, height: 28)
+                                    .overlay(
+                                        Circle()
+                                            .stroke(Color.white.opacity(0.5), lineWidth: 1.5)
+                                    )
+                                    .shadow(color: Color.red.opacity(0.4), radius: 6, x: 0, y: 3)
                                 
                                 Text("1")
                                     .font(.poppins(.semiBold, size: 13))
@@ -143,7 +194,7 @@ struct NotificationPermissionView: View {
     }
 }
 
-// MARK: - Notification Feature Card Component
+// MARK: - Notification Feature Card Component (Liquid Glass Style)
 struct NotificationFeatureCard: View {
     let icon: String
     let title: String
@@ -151,15 +202,45 @@ struct NotificationFeatureCard: View {
     
     var body: some View {
         HStack(spacing: 16) {
-            // Icon
+            // Icon with glass effect
             ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(AppColors.brandBlue.opacity(0.1))
+                // Outer glow
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .fill(AppColors.brandBlue.opacity(0.2))
+                    .frame(width: 52, height: 52)
+                    .blur(radius: 6)
+                
+                // Glass rectangle
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .fill(.regularMaterial)
                     .frame(width: 48, height: 48)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .stroke(
+                                LinearGradient(
+                                    colors: [
+                                        Color.white.opacity(0.6),
+                                        Color.white.opacity(0.1)
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 1
+                            )
+                    )
                 
                 Image(systemName: icon)
                     .font(.system(size: 22, weight: .medium))
-                    .foregroundColor(AppColors.brandBlue)
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [
+                                AppColors.brandBlue,
+                                AppColors.darkBlue.opacity(0.8)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
             }
             
             // Text Content
@@ -176,10 +257,47 @@ struct NotificationFeatureCard: View {
             
             Spacer()
         }
-        .padding(16)
-        .background(Color.white)
-        .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.05), radius: 6, x: 0, y: 2)
+        .padding(18)
+        .background(
+            ZStack {
+                // Glass material base
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(.ultraThinMaterial)
+                
+                // Subtle gradient overlay
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color.white.opacity(0.5),
+                                Color.white.opacity(0.1)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                
+                // Light edge highlight
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .stroke(
+                        LinearGradient(
+                            colors: [
+                                Color.white.opacity(0.8),
+                                Color.white.opacity(0.0)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 1.5
+                    )
+            }
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .stroke(Color.black.opacity(0.05), lineWidth: 0.5)
+        )
+        .shadow(color: Color.black.opacity(0.08), radius: 12, x: 0, y: 6)
+        .shadow(color: Color.black.opacity(0.03), radius: 4, x: 0, y: 2)
     }
 }
 

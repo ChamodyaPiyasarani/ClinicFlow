@@ -34,7 +34,6 @@ struct LabTestsView: View {
                     // Trailing icons (right)
                     HStack(spacing: 4) {
                         Spacer()
-                        LanguageSwitcher(fontSize: 14, showBackground: false)
                         NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
                     }
                 }

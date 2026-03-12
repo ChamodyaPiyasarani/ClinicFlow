@@ -26,7 +26,7 @@ enum AppLanguage: String, CaseIterable, Identifiable {
 
     var letterIcon: String {
         switch self {
-        case .english: return "E"
+        case .english: return "EN"
         case .sinhala: return "සි"
         case .tamil: return "த"
         }

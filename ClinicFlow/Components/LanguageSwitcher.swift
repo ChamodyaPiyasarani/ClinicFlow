@@ -34,11 +34,15 @@ struct LanguageSwitcher: View {
             if showBackground {
                 ZStack {
                     Circle()
-                        .fill(AppColors.darkBlue.opacity(0.08))
+                        .fill(AppColors.darkBlue.opacity(0.1))
                         .frame(width: 44, height: 44)
+                        .overlay(
+                            Circle()
+                                .stroke(AppColors.darkBlue.opacity(0.2), lineWidth: 1.5)
+                        )
 
                     Text(languageManager.currentLanguage.letterIcon)
-                        .font(.system(size: fontSize, weight: .semibold))
+                        .font(.system(size: fontSize, weight: .bold))
                         .foregroundColor(AppColors.darkBlue)
                 }
             } else {

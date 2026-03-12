@@ -4,6 +4,7 @@ import SwiftUI
 /// Tapping opens a system menu to pick from the available languages.
 struct LanguageSwitcher: View {
     @Environment(LanguageManager.self) var languageManager
+    @Environment(ToastManager.self) var toastManager
 
     /// Icon text size. Defaults to 16.
     var fontSize: CGFloat = 16
@@ -18,6 +19,7 @@ struct LanguageSwitcher: View {
                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
                     withAnimation(.easeInOut(duration: 0.2)) {
                         languageManager.setLanguage(language)
+                        toastManager.show(.success, message: "toast_language_changed")
                     }
                 }) {
                     if language == languageManager.currentLanguage {

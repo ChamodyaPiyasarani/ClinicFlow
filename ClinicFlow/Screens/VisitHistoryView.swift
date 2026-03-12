@@ -36,6 +36,7 @@ struct VisitHistoryView: View {
     }
 
     var body: some View {
+        ZStack(alignment: .bottom) {
         VStack(spacing: 0) {
             // ── Header ──
             VisitHistoryHeaderView(router: router)
@@ -77,11 +78,15 @@ struct VisitHistoryView: View {
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 20)
-                    .padding(.bottom, 20)
+                    .padding(.bottom, 100)
                 }
             }
         }
         .background(AppColors.background)
+        
+        BottomNavBar()
+        }
+        .edgesIgnoringSafeArea(.bottom)
         .navigationBarHidden(true)
         .onAppear {
             withAnimation { appearAnimation = true }

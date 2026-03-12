@@ -67,6 +67,8 @@ struct AfterVisitProgressView: View {
             bottomActionBar
                 .opacity(footerAppear ? 1 : 0)
                 .offset(y: footerAppear ? 0 : 40)
+            
+            BottomNavBar()
         }
         .navigationBarHidden(true)
         .onAppear { triggerAnimations() }

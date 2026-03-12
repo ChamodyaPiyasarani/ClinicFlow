@@ -3,6 +3,7 @@ import SwiftUI
 struct LabTestsView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
+    @Environment(ToastManager.self) var toastManager
     
     @State private var selectedCategory: TestCategory = .all
     @State private var searchText: String = ""
@@ -166,7 +167,10 @@ struct LabTestsView: View {
             if showConfirmationModal {
                 LabTestConfirmationView(isPresented: $showConfirmationModal) {
                     // Navigate to lab queue status after confirming
-                    router.navigate(to: .queueStatus(.labSample))
+                    toastManager.show(.success, message: "toast_lab_test_confirmed")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        router.navigate(to: .queueStatus(.labSample))
+                    }
                 }
                 .zIndex(2)
             }

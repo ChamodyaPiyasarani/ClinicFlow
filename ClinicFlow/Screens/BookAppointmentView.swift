@@ -5,6 +5,7 @@ import SwiftUI
 struct BookAppointmentView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
+    @Environment(ToastManager.self) var toastManager
 
     @State private var selectedDepartment: ClinicDepartment? = nil
     @State private var selectedDoctor: Doctor? = nil
@@ -38,11 +39,12 @@ struct BookAppointmentView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            // ── Header ──
-            BookingHeaderView(subtitle: languageManager.localized("book_new_appointment"))
+        ZStack(alignment: .bottom) {
+            VStack(spacing: 0) {
+                // ── Header ──
+                BookingHeaderView(subtitle: languageManager.localized("book_new_appointment"))
 
-            ScrollView(showsIndicators: false) {
+                ScrollView(showsIndicators: false) {
                 VStack(spacing: 24) {
                     // ── Department Selection ──
                     SectionContainer {
@@ -234,7 +236,12 @@ struct BookAppointmentView: View {
                 PrimaryButton(title: languageManager.localized("next")) {
                     guard let dept = selectedDepartment,
                           let doc = selectedDoctor,
-                          let slot = selectedTimeSlot else { return }
+                          let slot = selectedTimeSlot else { 
+                        if selectedTimeSlot == nil && selectedDoctor != nil {
+                            toastManager.show(.warning, message: "toast_select_time_slot")
+                        }
+                        return 
+                    }
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     router.navigate(to: .patientDetailsForm(doctor: doc, department: dept, date: selectedDate, timeSlot: slot))
                 }
@@ -250,6 +257,10 @@ struct BookAppointmentView: View {
             )
         }
         .background(AppColors.background)
+        
+        BottomNavBar()
+        }
+        .navigationBarHidden(true)
         .sheet(isPresented: $showDepartmentPicker) {
             SelectionSheet(
                 title: languageManager.localized("select_department"),

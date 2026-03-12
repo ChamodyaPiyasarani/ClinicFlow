@@ -47,6 +47,7 @@ struct PastAppointmentDetailView: View {
     }
 
     var body: some View {
+        ZStack(alignment: .bottom) {
         VStack(spacing: 0) {
             // ── Minimal Header ──
             PastAppointmentHeaderBar()
@@ -61,10 +62,15 @@ struct PastAppointmentDetailView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 8)
-                .padding(.bottom, 40)
+                .padding(.bottom, 100)
             }
         }
         .background(AppColors.background)
+        
+        BottomNavBar()
+        }
+        .edgesIgnoringSafeArea(.bottom)
+        .navigationBarHidden(true)
         .onAppear { triggerStaggeredAnimations() }
     }
 

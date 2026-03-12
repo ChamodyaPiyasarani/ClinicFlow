@@ -6,6 +6,7 @@ import Photos
 struct PharmacyView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
+    @Environment(ToastManager.self) var toastManager
     
     @State private var showCamera = false
     @State private var showGallery = false
@@ -71,8 +72,11 @@ struct PharmacyView: View {
                             // Haptic feedback
                             let impact = UIImpactFeedbackGenerator(style: .medium)
                             impact.impactOccurred()
+                            toastManager.show(.success, message: "toast_prescription_sent")
                             // Navigate to pharmacy queue status
-                            router.navigate(to: .queueStatus(.pharmacySample))
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                router.navigate(to: .queueStatus(.pharmacySample))
+                            }
                         }) {
                             Text(languageManager.localized("send_to_pharmacy"))
                                 .font(.poppins(.semiBold, size: 17))
@@ -432,4 +436,5 @@ struct ImagePicker: UIViewControllerRepresentable {
     PharmacyView()
         .environment(LanguageManager.shared)
         .environment(AppRouter())
+        .environment(ToastManager.shared)
 }

@@ -28,7 +28,7 @@ struct RescheduleAppointmentView: View {
     }
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             VStack(spacing: 0) {
                 // ── Header ──
                 RescheduleHeaderView(subtitle: languageManager.localized("reschedule_appointment"))
@@ -423,7 +423,11 @@ struct RescheduleAppointmentView: View {
                 .padding(.horizontal, 32)
                 .transition(.scale.combined(with: .opacity))
             }
+            
+            BottomNavBar()
         }
+        .edgesIgnoringSafeArea(.bottom)
+        .navigationBarHidden(true)
     }
     
     private func formattedAppointmentDate(_ date: Date) -> String {

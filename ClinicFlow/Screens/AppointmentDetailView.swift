@@ -67,7 +67,7 @@ struct AppointmentDetailView: View {
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 8)
-                    .padding(.bottom, isUpcoming ? 140 : 40)
+                    .padding(.bottom, isUpcoming ? 140 : 100)
                 }
             }
             .background(AppColors.background)
@@ -78,7 +78,11 @@ struct AppointmentDetailView: View {
                     .opacity(actionsAppear ? 1 : 0)
                     .offset(y: actionsAppear ? 0 : 30)
             }
+            
+            BottomNavBar()
         }
+        .edgesIgnoringSafeArea(.bottom)
+        .navigationBarHidden(true)
         .onAppear { triggerStaggeredAnimations() }
     }
 

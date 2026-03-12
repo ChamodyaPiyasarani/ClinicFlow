@@ -24,6 +24,7 @@ struct AppointmentReviewView: View {
     }
 
     var body: some View {
+        ZStack(alignment: .bottom) {
         VStack(spacing: 0) {
             // ── Header ──
             ReviewHeaderView(subtitle: languageManager.localized("appointment_details"))
@@ -219,6 +220,10 @@ struct AppointmentReviewView: View {
             )
         }
         .background(AppColors.background)
+        
+        BottomNavBar()
+        }
+        .navigationBarHidden(true)
         .onAppear {
             withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                 cardAppear = true

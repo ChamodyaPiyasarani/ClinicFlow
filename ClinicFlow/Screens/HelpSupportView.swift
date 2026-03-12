@@ -16,7 +16,7 @@ struct HelpSupportView: View {
     ]
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             // Background
             AppColors.background
                 .ignoresSafeArea()
@@ -112,16 +112,17 @@ struct HelpSupportView: View {
                             .font(.poppins(.regular, size: 12))
                             .foregroundColor(.gray)
                             .padding(.top, 4)
-                            .padding(.bottom, 24)
+                            .padding(.bottom, 100)
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 20)
                 }
-
-                // MARK: - Bottom Nav Bar
-                BottomNavBar()
             }
+            
+            // MARK: - Bottom Nav Bar
+            BottomNavBar()
         }
+        .edgesIgnoringSafeArea(.bottom)
         .navigationBarBackButtonHidden(true)
     }
 }

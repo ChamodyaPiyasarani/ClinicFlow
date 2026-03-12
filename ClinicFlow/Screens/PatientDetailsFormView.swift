@@ -6,6 +6,7 @@ import PhotosUI
 struct PatientDetailsFormView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
+    @Environment(ToastManager.self) var toastManager
 
     let doctor: Doctor
     let department: ClinicDepartment
@@ -27,6 +28,7 @@ struct PatientDetailsFormView: View {
     }
 
     var body: some View {
+        ZStack(alignment: .bottom) {
         VStack(spacing: 0) {
             // ── Header ──
             PatientFormHeaderView(subtitle: languageManager.localized("fill_patient_details"))
@@ -182,6 +184,7 @@ struct PatientDetailsFormView: View {
                         .onChange(of: selectedPhoto) { _, newItem in
                             if newItem != nil {
                                 uploadedFileName = "medical_report.jpg"
+                                toastManager.show(.success, message: "toast_image_uploaded")
                             }
                         }
                     }
@@ -244,6 +247,11 @@ struct PatientDetailsFormView: View {
             )
         }
         .background(AppColors.background)
+        
+        BottomNavBar()
+        }
+        .edgesIgnoringSafeArea(.bottom)
+        .navigationBarHidden(true)
         .sheet(isPresented: $showProfilePicker) {
             PatientProfileSheet(selectedProfile: $selectedProfile)
                 .presentationDetents([.medium])

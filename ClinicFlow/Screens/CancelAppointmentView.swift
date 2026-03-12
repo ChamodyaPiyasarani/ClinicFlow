@@ -3,6 +3,7 @@ import SwiftUI
 struct CancelAppointmentView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
+    @Environment(ToastManager.self) var toastManager
     
     let appointment: Appointment
     
@@ -21,6 +22,7 @@ struct CancelAppointmentView: View {
     }
     
     var body: some View {
+        ZStack(alignment: .bottom) {
         ZStack {
             AppColors.background.ignoresSafeArea()
             
@@ -39,6 +41,10 @@ struct CancelAppointmentView: View {
                 confirmationPopup
             }
         }
+        
+        BottomNavBar()
+        }
+        .edgesIgnoringSafeArea(.bottom)
         .navigationBarBackButtonHidden(true)
     }
     
@@ -129,7 +135,7 @@ struct CancelAppointmentView: View {
                         .italic()
                         .padding(.horizontal, 30)
                     
-                    Spacer().frame(height: 30)
+                    Spacer().frame(height: 100)
                 }
                 .padding(.top, 8)
             }
@@ -259,7 +265,7 @@ struct CancelAppointmentView: View {
                         .shadow(color: AppColors.brandBlue.opacity(0.3), radius: 8, x: 0, y: 4)
                 }
                 .padding(.horizontal, 20)
-                .padding(.bottom, 32)
+                .padding(.bottom, 100)
             }
         }
     }
@@ -361,6 +367,7 @@ struct CancelAppointmentView: View {
                         // Confirm Cancel button (Primary - Glass)
                         Button(action: {
                             UINotificationFeedbackGenerator().notificationOccurred(.warning)
+                            toastManager.show(.success, message: "toast_appointment_cancelled")
                             withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
                                 showConfirmPopup = false
                             }
@@ -498,5 +505,6 @@ struct CancelAppointmentView: View {
         CancelAppointmentView(appointment: Appointment.samples[0])
             .environment(LanguageManager.shared)
             .environment(AppRouter())
+            .environment(ToastManager.shared)
     }
 }

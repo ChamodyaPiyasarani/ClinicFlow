@@ -3,6 +3,7 @@ import SwiftUI
 struct OPDDepartmentsView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
+    @Environment(ToastManager.self) var toastManager
     
     @State private var selectedCategory: DepartmentCategory = .all
     @State private var searchText: String = ""
@@ -288,6 +289,7 @@ enum DepartmentAvailability {
 struct DepartmentCard: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
+    @Environment(ToastManager.self) var toastManager
     let icon: String
     let iconColor: Color
     let departmentName: String
@@ -303,7 +305,8 @@ struct DepartmentCard: View {
             let impact = UIImpactFeedbackGenerator(style: .light)
             impact.impactOccurred()
             
-            // Navigate to OPD queue status
+            // Show toast and navigate to OPD queue status
+            toastManager.show(.info, message: "toast_joining_queue")
             router.navigate(to: .queueStatus(.opdSample))
         }) {
             HStack(spacing: 14) {

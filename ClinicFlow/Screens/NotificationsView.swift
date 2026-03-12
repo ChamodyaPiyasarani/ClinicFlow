@@ -2,42 +2,48 @@ import SwiftUI
 
 struct NotificationsView: View {
     @Environment(AppRouter.self) var router
+    @Environment(ToastManager.self) var toastManager
     @State private var notifications: [NotificationItem] = []
     
     var body: some View {
-        VStack(spacing: 0) {
-            // ── Header ──
-            NotificationHeader(
-                onBack: { router.goBack() },
-                onClearAll: { clearAllNotifications() }
-            )
-            
-            // ── Notifications List ──
-            if notifications.isEmpty {
-                EmptyNotificationsView()
-            } else {
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 0) {
-                        ForEach(notifications) { notification in
-                            NotificationRow(notification: notification)
-                            
-                            // Divider
-                            if notification.id != notifications.last?.id {
-                                Divider()
-                                    .padding(.leading, 72)
+        ZStack(alignment: .bottom) {
+            VStack(spacing: 0) {
+                // ── Header ──
+                NotificationHeader(
+                    onBack: { router.goBack() },
+                    onClearAll: {
+                        clearAllNotifications()
+                        toastManager.show(.info, message: "toast_notifications_cleared")
+                    }
+                )
+                
+                // ── Notifications List ──
+                if notifications.isEmpty {
+                    EmptyNotificationsView()
+                } else {
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 0) {
+                            ForEach(notifications) { notification in
+                                NotificationRow(notification: notification)
+                                
+                                // Divider
+                                if notification.id != notifications.last?.id {
+                                    Divider()
+                                        .padding(.leading, 72)
+                                }
                             }
                         }
+                        .padding(.vertical, 8)
+                        .padding(.bottom, 80)
                     }
-                    .padding(.vertical, 8)
                 }
             }
-            
-            Spacer()
+            .background(Color.white)
             
             // ── Bottom Navigation Bar ──
             BottomNavBar()
         }
-        .background(Color.white)
+        .edgesIgnoringSafeArea(.bottom)
         .navigationBarHidden(true)
         .onAppear {
             loadHardcodedNotifications()

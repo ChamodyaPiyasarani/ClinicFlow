@@ -19,6 +19,7 @@ struct AppointmentConfirmedView: View {
     }
 
     var body: some View {
+        ZStack(alignment: .bottom) {
         VStack(spacing: 0) {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 28) {
@@ -208,6 +209,10 @@ struct AppointmentConfirmedView: View {
             )
         }
         .background(AppColors.background)
+        
+        BottomNavBar()
+        }
+        .navigationBarHidden(true)
         .onAppear {
             // Checkmark bounce in
             withAnimation(.spring(response: 0.6, dampingFraction: 0.6).delay(0.15)) {

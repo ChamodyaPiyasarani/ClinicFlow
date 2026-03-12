@@ -1732,6 +1732,391 @@ struct LocalizedStrings {
             .sinhala: "රසායනාගාර",
             .tamil: "ஆய்வகம்"
         ],
+
+        // ── Queue Status ──
+        "queue_status": [
+            .english: "Queue Status",
+            .sinhala: "පෝලිම් තත්ත්වය",
+            .tamil: "வரிசை நிலை"
+        ],
+        "queue_position": [
+            .english: "Queue Position",
+            .sinhala: "පෝලිම් ස්ථානය",
+            .tamil: "வரிசை நிலை எண்"
+        ],
+        "people_ahead": [
+            .english: "People Ahead",
+            .sinhala: "ඉදිරියෙන් සිටින අය",
+            .tamil: "முன்னால் உள்ளவர்கள்"
+        ],
+        "estimated_wait": [
+            .english: "Est. Wait",
+            .sinhala: "ඇස්තමේන්තු රැඳීම",
+            .tamil: "மதிப்பிடப்பட்ட காத்திருப்பு"
+        ],
+        "estimated_wait_time": [
+            .english: "Estimated Wait Time",
+            .sinhala: "ඇස්තමේන්තු රැඳීමේ කාලය",
+            .tamil: "மதிப்பிடப்பட்ட காத்திருப்பு நேரம்"
+        ],
+        "minutes_short": [
+            .english: "min",
+            .sinhala: "මිනි",
+            .tamil: "நிமி"
+        ],
+        "check_in_time": [
+            .english: "Check-in Time",
+            .sinhala: "පැමිණීමේ වේලාව",
+            .tamil: "செக்-இன் நேரம்"
+        ],
+        "token_number": [
+            .english: "Token Number",
+            .sinhala: "ටෝකන් අංකය",
+            .tamil: "டோக்கன் எண்"
+        ],
+        "current_status": [
+            .english: "Current Status",
+            .sinhala: "වත්මන් තත්ත්වය",
+            .tamil: "தற்போதைய நிலை"
+        ],
+        "active_status": [
+            .english: "Active",
+            .sinhala: "සක්‍රීය",
+            .tamil: "செயலில்"
+        ],
+        "location": [
+            .english: "Location",
+            .sinhala: "ස්ථානය",
+            .tamil: "இடம்"
+        ],
+        "visit_progress": [
+            .english: "Visit Progress",
+            .sinhala: "සංචාර ප්‍රගතිය",
+            .tamil: "வருகை முன்னேற்றம்"
+        ],
+        "leave_queue": [
+            .english: "Leave Queue",
+            .sinhala: "පෝලිමෙන් ඉවත්වන්න",
+            .tamil: "வரிசையை விடு"
+        ],
+        "leave_queue_message": [
+            .english: "Are you sure you want to leave the queue? You will lose your current position.",
+            .sinhala: "ඔබට පෝලිමෙන් ඉවත්වීමට අවශ්‍ය බව විශ්වාසද? ඔබගේ වත්මන් ස්ථානය අහිමි වේ.",
+            .tamil: "நீங்கள் வரிசையை விட்டு வெளியேற விரும்புகிறீர்களா? உங்கள் தற்போதைய நிலையை இழப்பீர்கள்."
+        ],
+        "leave_queue_confirm": [
+            .english: "Yes, Leave",
+            .sinhala: "ඔව්, ඉවත්වන්න",
+            .tamil: "ஆம், வெளியேறு"
+        ],
+        "step_registration": [
+            .english: "Registration",
+            .sinhala: "ලියාපදිංචිය",
+            .tamil: "பதிவு"
+        ],
+        "step_consultation": [
+            .english: "Consultation",
+            .sinhala: "උපදේශනය",
+            .tamil: "ஆலோசனை"
+        ],
+        "step_lab_tests": [
+            .english: "Lab Tests",
+            .sinhala: "රසායනාගාර පරීක්ෂණ",
+            .tamil: "ஆய்வக பரிசோதனைகள்"
+        ],
+        "step_pharmacy": [
+            .english: "Pharmacy",
+            .sinhala: "ෆාමසිය",
+            .tamil: "மருந்தகம்"
+        ],
+        "step_report_collection": [
+            .english: "Report Collection",
+            .sinhala: "වාර්තා එකතුව",
+            .tamil: "அறிக்கை சேகரிப்பு"
+        ],
+        "step_completed": [
+            .english: "Completed",
+            .sinhala: "සම්පූර්ණයි",
+            .tamil: "நிறைவடைந்தது"
+        ],
+        "step_in_progress": [
+            .english: "In Progress",
+            .sinhala: "ක්‍රියාත්මක වෙමින්",
+            .tamil: "செயல்பாட்டில்"
+        ],
+        "step_pending": [
+            .english: "Pending",
+            .sinhala: "බලාපොරොත්තුවෙන්",
+            .tamil: "நிலுவையில்"
+        ],
+        "step_skipped": [
+            .english: "Skipped",
+            .sinhala: "මඟ හරිනු ලැබීය",
+            .tamil: "தவிர்க்கப்பட்டது"
+        ],
+        "queue_type_opd": [
+            .english: "OPD Queue",
+            .sinhala: "OPD පෝලිම",
+            .tamil: "OPD வரிசை"
+        ],
+        "queue_type_lab": [
+            .english: "Lab Queue",
+            .sinhala: "රසායනාගාර පෝලිම",
+            .tamil: "ஆய்வக வரிசை"
+        ],
+        "queue_type_lab_report": [
+            .english: "Lab Report Queue",
+            .sinhala: "රසායනාගාර වාර්තා පෝලිම",
+            .tamil: "ஆய்வக அறிக்கை வரிசை"
+        ],
+        "queue_type_appointment": [
+            .english: "Appointment Queue",
+            .sinhala: "හමුවීම් පෝලිම",
+            .tamil: "சந்திப்பு வரிசை"
+        ],
+        "queue_type_pharmacy": [
+            .english: "Pharmacy Queue",
+            .sinhala: "ෆාමසි පෝලිම",
+            .tamil: "மருந்தக வரிசை"
+        ],
+        "waiting_for_turn": [
+            .english: "You're in the queue. We'll notify you when it's your turn.",
+            .sinhala: "ඔබ පෝලිමේ ය. ඔබේ වාරය පැමිණි විට අපි දැනුම් දෙන්නෙමු.",
+            .tamil: "நீங்கள் வரிசையில் உள்ளீர்கள். உங்கள் முறை வரும்போது நாங்கள் உங்களுக்கு தெரிவிப்போம்."
+        ],
+        "cancel": [
+            .english: "Cancel",
+            .sinhala: "අවලංගු කරන්න",
+            .tamil: "ரத்து செய்"
+        ],
+        "view_queue_status": [
+            .english: "View Queue Status",
+            .sinhala: "පෝලිම් තත්ත්වය බලන්න",
+            .tamil: "வரிசை நிலையைக் காண்க"
+        ],
+
+        // ── Toast Messages ──
+
+        // Success
+        "toast_otp_sent": [
+            .english: "OTP sent to your number",
+            .sinhala: "OTP ඔබේ අංකයට යවන ලදී",
+            .tamil: "OTP உங்கள் எண்ணுக்கு அனுப்பப்பட்டது"
+        ],
+        "toast_otp_resent": [
+            .english: "OTP resent successfully",
+            .sinhala: "OTP සාර්ථකව නැවත යවන ලදී",
+            .tamil: "OTP வெற்றிகரமாக மீண்டும் அனுப்பப்பட்டது"
+        ],
+        "toast_language_changed": [
+            .english: "Language changed successfully",
+            .sinhala: "භාෂාව සාර්ථකව වෙනස් කරන ලදී",
+            .tamil: "மொழி வெற்றிகரமாக மாற்றப்பட்டது"
+        ],
+        "toast_appointment_cancelled": [
+            .english: "Appointment cancelled successfully",
+            .sinhala: "හමුවීම සාර්ථකව අවලංගු කරන ලදී",
+            .tamil: "சந்திப்பு வெற்றிகரமாக ரத்து செய்யப்பட்டது"
+        ],
+        "toast_appointment_rescheduled": [
+            .english: "Appointment rescheduled successfully",
+            .sinhala: "හමුවීම සාර්ථකව නැවත සැලසුම් කරන ලදී",
+            .tamil: "சந்திப்பு வெற்றிகரமாக மறுதிட்டமிடப்பட்டது"
+        ],
+        "toast_profile_updated": [
+            .english: "Profile updated successfully",
+            .sinhala: "පැතිකඩ සාර්ථකව යාවත්කාලීන කරන ලදී",
+            .tamil: "சுயவிவரம் வெற்றிகரமாக புதுப்பிக்கப்பட்டது"
+        ],
+        "toast_profile_deleted": [
+            .english: "Profile deleted successfully",
+            .sinhala: "පැතිකඩ සාර්ථකව මකන ලදී",
+            .tamil: "சுயவிவரம் வெற்றிகரமாக நீக்கப்பட்டது"
+        ],
+        "toast_allergy_removed": [
+            .english: "Allergy removed from profile",
+            .sinhala: "අසාත්මිකතාව පැතිකඩෙන් ඉවත් කරන ලදී",
+            .tamil: "ஒவ்வாமை சுயவிவரத்தில் இருந்து நீக்கப்பட்டது"
+        ],
+        "toast_prescription_sent": [
+            .english: "Prescription sent to pharmacy",
+            .sinhala: "බෙහෙත් වට්ටෝරුව ෆාමසියට යවන ලදී",
+            .tamil: "மருந்துச் சீட்டு மருந்தகத்திற்கு அனுப்பப்பட்டது"
+        ],
+        "toast_queue_joined": [
+            .english: "You have joined the queue",
+            .sinhala: "ඔබ පෝලිමට එක් විය",
+            .tamil: "நீங்கள் வரிசையில் சேர்ந்துள்ளீர்கள்"
+        ],
+        "toast_queue_left": [
+            .english: "You have left the queue",
+            .sinhala: "ඔබ පෝලිමෙන් ඉවත් විය",
+            .tamil: "நீங்கள் வரிசையை விட்டு வெளியேறினீர்கள்"
+        ],
+        "toast_logged_out": [
+            .english: "Logged out successfully",
+            .sinhala: "සාර්ථකව ඉවත් විය",
+            .tamil: "வெற்றிகரமாக வெளியேறினீர்கள்"
+        ],
+        "toast_notifications_cleared": [
+            .english: "All notifications cleared",
+            .sinhala: "සියලු දැනුම්දීම් මකා දමන ලදී",
+            .tamil: "அனைத்து அறிவிப்புகளும் நீக்கப்பட்டன"
+        ],
+        "toast_lab_test_confirmed": [
+            .english: "Lab test confirmed — joining queue",
+            .sinhala: "රසායනාගාර පරීක්ෂණය තහවුරු කරන ලදී — පෝලිමට එක්වෙමින්",
+            .tamil: "ஆய்வக பரிசோதனை உறுதிசெய்யப்பட்டது — வரிசையில் சேருகிறது"
+        ],
+        "toast_image_uploaded": [
+            .english: "Image uploaded successfully",
+            .sinhala: "රූපය සාර්ථකව උඩුගත කරන ලදී",
+            .tamil: "படம் வெற்றிகரமாக பதிவேற்றப்பட்டது"
+        ],
+
+        // Error
+        "toast_fields_required": [
+            .english: "Please fill in all required fields",
+            .sinhala: "කරුණාකර අවශ්‍ය සියලු ක්ෂේත්‍ර පුරවන්න",
+            .tamil: "தேவையான அனைத்து புலங்களையும் நிரப்பவும்"
+        ],
+        "toast_accept_terms": [
+            .english: "Please accept the terms and conditions",
+            .sinhala: "කරුණාකර නියම සහ කොන්දේසි පිළිගන්න",
+            .tamil: "விதிமுறைகள் மற்றும் நிபந்தனைகளை ஏற்கவும்"
+        ],
+        "toast_invalid_otp": [
+            .english: "Invalid OTP. Please try again",
+            .sinhala: "වලංගු නොවන OTP. කරුණාකර නැවත උත්සාහ කරන්න",
+            .tamil: "தவறான OTP. மீண்டும் முயற்சிக்கவும்"
+        ],
+        "toast_camera_denied": [
+            .english: "Camera access denied. Enable in Settings",
+            .sinhala: "කැමරා ප්‍රවේශය ප්‍රතික්ෂේප විය. සැකසීම් තුළ සක්‍රීය කරන්න",
+            .tamil: "கேமரா அணுகல் மறுக்கப்பட்டது. அமைப்புகளில் இயக்கவும்"
+        ],
+        "toast_gallery_denied": [
+            .english: "Photo library access denied. Enable in Settings",
+            .sinhala: "ඡායාරූප පුස්තකාල ප්‍රවේශය ප්‍රතික්ෂේප විය. සැකසීම් තුළ සක්‍රීය කරන්න",
+            .tamil: "புகைப்பட நூலக அணுகல் மறுக்கப்பட்டது. அமைப்புகளில் இயக்கவும்"
+        ],
+        "toast_select_time_slot": [
+            .english: "Please select a time slot",
+            .sinhala: "කරුණාකර වේලා කාණ්ඩයක් තෝරන්න",
+            .tamil: "நேர இடைவெளியை தேர்ந்தெடுக்கவும்"
+        ],
+
+        // Info
+        "toast_joining_queue": [
+            .english: "Joining queue...",
+            .sinhala: "පෝලිමට එක්වෙමින්...",
+            .tamil: "வரிசையில் சேருகிறது..."
+        ],
+        "toast_permission_location": [
+            .english: "Location permission is needed for nearby services",
+            .sinhala: "සේවා සඳහා ස්ථාන අවසරය අවශ්‍යයි",
+            .tamil: "அருகிலுள்ள சேவைகளுக்கு இருப்பிட அனுமதி தேவை"
+        ],
+        "toast_permission_notification": [
+            .english: "Enable notifications to receive queue updates",
+            .sinhala: "පෝලිම් යාවත්කාලීන කිරීම් ලබා ගැනීමට දැනුම්දීම් සක්‍රීය කරන්න",
+            .tamil: "வரிசை புதுப்பிப்புகளைப் பெற அறிவிப்புகளை இயக்கவும்"
+        ],
+
+        // Warning
+        "toast_discard_changes": [
+            .english: "Changes discarded",
+            .sinhala: "වෙනස්කම් ඉවත දමන ලදී",
+            .tamil: "மாற்றங்கள் நிராகரிக்கப்பட்டன"
+        ],
+
+        // ── After Visit Progress Screen ──
+
+        "avp_current_status": [
+            .english: "Current Status",
+            .sinhala: "වර්තමාන තත්ත්වය",
+            .tamil: "தற்போதைய நிலை"
+        ],
+        "avp_done": [
+            .english: "Done",
+            .sinhala: "සම්පූර්ණයි",
+            .tamil: "முடிந்தது"
+        ],
+        "avp_consultation_completed": [
+            .english: "Consultation Completed !",
+            .sinhala: "උපදේශනය සම්පූර්ණයි !",
+            .tamil: "ஆலோசனை நிறைவடைந்தது !"
+        ],
+        "avp_next_step": [
+            .english: "Next Step",
+            .sinhala: "ඊළඟ පියවර",
+            .tamil: "அடுத்த படி"
+        ],
+        "avp_visit_complete": [
+            .english: "Visit Complete",
+            .sinhala: "සංචාරය සම්පූර්ණයි",
+            .tamil: "வருகை நிறைவடைந்தது"
+        ],
+        "avp_visit_complete_desc": [
+            .english: "Your visit is complete. No further steps are needed. Thank you for visiting!",
+            .sinhala: "ඔබේ සංචාරය සම්පූර්ණයි. තවත් පියවර අවශ්‍ය නැත. පැමිණීමට ස්තුතියි!",
+            .tamil: "உங்கள் வருகை நிறைவடைந்தது. மேலும் படிகள் தேவையில்லை. வருகைக்கு நன்றி!"
+        ],
+        "avp_back_to_home": [
+            .english: "Home",
+            .sinhala: "මුල් පිටුව",
+            .tamil: "முகப்பு"
+        ],
+        "next_action_lab_test": [
+            .english: "Lab Test Required",
+            .sinhala: "රසායනාගාර පරීක්ෂණය අවශ්‍යයි",
+            .tamil: "ஆய்வக பரிசோதனை தேவை"
+        ],
+        "next_action_lab_desc": [
+            .english: "Consultation Completed → Lab Test Required",
+            .sinhala: "උපදේශනය සම්පූර්ණයි → රසායනාගාර පරීක්ෂණය අවශ්‍යයි",
+            .tamil: "ஆலோசனை நிறைவடைந்தது → ஆய்வக பரிசோதனை தேவை"
+        ],
+        "next_action_pharmacy": [
+            .english: "Collect Medication",
+            .sinhala: "ඖෂධ එකතු කරන්න",
+            .tamil: "மருந்து பெறுங்கள்"
+        ],
+        "next_action_pharmacy_desc": [
+            .english: "Consultation Completed → Collect Medication from Pharmacy",
+            .sinhala: "උපදේශනය සම්පූර්ණයි → ෆාමසියෙන් ඖෂධ එකතු කරන්න",
+            .tamil: "ஆலோசனை நிறைவடைந்தது → மருந்தகத்தில் மருந்து பெறுங்கள்"
+        ],
+        "next_detail_test_category": [
+            .english: "Test Category",
+            .sinhala: "පරීක්ෂණ වර්ගය",
+            .tamil: "பரிசோதனை வகை"
+        ],
+        "next_detail_lab_location": [
+            .english: "Lab",
+            .sinhala: "රසායනාගාරය",
+            .tamil: "ஆய்வகம்"
+        ],
+        "next_detail_priority": [
+            .english: "Priority Level",
+            .sinhala: "ප්‍රමුඛතා මට්ටම",
+            .tamil: "முன்னுரிமை நிலை"
+        ],
+        "next_detail_prescription": [
+            .english: "Prescription",
+            .sinhala: "බෙහෙත් වට්ටෝරුව",
+            .tamil: "மருந்துச்சீட்டு"
+        ],
+        "next_detail_pharmacy_location": [
+            .english: "Pharmacy",
+            .sinhala: "ෆාමසිය",
+            .tamil: "மருந்தகம்"
+        ],
+        "join_queue": [
+            .english: "Join Queue",
+            .sinhala: "පෝලිමට සම්බන්ධ වන්න",
+            .tamil: "வரிசையில் சேரவும்"
+        ],
     ]
 
     // MARK: - Lookup

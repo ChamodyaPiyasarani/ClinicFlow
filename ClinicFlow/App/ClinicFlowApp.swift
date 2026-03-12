@@ -11,6 +11,7 @@ import SwiftUI
 struct ClinicFlowApp: App {
     @State private var languageManager = LanguageManager.shared
     @State private var router = AppRouter()
+    @State private var toastManager = ToastManager.shared
 
     var body: some Scene {
         WindowGroup {
@@ -91,11 +92,22 @@ struct ClinicFlowApp: App {
                         case .rescheduleAppointment(let appointment):
                             RescheduleAppointmentView(appointment: appointment)
                                 .navigationBarHidden(true)
+                        case .queueStatus(let queueStatus):
+                            QueueStatusView(queueStatus: queueStatus)
+                                .navigationBarHidden(true)
+                        case .afterVisitProgress(let journey):
+                            AfterVisitProgressView(journey: journey)
+                                .navigationBarHidden(true)
+                        case .settings:
+                            SettingsView()
+                                .navigationBarHidden(true)
                         }
                     }
             }
             .environment(languageManager)
             .environment(router)
+            .environment(toastManager)
+            .toastOverlay()
         }
     }
 }

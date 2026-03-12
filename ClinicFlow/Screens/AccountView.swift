@@ -168,6 +168,7 @@ private struct MenuItemsSection: View {
                 title: languageManager.localized("settings")
             ) {
                 // Action: Navigate to settings
+                router.navigate(to: .settings)
             }
         }
     }
@@ -237,6 +238,7 @@ private struct MenuItemRow: View {
 // MARK: - Logout Button
 private struct LogoutButton: View {
     @Environment(LanguageManager.self) var languageManager
+    @Environment(ToastManager.self) var toastManager
     let router: AppRouter
     
     @State private var showLogoutConfirmation = false
@@ -268,6 +270,7 @@ private struct LogoutButton: View {
             Button(languageManager.localized("cancel"), role: .cancel) { }
             Button(languageManager.localized("logout"), role: .destructive) {
                 // Reset onboarding status and navigate to splash screen
+                toastManager.show(.success, message: "toast_logged_out")
                 router.hasCompletedOnboarding = false
                 router.goToRoot()
             }

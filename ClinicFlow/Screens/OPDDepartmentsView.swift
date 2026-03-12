@@ -288,6 +288,8 @@ enum DepartmentAvailability {
 // MARK: - Department Card Component
 struct DepartmentCard: View {
     @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
+    @Environment(ToastManager.self) var toastManager
     let icon: String
     let iconColor: Color
     let departmentName: String
@@ -303,7 +305,9 @@ struct DepartmentCard: View {
             let impact = UIImpactFeedbackGenerator(style: .light)
             impact.impactOccurred()
             
-            // Action will be implemented when navigation is added
+            // Navigate to OPD queue status
+            toastManager.show(.info, message: "toast_joining_queue")
+            router.navigate(to: .queueStatus(.opdSample))
         }) {
             HStack(spacing: 14) {
                 // Icon

@@ -3,6 +3,7 @@ import SwiftUI
 struct CancelAppointmentView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
+    @Environment(ToastManager.self) var toastManager
     
     let appointment: Appointment
     
@@ -241,8 +242,10 @@ struct CancelAppointmentView: View {
                 
                 // Done button
                 Button(action: {
-                    // Navigate back to home or appointments
-                    router.goToRoot()
+                    // Navigate back to appointments tab
+                    while router.path.count > 1 {
+                        router.path.removeLast()
+                    }
                     router.selectedTab = .appointment
                 }) {
                     Text(languageManager.localized("done"))
@@ -331,6 +334,7 @@ struct CancelAppointmentView: View {
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                             showConfirmPopup = false
                         }
+                        toastManager.show(.success, message: "toast_appointment_cancelled")
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                             // Pop back to ContentView (keeping .home route in path)
                             while router.path.count > 1 {

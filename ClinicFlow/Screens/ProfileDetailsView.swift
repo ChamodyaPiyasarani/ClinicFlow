@@ -3,6 +3,7 @@ import SwiftUI
 struct ProfileDetailsView: View {
     @Environment(AppRouter.self) var router
     @Environment(LanguageManager.self) var languageManager
+    @Environment(ToastManager.self) var toastManager
     let profile: PatientProfile
     
     @State private var isEditing: Bool = false
@@ -83,6 +84,7 @@ struct ProfileDetailsView: View {
             Button(languageManager.localized("cancel"), role: .cancel) { }
             Button(languageManager.localized("delete"), role: .destructive) {
                 // In a real app, this would delete the profile
+                toastManager.show(.success, message: "toast_profile_deleted")
                 router.goBack()
             }
         } message: {
@@ -96,6 +98,7 @@ struct ProfileDetailsView: View {
         _ = withAnimation {
             self.allergies.remove(at: index)
         }
+        toastManager.show(.success, message: "toast_allergy_removed")
     }
 }
 

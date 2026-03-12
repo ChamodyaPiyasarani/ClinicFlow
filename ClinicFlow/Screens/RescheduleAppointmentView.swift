@@ -5,6 +5,7 @@ import SwiftUI
 struct RescheduleAppointmentView: View {
     @Environment(LanguageManager.self) var languageManager
     @Environment(AppRouter.self) var router
+    @Environment(ToastManager.self) var toastManager
 
     let appointment: Appointment
 
@@ -282,6 +283,7 @@ struct RescheduleAppointmentView: View {
         .alert(languageManager.localized("confirm_reschedule"), isPresented: $showConfirmAlert) {
             Button(languageManager.localized("cancel"), role: .cancel) { }
             Button(languageManager.localized("confirm"), role: .none) {
+                toastManager.show(.success, message: "toast_appointment_rescheduled")
                 showSuccessSheet = true
             }
         } message: {

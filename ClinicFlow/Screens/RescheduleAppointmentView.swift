@@ -274,6 +274,8 @@ struct RescheduleAppointmentView: View {
                     .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: -4)
                     .ignoresSafeArea(edges: .bottom)
             )
+            
+            BottomNavBar()
         }
         .background(AppColors.background)
         .onAppear {
@@ -423,8 +425,6 @@ struct RescheduleAppointmentView: View {
                 .padding(.horizontal, 32)
                 .transition(.scale.combined(with: .opacity))
             }
-            
-            BottomNavBar()
         }
         .edgesIgnoringSafeArea(.bottom)
         .navigationBarHidden(true)

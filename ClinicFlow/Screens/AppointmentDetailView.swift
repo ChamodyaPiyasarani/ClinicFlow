@@ -52,27 +52,24 @@ struct AppointmentDetailView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            VStack(spacing: 0) {
-                // ── Minimal Header ──
-                DetailHeaderBar()
+        VStack(spacing: 0) {
+            // ── Minimal Header ──
+            DetailHeaderBar()
 
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 24) {
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 24) {
 
-                        // ── Hero Card: Doctor + Status ──
-                        heroCard
-                            .opacity(headerAppear ? 1 : 0)
-                            .offset(y: headerAppear ? 0 : 30)
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 8)
-                    .padding(.bottom, isUpcoming ? 140 : 100)
+                    // ── Hero Card: Doctor + Status ──
+                    heroCard
+                        .opacity(headerAppear ? 1 : 0)
+                        .offset(y: headerAppear ? 0 : 30)
                 }
+                .padding(.horizontal, 20)
+                .padding(.top, 8)
+                .padding(.bottom, 20)
             }
-            .background(AppColors.background)
             
-            // ── Bottom Action Bar (Floating) ──
+            // ── Bottom Action Bar ──
             if isUpcoming {
                 bottomActionBar
                     .opacity(actionsAppear ? 1 : 0)
@@ -81,6 +78,7 @@ struct AppointmentDetailView: View {
             
             BottomNavBar()
         }
+        .background(AppColors.background)
         .edgesIgnoringSafeArea(.bottom)
         .navigationBarHidden(true)
         .onAppear { triggerStaggeredAnimations() }

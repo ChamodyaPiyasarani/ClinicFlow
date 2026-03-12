@@ -9,12 +9,7 @@ struct OPDDepartmentsView: View {
     @State private var searchText: String = ""
     
     var body: some View {
-        ZStack(alignment: .bottom) {
-            // Background
-            AppColors.background
-                .ignoresSafeArea()
-            
-            VStack(spacing: 0) {
+        VStack(spacing: 0) {
                 // MARK: - Header
                 ZStack {
                     // Back button
@@ -39,7 +34,6 @@ struct OPDDepartmentsView: View {
                 .padding(.horizontal, 20)
                 .padding(.top, 8)
                 .padding(.bottom, 12)
-                .background(Color.white)
                 
                 // MARK: - Search Bar
                 HStack(spacing: 12) {
@@ -148,15 +142,15 @@ struct OPDDepartmentsView: View {
                             }
                         }
                         .padding(.horizontal, 20)
-                        .padding(.bottom, 100)
+                        .padding(.bottom, 20)
                     }
                 }
+                
+                // MARK: - Bottom Nav Bar
+                BottomNavBar()
             }
-            
-            // MARK: - Bottom Nav Bar
-            BottomNavBar()
-        }
-        .edgesIgnoringSafeArea(.bottom)
+            .background(AppColors.background)
+            .edgesIgnoringSafeArea(.bottom)
     }
     
     // Filter departments based on category and search

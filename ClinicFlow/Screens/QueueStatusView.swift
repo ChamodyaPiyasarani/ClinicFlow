@@ -28,8 +28,7 @@ struct QueueStatusView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            VStack(spacing: 0) {
+        VStack(spacing: 0) {
                 // ── Header ──
                 headerBar
 
@@ -57,30 +56,30 @@ struct QueueStatusView: View {
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 8)
-                    .padding(.bottom, 120)
+                    .padding(.bottom, 20)
                 }
+                
+                // ── Floating Leave Queue Bar ──
+                leaveQueueBar
+                    .opacity(footerAppear ? 1 : 0)
+                    .offset(y: footerAppear ? 0 : 30)
+                
+                BottomNavBar()
             }
             .background(AppColors.background)
-
-            // ── Floating Leave Queue Bar ──
-            leaveQueueBar
-                .opacity(footerAppear ? 1 : 0)
-                .offset(y: footerAppear ? 0 : 30)
-            
-            BottomNavBar()
-        }
-        .navigationBarHidden(true)
-        .alert(languageManager.localized("leave_queue"), isPresented: $showLeaveAlert) {
-            Button(languageManager.localized("cancel"), role: .cancel) {}
-            Button(languageManager.localized("leave_queue_confirm"), role: .destructive) {
-                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                toastManager.show(.warning, message: "toast_queue_left")
-                router.goBack()
+            .edgesIgnoringSafeArea(.bottom)
+            .navigationBarHidden(true)
+            .alert(languageManager.localized("leave_queue"), isPresented: $showLeaveAlert) {
+                Button(languageManager.localized("cancel"), role: .cancel) {}
+                Button(languageManager.localized("leave_queue_confirm"), role: .destructive) {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    toastManager.show(.warning, message: "toast_queue_left")
+                    router.goBack()
+                }
+            } message: {
+                Text(languageManager.localized("leave_queue_message"))
             }
-        } message: {
-            Text(languageManager.localized("leave_queue_message"))
-        }
-        .onAppear { triggerStaggeredAnimations() }
+            .onAppear { triggerStaggeredAnimations() }
     }
 
     // MARK: - Staggered Animations

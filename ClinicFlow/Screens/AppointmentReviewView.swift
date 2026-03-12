@@ -24,7 +24,6 @@ struct AppointmentReviewView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottom) {
         VStack(spacing: 0) {
             // ── Header ──
             ReviewHeaderView(subtitle: languageManager.localized("appointment_details"))
@@ -159,7 +158,7 @@ struct AppointmentReviewView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 12)
-                .padding(.bottom, 120)
+                .padding(.bottom, 20)
             }
 
             // ── Action Buttons ──
@@ -218,11 +217,11 @@ struct AppointmentReviewView: View {
                     .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: -4)
                     .ignoresSafeArea(edges: .bottom)
             )
+            
+            BottomNavBar()
         }
         .background(AppColors.background)
-        
-        BottomNavBar()
-        }
+        .edgesIgnoringSafeArea(.bottom)
         .navigationBarHidden(true)
         .onAppear {
             withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
@@ -259,7 +258,7 @@ private struct ReviewHeaderView: View {
                 AppNameText(fontSize: 20)
                 HStack(spacing: 4) {
                     Spacer()
-                    NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
+                    NotificationIcon(unreadCount: 3, iconSize: 22)
                 }
             }
             Text(subtitle)
@@ -269,7 +268,6 @@ private struct ReviewHeaderView: View {
         .padding(.horizontal, 20)
         .padding(.top, 8)
         .padding(.bottom, 8)
-        .background(Color.white)
     }
 }
 

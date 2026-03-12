@@ -19,7 +19,6 @@ struct AppointmentConfirmedView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottom) {
         VStack(spacing: 0) {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 28) {
@@ -143,36 +142,11 @@ struct AppointmentConfirmedView: View {
                     .opacity(contentOpacity)
                 }
                 .padding(.horizontal, 20)
-                .padding(.bottom, 120)
+                .padding(.bottom, 20)
             }
 
             // ── Bottom Buttons ──
             VStack(spacing: 10) {
-                // View Queue Status Button
-                Button(action: {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    router.navigate(to: .queueStatus(.appointmentSample))
-                }) {
-                    HStack(spacing: 10) {
-                        Image(systemName: "person.line.dotted.person.fill")
-                            .font(.system(size: 18))
-                        Text(languageManager.localized("view_queue_status"))
-                            .font(.poppins(.semiBold, size: 17))
-                    }
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-                    .background(
-                        LinearGradient(
-                            colors: [AppColors.brandBlue, AppColors.darkBlue],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .cornerRadius(14)
-                    .shadow(color: AppColors.brandBlue.opacity(0.3), radius: 8, x: 0, y: 4)
-                }
-                .opacity(contentOpacity)
 
                 // View My Appointment Button
                 Button(action: {
@@ -207,11 +181,11 @@ struct AppointmentConfirmedView: View {
                     .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: -4)
                     .ignoresSafeArea(edges: .bottom)
             )
+            
+            BottomNavBar()
         }
         .background(AppColors.background)
-        
-        BottomNavBar()
-        }
+        .edgesIgnoringSafeArea(.bottom)
         .navigationBarHidden(true)
         .onAppear {
             // Checkmark bounce in

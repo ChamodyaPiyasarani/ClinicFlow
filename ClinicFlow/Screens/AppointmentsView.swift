@@ -120,9 +120,9 @@ private struct AppointmentsHeaderView: View {
             ZStack {
                 AppNameText(fontSize: 20)
 
-                HStack(spacing: 4) {
+                HStack {
                     Spacer()
-                    NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
+                    NotificationIcon(unreadCount: 3, iconSize: 22)
                 }
             }
 

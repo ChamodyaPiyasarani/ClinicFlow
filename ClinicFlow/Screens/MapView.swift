@@ -369,7 +369,7 @@ private struct FloorSelectorButton: View {
                 .animation(.easeInOut(duration: 0.2), value: selectedFloor)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, isSelected ? 14 : 10)
+        .padding(.vertical, 28)
         .contentShape(Rectangle())
     }
 }

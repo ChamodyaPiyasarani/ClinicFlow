@@ -28,7 +28,6 @@ struct PatientDetailsFormView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottom) {
         VStack(spacing: 0) {
             // ── Header ──
             PatientFormHeaderView(subtitle: languageManager.localized("fill_patient_details"))
@@ -191,7 +190,7 @@ struct PatientDetailsFormView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 12)
-                .padding(.bottom, 120)
+                .padding(.bottom, 20)
             }
 
             // ── Action Buttons ──
@@ -245,11 +244,10 @@ struct PatientDetailsFormView: View {
                     .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: -4)
                     .ignoresSafeArea(edges: .bottom)
             )
+            
+            BottomNavBar()
         }
         .background(AppColors.background)
-        
-        BottomNavBar()
-        }
         .edgesIgnoringSafeArea(.bottom)
         .navigationBarHidden(true)
         .sheet(isPresented: $showProfilePicker) {
@@ -301,7 +299,7 @@ private struct PatientFormHeaderView: View {
                 AppNameText(fontSize: 20)
                 HStack(spacing: 4) {
                     Spacer()
-                    NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
+                    NotificationIcon(unreadCount: 3, iconSize: 22)
                 }
             }
             Text(subtitle)
@@ -311,7 +309,6 @@ private struct PatientFormHeaderView: View {
         .padding(.horizontal, 20)
         .padding(.top, 8)
         .padding(.bottom, 8)
-        .background(Color.white)
     }
 }
 

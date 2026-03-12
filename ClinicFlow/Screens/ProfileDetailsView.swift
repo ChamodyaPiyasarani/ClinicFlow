@@ -95,7 +95,7 @@ struct ProfileDetailsView: View {
     private func removeAllergy(at index: Int) {
         let impact = UIImpactFeedbackGenerator(style: .light)
         impact.impactOccurred()
-        _ = withAnimation {
+        withAnimation {
             self.allergies.remove(at: index)
         toastManager.show(.success, message: "toast_allergy_removed")
         }
@@ -364,6 +364,7 @@ private struct AllergyRow: View {
 // MARK: - Medical History Section
 private struct MedicalHistorySection: View {
     @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
     let records: [MedicalRecord]
     
     var body: some View {
@@ -377,9 +378,9 @@ private struct MedicalHistorySection: View {
                 Spacer()
                 
                 Button(action: {
-                    // View All - Not functional for now
                     let impact = UIImpactFeedbackGenerator(style: .light)
                     impact.impactOccurred()
+                    router.navigate(to: .visitHistory)
                 }) {
                     Text(languageManager.localized("view_all"))
                         .font(.poppins(.medium, size: 14))

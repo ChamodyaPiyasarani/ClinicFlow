@@ -39,8 +39,7 @@ struct BookAppointmentView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            VStack(spacing: 0) {
+        VStack(spacing: 0) {
                 // ── Header ──
                 BookingHeaderView(subtitle: languageManager.localized("book_new_appointment"))
 
@@ -226,7 +225,7 @@ struct BookAppointmentView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 16)
-                .padding(.bottom, 120)
+                .padding(.bottom, 20)
                 .animation(.spring(response: 0.4, dampingFraction: 0.85), value: selectedDepartment?.id)
                 .animation(.spring(response: 0.4, dampingFraction: 0.85), value: selectedDoctor?.id)
             }
@@ -255,11 +254,11 @@ struct BookAppointmentView: View {
                     .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: -4)
                     .ignoresSafeArea(edges: .bottom)
             )
+            
+            BottomNavBar()
         }
         .background(AppColors.background)
-        
-        BottomNavBar()
-        }
+        .edgesIgnoringSafeArea(.bottom)
         .navigationBarHidden(true)
         .sheet(isPresented: $showDepartmentPicker) {
             SelectionSheet(
@@ -328,7 +327,7 @@ private struct BookingHeaderView: View {
 
                 HStack(spacing: 4) {
                     Spacer()
-                    NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
+                    NotificationIcon(unreadCount: 3, iconSize: 22)
                 }
             }
 
@@ -339,7 +338,6 @@ private struct BookingHeaderView: View {
         .padding(.horizontal, 20)
         .padding(.top, 8)
         .padding(.bottom, 8)
-        .background(Color.white)
     }
 }
 

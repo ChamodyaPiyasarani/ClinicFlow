@@ -1,0 +1,640 @@
+import SwiftUI
+
+struct LabTestsView: View {
+    @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
+    @Environment(ToastManager.self) var toastManager
+    
+    @State private var selectedCategory: TestCategory = .all
+    @State private var searchText: String = ""
+    @State private var showInfoModal: Bool = true
+    @State private var showConfirmationModal: Bool = false
+    @State private var selectedTest: LabTest? = nil
+    
+    var body: some View {
+        ZStack {
+            VStack(spacing: 0) {
+                // MARK: - Header
+                ZStack {
+                    // Back button
+                    HStack {
+                        BackButton {
+                            router.goBack()
+                        }
+                        Spacer()
+                    }
+                    
+                    // Centered title
+                    Text(languageManager.localized("lab_tests"))
+                        .font(.poppins(.bold, size: 20))
+                        .foregroundColor(Color(AppColors.darkBlue))
+
+                    // Trailing icons (right)
+                    HStack(spacing: 4) {
+                        Spacer()
+                        NotificationIcon(unreadCount: 3, iconSize: 22)
+                    }
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 8)
+                .padding(.bottom, 12)
+                
+                // MARK: - Search Bar
+                HStack(spacing: 12) {
+                    HStack(spacing: 10) {
+                        Image(systemName: "magnifyingglass")
+                            .font(.system(size: 16))
+                            .foregroundColor(.gray.opacity(0.6))
+                        
+                        TextField(languageManager.localized("search_lab_tests"), text: $searchText)
+                            .font(.poppins(.regular, size: 15))
+                            .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
+                        
+                        if !searchText.isEmpty {
+                            Button(action: {
+                                searchText = ""
+                            }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.gray.opacity(0.4))
+                                    .frame(width: 44, height: 44)
+                                    .contentShape(Rectangle())
+                            }
+                            .accessibilityLabel("Clear search")
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(Color.white)
+                    .cornerRadius(12)
+                    .shadow(color: Color.black.opacity(0.04), radius: 4, x: 0, y: 2)
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 16)
+                .padding(.bottom, 12)
+                
+                // MARK: - Category Filter
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 10) {
+                        ForEach(TestCategory.allCases, id: \.self) { category in
+                            CategoryChip(
+                                category: category,
+                                isSelected: selectedCategory == category,
+                                languageManager: languageManager
+                            ) {
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                    selectedCategory = category
+                                }
+                                // Haptic feedback
+                                let impact = UIImpactFeedbackGenerator(style: .light)
+                                impact.impactOccurred()
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                }
+                .padding(.bottom, 16)
+                
+                // MARK: - Test List
+                ScrollView(showsIndicators: false) {
+                    LazyVStack(spacing: 16) {
+                        // Test Cards
+                        LazyVStack(spacing: 12) {
+                            ForEach(filteredTests) { test in
+                                LabTestCard(test: test) {
+                                    // Store selected test and show confirmation modal
+                                    selectedTest = test
+                                    showConfirmationModal = true
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 20)
+                    }
+                }
+                
+                // MARK: - Bottom Nav Bar
+                BottomNavBar()
+            }
+            .background(AppColors.background)
+            .edgesIgnoringSafeArea(.bottom)
+            
+            // MARK: - Info Modal Overlay
+            if showInfoModal {
+                LabTestInfoView(isPresented: $showInfoModal) {
+                    // Proceed to view lab tests after dismissing modal
+                    print("User acknowledged lab test instructions")
+                }
+                .zIndex(1)
+            }
+            
+            // MARK: - Confirmation Modal Overlay
+            if showConfirmationModal {
+                LabTestConfirmationView(isPresented: $showConfirmationModal) {
+                    guard let test = selectedTest else { return }
+                    
+                    // Build realistic QueueStatus from the selected lab test
+                    let position = Int.random(in: 2...12)
+                    let waitMin = Int.random(in: 10...40)
+                    let tokenSuffix = Int.random(in: 100...999)
+                    
+                    let newStatus = QueueStatus(
+                        id: "Q-LAB-\(test.id)",
+                        queueType: .lab,
+                        tokenNumber: "LAB-\(tokenSuffix)",
+                        queuePosition: position,
+                        peopleAhead: position - 1,
+                        estimatedWaitMinutes: waitMin,
+                        checkInTime: formattedCurrentTime(),
+                        locationName: "\(test.name) — Lab B05",
+                        locationDetail: "Building B, 2nd Floor",
+                        steps: [
+                            VisitStep(id: "s1", localizationKey: "step_registration", icon: "pencil.and.list.clipboard", status: .completed, completedTime: formattedCurrentTime()),
+                            VisitStep(id: "s2", localizationKey: "step_lab_tests", icon: "flask.fill", status: .inProgress, completedTime: nil),
+                            VisitStep(id: "s3", localizationKey: "step_report_collection", icon: "doc.text.fill", status: .pending, completedTime: nil),
+                        ],
+                        isActive: true,
+                        floor: .floor2,
+                        area: .laboratory
+                    )
+                    
+                    // Set as active queue and switch to home tab
+                    toastManager.show(.success, message: "toast_lab_test_confirmed")
+                    router.currentQueueStatus = newStatus
+                    router.selectedTab = .home
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        router.goBack() // dismiss lab tests screen
+                    }
+                }
+                .zIndex(2)
+            }
+        }
+    }
+    
+    // Filter tests based on category and search
+    var filteredTests: [LabTest] {
+        var tests = mockLabTests
+        
+        // Filter by category
+        if selectedCategory != .all {
+            tests = tests.filter { $0.category == selectedCategory }
+        }
+        
+        // Filter by search text
+        if !searchText.isEmpty {
+            tests = tests.filter { test in
+                test.name.localizedCaseInsensitiveContains(searchText) ||
+                test.description.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+        
+        return tests
+    }
+    
+    private func formattedCurrentTime() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        return formatter.string(from: Date())
+    }
+}
+
+// MARK: - Test Category Enum
+enum TestCategory: String, CaseIterable {
+    case all = "All"
+    case blood = "Blood"
+    case urine = "Urine"
+    case imaging = "Imaging"
+    case cardiac = "Cardiac"
+    case metabolic = "Metabolic"
+    case infectious = "Infectious"
+    
+    var icon: String {
+        switch self {
+        case .all:        return "list.bullet"
+        case .blood:      return "drop.fill"
+        case .urine:      return "flask.fill"
+        case .imaging:    return "xmark.circle.fill"
+        case .cardiac:    return "heart.fill"
+        case .metabolic:  return "chart.line.uptrend.xyaxis"
+        case .infectious: return "bandage.fill"
+        }
+    }
+    
+    var localizationKey: String {
+        switch self {
+        case .all:        return "cat_all"
+        case .blood:      return "cat_blood"
+        case .urine:      return "cat_urine"
+        case .imaging:    return "cat_imaging"
+        case .cardiac:    return "cat_cardiac"
+        case .metabolic:  return "cat_metabolic"
+        case .infectious: return "cat_infectious"
+        }
+    }
+}
+
+// MARK: - Category Chip Component
+struct CategoryChip: View {
+    let category: TestCategory
+    let isSelected: Bool
+    let languageManager: LanguageManager
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 6) {
+                Image(systemName: category.icon)
+                    .font(.system(size: 14))
+                Text(languageManager.localized(category.localizationKey))
+                    .font(.poppins(.medium, size: 14))
+            }
+            .foregroundColor(isSelected ? .white : Color(red: 60/255, green: 150/255, blue: 100/255))
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .background(isSelected ? Color(red: 60/255, green: 150/255, blue: 100/255) : Color.white)
+            .cornerRadius(20)
+            .shadow(
+                color: isSelected ? Color(red: 60/255, green: 150/255, blue: 100/255).opacity(0.3) : Color.black.opacity(0.04),
+                radius: isSelected ? 8 : 4,
+                x: 0,
+                y: isSelected ? 4 : 2
+            )
+        }
+    }
+}
+
+// MARK: - Lab Test Model
+struct LabTest: Identifiable {
+    let id: String
+    let name: String
+    let description: String
+    let category: TestCategory
+    let price: Double
+    let duration: String
+    let availability: TestAvailability
+    let preparationRequired: Bool
+    let icon: String
+    let iconColor: Color
+    let queuePosition: Int
+}
+
+// MARK: - Test Availability Status
+enum TestAvailability {
+    case available
+    case limitedSlots
+    case unavailable
+    
+    var localizationKey: String {
+        switch self {
+        case .available:     return "status_available"
+        case .limitedSlots:  return "status_limited"
+        case .unavailable:   return "status_unavailable"
+        }
+    }
+    
+    var statusText: String {
+        switch self {
+        case .available:     return "Available"
+        case .limitedSlots:  return "Limited"
+        case .unavailable:   return "Unavailable"
+        }
+    }
+    
+    var statusColor: Color {
+        switch self {
+        case .available:     return Color(red: 80/255, green: 170/255, blue: 100/255)
+        case .limitedSlots:  return Color(red: 255/255, green: 160/255, blue: 50/255)
+        case .unavailable:   return Color.red.opacity(0.7)
+        }
+    }
+}
+
+// MARK: - Lab Test Card Button Style
+struct LabTestCardButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .shadow(
+                color: Color.black.opacity(configuration.isPressed ? 0.08 : 0.04),
+                radius: configuration.isPressed ? 4 : 8,
+                x: 0,
+                y: configuration.isPressed ? 2 : 4
+            )
+            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
+    }
+}
+
+// MARK: - Lab Test Card Component
+struct LabTestCard: View {
+    @Environment(LanguageManager.self) var languageManager
+    let test: LabTest
+    let onTap: () -> Void
+    
+    var body: some View {
+        Button(action: {
+            // Haptic feedback
+            let impact = UIImpactFeedbackGenerator(style: .light)
+            impact.impactOccurred()
+            
+            // Trigger the callback to show confirmation modal
+            onTap()
+        }) {
+            VStack(spacing: 0) {
+                HStack(spacing: 14) {
+                    // Icon
+                    ZStack {
+                        Circle()
+                            .fill(test.iconColor.opacity(0.15))
+                            .frame(width: 56, height: 56)
+                        Image(systemName: test.icon)
+                            .font(.system(size: 24))
+                            .foregroundColor(test.iconColor)
+                    }
+                    
+                    // Test Info
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(test.name)
+                            .font(.poppins(.semiBold, size: 16))
+                            .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
+                            .lineLimit(1)
+                        
+                        Text(test.description)
+                            .font(.poppins(.regular, size: 13))
+                            .foregroundColor(.gray)
+                            .lineLimit(2)
+                    }
+                    
+                    Spacer()
+                    
+                    // Chevron
+                    VStack(alignment: .trailing, spacing: 8) {
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.gray.opacity(0.4))
+                    }
+                }
+                .padding(16)
+                
+                // Bottom info bar
+                Divider()
+                    .padding(.horizontal, 16)
+                
+                HStack(spacing: 16) {
+                    // Duration
+                    HStack(spacing: 4) {
+                        Image(systemName: "clock.fill")
+                            .font(.system(size: 11))
+                        Text(test.duration)
+                            .font(.poppins(.medium, size: 12))
+                    }
+                    .foregroundColor(.gray.opacity(0.8))
+                    
+                    // Price
+                    HStack(spacing: 4) {
+                        Image(systemName: "banknote.fill")
+                            .font(.system(size: 11))
+                        Text("Rs. \(String(format: "%.0f", test.price))")
+                            .font(.poppins(.semiBold, size: 13))
+                    }
+                    .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
+                    
+                    // Queue Position
+                    HStack(spacing: 4) {
+                        Image(systemName: "person.2.fill")
+                            .font(.system(size: 10))
+                        Text("\(test.queuePosition) \(languageManager.localized("in_queue"))")
+                            .font(.poppins(.medium, size: 12))
+                    }
+                    .foregroundColor(.gray.opacity(0.8))
+                    
+                    // Preparation required
+                    if test.preparationRequired {
+                        HStack(spacing: 4) {
+                            Image(systemName: "exclamationmark.circle.fill")
+                                .font(.system(size: 10))
+                            Text(languageManager.localized("prep_required"))
+                                .font(.poppins(.regular, size: 11))
+                        }
+                        .foregroundColor(Color(red: 255/255, green: 160/255, blue: 50/255))
+                    }
+                    
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+            }
+            .background(Color.white)
+            .cornerRadius(16)
+        }
+        .buttonStyle(LabTestCardButtonStyle())
+    }
+}
+
+// MARK: - Mock Data
+let mockLabTests: [LabTest] = [
+    LabTest(
+        id: "1",
+        name: "Complete Blood Count (CBC)",
+        description: "Comprehensive blood analysis including RBC, WBC, and platelet count",
+        category: .blood,
+        price: 2500.00,
+        duration: "30 mins",
+        availability: .available,
+        preparationRequired: false,
+        icon: "drop.fill",
+        iconColor: Color(red: 220/255, green: 80/255, blue: 100/255),
+        queuePosition: 12
+    ),
+    LabTest(
+        id: "2",
+        name: "Lipid Panel",
+        description: "Cholesterol and triglyceride levels assessment",
+        category: .blood,
+        price: 3500.00,
+        duration: "20 mins",
+        availability: .available,
+        preparationRequired: true,
+        icon: "heart.text.square.fill",
+        iconColor: Color(red: 255/255, green: 120/255, blue: 80/255),
+        queuePosition: 5
+    ),
+    LabTest(
+        id: "3",
+        name: "Urinalysis",
+        description: "Physical, chemical and microscopic urine examination",
+        category: .urine,
+        price: 2000.00,
+        duration: "15 mins",
+        availability: .available,
+        preparationRequired: false,
+        icon: "flask.fill",
+        iconColor: Color(red: 100/255, green: 180/255, blue: 220/255),
+        queuePosition: 8
+    ),
+    LabTest(
+        id: "4",
+        name: "Chest X-Ray",
+        description: "Digital radiographic imaging of chest and lungs",
+        category: .imaging,
+        price: 6000.00,
+        duration: "10 mins",
+        availability: .limitedSlots,
+        preparationRequired: false,
+        icon: "lungs.fill",
+        iconColor: Color(red: 120/255, green: 140/255, blue: 180/255),
+        queuePosition: 3
+    ),
+    LabTest(
+        id: "5",
+        name: "ECG (Electrocardiogram)",
+        description: "Heart rhythm and electrical activity recording",
+        category: .cardiac,
+        price: 4000.00,
+        duration: "15 mins",
+        availability: .available,
+        preparationRequired: false,
+        icon: "waveform.path.ecg",
+        iconColor: Color(red: 200/255, green: 80/255, blue: 120/255),
+        queuePosition: 15
+    ),
+    LabTest(
+        id: "6",
+        name: "Thyroid Panel (TSH, T3, T4)",
+        description: "Comprehensive thyroid function assessment",
+        category: .metabolic,
+        price: 4500.00,
+        duration: "30 mins",
+        availability: .available,
+        preparationRequired: true,
+        icon: "chart.line.uptrend.xyaxis",
+        iconColor: Color(red: 160/255, green: 120/255, blue: 200/255),
+        queuePosition: 7
+    ),
+    LabTest(
+        id: "7",
+        name: "Blood Glucose (Fasting)",
+        description: "Fasting blood sugar level measurement",
+        category: .metabolic,
+        price: 1500.00,
+        duration: "10 mins",
+        availability: .available,
+        preparationRequired: true,
+        icon: "drop.triangle.fill",
+        iconColor: Color(red: 255/255, green: 180/255, blue: 80/255),
+        queuePosition: 2
+    ),
+    LabTest(
+        id: "8",
+        name: "COVID-19 PCR Test",
+        description: "RT-PCR molecular test for COVID-19 detection",
+        category: .infectious,
+        price: 5000.00,
+        duration: "24-48 hrs",
+        availability: .available,
+        preparationRequired: false,
+        icon: "allergens",
+        iconColor: Color(red: 220/255, green: 100/255, blue: 150/255),
+        queuePosition: 20
+    ),
+    LabTest(
+        id: "9",
+        name: "Liver Function Test (LFT)",
+        description: "Complete liver enzyme and protein analysis",
+        category: .blood,
+        price: 3800.00,
+        duration: "25 mins",
+        availability: .available,
+        preparationRequired: true,
+        icon: "chart.bar.fill",
+        iconColor: Color(red: 180/255, green: 140/255, blue: 80/255),
+        queuePosition: 9
+    ),
+    LabTest(
+        id: "10",
+        name: "Kidney Function Test",
+        description: "Creatinine and BUN measurement for kidney health",
+        category: .blood,
+        price: 3000.00,
+        duration: "20 mins",
+        availability: .limitedSlots,
+        preparationRequired: false,
+        icon: "figure.stand",
+        iconColor: Color(red: 80/255, green: 150/255, blue: 180/255),
+        queuePosition: 4
+    ),
+    LabTest(
+        id: "11",
+        name: "Ultrasound Scan",
+        description: "Abdominal or pelvic ultrasound imaging",
+        category: .imaging,
+        price: 8500.00,
+        duration: "30 mins",
+        availability: .limitedSlots,
+        preparationRequired: true,
+        icon: "waveform",
+        iconColor: Color(red: 100/255, green: 140/255, blue: 200/255),
+        queuePosition: 6
+    ),
+    LabTest(
+        id: "12",
+        name: "Hemoglobin A1C",
+        description: "3-month average blood sugar control measurement",
+        category: .metabolic,
+        price: 2500.00,
+        duration: "20 mins",
+        availability: .available,
+        preparationRequired: false,
+        icon: "percent",
+        iconColor: Color(red: 255/255, green: 140/255, blue: 100/255),
+        queuePosition: 11
+    ),
+    LabTest(
+        id: "13",
+        name: "Vitamin D Test",
+        description: "25-hydroxyvitamin D blood level assessment",
+        category: .blood,
+        price: 4000.00,
+        duration: "30 mins",
+        availability: .available,
+        preparationRequired: false,
+        icon: "sun.max.fill",
+        iconColor: Color(red: 255/255, green: 200/255, blue: 50/255),
+        queuePosition: 5
+    ),
+    LabTest(
+        id: "14",
+        name: "Stool Analysis",
+        description: "Comprehensive stool examination for digestive issues",
+        category: .infectious,
+        price: 2200.00,
+        duration: "48-72 hrs",
+        availability: .unavailable,
+        preparationRequired: true,
+        icon: "bandage.fill",
+        iconColor: Color(red: 140/255, green: 100/255, blue: 80/255),
+        queuePosition: 0
+    ),
+    LabTest(
+        id: "15",
+        name: "Pregnancy Test (Beta-hCG)",
+        description: "Quantitative blood pregnancy hormone measurement",
+        category: .blood,
+        price: 2200.00,
+        duration: "15 mins",
+        availability: .available,
+        preparationRequired: false,
+        icon: "heart.circle.fill",
+        iconColor: Color(red: 255/255, green: 150/255, blue: 180/255),
+        queuePosition: 7
+    )
+]
+
+// MARK: - Preview
+#Preview {
+    @Previewable @State var languageManager = LanguageManager()
+    @Previewable @State var router = AppRouter()
+    
+    LabTestsView()
+        .environment(languageManager)
+        .environment(router)
+}

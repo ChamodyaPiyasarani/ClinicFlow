@@ -1,0 +1,478 @@
+import SwiftUI
+
+struct ProfileDetailsView: View {
+    @Environment(AppRouter.self) var router
+    @Environment(LanguageManager.self) var languageManager
+    @Environment(ToastManager.self) var toastManager
+    let profile: PatientProfile
+    
+    @State private var isEditing: Bool = false
+    @State private var showAddAllergyAlert: Bool = false
+    @State private var showDeleteAlert: Bool = false
+    @State private var allergies: [String]
+    
+    init(profile: PatientProfile) {
+        self.profile = profile
+        self._allergies = State(initialValue: profile.allergies)
+    }
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            // ── Header ──
+            ProfileDetailsHeaderView()
+            
+            // ── Scrollable Content ──
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 24) {
+                    // ── Profile Section ──
+                    ProfileHeaderSection(profile: profile)
+                        .padding(.top, 20)
+                    
+                    // ── Profile Details ──
+                    VStack(spacing: 16) {
+                        // Section title
+                        HStack {
+                            Text(languageManager.localized("profile_details"))
+                                .font(.poppins(.semiBold, size: 20))
+                                .foregroundColor(AppColors.darkBlue)
+                            Spacer()
+                        }
+                        
+                        // Personal Information
+                        PersonalInformationSection(
+                            profile: profile,
+                            isEditing: $isEditing
+                        )
+                        
+                        // Allergies
+                        AllergiesSection(
+                            allergies: $allergies,
+                            onAdd: { showAddAllergyAlert = true },
+                            onRemove: removeAllergy
+                        )
+                        
+                        // Medical History
+                        MedicalHistorySection(
+                            records: profile.medicalHistory
+                        )
+                        
+                        // Delete Profile Button
+                        DeleteProfileButton(onDelete: { showDeleteAlert = true })
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 20)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            
+            // ── Bottom Navigation ──
+            BottomNavBar()
+        }
+        .background(AppColors.background)
+        .edgesIgnoringSafeArea(.bottom)
+        .navigationBarHidden(true)
+        .alert(languageManager.localized("add_allergy"), isPresented: $showAddAllergyAlert) {
+            Button(languageManager.localized("cancel"), role: .cancel) { }
+            Button(languageManager.localized("add")) {
+                // In a real app, this would save the allergy
+                // For now, just simulate adding
+            }
+        } message: {
+            Text(languageManager.localized("add_allergy_message"))
+        }
+        .alert(languageManager.localized("delete_profile"), isPresented: $showDeleteAlert) {
+            Button(languageManager.localized("cancel"), role: .cancel) { }
+            Button(languageManager.localized("delete"), role: .destructive) {
+                toastManager.show(.success, message: "toast_profile_deleted")
+                // In a real app, this would delete the profile
+                router.goBack()
+            }
+        } message: {
+            Text(languageManager.localized("delete_profile_message"))
+        }
+    }
+    
+    private func removeAllergy(at index: Int) {
+        let impact = UIImpactFeedbackGenerator(style: .light)
+        impact.impactOccurred()
+        withAnimation {
+            self.allergies.remove(at: index)
+        toastManager.show(.success, message: "toast_allergy_removed")
+        }
+    }
+}
+
+// MARK: - Header View
+private struct ProfileDetailsHeaderView: View {
+    @Environment(AppRouter.self) var router
+    
+    var body: some View {
+        ZStack {
+            // Back button (left aligned)
+            HStack {
+                BackButton {
+                    router.goBack()
+                }
+                Spacer()
+            }
+            
+            // Centered title
+            AppNameText(fontSize: 20)
+        }
+        .padding(.horizontal, 20)
+        .padding(.top, 8)
+        .padding(.bottom, 12)
+    }
+}
+
+// MARK: - Profile Header Section
+private struct ProfileHeaderSection: View {
+    @Environment(LanguageManager.self) var languageManager
+    let profile: PatientProfile
+    @State private var isActive: Bool
+    
+    init(profile: PatientProfile) {
+        self.profile = profile
+        self._isActive = State(initialValue: profile.isActive)
+    }
+    
+    var body: some View {
+        VStack(spacing: 12) {
+            // Avatar
+            ProfessionalAvatarView(
+                size: 80,
+                gradientColors: [profile.avatarColor, profile.avatarColor.opacity(0.7)]
+            )
+            
+            // Name
+            Text(profile.name)
+                .font(.poppins(.semiBold, size: 22))
+                .foregroundColor(AppColors.darkBlue)
+            
+            // Nickname
+            Text(profile.nickname ?? profile.relationship)
+                .font(.poppins(.regular, size: 13))
+                .foregroundColor(.gray)
+            
+            // Status toggle
+            HStack(spacing: 12) {
+                Text(isActive ? languageManager.localized("active") : languageManager.localized("inactive"))
+                    .font(.poppins(.semiBold, size: 15))
+                    .foregroundColor(AppColors.darkBlue)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(isActive ? Color(red: 80/255, green: 180/255, blue: 100/255).opacity(0.15) : Color.orange.opacity(0.15))
+                    )
+                
+                Toggle("", isOn: $isActive)
+                    .labelsHidden()
+                    .tint(AppColors.brandBlue)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 24)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white)
+        )
+        .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
+        .padding(.horizontal, 20)
+    }
+}
+
+// MARK: - Personal Information Section
+private struct PersonalInformationSection: View {
+    @Environment(LanguageManager.self) var languageManager
+    let profile: PatientProfile
+    @Binding var isEditing: Bool
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            // Section header
+            HStack {
+                Text(languageManager.localized("personal_information"))
+                    .font(.poppins(.semiBold, size: 17))
+                    .foregroundColor(AppColors.darkBlue)
+                
+                Spacer()
+                
+                Button(action: {
+                    let impact = UIImpactFeedbackGenerator(style: .light)
+                    impact.impactOccurred()
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        isEditing.toggle()
+                    }
+                }) {
+                    Text(isEditing ? languageManager.localized("done") : languageManager.localized("edit"))
+                        .font(.poppins(.medium, size: 14))
+                        .foregroundColor(AppColors.brandBlue)
+                }
+            }
+            
+            VStack(spacing: 14) {
+                InfoRow(label: languageManager.localized("full_name"), value: profile.name, isEditing: isEditing)
+                if let nickname = profile.nickname, !nickname.isEmpty {
+                    InfoRow(label: "Nickname", value: nickname, isEditing: isEditing)
+                }
+                InfoRow(label: languageManager.localized("date_of_birth"), value: profile.dateOfBirth, isEditing: isEditing)
+                InfoRow(label: languageManager.localized("gender"), value: profile.gender, isEditing: isEditing)
+                InfoRow(label: languageManager.localized("blood_type"), value: profile.bloodType, isEditing: isEditing)
+                InfoRow(label: languageManager.localized("phone"), value: profile.phone, isEditing: isEditing)
+                InfoRow(label: languageManager.localized("email"), value: profile.email, isEditing: isEditing)
+            }
+        }
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white)
+        )
+        .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
+    }
+}
+
+// MARK: - Info Row
+private struct InfoRow: View {
+    let label: String
+    let value: String
+    let isEditing: Bool
+    
+    var body: some View {
+        HStack {
+            Text(label)
+                .font(.poppins(.regular, size: 14))
+                .foregroundColor(Color.gray)
+                .frame(width: 110, alignment: .leading)
+            
+            if isEditing {
+                TextField(value, text: .constant(value))
+                    .font(.poppins(.medium, size: 14))
+                    .foregroundColor(AppColors.darkBlue)
+                    .textFieldStyle(PlainTextFieldStyle())
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(AppColors.background)
+                    )
+            } else {
+                Text(value)
+                    .font(.poppins(.medium, size: 14))
+                    .foregroundColor(AppColors.darkBlue)
+                Spacer()
+            }
+        }
+    }
+}
+
+// MARK: - Allergies Section
+private struct AllergiesSection: View {
+    @Environment(LanguageManager.self) var languageManager
+    @Binding var allergies: [String]
+    let onAdd: () -> Void
+    let onRemove: (Int) -> Void
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            // Section header
+            HStack {
+                Text(languageManager.localized("allergies"))
+                    .font(.poppins(.semiBold, size: 17))
+                    .foregroundColor(AppColors.darkBlue)
+                
+                Spacer()
+                
+                Button(action: {
+                    let impact = UIImpactFeedbackGenerator(style: .light)
+                    impact.impactOccurred()
+                    onAdd()
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "plus")
+                            .font(.system(size: 12, weight: .bold))
+                        Text(languageManager.localized("add"))
+                            .font(.poppins(.medium, size: 14))
+                    }
+                    .foregroundColor(AppColors.brandBlue)
+                }
+            }
+            
+            // Allergies list
+            if allergies.isEmpty {
+                Text(languageManager.localized("no_allergies_recorded"))
+                    .font(.poppins(.regular, size: 14))
+                    .foregroundColor(.gray)
+                    .padding(.vertical, 8)
+            } else {
+                VStack(spacing: 10) {
+                    ForEach(Array(allergies.enumerated()), id: \.offset) { index, allergy in
+                        AllergyRow(
+                            allergy: allergy,
+                            onRemove: { onRemove(index) }
+                        )
+                    }
+                }
+            }
+        }
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white)
+        )
+        .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
+    }
+}
+
+// MARK: - Allergy Row
+private struct AllergyRow: View {
+    let allergy: String
+    let onRemove: () -> Void
+    
+    var body: some View {
+        HStack {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .font(.system(size: 14))
+                .foregroundColor(.red)
+            
+            Text(allergy)
+                .font(.poppins(.medium, size: 14))
+                .foregroundColor(.red)
+            
+            Spacer()
+            
+            Button(action: onRemove) {
+                Image(systemName: "xmark")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundColor(.red)
+                    .frame(width: 44, height: 44)
+                    .contentShape(Rectangle())
+            }
+            .accessibilityLabel("Remove \(allergy)")
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.red.opacity(0.08) as Color)
+        )
+    }
+}
+
+// MARK: - Medical History Section
+private struct MedicalHistorySection: View {
+    @Environment(LanguageManager.self) var languageManager
+    @Environment(AppRouter.self) var router
+    let records: [MedicalRecord]
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            // Section header
+            HStack {
+                Text(languageManager.localized("medical_history"))
+                    .font(.poppins(.semiBold, size: 17))
+                    .foregroundColor(AppColors.darkBlue)
+                
+                Spacer()
+                
+                Button(action: {
+                    let impact = UIImpactFeedbackGenerator(style: .light)
+                    impact.impactOccurred()
+                    router.navigate(to: .visitHistory)
+                }) {
+                    Text(languageManager.localized("view_all"))
+                        .font(.poppins(.medium, size: 14))
+                        .foregroundColor(AppColors.brandBlue)
+                }
+            }
+            
+            // Records list
+            if records.isEmpty {
+                Text(languageManager.localized("no_medical_history"))
+                    .font(.poppins(.regular, size: 14))
+                    .foregroundColor(.gray)
+                    .padding(.vertical, 8)
+            } else {
+                VStack(spacing: 12) {
+                    ForEach(records) { record in
+                        MedicalRecordRow(record: record)
+                    }
+                }
+            }
+        }
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white)
+        )
+        .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
+    }
+}
+
+// MARK: - Medical Record Row
+private struct MedicalRecordRow: View {
+    let record: MedicalRecord
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(record.title)
+                    .font(.poppins(.semiBold, size: 15))
+                    .foregroundColor(AppColors.darkBlue)
+                
+                Text(record.provider)
+                    .font(.poppins(.regular, size: 13))
+                    .foregroundColor(.gray)
+            }
+            
+            Spacer()
+            
+            Text(record.date)
+                .font(.poppins(.regular, size: 13))
+                .foregroundColor(.gray)
+        }
+        .padding(.vertical, 8)
+    }
+}
+
+// MARK: - Delete Profile Button
+private struct DeleteProfileButton: View {
+    @Environment(LanguageManager.self) var languageManager
+    let onDelete: () -> Void
+    @State private var isPressed = false
+    
+    var body: some View {
+        Button(action: {
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            onDelete()
+        }) {
+            Text(languageManager.localized("delete_profile"))
+                .font(.poppins(.semiBold, size: 16))
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .frame(height: 54)
+                .background(
+                    RoundedRectangle(cornerRadius: 14)
+                        .fill(Color.red)
+                )
+        }
+        .buttonStyle(PlainButtonStyle())
+        .scaleEffect(isPressed ? 0.98 : 1.0)
+        .animation(.easeInOut(duration: 0.1), value: isPressed)
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in isPressed = true }
+                .onEnded { _ in isPressed = false }
+        )
+        .padding(.top, 8)
+    }
+}
+
+// MARK: - Avatar is now handled by ProfessionalAvatarView component
+
+// MARK: - Preview
+#Preview {
+    ProfileDetailsView(profile: PatientProfile.sampleProfiles[0])
+        .environment(AppRouter())
+}

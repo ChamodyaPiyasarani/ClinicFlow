@@ -171,6 +171,21 @@ extension Appointment {
                 contactNumber: "+94 71 234 5678",
                 reasonForVisit: "Skin rash consultation"
             ),
+            Appointment(
+                id: "A-2825",
+                doctorName: "Dr. Sarah Johnson",
+                department: "Cardiology",
+                departmentKey: "dept_cardiology",
+                specialization: "Cardiology",
+                date: cal.date(byAdding: .day, value: -12, to: today) ?? today,
+                timeSlot: "09:30 AM",
+                status: .cancelled,
+                consultationFee: 3200,
+                tokenNumber: "A-2825",
+                patientName: "John Doe",
+                contactNumber: "+94 71 234 5678",
+                reasonForVisit: "Chest pain/pressure"
+            ),
         ]
     }()
 }

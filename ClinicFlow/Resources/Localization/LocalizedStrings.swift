@@ -6,6 +6,81 @@ struct LocalizedStrings {
 
     // MARK: - String Tables
     private static let strings: [String: [AppLanguage: String]] = [
+        "good_morning": [
+            .english: "Good Morning",
+            .sinhala: "සුබ උදෑසනක්",
+            .tamil: "காலை வணக்கம்"
+        ],
+        "good_afternoon": [
+            .english: "Good Afternoon",
+            .sinhala: "සුබ පස්වරුවක්",
+            .tamil: "மதிய வணக்கம்"
+        ],
+        "good_evening": [
+            .english: "Good Evening",
+            .sinhala: "සුබ සැන්දෑවක්",
+            .tamil: "மாலை வணக்கம்"
+        ],
+        "no_appointment_needed": [
+            .english: "No appointment needed",
+            .sinhala: "ඇපොයින්ට්මන්ට් එකක් අවශ්‍ය නොවේ",
+            .tamil: "முன்பதிவு தேவையில்லை"
+        ],
+        "select_a_department": [
+            .english: "Select a Department",
+            .sinhala: "සායනයක් තෝරන්න",
+            .tamil: "ஒரு துறையைத் தேர்ந்தெடுக்கவும்"
+        ],
+        "book_an_appointment": [
+            .english: "Book an appointment",
+            .sinhala: "ඇපොයින්ට්මන්ට් එකක් වෙන්කරවා ගන්න",
+            .tamil: "முன்பதிவு செய்யுங்கள்"
+        ],
+        "upcoming_appointments": [
+            .english: "Upcoming Appointments",
+            .sinhala: "ඉදිරි ඇපොයින්ට්මන්ට්",
+            .tamil: "வரவிருக்கும் முன்பதிவுகள்"
+        ],
+        "get_ticket": [
+            .english: "Get Ticket",
+            .sinhala: "ටිකට් එකක් ගන්න",
+            .tamil: "டிக்கெட் பெறுங்கள்"
+        ],
+        "schedule": [
+            .english: "Schedule",
+            .sinhala: "වෙන්කරවා ගන්න",
+            .tamil: "அட்டவணைப்படுத்து"
+        ],
+        "walk_in": [
+            .english: "Walk-In",
+            .sinhala: "සෘජුවම පැමිණීම",
+            .tamil: "நேරடி வருகை"
+        ],
+        "appointment": [
+            .english: "Appointment",
+            .sinhala: "ඇපොයින්ට්මන්ට් එක",
+            .tamil: "முன்பதிவு"
+        ],
+        "in_queue": [
+            .english: "in queue",
+            .sinhala: "පෝලිමේ සිටිති",
+            .tamil: "வரிசையில்"
+        ],
+        "join_queue_title": [
+            .english: "Join Queue",
+            .sinhala: "පෝලිමට එක්වන්න",
+            .tamil: "வரிசையில் சேரவும்"
+        ],
+        "join_queue_confirmation": [
+            .english: "Are you sure you want to join the queue for this service?",
+            .sinhala: "ඔබට මෙම සේවාව සඳහා පෝලිමට එක් වීමට අවශ්‍ය බව සහතිකද?",
+            .tamil: "இந்தச் சேவைக்கான வரிசையில் சேர விரும்புகிறீர்களா?"
+        ],
+        "join_now": [
+            .english: "Join Now",
+            .sinhala: "දැන් එක්වන්න",
+            .tamil: "ඉදිරියට එක්වන්න"
+        ],
 
         // ── Language Selection Screen ──
         "welcome": [

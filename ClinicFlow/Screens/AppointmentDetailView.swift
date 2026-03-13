@@ -141,9 +141,9 @@ struct AppointmentDetailView: View {
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text(languageManager.localized(appointment.departmentKey))
-                            .font(.poppins(.bold, size: 22))
+                            .font(.poppins(.bold, size: 24))
                             .foregroundColor(.white)
-                            .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                            .shadow(color: Color.black.opacity(0.15), radius: 3, x: 0, y: 1)
 
                         Text("Department of \(languageManager.localized(appointment.departmentKey))")
                             .font(.poppins(.medium, size: 14))
@@ -161,13 +161,11 @@ struct AppointmentDetailView: View {
                 // Doctor info
                 HStack(spacing: 16) {
                     // Doctor avatar
-                    DoctorAvatarView(
-                        avatarColor: cardColor.opacity(0.12),
-                        hairColor: Color(red: 0.4, green: 0.26, blue: 0.13),
-                        shirtColor: cardColor,
-                        size: 64
+                    ProfessionalAvatarView(
+                        size: 64,
+                        gradientColors: [cardColor.opacity(0.8), cardColor]
                     )
-                    .shadow(color: cardColor.opacity(0.15), radius: 6, x: 0, y: 3)
+                    .shadow(color: cardColor.opacity(0.25), radius: 8, x: 0, y: 4)
 
                     VStack(alignment: .leading, spacing: 4) {
                         Text(appointment.doctorName)
@@ -258,7 +256,7 @@ struct AppointmentDetailView: View {
 
                     // Token Number
                     AppointmentDetailRow(
-                        icon: "number",
+                        icon: "number.circle.fill",
                         iconBg: cardColor.opacity(0.08),
                         iconColor: cardColor,
                         label: "Token Number",

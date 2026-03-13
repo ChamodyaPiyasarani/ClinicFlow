@@ -90,11 +90,12 @@ private struct MainProfileSection: View {
     var body: some View {
         VStack(spacing: 16) {
             // Avatar
-            ProfileAvatarView(
-                avatarColor: Color(red: 200/255, green: 220/255, blue: 160/255),
-                hairColor: Color(red: 139/255, green: 90/255, blue: 43/255),
-                shirtColor: Color(red: 70/255, green: 130/255, blue: 220/255),
-                size: 90
+            ProfessionalAvatarView(
+                size: 90,
+                gradientColors: [
+                    Color(red: 200/255, green: 220/255, blue: 160/255),
+                    Color(red: 160/255, green: 180/255, blue: 120/255)
+                ]
             )
             
             // Name
@@ -180,11 +181,9 @@ private struct ProfileCardRow: View {
         }) {
             HStack(spacing: 16) {
                 // Avatar
-                ProfileAvatarView(
-                    avatarColor: profile.avatarColor,
-                    hairColor: profile.hairColor,
-                    shirtColor: profile.shirtColor,
-                    size: 56
+                ProfessionalAvatarView(
+                    size: 56,
+                    gradientColors: [profile.avatarColor, profile.avatarColor.opacity(0.7)]
                 )
                 
                 // Profile info
@@ -248,7 +247,7 @@ private struct AddFamilyMemberForm: View {
     @State private var fullName: String = ""
     @State private var nickname: String = ""
     @State private var relationship: String = ""
-    @State private var dateOfBirth: String = ""
+    @State private var dateOfBirth: Date = Calendar.current.date(byAdding: .year, value: -25, to: Date()) ?? Date()
     @State private var gender: String = "Male"
     @State private var bloodType: String = ""
     @State private var phone: String = ""
@@ -259,6 +258,12 @@ private struct AddFamilyMemberForm: View {
     @State private var isActive: Bool = true
     
     private let genderOptions = ["Male", "Female", "Other"]
+    
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM d, yyyy"
+        return formatter
+    }
     
     private func localizedGender(_ gender: String) -> String {
         switch gender {
@@ -306,15 +311,7 @@ private struct AddFamilyMemberForm: View {
             // Avatar preview
             HStack {
                 Spacer()
-                ZStack {
-                    Circle()
-                        .fill(AppColors.brandBlue.opacity(0.15))
-                        .frame(width: 70, height: 70)
-                    
-                    Image(systemName: "person.fill")
-                        .font(.system(size: 30))
-                        .foregroundColor(AppColors.brandBlue)
-                }
+                ProfessionalAvatarView(size: 70)
                 Spacer()
             }
             
@@ -352,7 +349,27 @@ private struct AddFamilyMemberForm: View {
                 .font(.poppins(.semiBold, size: 17))
                 .foregroundColor(AppColors.darkBlue)
             
-            CustomTextField(placeholder: languageManager.localized("dob_placeholder"), text: $dateOfBirth)
+            // Date of Birth Picker
+            VStack(alignment: .leading, spacing: 6) {
+                Text(languageManager.localized("dob_placeholder"))
+                    .font(.poppins(.regular, size: 14))
+                    .foregroundColor(.gray)
+                
+                DatePicker(
+                    "",
+                    selection: $dateOfBirth,
+                    displayedComponents: .date
+                )
+                .labelsHidden()
+                .datePickerStyle(.compact)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                )
+            }
             
             // Gender picker
             VStack(alignment: .leading, spacing: 6) {
@@ -547,7 +564,7 @@ private struct AddFamilyMemberForm: View {
                     shirtColor: AppColors.brandBlue,
                     isActive: isActive,
                     allergiesCount: allergies.isEmpty ? nil : allergies.count,
-                    dateOfBirth: dateOfBirth,
+                    dateOfBirth: dateFormatter.string(from: dateOfBirth),
                     gender: gender,
                     bloodType: bloodType,
                     phone: phone,
@@ -591,67 +608,7 @@ private struct AddFamilyMemberForm: View {
     }
 }
 
-// MARK: - Profile Avatar View (Reusable)
-private struct ProfileAvatarView: View {
-    let avatarColor: Color
-    let hairColor: Color
-    let shirtColor: Color
-    let size: CGFloat
-    
-    private var faceSize: CGFloat { size * 0.35 }
-    private var bodyWidth: CGFloat { size * 0.44 }
-    private var bodyHeight: CGFloat { size * 0.27 }
-    private var hairSize: CGFloat { size * 0.067 }
-    private var eyeSize: CGFloat { size * 0.033 }
-    
-    var body: some View {
-        ZStack {
-            Circle()
-                .fill(avatarColor)
-                .frame(width: size, height: size)
-            
-            // Simple avatar illustration
-            VStack(spacing: size * 0.022) {
-                // Head
-                Circle()
-                    .fill(Color(red: 240/255, green: 200/255, blue: 170/255))
-                    .frame(width: faceSize, height: faceSize)
-                    .overlay(
-                        // Simple facial features
-                        VStack(spacing: size * 0.033) {
-                            // Eyes
-                            HStack(spacing: size * 0.089) {
-                                Circle().fill(Color.black)
-                                    .frame(width: eyeSize, height: eyeSize)
-                                Circle().fill(Color.black)
-                                    .frame(width: eyeSize, height: eyeSize)
-                            }
-                            
-                            // Smile arc
-                            Path { path in
-                                path.addArc(
-                                    center: CGPoint(x: faceSize/2, y: faceSize * 0.625),
-                                    radius: faceSize * 0.1875,
-                                    startAngle: .degrees(0),
-                                    endAngle: .degrees(180),
-                                    clockwise: false
-                                )
-                            }
-                            .stroke(Color.black, lineWidth: size * 0.011)
-                            .frame(width: faceSize, height: faceSize)
-                        }
-                        .frame(width: faceSize, height: faceSize)
-                    )
-                
-                // Body/shirt
-                Capsule()
-                    .fill(shirtColor)
-                    .frame(width: bodyWidth, height: bodyHeight)
-                    .offset(y: -size * 0.044)
-            }
-        }
-    }
-}
+// MARK: - Profile Avatar View is now handled by ProfessionalAvatarView component
 
 // MARK: - Preview
 #Preview {

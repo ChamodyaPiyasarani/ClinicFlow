@@ -12,6 +12,9 @@ struct PharmacyView: View {
     @State private var showGallery = false
     @State private var selectedImage: UIImage?
     
+    @State private var showJoinQueueConfirmation = false
+    @State private var pendingQueueStatus: QueueStatus? = nil
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             // Background
@@ -35,17 +38,19 @@ struct PharmacyView: View {
                     // Trailing icons
                     HStack(spacing: 4) {
                         Spacer()
-                        NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
+                        NotificationIcon(unreadCount: 3, iconSize: 22)
                     }
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, 8)
-                .padding(.bottom, 12)
+                .padding(.top, 12)
+                .padding(.bottom, 8)
+                .background(Color.white.opacity(0.001))
+                .shadow(color: Color.black.opacity(0.03), radius: 8, x: 0, y: 2)
                 
                 // Pharmacy subtitle
                 Text(languageManager.localized("pharmacy_title"))
                     .font(.poppins(.semiBold, size: 18))
-                    .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255))
+                    .foregroundColor(AppColors.darkBlue)
                     .frame(maxWidth: .infinity)
                     .padding(.horizontal, 20)
                     .padding(.top, 16)
@@ -93,12 +98,12 @@ struct PharmacyView: View {
                                 area: .pharmacy
                             )
                             
-                            toastManager.show(.success, message: "toast_prescription_sent")
                             
-                            // Set as active queue and switch to home tab (inline)
-                            router.currentQueueStatus = newStatus
-                            router.selectedTab = .home
-                            router.goBack() // dismiss Pharmacy upload screen
+                            // Set as pending for confirmation
+                            pendingQueueStatus = newStatus
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                                showJoinQueueConfirmation = true
+                            }
                         }) {
                             Text(languageManager.localized("send_to_pharmacy"))
                                 .font(.poppins(.semiBold, size: 17))
@@ -123,6 +128,27 @@ struct PharmacyView: View {
                     }
                     .padding(.top, 20)
                 }
+            }
+            
+            // Bottom Navigation Bar
+            BottomNavBar()
+        }
+        .overlay {
+            if showJoinQueueConfirmation, let queueStatus = pendingQueueStatus {
+                GlassyConfirmationPopup(
+                    isPresented: $showJoinQueueConfirmation,
+                    icon: "pills.fill",
+                    iconColors: [Color(red: 70/255, green: 175/255, blue: 155/255), Color(red: 60/255, green: 165/255, blue: 145/255)],
+                    titleKey: "join_queue_title",
+                    messageKey: "join_queue_confirmation",
+                    confirmLabelKey: "join_now",
+                    onConfirm: {
+                        toastManager.show(.success, message: "toast_prescription_sent")
+                        router.currentQueueStatus = queueStatus
+                        router.selectedTab = .home
+                        router.goBack() 
+                    }
+                )
             }
         }
         .edgesIgnoringSafeArea(.bottom)
@@ -152,51 +178,13 @@ private struct PatientInfoCard: View {
     var body: some View {
         HStack(spacing: 14) {
             // Patient Avatar
-            ZStack {
-                Circle()
-                    .fill(Color(red: 200/255, green: 220/255, blue: 160/255))
-                    .frame(width: 60, height: 60)
-
-                // Simple avatar illustration
-                VStack(spacing: 1) {
-                    // Head
-                    Circle()
-                        .fill(Color(red: 240/255, green: 200/255, blue: 170/255))
-                        .frame(width: 22, height: 22)
-                        .overlay(
-                            // Simple facial features
-                            VStack(spacing: 2) {
-                                // Eyes
-                                HStack(spacing: 5) {
-                                    Circle().fill(Color.black)
-                                        .frame(width: 2, height: 2)
-                                    Circle().fill(Color.black)
-                                        .frame(width: 2, height: 2)
-                                }
-                                
-                                // Smile arc
-                                Path { path in
-                                    path.addArc(
-                                        center: CGPoint(x: 11, y: 14),
-                                        radius: 4,
-                                        startAngle: .degrees(0),
-                                        endAngle: .degrees(180),
-                                        clockwise: false
-                                    )
-                                }
-                                .stroke(Color.black, lineWidth: 0.7)
-                                .frame(width: 22, height: 22)
-                            }
-                            .frame(width: 22, height: 22)
-                        )
-                    
-                    // Body/shirt
-                    Capsule()
-                        .fill(Color(red: 70/255, green: 130/255, blue: 220/255))
-                        .frame(width: 28, height: 16)
-                        .offset(y: -3)
-                }
-            }
+            ProfessionalAvatarView(
+                size: 60,
+                gradientColors: [
+                    Color(red: 200/255, green: 220/255, blue: 160/255),
+                    Color(red: 160/255, green: 180/255, blue: 120/255)
+                ]
+            )
             
             // Patient details
             VStack(alignment: .leading, spacing: 4) {
@@ -230,27 +218,74 @@ private struct UploadPrescriptionSection: View {
         VStack(spacing: 16) {
             // Dashed border container
             VStack(spacing: 20) {
-                // Camera icon
-                ZStack {
-                    Circle()
-                        .fill(Color(red: 70/255, green: 175/255, blue: 155/255).opacity(0.18))
-                        .frame(width: 72, height: 72)
-                    
-                    Image(systemName: "camera.fill")
-                        .font(.system(size: 32))
-                        .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255))
-                }
-                .padding(.top, 12)
-                
-                // Text
-                VStack(spacing: 8) {
-                    Text(languageManager.localized("upload_prescription"))
-                        .font(.poppins(.semiBold, size: 17))
-                        .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255))
-                    
-                    Text(languageManager.localized("jpg_png_supported"))
-                        .font(.poppins(.regular, size: 13))
-                        .foregroundColor(Color(red: 150/255, green: 160/255, blue: 170/255))
+                if let image = selectedImage {
+                    // Image Preview with Success Indicator
+                    ZStack(alignment: .topTrailing) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 200)
+                            .cornerRadius(12)
+                            .clipped()
+                        
+                        // Action Buttons Overlay
+                        HStack(spacing: 10) {
+                            // Remove Button
+                            Button(action: {
+                                withAnimation {
+                                    selectedImage = nil
+                                }
+                            }) {
+                                Image(systemName: "trash.fill")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.white)
+                                    .frame(width: 36, height: 36)
+                                    .background(Color.red)
+                                    .clipShape(Circle())
+                                    .shadow(radius: 4)
+                            }
+                            
+                            // Success Indicator
+                            ZStack {
+                                Circle()
+                                    .fill(Color(red: 70/255, green: 175/255, blue: 155/255))
+                                    .frame(width: 36, height: 36)
+                                Image(systemName: "checkmark")
+                                    .font(.system(size: 16, weight: .bold))
+                                    .foregroundColor(.white)
+                            }
+                            .shadow(radius: 4)
+                        }
+                        .padding(10)
+                    }
+                    .transition(.scale.combined(with: .opacity))
+                } else {
+                    // Upload UI
+                    VStack(spacing: 20) {
+                        // Camera icon
+                        ZStack {
+                            Circle()
+                                .fill(Color(red: 70/255, green: 175/255, blue: 155/255).opacity(0.18))
+                                .frame(width: 72, height: 72)
+                            
+                            Image(systemName: "camera.fill")
+                                .font(.system(size: 32))
+                                .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255))
+                        }
+                        .padding(.top, 12)
+                        
+                        // Text
+                        VStack(spacing: 8) {
+                            Text(languageManager.localized("upload_prescription"))
+                                .font(.poppins(.semiBold, size: 17))
+                                .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255))
+                            
+                            Text(languageManager.localized("jpg_png_supported"))
+                                .font(.poppins(.regular, size: 13))
+                                .foregroundColor(Color(red: 150/255, green: 160/255, blue: 170/255))
+                        }
+                    }
                 }
                 
                 // Buttons
@@ -263,7 +298,7 @@ private struct UploadPrescriptionSection: View {
                             showGallery = true
                         }
                     }) {
-                        Text(languageManager.localized("choose_from_gallery"))
+                        Text(selectedImage == nil ? languageManager.localized("choose_from_gallery") : "Change Photo")
                             .font(.poppins(.semiBold, size: 16))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
@@ -282,41 +317,44 @@ private struct UploadPrescriptionSection: View {
                             .shadow(color: Color(red: 70/255, green: 175/255, blue: 155/255).opacity(0.25), radius: 8, x: 0, y: 4)
                     }
                     
-                    // Take Photo
-                    Button(action: {
-                        let impact = UIImpactFeedbackGenerator(style: .light)
-                        impact.impactOccurred()
-                        requestCameraPermission {
-                            showCamera = true
+                    if selectedImage == nil {
+                        // Take Photo
+                        Button(action: {
+                            let impact = UIImpactFeedbackGenerator(style: .light)
+                            impact.impactOccurred()
+                            requestCameraPermission {
+                                showCamera = true
+                            }
+                        }) {
+                            HStack(spacing: 8) {
+                                Image(systemName: "camera.fill")
+                                    .font(.system(size: 17))
+                                Text(languageManager.localized("take_photo"))
+                                    .font(.poppins(.semiBold, size: 16))
+                            }
+                            .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 15)
+                            .background(Color.white)
+                            .cornerRadius(14)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 14)
+                                    .stroke(Color(red: 70/255, green: 175/255, blue: 155/255).opacity(0.25), lineWidth: 1.5)
+                            )
                         }
-                    }) {
-                        HStack(spacing: 8) {
-                            Image(systemName: "camera.fill")
-                                .font(.system(size: 17))
-                            Text(languageManager.localized("take_photo"))
-                                .font(.poppins(.semiBold, size: 16))
-                        }
-                        .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 15)
-                        .background(Color.white)
-                        .cornerRadius(14)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 14)
-                                .stroke(Color(red: 70/255, green: 175/255, blue: 155/255).opacity(0.25), lineWidth: 1.5)
-                        )
                     }
                 }
                 .padding(.horizontal, 18)
                 .padding(.bottom, 12)
             }
-            .padding(.vertical, 28)
+            .padding(.vertical, selectedImage == nil ? 28 : 12)
+            .padding(.horizontal, selectedImage == nil ? 0 : 12)
             .background(Color(red: 252/255, green: 253/255, blue: 254/255))
             .cornerRadius(18)
             .overlay(
                 RoundedRectangle(cornerRadius: 18)
                     .strokeBorder(
-                        style: StrokeStyle(lineWidth: 2.5, dash: [10, 6])
+                        style: StrokeStyle(lineWidth: 2.5, dash: selectedImage == nil ? [10, 6] : [])
                     )
                     .foregroundColor(Color(red: 70/255, green: 175/255, blue: 155/255).opacity(0.35))
             )

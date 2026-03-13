@@ -139,11 +139,9 @@ private struct ProfileHeaderSection: View {
     var body: some View {
         VStack(spacing: 12) {
             // Avatar
-            ProfileAvatarView(
-                avatarColor: profile.avatarColor,
-                hairColor: profile.hairColor,
-                shirtColor: profile.shirtColor,
-                size: 80
+            ProfessionalAvatarView(
+                size: 80,
+                gradientColors: [profile.avatarColor, profile.avatarColor.opacity(0.7)]
             )
             
             // Name
@@ -471,67 +469,7 @@ private struct DeleteProfileButton: View {
     }
 }
 
-// MARK: - Profile Avatar View (Reusable)
-private struct ProfileAvatarView: View {
-    let avatarColor: Color
-    let hairColor: Color
-    let shirtColor: Color
-    let size: CGFloat
-    
-    private var faceSize: CGFloat { size * 0.35 }
-    private var bodyWidth: CGFloat { size * 0.44 }
-    private var bodyHeight: CGFloat { size * 0.27 }
-    private var hairSize: CGFloat { size * 0.067 }
-    private var eyeSize: CGFloat { size * 0.033 }
-    
-    var body: some View {
-        ZStack {
-            Circle()
-                .fill(avatarColor)
-                .frame(width: size, height: size)
-            
-            // Simple avatar illustration
-            VStack(spacing: size * 0.022) {
-                // Head
-                Circle()
-                    .fill(Color(red: 240/255, green: 200/255, blue: 170/255))
-                    .frame(width: faceSize, height: faceSize)
-                    .overlay(
-                        // Simple facial features
-                        VStack(spacing: size * 0.033) {
-                            // Eyes
-                            HStack(spacing: size * 0.089) {
-                                Circle().fill(Color.black)
-                                    .frame(width: eyeSize, height: eyeSize)
-                                Circle().fill(Color.black)
-                                    .frame(width: eyeSize, height: eyeSize)
-                            }
-                            
-                            // Smile arc
-                            Path { path in
-                                path.addArc(
-                                    center: CGPoint(x: faceSize/2, y: faceSize * 0.625),
-                                    radius: faceSize * 0.1875,
-                                    startAngle: .degrees(0),
-                                    endAngle: .degrees(180),
-                                    clockwise: false
-                                )
-                            }
-                            .stroke(Color.black, lineWidth: size * 0.011)
-                            .frame(width: faceSize, height: faceSize)
-                        }
-                        .frame(width: faceSize, height: faceSize)
-                    )
-                
-                // Body/shirt
-                Capsule()
-                    .fill(shirtColor)
-                    .frame(width: bodyWidth, height: bodyHeight)
-                    .offset(y: -size * 0.044)
-            }
-        }
-    }
-}
+// MARK: - Avatar is now handled by ProfessionalAvatarView component
 
 // MARK: - Preview
 #Preview {

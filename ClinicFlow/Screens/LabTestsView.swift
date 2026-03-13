@@ -27,7 +27,7 @@ struct LabTestsView: View {
                     // Centered title
                     Text(languageManager.localized("lab_tests"))
                         .font(.poppins(.bold, size: 20))
-                        .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
+                        .foregroundColor(Color(AppColors.darkBlue))
 
                     // Trailing icons (right)
                     HStack(spacing: 4) {
@@ -275,6 +275,7 @@ struct LabTest: Identifiable {
     let preparationRequired: Bool
     let icon: String
     let iconColor: Color
+    let queuePosition: Int
 }
 
 // MARK: - Test Availability Status
@@ -397,6 +398,15 @@ struct LabTestCard: View {
                     }
                     .foregroundColor(Color(red: 60/255, green: 150/255, blue: 100/255))
                     
+                    // Queue Position
+                    HStack(spacing: 4) {
+                        Image(systemName: "person.2.fill")
+                            .font(.system(size: 10))
+                        Text("\(test.queuePosition) \(languageManager.localized("in_queue"))")
+                            .font(.poppins(.medium, size: 12))
+                    }
+                    .foregroundColor(.gray.opacity(0.8))
+                    
                     // Preparation required
                     if test.preparationRequired {
                         HStack(spacing: 4) {
@@ -432,7 +442,8 @@ let mockLabTests: [LabTest] = [
         availability: .available,
         preparationRequired: false,
         icon: "drop.fill",
-        iconColor: Color(red: 220/255, green: 80/255, blue: 100/255)
+        iconColor: Color(red: 220/255, green: 80/255, blue: 100/255),
+        queuePosition: 12
     ),
     LabTest(
         id: "2",
@@ -444,7 +455,8 @@ let mockLabTests: [LabTest] = [
         availability: .available,
         preparationRequired: true,
         icon: "heart.text.square.fill",
-        iconColor: Color(red: 255/255, green: 120/255, blue: 80/255)
+        iconColor: Color(red: 255/255, green: 120/255, blue: 80/255),
+        queuePosition: 5
     ),
     LabTest(
         id: "3",
@@ -456,7 +468,8 @@ let mockLabTests: [LabTest] = [
         availability: .available,
         preparationRequired: false,
         icon: "flask.fill",
-        iconColor: Color(red: 100/255, green: 180/255, blue: 220/255)
+        iconColor: Color(red: 100/255, green: 180/255, blue: 220/255),
+        queuePosition: 8
     ),
     LabTest(
         id: "4",
@@ -468,7 +481,8 @@ let mockLabTests: [LabTest] = [
         availability: .limitedSlots,
         preparationRequired: false,
         icon: "lungs.fill",
-        iconColor: Color(red: 120/255, green: 140/255, blue: 180/255)
+        iconColor: Color(red: 120/255, green: 140/255, blue: 180/255),
+        queuePosition: 3
     ),
     LabTest(
         id: "5",
@@ -480,7 +494,8 @@ let mockLabTests: [LabTest] = [
         availability: .available,
         preparationRequired: false,
         icon: "waveform.path.ecg",
-        iconColor: Color(red: 200/255, green: 80/255, blue: 120/255)
+        iconColor: Color(red: 200/255, green: 80/255, blue: 120/255),
+        queuePosition: 15
     ),
     LabTest(
         id: "6",
@@ -492,7 +507,8 @@ let mockLabTests: [LabTest] = [
         availability: .available,
         preparationRequired: true,
         icon: "chart.line.uptrend.xyaxis",
-        iconColor: Color(red: 160/255, green: 120/255, blue: 200/255)
+        iconColor: Color(red: 160/255, green: 120/255, blue: 200/255),
+        queuePosition: 7
     ),
     LabTest(
         id: "7",
@@ -504,7 +520,8 @@ let mockLabTests: [LabTest] = [
         availability: .available,
         preparationRequired: true,
         icon: "drop.triangle.fill",
-        iconColor: Color(red: 255/255, green: 180/255, blue: 80/255)
+        iconColor: Color(red: 255/255, green: 180/255, blue: 80/255),
+        queuePosition: 2
     ),
     LabTest(
         id: "8",
@@ -516,7 +533,8 @@ let mockLabTests: [LabTest] = [
         availability: .available,
         preparationRequired: false,
         icon: "allergens",
-        iconColor: Color(red: 220/255, green: 100/255, blue: 150/255)
+        iconColor: Color(red: 220/255, green: 100/255, blue: 150/255),
+        queuePosition: 20
     ),
     LabTest(
         id: "9",
@@ -528,7 +546,8 @@ let mockLabTests: [LabTest] = [
         availability: .available,
         preparationRequired: true,
         icon: "chart.bar.fill",
-        iconColor: Color(red: 180/255, green: 140/255, blue: 80/255)
+        iconColor: Color(red: 180/255, green: 140/255, blue: 80/255),
+        queuePosition: 9
     ),
     LabTest(
         id: "10",
@@ -540,7 +559,8 @@ let mockLabTests: [LabTest] = [
         availability: .limitedSlots,
         preparationRequired: false,
         icon: "figure.stand",
-        iconColor: Color(red: 80/255, green: 150/255, blue: 180/255)
+        iconColor: Color(red: 80/255, green: 150/255, blue: 180/255),
+        queuePosition: 4
     ),
     LabTest(
         id: "11",
@@ -552,7 +572,8 @@ let mockLabTests: [LabTest] = [
         availability: .limitedSlots,
         preparationRequired: true,
         icon: "waveform",
-        iconColor: Color(red: 100/255, green: 140/255, blue: 200/255)
+        iconColor: Color(red: 100/255, green: 140/255, blue: 200/255),
+        queuePosition: 6
     ),
     LabTest(
         id: "12",
@@ -564,7 +585,8 @@ let mockLabTests: [LabTest] = [
         availability: .available,
         preparationRequired: false,
         icon: "percent",
-        iconColor: Color(red: 255/255, green: 140/255, blue: 100/255)
+        iconColor: Color(red: 255/255, green: 140/255, blue: 100/255),
+        queuePosition: 11
     ),
     LabTest(
         id: "13",
@@ -576,7 +598,8 @@ let mockLabTests: [LabTest] = [
         availability: .available,
         preparationRequired: false,
         icon: "sun.max.fill",
-        iconColor: Color(red: 255/255, green: 200/255, blue: 50/255)
+        iconColor: Color(red: 255/255, green: 200/255, blue: 50/255),
+        queuePosition: 5
     ),
     LabTest(
         id: "14",
@@ -588,7 +611,8 @@ let mockLabTests: [LabTest] = [
         availability: .unavailable,
         preparationRequired: true,
         icon: "bandage.fill",
-        iconColor: Color(red: 140/255, green: 100/255, blue: 80/255)
+        iconColor: Color(red: 140/255, green: 100/255, blue: 80/255),
+        queuePosition: 0
     ),
     LabTest(
         id: "15",
@@ -600,7 +624,8 @@ let mockLabTests: [LabTest] = [
         availability: .available,
         preparationRequired: false,
         icon: "heart.circle.fill",
-        iconColor: Color(red: 255/255, green: 150/255, blue: 180/255)
+        iconColor: Color(red: 255/255, green: 150/255, blue: 180/255),
+        queuePosition: 7
     )
 ]
 

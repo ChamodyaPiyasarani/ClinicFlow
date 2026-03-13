@@ -9,6 +9,9 @@ struct AppointmentsView: View {
     @State private var selectedSegment: Int = 0
     @State private var appointments: [Appointment] = Appointment.samples
     @State private var appearAnimation = false
+    
+    @State private var showJoinQueueConfirmation = false
+    @State private var pendingQueueStatus: QueueStatus? = nil
 
     private var upcomingAppointments: [Appointment] {
         appointments.filter { $0.status == .confirmed || $0.status == .pending }
@@ -80,7 +83,13 @@ struct AppointmentsView: View {
                         ForEach(Array(items.enumerated()), id: \.element.id) { index, appointment in
                             AppointmentCard(
                                 appointment: appointment,
-                                isUpcoming: selectedSegment == 0
+                                isUpcoming: selectedSegment == 0,
+                                onJoinQueue: { queueStatus in
+                                    pendingQueueStatus = queueStatus
+                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                                        showJoinQueueConfirmation = true
+                                    }
+                                }
                             )
                             .opacity(appearAnimation ? 1 : 0)
                             .offset(y: appearAnimation ? 0 : 20)
@@ -98,6 +107,22 @@ struct AppointmentsView: View {
             }
         }
         .background(AppColors.background)
+        .overlay {
+            if showJoinQueueConfirmation, let queueStatus = pendingQueueStatus {
+                GlassyConfirmationPopup(
+                    isPresented: $showJoinQueueConfirmation,
+                    icon: "person.line.dotted.person.fill",
+                    iconColors: [AppColors.brandBlue, AppColors.darkBlue],
+                    titleKey: "join_queue_title",
+                    messageKey: "join_queue_confirmation",
+                    confirmLabelKey: "join_now",
+                    onConfirm: {
+                        router.currentQueueStatus = queueStatus
+                        router.selectedTab = .home
+                    }
+                )
+            }
+        }
         .onAppear {
             withAnimation { appearAnimation = true }
         }
@@ -176,6 +201,7 @@ private struct AppointmentCard: View {
     @Environment(AppRouter.self) var router
     let appointment: Appointment
     let isUpcoming: Bool
+    let onJoinQueue: (QueueStatus) -> Void
     @State private var isPressed = false
 
     private var dateString: String {
@@ -213,8 +239,7 @@ private struct AppointmentCard: View {
                             ],
                             isActive: true
                         )
-                        router.currentQueueStatus = queueStatus
-                        router.selectedTab = .home
+                        onJoinQueue(queueStatus)
                     } else {
                         router.navigate(to: .appointmentDetail(appointment))
                     }
@@ -226,55 +251,63 @@ private struct AppointmentCard: View {
     
     private var cardContent: some View {
         HStack(spacing: 16) {
-            // Doctor icon
-            ZStack {
-                RoundedRectangle(cornerRadius: 14)
-                    .fill(AppColors.brandBlue.opacity(0.1))
-                    .frame(width: 52, height: 52)
-                Image(systemName: "stethoscope")
-                    .font(.system(size: 22, weight: .medium))
-                    .foregroundColor(AppColors.brandBlue)
-            }
+            // Avatar / Icon
+            ProfessionalAvatarView(
+                systemIcon: "person.fill",
+                size: 52,
+                gradientColors: appointment.status == .cancelled 
+                    ? [Color.gray.opacity(0.4), Color.gray.opacity(0.2)]
+                    : [AppColors.brandBlue, AppColors.brandBlue.opacity(0.6)]
+            )
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(appointment.doctorName)
-                    .font(.poppins(.semiBold, size: 16))
-                    .foregroundColor(AppColors.darkBlue)
+                    .font(.poppins(.semiBold, size: 17))
+                    .foregroundColor(appointment.status == .cancelled ? .gray : AppColors.darkBlue)
 
                 Text(appointment.specialization)
-                    .font(.poppins(.regular, size: 13))
+                    .font(.poppins(.regular, size: 14))
                     .foregroundColor(.gray)
 
-                Text(dateString)
-                    .font(.poppins(.medium, size: 13))
-                    .foregroundColor(AppColors.darkBlue.opacity(0.7))
-                    .padding(.top, 2)
+                HStack(spacing: 6) {
+                    Image(systemName: "calendar")
+                        .font(.system(size: 12))
+                    Text(dateString)
+                        .font(.poppins(.medium, size: 13))
+                }
+                .foregroundColor(appointment.status == .cancelled ? .gray.opacity(0.6) : AppColors.brandBlue.opacity(0.8))
+                .padding(.top, 2)
 
                 // Status badge
                 Text(languageManager.localized(appointment.status.localizationKey))
-                    .font(.poppins(.semiBold, size: 12))
+                    .font(.poppins(.semiBold, size: 11))
                     .foregroundColor(appointment.status.color)
-                    .padding(.horizontal, 12)
+                    .padding(.horizontal, 10)
                     .padding(.vertical, 4)
                     .background(
                         Capsule()
                             .fill(appointment.status.color.opacity(0.12))
                     )
-                    .padding(.top, 2)
+                    .padding(.top, 4)
             }
 
             Spacer()
 
             Image(systemName: "chevron.right")
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(.gray.opacity(0.4))
+                .font(.system(size: 14, weight: .bold))
+                .foregroundColor(.gray.opacity(0.3))
         }
-        .padding(18)
+        .padding(20)
         .background(
-            RoundedRectangle(cornerRadius: 18)
+            RoundedRectangle(cornerRadius: 22)
                 .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 3)
+                .shadow(color: Color.black.opacity(appointment.status == .cancelled ? 0.02 : 0.06), radius: 10, x: 0, y: 4)
         )
+        .overlay(
+            RoundedRectangle(cornerRadius: 22)
+                .stroke(appointment.status == .pending ? AppColors.brandBlue.opacity(0.15) : Color.clear, lineWidth: 1.5)
+        )
+        .opacity(appointment.status == .cancelled ? 0.8 : 1.0)
         .scaleEffect(isPressed ? 0.98 : 1.0)
         .animation(.easeInOut(duration: 0.1), value: isPressed)
         .onLongPressGesture(minimumDuration: .infinity, maximumDistance: .infinity, pressing: { pressing in

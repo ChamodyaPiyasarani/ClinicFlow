@@ -52,18 +52,16 @@ private struct AccountHeaderView: View {
     @Environment(LanguageManager.self) var languageManager
 
     var body: some View {
-        VStack(spacing: 8) {
+        ZStack {
             // Centered title
-            AppNameText(fontSize: 20)
+            AppNameText(fontSize: 22)
 
-            // Profile subtitle
-            Text(languageManager.localized("profile"))
-                .font(.poppins(.medium, size: 14))
-                .foregroundColor(AppColors.darkBlue)
+            // Left-aligned label if needed or just keep it premium centered
         }
         .padding(.horizontal, 20)
-        .padding(.top, 8)
-        .padding(.bottom, 12)
+        .padding(.top, 22)
+        .padding(.bottom, 8)
+        .background(Color.white.opacity(0.001))
     }
 }
 
@@ -72,71 +70,71 @@ private struct ProfileCardSection: View {
     @Environment(LanguageManager.self) var languageManager
 
     var body: some View {
-        VStack(spacing: 16) {
-            // Avatar
-            ZStack {
+        ZStack {
+            // Premium Gradient Background
+            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            AppColors.brandBlue.opacity(0.9),
+                            AppColors.darkBlue.opacity(0.95)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+            
+            // Decorative background elements
+            GeometryReader { _ in
                 Circle()
-                    .fill(Color(red: 200/255, green: 220/255, blue: 160/255))
+                    .fill(Color.white.opacity(0.06))
+                    .frame(width: 120, height: 120)
+                    .offset(x: 260, y: -20)
+                
+                Circle()
+                    .fill(Color.white.opacity(0.04))
                     .frame(width: 90, height: 90)
-
-                // Simple avatar illustration
-                VStack(spacing: 2) {
-                    // Head
-                    Circle()
-                        .fill(Color(red: 240/255, green: 200/255, blue: 170/255))
-                        .frame(width: 32, height: 32)
-                        .overlay(
-                            // Simple facial features
-                            VStack(spacing: 3) {
-                                // Eyes
-                                HStack(spacing: 8) {
-                                    Circle().fill(Color.black)
-                                        .frame(width: 3, height: 3)
-                                    Circle().fill(Color.black)
-                                        .frame(width: 3, height: 3)
-                                }
-                                
-                                // Smile arc
-                                Path { path in
-                                    path.addArc(
-                                        center: CGPoint(x: 16, y: 20),
-                                        radius: 6,
-                                        startAngle: .degrees(0),
-                                        endAngle: .degrees(180),
-                                        clockwise: false
-                                    )
-                                }
-                                .stroke(Color.black, lineWidth: 1)
-                                .frame(width: 32, height: 32)
-                            }
-                            .frame(width: 32, height: 32)
-                        )
-                    
-                    // Body/shirt
-                    Capsule()
-                        .fill(Color(red: 70/255, green: 130/255, blue: 220/255))
-                        .frame(width: 40, height: 24)
-                        .offset(y: -4)
-                }
+                    .offset(x: -20, y: 140)
             }
-            
-            // Name
-            Text("John Doe")
-                .font(.poppins(.semiBold, size: 22))
-                .foregroundColor(AppColors.darkBlue)
-            
-            // Patient ID
-            Text("\(languageManager.localized("patient_id_label")): CF-2024-001")
-                .font(.poppins(.regular, size: 13))
-                .foregroundColor(.gray)
+            .clipped()
+
+            VStack(spacing: 16) {
+                // Avatar with premium ring
+                ZStack {
+                    Circle()
+                        .stroke(Color.white.opacity(0.2), lineWidth: 4)
+                        .frame(width: 100, height: 100)
+                    
+                    ProfessionalAvatarView(size: 92)
+                }
+                
+                VStack(spacing: 4) {
+                    Text("John Doe")
+                        .font(.poppins(.bold, size: 24))
+                        .foregroundColor(.white)
+                    
+                    Text("\(languageManager.localized("patient_id_label")): CF-2024-001")
+                        .font(.poppins(.medium, size: 14))
+                        .foregroundColor(.white.opacity(0.7))
+                }
+                
+                // Active status chip
+                HStack(spacing: 5) {
+                    Circle()
+                        .fill(Color.green)
+                        .frame(width: 6, height: 6)
+                    Text(languageManager.localized("active_status"))
+                        .font(.poppins(.medium, size: 12))
+                }
+                .foregroundColor(.white)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 5)
+                .background(Capsule().fill(Color.white.opacity(0.15)))
+            }
+            .padding(.vertical, 32)
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 28)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color.white)
-        )
-        .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
+        .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+        .shadow(color: AppColors.brandBlue.opacity(0.25), radius: 15, x: 0, y: 8)
     }
 }
 
@@ -146,44 +144,40 @@ private struct MenuItemsSection: View {
     let router: AppRouter
     
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 14) {
             MenuItemRow(
                 icon: "person.2.fill",
-                iconColor: Color(red: 70/255, green: 130/255, blue: 220/255),
-                iconBackground: Color(red: 70/255, green: 130/255, blue: 220/255).opacity(0.1),
+                iconColor: AppColors.brandBlue,
+                iconBackground: AppColors.brandBlue.opacity(0.12),
                 title: languageManager.localized("patient_profiles")
             ) {
-                // Action: Navigate to patient profiles
                 router.navigate(to: .patientProfiles)
             }
             
             MenuItemRow(
                 icon: "clock.arrow.circlepath",
-                iconColor: Color(red: 80/255, green: 180/255, blue: 100/255),
-                iconBackground: Color(red: 80/255, green: 180/255, blue: 100/255).opacity(0.1),
+                iconColor: AppColors.opdBlue,
+                iconBackground: AppColors.opdBlue.opacity(0.12),
                 title: languageManager.localized("visit_history")
             ) {
-                // Action: Navigate to visit history
                 router.navigate(to: .visitHistory)
             }
             
             MenuItemRow(
                 icon: "questionmark.circle.fill",
-                iconColor: Color(red: 255/255, green: 140/255, blue: 60/255),
-                iconBackground: Color(red: 255/255, green: 140/255, blue: 60/255).opacity(0.1),
+                iconColor: AppColors.pharmacyGreen,
+                iconBackground: AppColors.pharmacyGreen.opacity(0.12),
                 title: languageManager.localized("help_support")
             ) {
-                // Action: Navigate to help & support
                 router.navigate(to: .helpSupport)
             }
             
             MenuItemRow(
                 icon: "gearshape.fill",
-                iconColor: Color.gray,
-                iconBackground: Color.gray.opacity(0.1),
+                iconColor: AppColors.darkBlue.opacity(0.6),
+                iconBackground: AppColors.darkBlue.opacity(0.08),
                 title: languageManager.localized("settings")
             ) {
-                // Action: Navigate to settings
                 router.navigate(to: .settings)
             }
         }
@@ -202,20 +196,19 @@ private struct MenuItemRow: View {
     
     var body: some View {
         Button(action: {
-            // Haptic feedback for better UX
             let impact = UIImpactFeedbackGenerator(style: .light)
             impact.impactOccurred()
             action()
         }) {
-            HStack(spacing: 16) {
+            HStack(spacing: 20) {
                 // Icon
                 ZStack {
-                    Circle()
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
                         .fill(iconBackground)
-                        .frame(width: 44, height: 44)
+                        .frame(width: 48, height: 48)
                     
                     Image(systemName: icon)
-                        .font(.system(size: 20))
+                        .font(.system(size: 20, weight: .semibold))
                         .foregroundColor(iconColor)
                 }
                 
@@ -228,16 +221,20 @@ private struct MenuItemRow: View {
                 
                 // Chevron
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(.gray.opacity(0.4))
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(AppColors.darkBlue.opacity(0.25))
             }
             .padding(.horizontal, 16)
-            .padding(.vertical, 16)
+            .padding(.vertical, 12)
             .background(
-                RoundedRectangle(cornerRadius: 16)
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
                     .fill(Color.white)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 22, style: .continuous)
+                            .stroke(AppColors.darkBlue.opacity(0.04), lineWidth: 1)
+                    )
             )
-            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
+            .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 4)
             .contentShape(Rectangle())
         }
         .buttonStyle(PlainButtonStyle())
@@ -263,28 +260,37 @@ private struct LogoutButton: View {
                 showConfirmation = true
             }
         }) {
-            HStack(spacing: 8) {
+            HStack(spacing: 10) {
                 Image(systemName: "rectangle.portrait.and.arrow.right")
-                    .font(.system(size: 18, weight: .semibold))
+                    .font(.system(size: 18, weight: .bold))
                 
                 Text(languageManager.localized("logout"))
                     .font(.poppins(.semiBold, size: 17))
             }
             .foregroundColor(.white)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 16)
+            .frame(height: 56)
             .background(
-                LinearGradient(
-                    colors: [
-                        Color(red: 240/255, green: 80/255, blue: 90/255),
-                        Color(red: 220/255, green: 50/255, blue: 60/255)
-                    ],
-                    startPoint: .leading,
-                    endPoint: .trailing
-                )
+                ZStack {
+                    LinearGradient(
+                        colors: [
+                            Color(red: 235/255, green: 75/255, blue: 85/255),
+                            Color(red: 215/255, green: 45/255, blue: 55/255)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                    
+                    // Subtle shimmer highlight
+                    LinearGradient(
+                        colors: [.white.opacity(0.15), .clear],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                }
             )
-            .cornerRadius(16)
-            .shadow(color: Color(red: 240/255, green: 80/255, blue: 90/255).opacity(0.3), radius: 8, x: 0, y: 4)
+            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .shadow(color: Color(red: 235/255, green: 75/255, blue: 85/255).opacity(0.35), radius: 12, x: 0, y: 6)
         }
     }
 }

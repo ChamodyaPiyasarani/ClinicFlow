@@ -294,165 +294,136 @@ struct RescheduleAppointmentView: View {
             // Success Card Overlay
             if showSuccessSheet {
                 ZStack {
-                    Color.black.opacity(0.4)
+                    // Subtle background dim
+                    Color.black.opacity(0.35)
                         .ignoresSafeArea()
                     
                     VStack(spacing: 24) {
-                    // Success Icon
-                    ZStack {
-                        Circle()
-                            .fill(Color(red: 0.2, green: 0.7, blue: 0.4).opacity(0.15))
-                            .frame(width: 80, height: 80)
-                        
-                        Image(systemName: "checkmark.circle.fill")
-                            .font(.system(size: 50))
-                            .foregroundColor(Color(red: 0.2, green: 0.7, blue: 0.4))
-                    }
-                    .padding(.top, 32)
-                    
-                    // Success Message
-                    VStack(spacing: 8) {
-                        Text("Appointment Rescheduled")
-                            .font(.poppins(.bold, size: 22))
-                            .foregroundColor(Color(red: 0.15, green: 0.45, blue: 0.25))
-                            .multilineTextAlignment(.center)
-                        
-                        Text("Successfully!")
-                            .font(.poppins(.semiBold, size: 20))
-                            .foregroundColor(Color(red: 0.2, green: 0.6, blue: 0.35))
-                            .multilineTextAlignment(.center)
-                    }
-                    
-                    // Appointment Details Card
-                    VStack(spacing: 18) {
-                        // Token Number
-                        VStack(spacing: 4) {
-                            Text("Token \(appointment.tokenNumber)")
-                                .font(.poppins(.bold, size: 26))
-                                .foregroundColor(Color(red: 0.15, green: 0.45, blue: 0.25))
+                        // Success Icon with glass glow
+                        ZStack {
+                            Circle()
+                                .fill(Color(red: 0.2, green: 0.7, blue: 0.4).opacity(0.15))
+                                .frame(width: 80, height: 80)
+                                .blur(radius: 12)
+                            
+                            Circle()
+                                .fill(.ultraThinMaterial)
+                                .frame(width: 72, height: 72)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                                )
+                            
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.system(size: 40, weight: .semibold))
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        colors: [
+                                            Color(red: 0.2, green: 0.7, blue: 0.4),
+                                            Color(red: 0.15, green: 0.55, blue: 0.3)
+                                        ],
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                )
                         }
+                        .padding(.top, 32)
                         
-                        // Doctor Info
-                        VStack(spacing: 2) {
-                            Text(appointment.doctorName)
-                                .font(.poppins(.semiBold, size: 16))
-                                .foregroundColor(Color(red: 0.2, green: 0.35, blue: 0.25))
-                            Text(languageManager.localized(appointment.departmentKey))
+                        // Success Message
+                        VStack(spacing: 6) {
+                            Text("Rescheduled!")
+                                .font(.poppins(.bold, size: 24))
+                                .foregroundColor(AppColors.darkBlue)
+                            
+                            Text("Your appointment update is confirmed")
                                 .font(.poppins(.regular, size: 14))
-                                .foregroundColor(Color(red: 0.3, green: 0.5, blue: 0.4))
+                                .foregroundColor(.gray)
+                                .multilineTextAlignment(.center)
                         }
+                        .padding(.horizontal, 24)
                         
-                        Divider()
-                            .background(Color(red: 0.2, green: 0.7, blue: 0.4).opacity(0.2))
-                            .padding(.horizontal, 20)
-                        
-                        // Date & Time
-                        VStack(spacing: 10) {
-                            HStack(spacing: 8) {
-                                Image(systemName: "calendar")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(Color(red: 0.2, green: 0.6, blue: 0.35))
-                                Text("Date:")
+                        // Appointment Details Card (Embedded Glass)
+                        VStack(spacing: 16) {
+                            // Token Number
+                            HStack {
+                                Text(languageManager.localized("token"))
                                     .font(.poppins(.medium, size: 14))
-                                    .foregroundColor(Color(red: 0.3, green: 0.5, blue: 0.4))
-                                Text(formattedAppointmentDate(selectedDate))
-                                    .font(.poppins(.semiBold, size: 14))
-                                    .foregroundColor(Color(red: 0.15, green: 0.45, blue: 0.25))
+                                    .foregroundColor(.gray)
+                                Spacer()
+                                Text(appointment.tokenNumber)
+                                    .font(.poppins(.bold, size: 20))
+                                    .foregroundColor(AppColors.darkBlue)
                             }
                             
-                            HStack(spacing: 8) {
+                            Divider().opacity(0.5)
+                            
+                            // Date Info
+                            HStack {
+                                Image(systemName: "calendar")
+                                    .foregroundColor(AppColors.brandBlue)
+                                Text(formattedAppointmentDate(selectedDate))
+                                    .font(.poppins(.semiBold, size: 15))
+                                    .foregroundColor(AppColors.darkBlue)
+                                Spacer()
                                 Image(systemName: "clock")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(Color(red: 0.2, green: 0.6, blue: 0.35))
-                                Text("Time:")
-                                    .font(.poppins(.medium, size: 14))
-                                    .foregroundColor(Color(red: 0.3, green: 0.5, blue: 0.4))
+                                    .foregroundColor(AppColors.brandBlue)
                                 Text(selectedTimeSlot?.time ?? "")
-                                    .font(.poppins(.semiBold, size: 14))
-                                    .foregroundColor(Color(red: 0.15, green: 0.45, blue: 0.25))
+                                    .font(.poppins(.semiBold, size: 15))
+                                    .foregroundColor(AppColors.darkBlue)
                             }
                         }
+                        .padding(20)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color.white.opacity(0.5))
+                        )
+                        .padding(.horizontal, 24)
                         
-                        // Reminder Text
-                        Text("You will receive a reminder before your appointment.")
-                            .font(.poppins(.regular, size: 12))
-                            .foregroundColor(Color(red: 0.3, green: 0.5, blue: 0.4))
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 20)
-                            .padding(.top, 8)
-                    }
-                    .padding(.vertical, 24)
-                    .padding(.horizontal, 20)
-                    .background(
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(Color(red: 0.96, green: 0.99, blue: 0.97))
-                    )
-                    .padding(.horizontal, 24)
-                    
-                    // Action Button
-                    Button(action: {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        showSuccessSheet = false
-                        router.goBack() // Pop to detail
-                        router.goBack() // Pop to appointments list
-                    }) {
-                        Text("View Appointments")
-                            .font(.poppins(.semiBold, size: 17))
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 16)
-                            .background(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .fill(
-                                        LinearGradient(
-                                            colors: [
-                                                Color(red: 0.2, green: 0.7, blue: 0.4),
-                                                Color(red: 0.15, green: 0.6, blue: 0.35)
-                                            ],
-                                            startPoint: .leading,
-                                            endPoint: .trailing
-                                        )
+                        // Action Button
+                        Button(action: {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            showSuccessSheet = false
+                            router.goBack() 
+                            router.goBack() 
+                        }) {
+                            Text("Done")
+                                .font(.poppins(.semiBold, size: 17))
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(
+                                    LinearGradient(
+                                        colors: [
+                                            Color(red: 0.2, green: 0.7, blue: 0.4),
+                                            Color(red: 0.15, green: 0.6, blue: 0.35)
+                                        ],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
                                     )
-                            )
-                            .shadow(color: Color(red: 0.2, green: 0.7, blue: 0.4).opacity(0.3), radius: 8, x: 0, y: 4)
+                                )
+                                .cornerRadius(16)
+                                .shadow(color: Color(red: 0.2, green: 0.7, blue: 0.4).opacity(0.3), radius: 8, x: 0, y: 4)
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 32)
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.bottom, 32)
+                    .background(
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                                .fill(Color.white.opacity(0.85))
+                                .background(
+                                    RoundedRectangle(cornerRadius: 32, style: .continuous)
+                                        .fill(.ultraThinMaterial)
+                                )
+                            
+                            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                                .stroke(Color.white.opacity(0.5), lineWidth: 1.5)
+                        }
+                    )
+                    .padding(.horizontal, 28)
                 }
-                .background(
-                    ZStack {
-                        // White glassy base
-                        RoundedRectangle(cornerRadius: 32, style: .continuous)
-                            .fill(Color.white.opacity(0.85))
-                            .background(
-                                RoundedRectangle(cornerRadius: 32, style: .continuous)
-                                    .fill(.regularMaterial)
-                            )
-                        
-                        // Light edge highlight (top-left)
-                        RoundedRectangle(cornerRadius: 32, style: .continuous)
-                            .stroke(
-                                LinearGradient(
-                                    colors: [
-                                        Color.white.opacity(0.9),
-                                        Color.white.opacity(0.3)
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                ),
-                                lineWidth: 1.5
-                            )
-                    }
-                )
-                .overlay(
-                    // Outer border for definition
-                    RoundedRectangle(cornerRadius: 32, style: .continuous)
-                        .stroke(Color.black.opacity(0.05), lineWidth: 0.5)
-                )
-                .shadow(color: Color.black.opacity(0.15), radius: 30, x: 0, y: 15)
-                .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
-                .padding(.horizontal, 32)
-                }
+                .transition(.opacity)
+                .zIndex(100)
                 .transition(.scale.combined(with: .opacity))
                 .zIndex(100)
             }

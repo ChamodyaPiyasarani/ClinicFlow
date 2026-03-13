@@ -8,6 +8,9 @@ struct OPDDepartmentsView: View {
     @State private var selectedCategory: DepartmentCategory = .all
     @State private var searchText: String = ""
     
+    @State private var showJoinQueueConfirmation = false
+    @State private var pendingQueueStatus: QueueStatus? = nil
+    
     var body: some View {
         VStack(spacing: 0) {
                 // MARK: - Header
@@ -104,7 +107,13 @@ struct OPDDepartmentsView: View {
                                     description: department.description,
                                     availabilityStatus: department.availability,
                                     waitingCount: department.waitingCount,
-                                    departmentId: department.id
+                                    departmentId: department.id,
+                                    onJoinQueue: { queueStatus in
+                                        pendingQueueStatus = queueStatus
+                                        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                                            showJoinQueueConfirmation = true
+                                        }
+                                    }
                                 )
                             }
                         }
@@ -115,6 +124,24 @@ struct OPDDepartmentsView: View {
                 
                 // MARK: - Bottom Nav Bar
                 BottomNavBar()
+            }
+            .overlay {
+                if showJoinQueueConfirmation, let queueStatus = pendingQueueStatus {
+                    GlassyConfirmationPopup(
+                        isPresented: $showJoinQueueConfirmation,
+                        icon: queueStatus.queueType == .opd ? "stethoscope" : "pills.fill",
+                        iconColors: [AppColors.brandBlue, AppColors.darkBlue],
+                        titleKey: "join_queue_title",
+                        messageKey: "join_queue_confirmation",
+                        confirmLabelKey: "join_now",
+                        onConfirm: {
+                            toastManager.show(.info, message: "toast_joining_queue")
+                            router.currentQueueStatus = queueStatus
+                            router.selectedTab = .home
+                            router.goBack() 
+                        }
+                    )
+                }
             }
             .background(AppColors.background)
             .edgesIgnoringSafeArea(.bottom)
@@ -273,6 +300,7 @@ struct DepartmentCard: View {
     let availabilityStatus: DepartmentAvailability
     let waitingCount: Int
     let departmentId: String
+    let onJoinQueue: (QueueStatus) -> Void
     
     var body: some View {
         Button(action: {
@@ -308,11 +336,8 @@ struct DepartmentCard: View {
                 area: .consultation
             )
             
-            // Set as active queue and switch to home tab (which will now show QueueStatusView)
-            toastManager.show(.info, message: "toast_joining_queue")
-            router.currentQueueStatus = newStatus
-            router.selectedTab = .home
-            router.goBack() // dismiss departments screen
+            // Set as pending for confirmation
+            onJoinQueue(newStatus)
         }) {
             HStack(spacing: 14) {
                 // Icon

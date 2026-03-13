@@ -96,8 +96,10 @@ struct QueueStatusView: View {
             }
         }
         .padding(.horizontal, 20)
-        .padding(.top, 12)
+        .padding(.top, 22)
         .padding(.bottom, 8)
+        .background(Color.white.opacity(0.001)) // Ensure it takes space
+        .shadow(color: Color.black.opacity(0.03), radius: 8, x: 0, y: 2)
         .opacity(headerAppear ? 1 : 0)
     }
 
@@ -140,18 +142,26 @@ struct QueueStatusView: View {
             VStack(spacing: 0) {
                 // 1. Top Bar: Current Status & Active Indicator - Compacted
                 HStack {
-                    VStack(alignment: .leading, spacing: 1) {
+                    VStack(alignment: .leading, spacing: 3) {
                         Text(languageManager.localized("current_status"))
                             .font(.poppins(.medium, size: 13))
                             .foregroundColor(.white)
                         
-                        // Small Token Number
-                        Text("\(languageManager.localized("token")): \(queueStatus.tokenNumber)")
-                            .font(.poppins(.bold, size: 9))
-                            .foregroundColor(.white.opacity(0.6))
-                            .padding(.horizontal, 7)
-                            .padding(.vertical, 1)
-                            .background(Capsule().fill(Color.white.opacity(0.12)))
+                        // Token Number Chip (Smaller)
+                        HStack(spacing: 4) {
+                            Text(languageManager.localized("token"))
+                                .font(.poppins(.medium, size: 10))
+                            Text(queueStatus.tokenNumber)
+                                .font(.poppins(.bold, size: 12))
+                        }
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 4)
+                        .background(
+                            Capsule()
+                                .fill(Color.white.opacity(0.15))
+                                .overlay(Capsule().stroke(Color.white.opacity(0.2), lineWidth: 0.5))
+                        )
                     }
                     
                     Spacer()
@@ -169,27 +179,26 @@ struct QueueStatusView: View {
                 .padding(.top, 14)
 
                 // 2. Large Queue Position (Centerpiece) - Further reduced size
-                VStack(spacing: 0) {
-                    Text(String(format: "%02d", queueStatus.queuePosition))
-                        .font(.poppins(.semiBold, size: 64)) // Reduced from 72
-                        .foregroundColor(.white)
-                        .padding(.top, -6)
-                    
-                    Text(languageManager.localized("your_queue_position"))
-                        .font(.poppins(.medium, size: 12)) // Reduced from 14
-                        .foregroundColor(.white)
-                        .padding(.top, -4)
-                    
-                    HStack(spacing: 6) {
-                        Image(systemName: "person.2.fill")
-                            .font(.system(size: 12))
-                        Text("\(queueStatus.peopleAhead) \(languageManager.localized("people_ahead"))")
-                            .font(.poppins(.medium, size: 12))
+                    VStack(spacing: 8) {
+                        Text(String(format: "%02d", queueStatus.queuePosition))
+                            .font(.poppins(.bold, size: 68))
+                            .foregroundColor(.white)
+                            .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+                        
+                        Text(languageManager.localized("your_queue_position"))
+                            .font(.poppins(.medium, size: 15))
+                            .foregroundColor(.white.opacity(0.9))
+                        
+                        HStack(spacing: 6) {
+                            Image(systemName: "person.2.fill")
+                                .font(.system(size: 13))
+                            Text("\(queueStatus.peopleAhead) \(languageManager.localized("people_ahead"))")
+                                .font(.poppins(.medium, size: 13))
+                        }
+                        .foregroundColor(.white.opacity(0.85))
+                        .padding(.top, 4)
                     }
-                    .foregroundColor(.white.opacity(0.8))
-                    .padding(.top, 6)
-                }
-                .padding(.bottom, 16)
+                    .padding(.vertical, 8)
 
                 // 3. Estimated Wait Time Glass Card
                 VStack(alignment: .leading, spacing: 14) {

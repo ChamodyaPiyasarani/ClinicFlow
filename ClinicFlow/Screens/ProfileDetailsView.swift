@@ -17,59 +17,59 @@ struct ProfileDetailsView: View {
     }
     
     var body: some View {
-        ZStack(alignment: .bottom) {
-            VStack(spacing: 0) {
-                // ── Header ──
-                ProfileDetailsHeaderView()
-                
-                // ── Scrollable Content ──
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 24) {
-                        // ── Profile Section ──
-                        ProfileHeaderSection(profile: profile)
-                            .padding(.top, 20)
-                        
-                        // ── Profile Details ──
-                        VStack(spacing: 16) {
-                            // Section title
-                            HStack {
-                                Text(languageManager.localized("profile_details"))
-                                    .font(.poppins(.semiBold, size: 20))
-                                    .foregroundColor(AppColors.darkBlue)
-                                Spacer()
-                            }
-                            
-                            // Personal Information
-                            PersonalInformationSection(
-                                profile: profile,
-                                isEditing: $isEditing
-                            )
-                            
-                            // Allergies
-                            AllergiesSection(
-                                allergies: $allergies,
-                                onAdd: { showAddAllergyAlert = true },
-                                onRemove: removeAllergy
-                            )
-                            
-                            // Medical History
-                            MedicalHistorySection(
-                                records: profile.medicalHistory
-                            )
-                            
-                            // Delete Profile Button
-                            DeleteProfileButton(onDelete: { showDeleteAlert = true })
+        VStack(spacing: 0) {
+            // ── Header ──
+            ProfileDetailsHeaderView()
+            
+            // ── Scrollable Content ──
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 24) {
+                    // ── Profile Section ──
+                    ProfileHeaderSection(profile: profile)
+                        .padding(.top, 20)
+                    
+                    // ── Profile Details ──
+                    VStack(spacing: 16) {
+                        // Section title
+                        HStack {
+                            Text(languageManager.localized("profile_details"))
+                                .font(.poppins(.semiBold, size: 20))
+                                .foregroundColor(AppColors.darkBlue)
+                            Spacer()
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 100) // Space for bottom nav
+                        
+                        // Personal Information
+                        PersonalInformationSection(
+                            profile: profile,
+                            isEditing: $isEditing
+                        )
+                        
+                        // Allergies
+                        AllergiesSection(
+                            allergies: $allergies,
+                            onAdd: { showAddAllergyAlert = true },
+                            onRemove: removeAllergy
+                        )
+                        
+                        // Medical History
+                        MedicalHistorySection(
+                            records: profile.medicalHistory
+                        )
+                        
+                        // Delete Profile Button
+                        DeleteProfileButton(onDelete: { showDeleteAlert = true })
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 20)
                 }
             }
-            .background(AppColors.background)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             
             // ── Bottom Navigation ──
             BottomNavBar()
         }
+        .background(AppColors.background)
+        .edgesIgnoringSafeArea(.bottom)
         .navigationBarHidden(true)
         .alert(languageManager.localized("add_allergy"), isPresented: $showAddAllergyAlert) {
             Button(languageManager.localized("cancel"), role: .cancel) { }

@@ -72,11 +72,33 @@ struct PharmacyView: View {
                             // Haptic feedback
                             let impact = UIImpactFeedbackGenerator(style: .medium)
                             impact.impactOccurred()
+                            
+                            // Build realistic QueueStatus for Pharmacy
+                            let newStatus = QueueStatus(
+                                id: "Q-PHARM-\(UUID().uuidString.prefix(4))",
+                                queueType: .pharmacy,
+                                tokenNumber: "P-\(Int.random(in: 100...999))",
+                                queuePosition: 12,
+                                peopleAhead: 11,
+                                estimatedWaitMinutes: 20,
+                                checkInTime: formattedCurrentTime(),
+                                locationName: "Pharmacy - Ground Floor",
+                                locationDetail: "Building A, Ground Floor",
+                                steps: [
+                                    VisitStep(id: "s1", localizationKey: "step_registration", icon: "pencil.and.list.clipboard", status: .completed, completedTime: formattedCurrentTime()),
+                                    VisitStep(id: "s2", localizationKey: "step_pharmacy", icon: "pills.fill", status: .inProgress, completedTime: nil),
+                                ],
+                                isActive: true,
+                                floor: .floor1,
+                                area: .pharmacy
+                            )
+                            
                             toastManager.show(.success, message: "toast_prescription_sent")
-                            // Navigate to pharmacy queue status
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                router.navigate(to: .queueStatus(.pharmacySample))
-                            }
+                            
+                            // Set as active queue and switch to home tab (inline)
+                            router.currentQueueStatus = newStatus
+                            router.selectedTab = .home
+                            router.goBack() // dismiss Pharmacy upload screen
                         }) {
                             Text(languageManager.localized("send_to_pharmacy"))
                                 .font(.poppins(.semiBold, size: 17))
@@ -102,9 +124,6 @@ struct PharmacyView: View {
                     .padding(.top, 20)
                 }
             }
-            
-            // Bottom Navigation Bar
-            BottomNavBar()
         }
         .edgesIgnoringSafeArea(.bottom)
         .sheet(isPresented: $showGallery) {
@@ -117,6 +136,12 @@ struct PharmacyView: View {
                 .environment(languageManager)
                 .environment(router)
         }
+    }
+
+    private func formattedCurrentTime() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        return formatter.string(from: Date())
     }
 }
 

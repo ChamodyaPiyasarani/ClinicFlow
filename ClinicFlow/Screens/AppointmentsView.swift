@@ -51,7 +51,7 @@ struct AppointmentsView: View {
             }
             .padding(.horizontal, 20)
             .padding(.top, 16)
-            .padding(.bottom, 12)
+            .padding(.bottom, 24)
 
             // ── Segment Tabs ──
             SegmentTabBar(

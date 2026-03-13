@@ -18,6 +18,11 @@ struct LocalizedStrings {
             .sinhala: "ඔබේ භාෂාව තෝරන්න",
             .tamil: "உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்"
         ],
+        "language": [
+            .english: "Language",
+            .sinhala: "භාෂාව",
+            .tamil: "மொழி"
+        ],
         "continue": [
             .english: "Continue",
             .sinhala: "ඉදිරියට",
@@ -118,12 +123,12 @@ struct LocalizedStrings {
             .tamil: "தொடர்பு எண்"
         ],
         "agree_to": [
-            .english: "Agree to ",
-            .sinhala: "එකඟ වන්න ",
-            .tamil: "ஒப்புக்கொள் "
+            .english: "Agree to",
+            .sinhala: "එකඟ වන්න",
+            .tamil: "ஒப்புக்கொள்"
         ],
         "terms_and_conditions": [
-            .english: "terms and conditions",
+            .english: "Terms and Conditions",
             .sinhala: "නියම සහ කොන්දේසි",
             .tamil: "விதிமுறைகள் மற்றும் நிபந்தனைகள்"
         ],
@@ -2101,6 +2106,53 @@ struct LocalizedStrings {
             .english: "Join Queue",
             .sinhala: "පෝලිමට සම්බන්ධ වන්න",
             .tamil: "வரிசையில் சேரவும்"
+        ],
+
+        // ── Settings Screen ──
+        "about": [
+            .english: "About",
+            .sinhala: "ගැන",
+            .tamil: "பற்றி"
+        ],
+        "preferences": [
+            .english: "Preferences",
+            .sinhala: "පරිශීලක කැමැත්ත",
+            .tamil: "விருப்பத்தேர்வுகள்"
+        ],
+        "version": [
+            .english: "Version",
+            .sinhala: "අනුවාදය",
+            .tamil: "பதிப்பு"
+        ],
+        "build": [
+            .english: "Build",
+            .sinhala: "නිර්මාණය",
+            .tamil: "உருவாக்கம்"
+        ],
+        "platform": [
+            .english: "Platform",
+            .sinhala: "වේදිකාව",
+            .tamil: "தளம்"
+        ],
+        "developed_by": [
+            .english: "Developed by",
+            .sinhala: "නිර්මාතෘ",
+            .tamil: "உருவாக்கியவர்"
+        ],
+        "privacy_policy_short": [
+            .english: "Privacy Policy & Legal",
+            .sinhala: "රහස්‍යතා ප්‍රතිපත්තිය",
+            .tamil: "தனியுரிமை கொள்கை"
+        ],
+        "select_preferred_language": [
+            .english: "Select your preferred language",
+            .sinhala: "ඔබේ භාෂාව තෝරන්න",
+            .tamil: "மொழியைத் தேர்ந்தெடுக்கவும்"
+        ],
+        "smart_clinic_companion": [
+            .english: "Your Smart Clinic Companion",
+            .sinhala: "ඔබගේ ස්මාර්ට් සායන සහකරු",
+            .tamil: "உங்கள் ஸ்மார்ட் மருத்துவமனை துணை"
         ],
     ]
 

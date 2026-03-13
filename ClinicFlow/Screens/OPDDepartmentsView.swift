@@ -313,7 +313,7 @@ struct DepartmentCard: View {
                             let maxPos = waitingCount > 0 ? waitingCount : 1
                             let samplePosition = Int.random(in: 1...maxPos)
                             
-                            Text("Current Position: \(samplePosition)")
+                            Text("Current Status : \(samplePosition)")
                                 .font(.poppins(.medium, size: 12))
                         }
                         .foregroundColor(AppColors.brandBlue)

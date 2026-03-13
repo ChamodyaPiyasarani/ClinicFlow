@@ -13,6 +13,10 @@ struct ClinicFlowApp: App {
     @State private var router = AppRouter.shared
     @State private var toastManager = ToastManager.shared
 
+    init() {
+        FontRegistrar.registerAllFonts()
+    }
+
     var body: some Scene {
         WindowGroup {
             RootView(router: router)

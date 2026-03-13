@@ -136,7 +136,7 @@ extension Appointment {
                 timeSlot: "02:30 PM",
                 status: .confirmed,
                 consultationFee: 3200,
-                tokenNumber: "#A-2847",
+                tokenNumber: "A-2847",
                 patientName: "John Doe",
                 contactNumber: "+94 71 234 5678",
                 reasonForVisit: "Routine checkup"
@@ -151,7 +151,7 @@ extension Appointment {
                 timeSlot: "10:00 AM",
                 status: .pending,
                 consultationFee: 2800,
-                tokenNumber: "#A-2848",
+                tokenNumber: "A-2848",
                 patientName: "John Doe",
                 contactNumber: "+94 71 234 5678",
                 reasonForVisit: "Knee pain follow-up"
@@ -166,7 +166,7 @@ extension Appointment {
                 timeSlot: "11:00 AM",
                 status: .completed,
                 consultationFee: 2500,
-                tokenNumber: "#A-2830",
+                tokenNumber: "A-2830",
                 patientName: "John Doe",
                 contactNumber: "+94 71 234 5678",
                 reasonForVisit: "Skin rash consultation"

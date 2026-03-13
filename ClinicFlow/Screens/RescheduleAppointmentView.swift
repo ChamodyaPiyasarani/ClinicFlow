@@ -133,10 +133,12 @@ struct RescheduleAppointmentView: View {
                                 let cal = Calendar.current
                                 let isSelected = cal.isDate(date, inSameDayAs: selectedDate)
                                 let isToday = cal.isDateInToday(date)
+                                let isPast = cal.compare(date, to: cal.startOfDay(for: Date()), toGranularity: .day) == .orderedAscending
                                 let dayName = dayAbbreviation(date)
                                 let dayNum = cal.component(.day, from: date)
 
                                 Button(action: {
+                                    guard !isPast else { return }
                                     withAnimation(.easeInOut(duration: 0.2)) {
                                         selectedDate = date
                                         timeSlots = TimeSlot.generateSlots()
@@ -146,19 +148,21 @@ struct RescheduleAppointmentView: View {
                                     VStack(spacing: 6) {
                                         Text("\(dayNum)")
                                             .font(.poppins(.bold, size: 16))
-                                            .foregroundColor(isSelected ? .white : (isToday ? AppColors.brandBlue : AppColors.darkBlue))
+                                            .foregroundColor(isPast ? .gray.opacity(0.4) : (isSelected ? .white : (isToday ? AppColors.brandBlue : AppColors.darkBlue)))
                                         Text(dayName)
                                             .font(.poppins(.medium, size: 11))
-                                            .foregroundColor(isSelected ? .white.opacity(0.9) : .gray)
+                                            .foregroundColor(isPast ? .gray.opacity(0.3) : (isSelected ? .white.opacity(0.9) : .gray))
                                     }
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 12)
                                     .background(
                                         RoundedRectangle(cornerRadius: 14)
-                                            .fill(isSelected ? AppColors.brandBlue : Color.clear)
+                                            .fill(isSelected && !isPast ? AppColors.brandBlue : Color.clear)
                                     )
+                                    .opacity(isPast ? 0.5 : 1.0)
                                 }
                                 .buttonStyle(PlainButtonStyle())
+                                .disabled(isPast)
                             }
                         }
                         .padding(4)
@@ -683,7 +687,7 @@ private struct RescheduleHeaderView: View {
                 AppNameText(fontSize: 20)
                 HStack(spacing: 4) {
                     Spacer()
-                    NotificationIcon(unreadCount: 3, iconSize: 22, showBackground: false)
+                    NotificationIcon(unreadCount: 3, iconSize: 18, showBackground: true)
                 }
             }
             Text(subtitle)

@@ -92,7 +92,7 @@ extension QueueStatus {
     static let opdSample = QueueStatus(
         id: "Q-001",
         queueType: .opd,
-        tokenNumber: "#A-2084",
+        tokenNumber: "A-2084",
         queuePosition: 8,
         peopleAhead: 7,
         estimatedWaitMinutes: 42,
@@ -112,7 +112,7 @@ extension QueueStatus {
     static let labSample = QueueStatus(
         id: "Q-002",
         queueType: .lab,
-        tokenNumber: "#L-1042",
+        tokenNumber: "L-1042",
         queuePosition: 3,
         peopleAhead: 2,
         estimatedWaitMinutes: 15,
@@ -131,7 +131,7 @@ extension QueueStatus {
     static let appointmentSample = QueueStatus(
         id: "Q-003",
         queueType: .appointment,
-        tokenNumber: "#A-2847",
+        tokenNumber: "A-2847",
         queuePosition: 5,
         peopleAhead: 4,
         estimatedWaitMinutes: 25,
@@ -149,7 +149,7 @@ extension QueueStatus {
     static let pharmacySample = QueueStatus(
         id: "Q-004",
         queueType: .pharmacy,
-        tokenNumber: "#P-0312",
+        tokenNumber: "P-0312",
         queuePosition: 12,
         peopleAhead: 11,
         estimatedWaitMinutes: 20,

@@ -9,7 +9,7 @@ struct AppNameText: View {
     var body: some View {
         HStack(spacing: 0) {
             Text("CLINIC")
-                .font(.poppins(.extraBold, size: fontSize))
+                .font(.poppins(.semiBold, size: fontSize))
                 .foregroundColor(clinicColor)
             
             Text("FLOW")

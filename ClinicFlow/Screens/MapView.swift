@@ -297,7 +297,15 @@ private struct MapHeaderView: View {
             AppNameText(fontSize: 20)
             
             HStack(spacing: 4) {
-                BackButton { router.goBack() }
+                BackButton {
+                    if let qs = router.currentQueueStatus {
+                        router.navigate(to: .queueStatus(qs))
+                    } else if !router.path.isEmpty {
+                        router.goBack()
+                    } else {
+                        router.selectedTab = .home
+                    }
+                }
                 Spacer()
                 NotificationIcon(unreadCount: 3, iconSize: 18)
             }

@@ -55,7 +55,7 @@ extension VisitJourney {
         departmentKey: "dept_cardiology",
         date: Date(),
         timeSlot: "4:30 PM",
-        tokenNumber: "#A-2847",
+        tokenNumber: "A-2847",
         completedStepKey: "step_consultation",
         nextAction: NextVisitAction(
             titleKey: "next_action_lab_test",
@@ -84,7 +84,7 @@ extension VisitJourney {
         departmentKey: "dept_dermatology",
         date: Date(),
         timeSlot: "11:00 AM",
-        tokenNumber: "#A-2830",
+        tokenNumber: "A-2830",
         completedStepKey: "step_consultation",
         nextAction: NextVisitAction(
             titleKey: "next_action_pharmacy",
@@ -112,7 +112,7 @@ extension VisitJourney {
         departmentKey: "dept_orthopedics",
         date: Date(),
         timeSlot: "02:30 PM",
-        tokenNumber: "#A-2848",
+        tokenNumber: "A-2848",
         completedStepKey: "step_consultation",
         nextAction: nil,
         steps: [
@@ -130,7 +130,7 @@ extension QueueStatus {
     static let labFromConsultation = QueueStatus(
         id: "Q-005",
         queueType: .lab,
-        tokenNumber: "#L-1098",
+        tokenNumber: "L-1098",
         queuePosition: 4,
         peopleAhead: 3,
         estimatedWaitMinutes: 18,

@@ -72,12 +72,18 @@ struct UserSignUpView: View {
                                     text: $contactNumber,
                                     keyboardType: .phonePad
                                 )
+                                .onChange(of: contactNumber) { _, newValue in
+                                    let filtered = newValue.filter { $0.isNumber || $0 == "+" }
+                                    if filtered != newValue {
+                                        contactNumber = filtered
+                                    }
+                                }
                             }
                             .padding(.horizontal, 20)
                             .padding(.top, 20)
 
                             // MARK: - Terms & Conditions
-                            HStack(spacing: 8) {
+                            HStack(spacing: 6) {
                                 Button {
                                     agreedToTerms.toggle()
                                 } label: {
@@ -108,6 +114,8 @@ struct UserSignUpView: View {
                                         .foregroundColor(AppColors.brandBlue)
                                         .underline()
                                 }
+
+                                Spacer()
                             }
                             .padding(.horizontal, 20)
                             .padding(.top, 18)
@@ -125,6 +133,8 @@ struct UserSignUpView: View {
                                 toastManager.show(.success, message: "toast_otp_sent")
                                 router.navigate(to: .otpVerification)
                             }
+                            .opacity(isFormValid ? 1.0 : 0.45)
+                            .disabled(!isFormValid)
                             .padding(.horizontal, 20)
                             .padding(.top, 28)
                             .padding(.bottom, 28)

@@ -18,91 +18,81 @@ struct QueueStatusView: View {
     @State private var showLeaveAlert = false
     @State private var pulseToken = false
 
-    // Active step for the stepper
-    private var currentStepIndex: Int {
-        queueStatus.steps.firstIndex(where: { $0.status == .inProgress }) ?? 0
-    }
-
-    private var completedSteps: Int {
-        queueStatus.steps.filter { $0.status == .completed }.count
-    }
-
     var body: some View {
-        VStack(spacing: 0) {
-                // ── Header ──
+        ZStack {
+            VStack(spacing: 0) {
                 headerBar
 
                 ScrollView(showsIndicators: false) {
-                    VStack(spacing: 20) {
-                        statusHeroCard
+                    VStack(spacing: 16) {
+                        // ── Hero Token Card ──
+                        heroTokenCard
                             .opacity(statusCardAppear ? 1 : 0)
                             .offset(y: statusCardAppear ? 0 : 30)
 
-                        quickStatsRow
+                        // ── Stats Row ──
+                        statsRow
                             .opacity(statusCardAppear ? 1 : 0)
                             .offset(y: statusCardAppear ? 0 : 20)
 
+                        // ── Location Card ──
                         locationCard
                             .opacity(locationAppear ? 1 : 0)
                             .offset(y: locationAppear ? 0 : 20)
 
-                        visitProgressSection
+                        // ── Horizontal Visit Progress ──
+                        horizontalProgressSection
                             .opacity(stepperAppear ? 1 : 0)
                             .offset(y: stepperAppear ? 0 : 20)
 
+                        // ── Notification Banner ──
                         notificationBanner
                             .opacity(footerAppear ? 1 : 0)
                             .offset(y: footerAppear ? 0 : 20)
+
+                        // ── Leave Queue Button ──
+                        leaveQueueButton
+                            .opacity(footerAppear ? 1 : 0)
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 8)
                     .padding(.bottom, 20)
                 }
-                
-                // ── Floating Leave Queue Bar ──
-                leaveQueueBar
-                    .opacity(footerAppear ? 1 : 0)
-                    .offset(y: footerAppear ? 0 : 30)
-                
+
                 BottomNavBar()
             }
             .background(AppColors.background)
             .edgesIgnoringSafeArea(.bottom)
             .navigationBarHidden(true)
-            .alert(languageManager.localized("leave_queue"), isPresented: $showLeaveAlert) {
-                Button(languageManager.localized("cancel"), role: .cancel) {}
-                Button(languageManager.localized("leave_queue_confirm"), role: .destructive) {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    toastManager.show(.warning, message: "toast_queue_left")
-                    router.goBack()
-                }
-            } message: {
-                Text(languageManager.localized("leave_queue_message"))
+            .onAppear {
+                router.currentQueueStatus = queueStatus
+                triggerStaggeredAnimations()
             }
-            .onAppear { triggerStaggeredAnimations() }
+
+            // ── Leave Queue Confirmation Popup ──
+            if showLeaveAlert {
+                LeaveQueueConfirmationPopup(
+                    isPresented: $showLeaveAlert,
+                    onConfirm: {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        toastManager.show(.warning, message: "toast_queue_left")
+                        router.currentQueueStatus = nil
+                        router.goBack()
+                    }
+                )
+            }
+        }
     }
 
-    // MARK: - Staggered Animations
+    // MARK: - Animations
 
     private func triggerStaggeredAnimations() {
-        withAnimation(.spring(response: 0.55, dampingFraction: 0.82).delay(0.05)) {
-            headerAppear = true
-        }
-        withAnimation(.spring(response: 0.55, dampingFraction: 0.82).delay(0.12)) {
-            statusCardAppear = true
-        }
-        withAnimation(.spring(response: 0.55, dampingFraction: 0.82).delay(0.2)) {
-            locationAppear = true
-        }
-        withAnimation(.spring(response: 0.55, dampingFraction: 0.82).delay(0.28)) {
-            stepperAppear = true
-        }
-        withAnimation(.spring(response: 0.55, dampingFraction: 0.82).delay(0.36)) {
-            footerAppear = true
-        }
-        withAnimation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true).delay(0.5)) {
-            pulseToken = true
-        }
+        withAnimation(.spring(response: 0.55, dampingFraction: 0.82).delay(0.05)) { headerAppear = true }
+        withAnimation(.spring(response: 0.55, dampingFraction: 0.82).delay(0.12)) { statusCardAppear = true }
+        withAnimation(.spring(response: 0.55, dampingFraction: 0.82).delay(0.2)) { locationAppear = true }
+        withAnimation(.spring(response: 0.55, dampingFraction: 0.82).delay(0.28)) { stepperAppear = true }
+        withAnimation(.spring(response: 0.55, dampingFraction: 0.82).delay(0.36)) { footerAppear = true }
+        withAnimation(.easeInOut(duration: 1.4).repeatForever(autoreverses: true).delay(0.5)) { pulseToken = true }
     }
 
     // MARK: - Header
@@ -120,111 +110,135 @@ struct QueueStatusView: View {
         .opacity(headerAppear ? 1 : 0)
     }
 
-    // MARK: - Status Hero Card
+    // MARK: - Hero Token Card
 
-    private var statusHeroCard: some View {
-        VStack(spacing: 0) {
-            // Colored header strip
-            ZStack {
-                LinearGradient(
-                    colors: [queueStatus.queueType.color, queueStatus.queueType.color.opacity(0.75)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
+    private var heroTokenCard: some View {
+        ZStack {
+            // Gradient background
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            queueStatus.queueType.color,
+                            queueStatus.queueType.color.opacity(0.7)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
                 )
 
-                VStack(spacing: 8) {
-                    // Queue type badge
+            // Subtle decorative circles
+            GeometryReader { geo in
+                Circle()
+                    .fill(Color.white.opacity(0.07))
+                    .frame(width: 140, height: 140)
+                    .offset(x: geo.size.width - 60, y: -40)
+                Circle()
+                    .fill(Color.white.opacity(0.05))
+                    .frame(width: 100, height: 100)
+                    .offset(x: -30, y: geo.size.height - 40)
+            }
+
+            VStack(spacing: 0) {
+                // Top row: queue type badge + active indicator
+                HStack {
+                    // Queue type pill
                     HStack(spacing: 6) {
                         Image(systemName: queueStatus.queueType.icon)
-                            .font(.system(size: 12, weight: .semibold))
+                            .font(.system(size: 11, weight: .semibold))
                         Text(languageManager.localized(queueStatus.queueType.localizationKey))
-                            .font(.poppins(.semiBold, size: 12))
+                            .font(.poppins(.semiBold, size: 11))
                     }
                     .foregroundColor(.white)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 6)
-                    .background(Capsule().fill(Color.white.opacity(0.22)))
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 5)
+                    .background(Capsule().fill(Color.white.opacity(0.2)))
 
-                    // Token Number — large, prominent
-                    Text(queueStatus.tokenNumber)
-                        .font(.poppins(.bold, size: 40))
-                        .foregroundColor(.white)
-                        .scaleEffect(pulseToken ? 1.03 : 1.0)
+                    Spacer()
 
-                    Text(languageManager.localized("token_number"))
-                        .font(.poppins(.medium, size: 13))
+                    // Active pill
+                    HStack(spacing: 5) {
+                        Circle()
+                            .fill(Color.green)
+                            .frame(width: 7, height: 7)
+                            .scaleEffect(pulseToken ? 1.3 : 1.0)
+                        Text(languageManager.localized("active_status"))
+                            .font(.poppins(.semiBold, size: 11))
+                            .foregroundColor(.white)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 5)
+                    .background(Capsule().fill(Color.white.opacity(0.15)))
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+
+                // Token Number — centrepiece, highlighted
+                VStack(spacing: 6) {
+                    Text(languageManager.localized("token_number").uppercased())
+                        .font(.poppins(.bold, size: 10))
                         .foregroundColor(.white.opacity(0.8))
-                }
-                .padding(.vertical, 28)
-            }
+                        .tracking(2)
 
-            // White bottom section — queue position
-            VStack(spacing: 12) {
+                    Text(queueStatus.tokenNumber)
+                        .font(.poppins(.bold, size: 52))
+                        .foregroundColor(.white)
+                        .scaleEffect(pulseToken ? 1.05 : 1.0)
+                        .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 5)
+                }
+                .padding(.vertical, 24)
+
+                // Bottom divider
+                Rectangle()
+                    .fill(Color.white.opacity(0.15))
+                    .frame(height: 1)
+                    .padding(.horizontal, 20)
+
+                // Queue Position + People Ahead
                 HStack(spacing: 0) {
-                    // Queue Position
-                    VStack(spacing: 4) {
+                    VStack(spacing: 3) {
                         Text("\(queueStatus.queuePosition)")
-                            .font(.poppins(.bold, size: 32))
-                            .foregroundColor(queueStatus.queueType.color)
+                            .font(.poppins(.bold, size: 30))
+                            .foregroundColor(.white)
                         Text(languageManager.localized("queue_position"))
-                            .font(.poppins(.medium, size: 11))
-                            .foregroundColor(.secondary)
+                            .font(.poppins(.medium, size: 10))
+                            .foregroundColor(.white.opacity(0.75))
                     }
                     .frame(maxWidth: .infinity)
 
-                    // Divider
                     Rectangle()
-                        .fill(Color(.systemGray4))
-                        .frame(width: 1, height: 40)
+                        .fill(Color.white.opacity(0.2))
+                        .frame(width: 1, height: 36)
 
-                    // People Ahead
-                    VStack(spacing: 4) {
+                    VStack(spacing: 3) {
                         Text("\(queueStatus.peopleAhead)")
-                            .font(.poppins(.bold, size: 32))
-                            .foregroundColor(AppColors.darkBlue)
+                            .font(.poppins(.bold, size: 30))
+                            .foregroundColor(.white)
                         Text(languageManager.localized("people_ahead"))
-                            .font(.poppins(.medium, size: 11))
-                            .foregroundColor(.secondary)
+                            .font(.poppins(.medium, size: 10))
+                            .foregroundColor(.white.opacity(0.75))
                     }
                     .frame(maxWidth: .infinity)
                 }
-                .padding(.top, 16)
-
-                // Active badge
-                HStack(spacing: 6) {
-                    Circle()
-                        .fill(Color.green)
-                        .frame(width: 8, height: 8)
-                    Text(languageManager.localized("active_status"))
-                        .font(.poppins(.semiBold, size: 12))
-                        .foregroundColor(.green)
-                }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 6)
-                .background(
-                    Capsule()
-                        .fill(Color.green.opacity(0.1))
-                )
-                .padding(.bottom, 16)
+                .padding(.vertical, 18)
+                .padding(.horizontal, 20)
             }
         }
-        .background(.white)
-        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-        .shadow(color: queueStatus.queueType.color.opacity(0.15), radius: 16, x: 0, y: 8)
+        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .shadow(color: queueStatus.queueType.color.opacity(0.3), radius: 20, x: 0, y: 10)
     }
 
-    // MARK: - Quick Stats Row
+    // MARK: - Stats Row
 
-    private var quickStatsRow: some View {
+    private var statsRow: some View {
         HStack(spacing: 12) {
-            QuickStatPill(
+            StatChip(
                 icon: "clock.fill",
                 label: languageManager.localized("estimated_wait"),
                 value: "\(queueStatus.estimatedWaitMinutes) \(languageManager.localized("minutes_short"))",
                 color: .orange
             )
-
-            QuickStatPill(
+            StatChip(
                 icon: "arrow.right.circle.fill",
                 label: languageManager.localized("check_in_time"),
                 value: queueStatus.checkInTime,
@@ -233,61 +247,95 @@ struct QueueStatusView: View {
         }
     }
 
-    // MARK: - Location Card
+    // MARK: - Location Card (tapping navigates to MapView)
 
     private var locationCard: some View {
-        HStack(spacing: 14) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .fill(queueStatus.queueType.color.opacity(0.1))
-                    .frame(width: 46, height: 46)
-                Image(systemName: "mappin.and.ellipse")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundColor(queueStatus.queueType.color)
-            }
+        Button {
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            router.selectedTab = .map
+        } label: {
+            HStack(spacing: 14) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        .fill(queueStatus.queueType.color.opacity(0.12))
+                        .frame(width: 46, height: 46)
+                    Image(systemName: "mappin.and.ellipse")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundColor(queueStatus.queueType.color)
+                }
 
-            VStack(alignment: .leading, spacing: 3) {
-                Text(languageManager.localized("location"))
-                    .font(.poppins(.medium, size: 11))
-                    .foregroundColor(.secondary)
-                Text(queueStatus.locationName)
-                    .font(.poppins(.semiBold, size: 14))
-                    .foregroundColor(AppColors.darkBlue)
-                Text(queueStatus.locationDetail)
-                    .font(.poppins(.regular, size: 12))
-                    .foregroundColor(.secondary)
-            }
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(languageManager.localized("location"))
+                        .font(.poppins(.medium, size: 10))
+                        .foregroundColor(.secondary)
+                        .textCase(.uppercase)
+                        .tracking(0.8)
+                    Text(queueStatus.locationName)
+                        .font(.poppins(.semiBold, size: 13))
+                        .foregroundColor(AppColors.darkBlue)
+                    Text(queueStatus.locationDetail)
+                        .font(.poppins(.regular, size: 11))
+                        .foregroundColor(.secondary)
+                }
 
-            Spacer()
-        }
-        .padding(16)
-        .background(.white)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 4)
-    }
+                Spacer()
 
-    // MARK: - Visit Progress Stepper
-
-    private var visitProgressSection: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text(languageManager.localized("visit_progress"))
-                .font(.poppins(.semiBold, size: 16))
-                .foregroundColor(AppColors.darkBlue)
-
-            VStack(spacing: 0) {
-                ForEach(Array(queueStatus.steps.enumerated()), id: \.element.id) { index, step in
-                    StepperRow(
-                        step: step,
-                        isLast: index == queueStatus.steps.count - 1,
-                        accentColor: queueStatus.queueType.color,
-                        languageManager: languageManager
-                    )
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        .fill(AppColors.brandBlue.opacity(0.1))
+                        .frame(width: 36, height: 36)
+                    Image(systemName: "map.fill")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundColor(AppColors.brandBlue)
                 }
             }
+            .padding(16)
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 4)
         }
-        .padding(20)
+        .buttonStyle(PlainButtonStyle())
+    }
+
+    // MARK: - Horizontal Visit Progress
+
+    private var horizontalProgressSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text(languageManager.localized("visit_progress"))
+                .font(.poppins(.semiBold, size: 15))
+                .foregroundColor(AppColors.darkBlue)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 0) {
+                    ForEach(Array(queueStatus.steps.enumerated()), id: \.element.id) { index, step in
+                        HStack(spacing: 0) {
+                            HorizontalStepNode(
+                                step: step,
+                                accentColor: queueStatus.queueType.color,
+                                languageManager: languageManager
+                            )
+
+                            if index < queueStatus.steps.count - 1 {
+                                // Connector line
+                                Rectangle()
+                                    .fill(
+                                        step.status == .completed
+                                            ? queueStatus.queueType.color.opacity(0.5)
+                                            : Color(.systemGray4)
+                                    )
+                                    .frame(width: 24, height: 2)
+                                    .padding(.bottom, 22)
+                            }
+                        }
+                    }
+                }
+                .padding(.horizontal, 4)
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 14)
         .background(.white)
-        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
         .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 4)
     }
 
@@ -322,79 +370,79 @@ struct QueueStatusView: View {
         )
     }
 
-    // MARK: - Floating Leave Queue Bar
+    // MARK: - Leave Queue Button
 
-    private var leaveQueueBar: some View {
-        VStack(spacing: 0) {
-            Divider()
-            Button {
-                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+    private var leaveQueueButton: some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                 showLeaveAlert = true
-            } label: {
-                HStack(spacing: 8) {
-                    Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 16, weight: .semibold))
-                    Text(languageManager.localized("leave_queue"))
-                        .font(.poppins(.semiBold, size: 15))
-                }
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 52)
-                .background(
-                    Capsule()
-                        .fill(
-                            LinearGradient(
-                                colors: [Color.red.opacity(0.85), Color.red],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                )
-                .padding(.horizontal, 20)
             }
-            .padding(.top, 12)
-            .padding(.bottom, 30)
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: "xmark.circle")
+                    .font(.system(size: 13, weight: .medium))
+                Text(languageManager.localized("leave_queue"))
+                    .font(.poppins(.medium, size: 13))
+            }
+            .foregroundColor(Color.red.opacity(0.55))
+            .padding(.vertical, 14)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .fill(Color.red.opacity(0.05))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .strokeBorder(Color.red.opacity(0.15), lineWidth: 1)
+                    )
+            )
         }
-        .background(.ultraThinMaterial)
+        .buttonStyle(PlainButtonStyle())
+        .padding(.bottom, 4)
     }
 }
 
-// MARK: - Quick Stat Pill
+// MARK: - Stat Chip
 
-private struct QuickStatPill: View {
+private struct StatChip: View {
     let icon: String
     let label: String
     let value: String
     let color: Color
 
     var body: some View {
-        VStack(spacing: 8) {
-            HStack(spacing: 6) {
+        HStack(spacing: 10) {
+            ZStack {
+                Circle()
+                    .fill(color.opacity(0.12))
+                    .frame(width: 36, height: 36)
                 Image(systemName: icon)
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(color)
-                Text(label)
-                    .font(.poppins(.medium, size: 11))
-                    .foregroundColor(.secondary)
             }
-
-            Text(value)
-                .font(.poppins(.bold, size: 16))
-                .foregroundColor(AppColors.darkBlue)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(label)
+                    .font(.poppins(.regular, size: 10))
+                    .foregroundColor(.secondary)
+                Text(value)
+                    .font(.poppins(.bold, size: 14))
+                    .foregroundColor(AppColors.darkBlue)
+            }
+            Spacer()
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 14)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
         .background(.white)
         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
         .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 3)
+        .frame(maxWidth: .infinity)
     }
 }
 
-// MARK: - Stepper Row
+// MARK: - Horizontal Step Node
 
-private struct StepperRow: View {
+private struct HorizontalStepNode: View {
     let step: VisitStep
-    let isLast: Bool
     let accentColor: Color
     let languageManager: LanguageManager
 
@@ -407,69 +455,181 @@ private struct StepperRow: View {
         }
     }
 
-    private var lineColor: Color {
-        step.status == .completed ? accentColor.opacity(0.5) : Color(.systemGray4)
+    var body: some View {
+        VStack(spacing: 6) {
+            // Step circle
+            ZStack {
+                Circle()
+                    .fill(circleColor.opacity(step.status == .pending || step.status == .skipped ? 0.18 : 1.0))
+                    .frame(width: 34, height: 34)
+
+                if step.status == .completed {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 11, weight: .bold))
+                        .foregroundColor(.white)
+                } else if step.status == .inProgress {
+                    Circle()
+                        .stroke(Color.white.opacity(0.4), lineWidth: 1.5)
+                        .frame(width: 26, height: 26)
+                    Image(systemName: step.icon)
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundColor(.white)
+                } else {
+                    Image(systemName: step.icon)
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundColor(Color(.systemGray3))
+                }
+            }
+
+            // Step label
+            Text(languageManager.localized(step.localizationKey))
+                .font(.poppins(.medium, size: 9))
+                .foregroundColor(
+                    step.status == .pending || step.status == .skipped
+                        ? .secondary
+                        : AppColors.darkBlue
+                )
+                .multilineTextAlignment(.center)
+                .frame(width: 58)
+
+            // Status / time
+            if let time = step.completedTime {
+                Text(time)
+                    .font(.poppins(.regular, size: 8))
+                    .foregroundColor(.secondary)
+            } else {
+                Text(languageManager.localized(step.status.localizationKey))
+                    .font(.poppins(.regular, size: 8))
+                    .foregroundColor(step.status == .inProgress ? accentColor : .secondary)
+            }
+        }
+        .frame(width: 60)
     }
+}
+
+// MARK: - Leave Queue Confirmation Popup
+
+private struct LeaveQueueConfirmationPopup: View {
+    @Environment(LanguageManager.self) var languageManager
+    @Binding var isPresented: Bool
+    var onConfirm: () -> Void
 
     var body: some View {
-        HStack(alignment: .top, spacing: 16) {
-            // ── Stepper indicator ──
+        ZStack {
+            Color.black.opacity(0.4)
+                .ignoresSafeArea()
+                .onTapGesture { dismissModal() }
+
             VStack(spacing: 0) {
-                ZStack {
-                    Circle()
-                        .fill(circleColor.opacity(step.status == .pending ? 0.2 : 1.0))
-                        .frame(width: 36, height: 36)
-
-                    if step.status == .completed {
-                        Image(systemName: "checkmark")
-                            .font(.system(size: 14, weight: .bold))
-                            .foregroundColor(.white)
-                    } else if step.status == .inProgress {
-                        // Pulsing ring for active step
+                VStack(spacing: 28) {
+                    ZStack {
                         Circle()
-                            .stroke(Color.white.opacity(0.5), lineWidth: 2)
-                            .frame(width: 28, height: 28)
-                        Image(systemName: step.icon)
-                            .font(.system(size: 13, weight: .semibold))
-                            .foregroundColor(.white)
-                    } else {
-                        Image(systemName: step.icon)
-                            .font(.system(size: 13, weight: .medium))
-                            .foregroundColor(step.status == .skipped ? Color(.systemGray3) : Color(.systemGray2))
-                    }
-                }
+                            .fill(Color.red.opacity(0.15))
+                            .frame(width: 72, height: 72)
+                            .blur(radius: 8)
 
-                if !isLast {
-                    Rectangle()
-                        .fill(lineColor)
-                        .frame(width: 2.5, height: 40)
+                        Circle()
+                            .fill(.ultraThinMaterial)
+                            .frame(width: 64, height: 64)
+                            .overlay(
+                                Circle()
+                                    .stroke(
+                                        LinearGradient(
+                                            colors: [Color.white.opacity(0.8), Color.white.opacity(0.2)],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        ),
+                                        lineWidth: 1.5
+                                    )
+                            )
+                            .shadow(color: Color.red.opacity(0.2), radius: 12, x: 0, y: 4)
+
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 26, weight: .semibold))
+                            .foregroundStyle(
+                                LinearGradient(
+                                    colors: [Color.red.opacity(0.9), Color.red],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                    }
+                    .padding(.top, 36)
+
+                    VStack(spacing: 10) {
+                        Text(languageManager.localized("leave_queue"))
+                            .font(.poppins(.bold, size: 22))
+                            .foregroundColor(AppColors.darkBlue)
+
+                        Text(languageManager.localized("leave_queue_message"))
+                            .font(.poppins(.regular, size: 15))
+                            .foregroundColor(.gray)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 16)
+                    }
+
+                    VStack(spacing: 12) {
+                        Button(action: {
+                            UINotificationFeedbackGenerator().notificationOccurred(.warning)
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) { isPresented = false }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { onConfirm() }
+                        }) {
+                            Text(languageManager.localized("leave_queue_confirm"))
+                                .font(.poppins(.semiBold, size: 16))
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(
+                                    ZStack {
+                                        LinearGradient(colors: [Color.red.opacity(0.9), Color.red], startPoint: .topLeading, endPoint: .bottomTrailing)
+                                        LinearGradient(colors: [Color.white.opacity(0.3), Color.clear], startPoint: .topLeading, endPoint: .center)
+                                    }
+                                )
+                                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).stroke(Color.white.opacity(0.2), lineWidth: 1))
+                                .shadow(color: Color.red.opacity(0.4), radius: 12, x: 0, y: 6)
+                        }
+
+                        Button(action: { dismissModal() }) {
+                            Text(languageManager.localized("cancel"))
+                                .font(.poppins(.medium, size: 16))
+                                .foregroundColor(AppColors.darkBlue)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(.regularMaterial)
+                                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                        .stroke(LinearGradient(colors: [Color.white.opacity(0.6), Color.gray.opacity(0.2)], startPoint: .topLeading, endPoint: .bottomTrailing), lineWidth: 1)
+                                )
+                                .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
+                        }
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 32)
                 }
             }
-
-            // ── Step content ──
-            VStack(alignment: .leading, spacing: 4) {
-                Text(languageManager.localized(step.localizationKey))
-                    .font(.poppins(.semiBold, size: 14))
-                    .foregroundColor(step.status == .pending || step.status == .skipped ? .secondary : AppColors.darkBlue)
-
-                HStack(spacing: 6) {
-                    Text(languageManager.localized(step.status.localizationKey))
-                        .font(.poppins(.medium, size: 11))
-                        .foregroundColor(step.status == .inProgress ? accentColor : .secondary)
-
-                    if let time = step.completedTime {
-                        Text("·")
-                            .foregroundColor(.secondary)
-                        Text(time)
-                            .font(.poppins(.medium, size: 11))
-                            .foregroundColor(.secondary)
-                    }
+            .background(
+                ZStack {
+                    RoundedRectangle(cornerRadius: 32, style: .continuous)
+                        .fill(Color.white.opacity(0.85))
+                        .background(RoundedRectangle(cornerRadius: 32, style: .continuous).fill(.regularMaterial))
+                    RoundedRectangle(cornerRadius: 32, style: .continuous)
+                        .stroke(LinearGradient(colors: [Color.white.opacity(0.9), Color.white.opacity(0.3)], startPoint: .topLeading, endPoint: .bottomTrailing), lineWidth: 1.5)
                 }
-            }
-            .padding(.top, 6)
-
-            Spacer()
+            )
+            .overlay(RoundedRectangle(cornerRadius: 32, style: .continuous).stroke(Color.black.opacity(0.05), lineWidth: 0.5))
+            .shadow(color: Color.black.opacity(0.15), radius: 30, x: 0, y: 15)
+            .padding(.horizontal, 28)
+            .scaleEffect(isPresented ? 1 : 0.9)
+            .opacity(isPresented ? 1 : 0)
         }
+        .transition(.opacity)
+    }
+
+    private func dismissModal() {
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) { isPresented = false }
     }
 }
 
@@ -479,4 +639,5 @@ private struct StepperRow: View {
     QueueStatusView(queueStatus: .opdSample)
         .environment(LanguageManager.shared)
         .environment(AppRouter())
+        .environment(ToastManager.shared)
 }

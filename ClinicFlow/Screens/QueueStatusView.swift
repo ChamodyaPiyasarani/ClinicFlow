@@ -16,50 +16,38 @@ struct QueueStatusView: View {
     @State private var stepperAppear = false
     @State private var footerAppear = false
     @State private var showLeaveAlert = false
-    @State private var pulseToken = false
 
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
                 headerBar
 
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 16) {
-                        // ── Hero Token Card ──
-                        heroTokenCard
-                            .opacity(statusCardAppear ? 1 : 0)
-                            .offset(y: statusCardAppear ? 0 : 30)
+                VStack(spacing: 8) {
+                    // ── Hero Status Card (Screenshot Redesign) ──
+                    heroStatusCard
+                        .opacity(statusCardAppear ? 1 : 0)
 
-                        // ── Stats Row ──
-                        statsRow
-                            .opacity(statusCardAppear ? 1 : 0)
-                            .offset(y: statusCardAppear ? 0 : 20)
+                    // ── Location Card ──
+                    locationCard
+                        .opacity(locationAppear ? 1 : 0)
 
-                        // ── Location Card ──
-                        locationCard
-                            .opacity(locationAppear ? 1 : 0)
-                            .offset(y: locationAppear ? 0 : 20)
+                    // ── Horizontal Visit Progress ──
+                    horizontalProgressSection
+                        .opacity(stepperAppear ? 1 : 0)
 
-                        // ── Horizontal Visit Progress ──
-                        horizontalProgressSection
-                            .opacity(stepperAppear ? 1 : 0)
-                            .offset(y: stepperAppear ? 0 : 20)
+                    // ── Notification Banner ──
+                    notificationBanner
+                        .opacity(footerAppear ? 1 : 0)
 
-                        // ── Notification Banner ──
-                        notificationBanner
-                            .opacity(footerAppear ? 1 : 0)
-                            .offset(y: footerAppear ? 0 : 20)
+                    Spacer(minLength: 4)
 
-                        // ── Leave Queue Button ──
-                        leaveQueueButton
-                            .opacity(footerAppear ? 1 : 0)
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 8)
-                    .padding(.bottom, 20)
+                    // ── Leave Queue Button ──
+                    leaveQueueButton
+                        .opacity(footerAppear ? 1 : 0)
                 }
-
-                BottomNavBar()
+                .padding(.horizontal, 20)
+                .padding(.top, 4)
+                .padding(.bottom, 12)
             }
             .background(AppColors.background)
             .edgesIgnoringSafeArea(.bottom)
@@ -77,7 +65,7 @@ struct QueueStatusView: View {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         toastManager.show(.warning, message: "toast_queue_left")
                         router.currentQueueStatus = nil
-                        router.goBack()
+                        // No goBack() needed — QueueStatusView is shown inline in ContentView
                     }
                 )
             }
@@ -92,158 +80,190 @@ struct QueueStatusView: View {
         withAnimation(.spring(response: 0.55, dampingFraction: 0.82).delay(0.2)) { locationAppear = true }
         withAnimation(.spring(response: 0.55, dampingFraction: 0.82).delay(0.28)) { stepperAppear = true }
         withAnimation(.spring(response: 0.55, dampingFraction: 0.82).delay(0.36)) { footerAppear = true }
-        withAnimation(.easeInOut(duration: 1.4).repeatForever(autoreverses: true).delay(0.5)) { pulseToken = true }
     }
 
     // MARK: - Header
 
     private var headerBar: some View {
-        HStack {
-            BackButton { router.goBack() }
-            Spacer()
-            AppNameText(fontSize: 18)
-            Spacer()
-            NotificationIcon(unreadCount: 2, iconSize: 18, showBackground: true)
+        ZStack {
+            // Centered title (Matching Home page)
+            AppNameText(fontSize: 22)
+
+            // Trailing icons (Matching Home page)
+            HStack {
+                Spacer()
+                NotificationIcon(unreadCount: 2, iconSize: 22, showBackground: true)
+            }
         }
         .padding(.horizontal, 20)
-        .padding(.vertical, 12)
+        .padding(.top, 12)
+        .padding(.bottom, 8)
         .opacity(headerAppear ? 1 : 0)
     }
 
     // MARK: - Hero Token Card
 
-    private var heroTokenCard: some View {
+    // MARK: - Hero Status Card (Screenshot Layout)
+
+    private var heroStatusCard: some View {
         ZStack {
-            // Gradient background
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
+            // Gradient background - Darkened as requested
+            RoundedRectangle(cornerRadius: 32, style: .continuous)
                 .fill(
                     LinearGradient(
                         colors: [
-                            queueStatus.queueType.color,
-                            queueStatus.queueType.color.opacity(0.7)
+                            queueStatus.queueType.color.opacity(0.95),
+                            queueStatus.queueType.color.opacity(0.85)
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
                 )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 32, style: .continuous)
+                        .fill(Color.black.opacity(0.08)) // Darken overlay
+                )
 
-            // Subtle decorative circles
-            GeometryReader { geo in
+            // Decorative background elements
+            GeometryReader { _ in
                 Circle()
-                    .fill(Color.white.opacity(0.07))
+                    .fill(Color.white.opacity(0.06))
                     .frame(width: 140, height: 140)
-                    .offset(x: geo.size.width - 60, y: -40)
+                    .offset(x: 240, y: -40)
+                
                 Circle()
-                    .fill(Color.white.opacity(0.05))
-                    .frame(width: 100, height: 100)
-                    .offset(x: -30, y: geo.size.height - 40)
+                    .fill(Color.white.opacity(0.04))
+                    .frame(width: 120, height: 120)
+                    .offset(x: -30, y: 220)
             }
 
             VStack(spacing: 0) {
-                // Top row: queue type badge + active indicator
+                // 1. Top Bar: Current Status & Active Indicator - Compacted
                 HStack {
-                    // Queue type pill
-                    HStack(spacing: 6) {
-                        Image(systemName: queueStatus.queueType.icon)
-                            .font(.system(size: 11, weight: .semibold))
-                        Text(languageManager.localized(queueStatus.queueType.localizationKey))
-                            .font(.poppins(.semiBold, size: 11))
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(languageManager.localized("current_status"))
+                            .font(.poppins(.medium, size: 13))
+                            .foregroundColor(.white)
+                        
+                        // Small Token Number
+                        Text("\(languageManager.localized("token")): \(queueStatus.tokenNumber)")
+                            .font(.poppins(.bold, size: 9))
+                            .foregroundColor(.white.opacity(0.6))
+                            .padding(.horizontal, 7)
+                            .padding(.vertical, 1)
+                            .background(Capsule().fill(Color.white.opacity(0.12)))
                     }
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 5)
-                    .background(Capsule().fill(Color.white.opacity(0.2)))
-
+                    
                     Spacer()
-
-                    // Active pill
+                    
                     HStack(spacing: 5) {
                         Circle()
                             .fill(Color.green)
-                            .frame(width: 7, height: 7)
-                            .scaleEffect(pulseToken ? 1.3 : 1.0)
+                            .frame(width: 6, height: 6)
                         Text(languageManager.localized("active_status"))
-                            .font(.poppins(.semiBold, size: 11))
+                            .font(.poppins(.medium, size: 13))
                             .foregroundColor(.white)
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 5)
-                    .background(Capsule().fill(Color.white.opacity(0.15)))
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 20)
+                .padding(.horizontal, 24)
+                .padding(.top, 14)
 
-                // Token Number — centrepiece, highlighted
-                VStack(spacing: 6) {
-                    Text(languageManager.localized("token_number").uppercased())
-                        .font(.poppins(.bold, size: 10))
-                        .foregroundColor(.white.opacity(0.8))
-                        .tracking(2)
-
-                    Text(queueStatus.tokenNumber)
-                        .font(.poppins(.bold, size: 52))
+                // 2. Large Queue Position (Centerpiece) - Further reduced size
+                VStack(spacing: 0) {
+                    Text(String(format: "%02d", queueStatus.queuePosition))
+                        .font(.poppins(.semiBold, size: 64)) // Reduced from 72
                         .foregroundColor(.white)
-                        .scaleEffect(pulseToken ? 1.05 : 1.0)
-                        .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 5)
-                }
-                .padding(.vertical, 24)
-
-                // Bottom divider
-                Rectangle()
-                    .fill(Color.white.opacity(0.15))
-                    .frame(height: 1)
-                    .padding(.horizontal, 20)
-
-                // Queue Position + People Ahead
-                HStack(spacing: 0) {
-                    VStack(spacing: 3) {
-                        Text("\(queueStatus.queuePosition)")
-                            .font(.poppins(.bold, size: 30))
-                            .foregroundColor(.white)
-                        Text(languageManager.localized("queue_position"))
-                            .font(.poppins(.medium, size: 10))
-                            .foregroundColor(.white.opacity(0.75))
+                        .padding(.top, -6)
+                    
+                    Text(languageManager.localized("your_queue_position"))
+                        .font(.poppins(.medium, size: 12)) // Reduced from 14
+                        .foregroundColor(.white)
+                        .padding(.top, -4)
+                    
+                    HStack(spacing: 6) {
+                        Image(systemName: "person.2.fill")
+                            .font(.system(size: 12))
+                        Text("\(queueStatus.peopleAhead) \(languageManager.localized("people_ahead"))")
+                            .font(.poppins(.medium, size: 12))
                     }
-                    .frame(maxWidth: .infinity)
-
-                    Rectangle()
-                        .fill(Color.white.opacity(0.2))
-                        .frame(width: 1, height: 36)
-
-                    VStack(spacing: 3) {
-                        Text("\(queueStatus.peopleAhead)")
-                            .font(.poppins(.bold, size: 30))
-                            .foregroundColor(.white)
-                        Text(languageManager.localized("people_ahead"))
-                            .font(.poppins(.medium, size: 10))
-                            .foregroundColor(.white.opacity(0.75))
-                    }
-                    .frame(maxWidth: .infinity)
+                    .foregroundColor(.white.opacity(0.8))
+                    .padding(.top, 6)
                 }
-                .padding(.vertical, 18)
+                .padding(.bottom, 16)
+
+                // 3. Estimated Wait Time Glass Card
+                VStack(alignment: .leading, spacing: 14) {
+                    HStack {
+                        Text(languageManager.localized("estimated_wait_time"))
+                            .font(.poppins(.medium, size: 15))
+                            .foregroundColor(.white)
+                        Spacer()
+                        Image(systemName: "clock")
+                            .font(.system(size: 14))
+                            .foregroundColor(.white)
+                    }
+                    
+                    HStack(alignment: .bottom, spacing: 6) {
+                        Text("\(queueStatus.estimatedWaitMinutes)")
+                            .font(.poppins(.semiBold, size: 36))
+                            .foregroundColor(.white)
+                        Text(languageManager.localized("minutes"))
+                            .font(.poppins(.medium, size: 18))
+                            .foregroundColor(.white.opacity(0.9))
+                            .padding(.bottom, 6)
+                    }
+                    
+                    // Progress divider bar
+                    GeometryReader { geo in
+                        ZStack(alignment: .leading) {
+                            Capsule()
+                                .fill(Color.white.opacity(0.25))
+                                .frame(height: 6)
+                            
+                            Capsule()
+                                .fill(Color.white.opacity(0.6))
+                                .frame(width: geo.size.width * 0.65, height: 6)
+                        }
+                    }
+                    .frame(height: 6)
+                }
+                .padding(.horizontal, 18)
+                .padding(.vertical, 14)
+                .background(
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .fill(Color.white.opacity(0.12))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                .stroke(Color.white.opacity(0.15), lineWidth: 1)
+                        )
+                )
                 .padding(.horizontal, 20)
+
+                // 4. Check-in Status Row
+                HStack {
+                    ZStack {
+                        Circle()
+                            .fill(Color.green)
+                            .frame(width: 20, height: 20)
+                        Image(systemName: "checkmark")
+                            .font(.system(size: 10, weight: .bold))
+                            .foregroundColor(.white)
+                    }
+                    
+                    Text(languageManager.localized("check_in_complete"))
+                        .font(.poppins(.medium, size: 15))
+                        .foregroundColor(.white)
+                    
+                    Spacer()
+                    
+                    Text(queueStatus.checkInTime)
+                        .font(.poppins(.medium, size: 14))
+                        .foregroundColor(.white)
+                }
+                .padding(.horizontal, 24)
+                .padding(.vertical, 16)
             }
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-        .shadow(color: queueStatus.queueType.color.opacity(0.3), radius: 20, x: 0, y: 10)
-    }
-
-    // MARK: - Stats Row
-
-    private var statsRow: some View {
-        HStack(spacing: 12) {
-            StatChip(
-                icon: "clock.fill",
-                label: languageManager.localized("estimated_wait"),
-                value: "\(queueStatus.estimatedWaitMinutes) \(languageManager.localized("minutes_short"))",
-                color: .orange
-            )
-            StatChip(
-                icon: "arrow.right.circle.fill",
-                label: languageManager.localized("check_in_time"),
-                value: queueStatus.checkInTime,
-                color: queueStatus.queueType.color
-            )
+            .shadow(color: queueStatus.queueType.color.opacity(0.3), radius: 20, x: 0, y: 10)
         }
     }
 
@@ -252,6 +272,8 @@ struct QueueStatusView: View {
     private var locationCard: some View {
         Button {
             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            router.mapDestinationArea = queueStatus.area
+            router.mapDestinationFloor = queueStatus.floor
             router.selectedTab = .map
         } label: {
             HStack(spacing: 14) {
@@ -300,9 +322,9 @@ struct QueueStatusView: View {
     // MARK: - Horizontal Visit Progress
 
     private var horizontalProgressSection: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 10) {
             Text(languageManager.localized("visit_progress"))
-                .font(.poppins(.semiBold, size: 15))
+                .font(.poppins(.semiBold, size: 14))
                 .foregroundColor(AppColors.darkBlue)
 
             HStack(spacing: 0) {
@@ -323,7 +345,7 @@ struct QueueStatusView: View {
                                         : Color(.systemGray4)
                                 )
                                 .frame(width: 18, height: 2)
-                                .padding(.bottom, 24)
+                                .padding(.bottom, 22)
                         }
                     }
                 }
@@ -331,7 +353,9 @@ struct QueueStatusView: View {
             .frame(maxWidth: .infinity, alignment: .center)
             .padding(.horizontal, 4)
         }
-        .padding(20)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 14)
+        .padding(.bottom, 2)
         .background(.white)
         .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
         .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 4)
@@ -351,12 +375,13 @@ struct QueueStatusView: View {
             }
 
             Text(languageManager.localized("waiting_for_turn"))
-                .font(.poppins(.medium, size: 13))
+                .font(.poppins(.medium, size: 11)) // Reduced from 13
                 .foregroundColor(AppColors.darkBlue)
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
         }
-        .padding(16)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10) // Reduced padding
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
@@ -384,7 +409,7 @@ struct QueueStatusView: View {
                     .font(.poppins(.medium, size: 13))
             }
             .foregroundColor(Color.red.opacity(0.55))
-            .padding(.vertical, 14)
+            .padding(.vertical, 10) // Reduced padding
             .frame(maxWidth: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
@@ -396,7 +421,7 @@ struct QueueStatusView: View {
             )
         }
         .buttonStyle(PlainButtonStyle())
-        .padding(.bottom, 4)
+        .padding(.bottom, 0) // Reduced bottom padding
     }
 }
 

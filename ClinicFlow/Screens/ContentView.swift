@@ -10,7 +10,12 @@ struct ContentView: View {
             Group {
                 switch router.selectedTab {
                 case .home:
-                    HomeView()
+                    // If a queue is active, show QueueStatusView as the home screen
+                    if let activeQueue = router.currentQueueStatus {
+                        QueueStatusView(queueStatus: activeQueue)
+                    } else {
+                        HomeView()
+                    }
                 case .map:
                     MapView()
                 case .appointment:

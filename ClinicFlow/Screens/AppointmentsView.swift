@@ -213,7 +213,8 @@ private struct AppointmentCard: View {
                             ],
                             isActive: true
                         )
-                        router.navigate(to: .queueStatus(queueStatus))
+                        router.currentQueueStatus = queueStatus
+                        router.selectedTab = .home
                     } else {
                         router.navigate(to: .appointmentDetail(appointment))
                     }

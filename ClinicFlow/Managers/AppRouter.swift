@@ -42,6 +42,10 @@ class AppRouter {
     var splashScreenId = UUID()
     /// Stored so MapView can navigate back to QueueStatusView
     var currentQueueStatus: QueueStatus? = nil
+    
+    /// Stored to deep-link into MapView from QueueStatusView
+    var mapDestinationArea: ClinicArea? = nil
+    var mapDestinationFloor: Floor? = nil
 
     /// Whether the user has completed the full onboarding flow.
     /// Persisted so returning users skip straight to Home.

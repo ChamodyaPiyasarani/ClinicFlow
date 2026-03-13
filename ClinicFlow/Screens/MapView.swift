@@ -280,8 +280,27 @@ struct MapView: View {
             }
         }
         .background(AppColors.background)
-        .onChange(of: selectedFloor) { _, _ in
-            // Keep the selected area when switching floors
+        .onAppear {
+            handleDeepLink()
+        }
+        .onChange(of: router.mapDestinationArea) { _, _ in
+            handleDeepLink()
+        }
+    }
+    
+    private func handleDeepLink() {
+        if let area = router.mapDestinationArea {
+            withAnimation(.spring(response: 0.45, dampingFraction: 0.8)) {
+                if let floor = router.mapDestinationFloor {
+                    selectedFloor = floor
+                }
+                selectedArea = area
+                isNavigating = true
+            }
+            
+            // Clear the destination so it doesn't re-trigger
+            router.mapDestinationArea = nil
+            router.mapDestinationFloor = nil
         }
     }
 }
@@ -298,8 +317,11 @@ private struct MapHeaderView: View {
             
             HStack(spacing: 4) {
                 BackButton {
-                    if let qs = router.currentQueueStatus {
-                        router.navigate(to: .queueStatus(qs))
+                    if router.currentQueueStatus != nil {
+                        // When a queue is active, Home tab IS the QueueStatusView
+                        withAnimation {
+                            router.selectedTab = .home
+                        }
                     } else if !router.path.isEmpty {
                         router.goBack()
                     } else {

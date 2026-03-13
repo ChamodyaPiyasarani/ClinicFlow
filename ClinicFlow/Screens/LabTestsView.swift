@@ -9,6 +9,7 @@ struct LabTestsView: View {
     @State private var searchText: String = ""
     @State private var showInfoModal: Bool = true
     @State private var showConfirmationModal: Bool = false
+    @State private var selectedTest: LabTest? = nil
     
     var body: some View {
         ZStack {
@@ -101,7 +102,8 @@ struct LabTestsView: View {
                         LazyVStack(spacing: 12) {
                             ForEach(filteredTests) { test in
                                 LabTestCard(test: test) {
-                                    // Show confirmation modal when test card is tapped
+                                    // Store selected test and show confirmation modal
+                                    selectedTest = test
                                     showConfirmationModal = true
                                 }
                             }
@@ -129,10 +131,39 @@ struct LabTestsView: View {
             // MARK: - Confirmation Modal Overlay
             if showConfirmationModal {
                 LabTestConfirmationView(isPresented: $showConfirmationModal) {
-                    // Navigate to lab queue status after confirming
+                    guard let test = selectedTest else { return }
+                    
+                    // Build realistic QueueStatus from the selected lab test
+                    let position = Int.random(in: 2...12)
+                    let waitMin = Int.random(in: 10...40)
+                    let tokenSuffix = Int.random(in: 100...999)
+                    
+                    let newStatus = QueueStatus(
+                        id: "Q-LAB-\(test.id)",
+                        queueType: .lab,
+                        tokenNumber: "LAB-\(tokenSuffix)",
+                        queuePosition: position,
+                        peopleAhead: position - 1,
+                        estimatedWaitMinutes: waitMin,
+                        checkInTime: formattedCurrentTime(),
+                        locationName: "\(test.name) — Lab B05",
+                        locationDetail: "Building B, 2nd Floor",
+                        steps: [
+                            VisitStep(id: "s1", localizationKey: "step_registration", icon: "pencil.and.list.clipboard", status: .completed, completedTime: formattedCurrentTime()),
+                            VisitStep(id: "s2", localizationKey: "step_lab_tests", icon: "flask.fill", status: .inProgress, completedTime: nil),
+                            VisitStep(id: "s3", localizationKey: "step_report_collection", icon: "doc.text.fill", status: .pending, completedTime: nil),
+                        ],
+                        isActive: true,
+                        floor: .floor2,
+                        area: .laboratory
+                    )
+                    
+                    // Set as active queue and switch to home tab
                     toastManager.show(.success, message: "toast_lab_test_confirmed")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        router.navigate(to: .queueStatus(.labSample))
+                    router.currentQueueStatus = newStatus
+                    router.selectedTab = .home
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        router.goBack() // dismiss lab tests screen
                     }
                 }
                 .zIndex(2)
@@ -158,6 +189,12 @@ struct LabTestsView: View {
         }
         
         return tests
+    }
+    
+    private func formattedCurrentTime() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        return formatter.string(from: Date())
     }
 }
 

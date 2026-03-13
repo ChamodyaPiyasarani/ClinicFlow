@@ -83,6 +83,10 @@ struct QueueStatus: Identifiable, Hashable {
     let locationDetail: String
     var steps: [VisitStep]
     var isActive: Bool
+    
+    // For map integration
+    var floor: Floor?
+    var area: ClinicArea?
 }
 
 // MARK: - Sample Data
@@ -105,7 +109,9 @@ extension QueueStatus {
             VisitStep(id: "s3", localizationKey: "step_lab_tests", icon: "flask.fill", status: .pending, completedTime: nil),
             VisitStep(id: "s4", localizationKey: "step_pharmacy", icon: "pills.fill", status: .pending, completedTime: nil),
         ],
-        isActive: true
+        isActive: true,
+        floor: .floor1,
+        area: .consultation
     )
 
     /// Lab Queue sample: Registration → Lab Test → Report Collection
@@ -124,7 +130,9 @@ extension QueueStatus {
             VisitStep(id: "s2", localizationKey: "step_lab_tests", icon: "flask.fill", status: .inProgress, completedTime: nil),
             VisitStep(id: "s3", localizationKey: "step_report_collection", icon: "doc.text.fill", status: .pending, completedTime: nil),
         ],
-        isActive: true
+        isActive: true,
+        floor: .floor2,
+        area: .laboratory
     )
 
     /// Appointment Queue sample: Registration → Consultation
@@ -142,7 +150,9 @@ extension QueueStatus {
             VisitStep(id: "s1", localizationKey: "step_registration", icon: "pencil.and.list.clipboard", status: .completed, completedTime: "1:45 PM"),
             VisitStep(id: "s2", localizationKey: "step_consultation", icon: "stethoscope", status: .inProgress, completedTime: nil),
         ],
-        isActive: true
+        isActive: true,
+        floor: .floor1,
+        area: .consultation
     )
 
     /// Pharmacy Queue sample: Registration → Pharmacy
@@ -160,7 +170,9 @@ extension QueueStatus {
             VisitStep(id: "s1", localizationKey: "step_registration", icon: "pencil.and.list.clipboard", status: .completed, completedTime: "3:00 PM"),
             VisitStep(id: "s2", localizationKey: "step_pharmacy", icon: "pills.fill", status: .inProgress, completedTime: nil),
         ],
-        isActive: true
+        isActive: true,
+        floor: .floor1,
+        area: .pharmacy
     )
 
     static let samples: [QueueStatus] = [opdSample, labSample, appointmentSample, pharmacySample]

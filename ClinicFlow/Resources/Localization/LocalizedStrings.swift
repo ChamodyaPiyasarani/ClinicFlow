@@ -1749,6 +1749,16 @@ struct LocalizedStrings {
             .sinhala: "පෝලිම් ස්ථානය",
             .tamil: "வரிசை நிலை எண்"
         ],
+        "your_queue_position": [
+            .english: "Your Queue Position",
+            .sinhala: "ඔබේ පෝලිම් ස්ථානය",
+            .tamil: "உங்கள் வரிசை நிலை"
+        ],
+        "token": [
+            .english: "Token",
+            .sinhala: "ටෝකනය",
+            .tamil: "டோக்கன்"
+        ],
         "people_ahead": [
             .english: "People Ahead",
             .sinhala: "ඉදිරියෙන් සිටින අය",
@@ -1773,6 +1783,11 @@ struct LocalizedStrings {
             .english: "Check-in Time",
             .sinhala: "පැමිණීමේ වේලාව",
             .tamil: "செக்-இன் நேரம்"
+        ],
+        "check_in_complete": [
+            .english: "Check-in Complete",
+            .sinhala: "පැමිණීම තහවුරුයි",
+            .tamil: "செக்-இன் முடிந்தது"
         ],
         "active_status": [
             .english: "Active",
@@ -1875,9 +1890,9 @@ struct LocalizedStrings {
             .tamil: "மருந்தக வரிசை"
         ],
         "waiting_for_turn": [
-            .english: "You're in the queue. We'll notify you when it's your turn.",
-            .sinhala: "ඔබ පෝලිමේ ය. ඔබේ වාරය පැමිණි විට අපි දැනුම් දෙන්නෙමු.",
-            .tamil: "நீங்கள் வரிசையில் உள்ளீர்கள். உங்கள் முறை வரும்போது நாங்கள் உங்களுக்கு தெரிவிப்போம்."
+            .english: "If you wish, you may leave the queue before your turn arrives.",
+            .sinhala: "ඔබට අවශ්‍ය නම්, ඔබේ වාරය පැමිණීමට පෙර පෝලිමෙන් ඉවත් විය හැකිය.",
+            .tamil: "நீங்கள் விரும்பினால், உங்கள் முறை வருவதற்கு முன்பு வரிசையில் இருந்து வெளியேறலாம்."
         ],
         "view_queue_status": [
             .english: "View Queue Status",

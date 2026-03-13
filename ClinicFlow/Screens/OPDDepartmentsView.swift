@@ -103,7 +103,8 @@ struct OPDDepartmentsView: View {
                                     departmentName: department.name,
                                     description: department.description,
                                     availabilityStatus: department.availability,
-                                    waitingCount: department.waitingCount
+                                    waitingCount: department.waitingCount,
+                                    departmentId: department.id
                                 )
                             }
                         }
@@ -271,16 +272,47 @@ struct DepartmentCard: View {
     let description: String
     let availabilityStatus: DepartmentAvailability
     let waitingCount: Int
+    let departmentId: String
     
     var body: some View {
         Button(action: {
+            guard availabilityStatus != .unavailable else { return }
+            
             // Haptic feedback
             let impact = UIImpactFeedbackGenerator(style: .light)
             impact.impactOccurred()
             
-            // Show toast and navigate to OPD queue status
+            // Build realistic QueueStatus from departments data
+            let position = waitingCount + 1
+            let estimatedWait = max(5, waitingCount * 4) // 4 min per person
+            let tokenSuffix = Int.random(in: 100...999)
+            let floorNum = (Int(departmentId) ?? 1) % 3 + 1
+            let roomNum = String(format: "A%02d", Int(departmentId) ?? 1)
+            
+            let newStatus = QueueStatus(
+                id: "Q-OPD-\(departmentId)",
+                queueType: .opd,
+                tokenNumber: "OPD-\(tokenSuffix)",
+                queuePosition: position,
+                peopleAhead: waitingCount,
+                estimatedWaitMinutes: estimatedWait,
+                checkInTime: formattedCurrentTime(),
+                locationName: "\(departmentName) — Room \(roomNum)",
+                locationDetail: "Building A, \(floorNum == 1 ? "1st" : floorNum == 2 ? "2nd" : "3rd") Floor",
+                steps: [
+                    VisitStep(id: "s1", localizationKey: "step_registration", icon: "pencil.and.list.clipboard", status: .completed, completedTime: formattedCurrentTime()),
+                    VisitStep(id: "s2", localizationKey: "step_consultation", icon: "stethoscope", status: .inProgress, completedTime: nil),
+                ],
+                isActive: true,
+                floor: Floor(rawValue: floorNum),
+                area: .consultation
+            )
+            
+            // Set as active queue and switch to home tab (which will now show QueueStatusView)
             toastManager.show(.info, message: "toast_joining_queue")
-            router.navigate(to: .queueStatus(.opdSample))
+            router.currentQueueStatus = newStatus
+            router.selectedTab = .home
+            router.goBack() // dismiss departments screen
         }) {
             HStack(spacing: 14) {
                 // Icon
@@ -297,7 +329,7 @@ struct DepartmentCard: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(departmentName)
                         .font(.poppins(.semiBold, size: 16))
-                        .foregroundColor(AppColors.darkBlue)
+                        .foregroundColor(availabilityStatus == .unavailable ? .gray : AppColors.darkBlue)
                     
                     Text(description)
                         .font(.poppins(.regular, size: 13))
@@ -309,14 +341,19 @@ struct DepartmentCard: View {
                         HStack(spacing: 4) {
                             Image(systemName: "person.3.sequence.fill")
                                 .font(.system(size: 11))
-                            
-                            let maxPos = waitingCount > 0 ? waitingCount : 1
-                            let samplePosition = Int.random(in: 1...maxPos)
-                            
-                            Text("Current Status : \(samplePosition)")
+                            Text("\(waitingCount) waiting · ~\(max(5, waitingCount * 4)) min")
                                 .font(.poppins(.medium, size: 12))
                         }
-                        .foregroundColor(AppColors.brandBlue)
+                        .foregroundColor(availabilityStatus == .busy ? Color.orange : AppColors.brandBlue)
+                        .padding(.top, 2)
+                    } else {
+                        HStack(spacing: 4) {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.system(size: 11))
+                            Text("Closed")
+                                .font(.poppins(.medium, size: 12))
+                        }
+                        .foregroundColor(.red.opacity(0.7))
                         .padding(.top, 2)
                     }
                 }
@@ -324,15 +361,23 @@ struct DepartmentCard: View {
                 Spacer()
                 
                 // Chevron
-                Image(systemName: "chevron.right")
+                Image(systemName: availabilityStatus == .unavailable ? "xmark" : "chevron.right")
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.gray.opacity(0.4))
             }
             .padding(16)
             .background(Color.white)
             .cornerRadius(16)
+            .opacity(availabilityStatus == .unavailable ? 0.6 : 1.0)
         }
         .buttonStyle(DepartmentCardButtonStyle())
+        .disabled(availabilityStatus == .unavailable)
+    }
+    
+    private func formattedCurrentTime() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        return formatter.string(from: Date())
     }
 }
 

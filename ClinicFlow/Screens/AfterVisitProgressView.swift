@@ -67,8 +67,6 @@ struct AfterVisitProgressView: View {
             bottomActionBar
                 .opacity(footerAppear ? 1 : 0)
                 .offset(y: footerAppear ? 0 : 40)
-            
-            BottomNavBar()
         }
         .navigationBarHidden(true)
         .onAppear { triggerAnimations() }
@@ -294,7 +292,9 @@ struct AfterVisitProgressView: View {
                 // Join Queue button
                 Button(action: {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    router.navigate(to: .queueStatus(action.queueStatus))
+                    router.currentQueueStatus = action.queueStatus
+                    router.selectedTab = .home
+                    // No navigation needed, ContentView handles the switch
                 }) {
                     HStack(spacing: 8) {
                         Text(languageManager.localized(action.actionButtonKey))
@@ -426,7 +426,8 @@ struct AfterVisitProgressView: View {
                 if let action = journey.nextAction {
                     Button(action: {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                        router.navigate(to: .queueStatus(action.queueStatus))
+                        router.currentQueueStatus = action.queueStatus
+                        router.selectedTab = .home
                     }) {
                         HStack(spacing: 6) {
                             Image(systemName: "person.line.dotted.person.fill")

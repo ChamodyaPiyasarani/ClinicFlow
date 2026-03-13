@@ -305,37 +305,35 @@ struct QueueStatusView: View {
                 .font(.poppins(.semiBold, size: 15))
                 .foregroundColor(AppColors.darkBlue)
 
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 0) {
-                    ForEach(Array(queueStatus.steps.enumerated()), id: \.element.id) { index, step in
-                        HStack(spacing: 0) {
-                            HorizontalStepNode(
-                                step: step,
-                                accentColor: queueStatus.queueType.color,
-                                languageManager: languageManager
-                            )
+            HStack(spacing: 0) {
+                ForEach(Array(queueStatus.steps.enumerated()), id: \.element.id) { index, step in
+                    HStack(spacing: 0) {
+                        HorizontalStepNode(
+                            step: step,
+                            accentColor: queueStatus.queueType.color,
+                            languageManager: languageManager
+                        )
 
-                            if index < queueStatus.steps.count - 1 {
-                                // Connector line
-                                Rectangle()
-                                    .fill(
-                                        step.status == .completed
-                                            ? queueStatus.queueType.color.opacity(0.5)
-                                            : Color(.systemGray4)
-                                    )
-                                    .frame(width: 24, height: 2)
-                                    .padding(.bottom, 22)
-                            }
+                        if index < queueStatus.steps.count - 1 {
+                            // Connector line
+                            Rectangle()
+                                .fill(
+                                    step.status == .completed
+                                        ? queueStatus.queueType.color.opacity(0.5)
+                                        : Color(.systemGray4)
+                                )
+                                .frame(width: 18, height: 2)
+                                .padding(.bottom, 24)
                         }
                     }
                 }
-                .padding(.horizontal, 4)
             }
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.horizontal, 4)
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 14)
+        .padding(20)
         .background(.white)
-        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
         .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 4)
     }
 
@@ -461,49 +459,49 @@ private struct HorizontalStepNode: View {
             ZStack {
                 Circle()
                     .fill(circleColor.opacity(step.status == .pending || step.status == .skipped ? 0.18 : 1.0))
-                    .frame(width: 34, height: 34)
+                    .frame(width: 38, height: 38)
 
                 if step.status == .completed {
                     Image(systemName: "checkmark")
-                        .font(.system(size: 11, weight: .bold))
+                        .font(.system(size: 12, weight: .bold))
                         .foregroundColor(.white)
                 } else if step.status == .inProgress {
                     Circle()
-                        .stroke(Color.white.opacity(0.4), lineWidth: 1.5)
-                        .frame(width: 26, height: 26)
+                        .stroke(Color.white.opacity(0.4), lineWidth: 1.6)
+                        .frame(width: 29, height: 29)
                     Image(systemName: step.icon)
-                        .font(.system(size: 11, weight: .semibold))
+                        .font(.system(size: 12, weight: .semibold))
                         .foregroundColor(.white)
                 } else {
                     Image(systemName: step.icon)
-                        .font(.system(size: 11, weight: .medium))
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundColor(Color(.systemGray3))
                 }
             }
 
             // Step label
             Text(languageManager.localized(step.localizationKey))
-                .font(.poppins(.medium, size: 9))
+                .font(.poppins(.medium, size: 10))
                 .foregroundColor(
                     step.status == .pending || step.status == .skipped
                         ? .secondary
                         : AppColors.darkBlue
                 )
                 .multilineTextAlignment(.center)
-                .frame(width: 58)
+                .frame(width: 64)
 
             // Status / time
             if let time = step.completedTime {
                 Text(time)
-                    .font(.poppins(.regular, size: 8))
+                    .font(.poppins(.regular, size: 9))
                     .foregroundColor(.secondary)
             } else {
                 Text(languageManager.localized(step.status.localizationKey))
-                    .font(.poppins(.regular, size: 8))
+                    .font(.poppins(.regular, size: 9))
                     .foregroundColor(step.status == .inProgress ? accentColor : .secondary)
             }
         }
-        .frame(width: 60)
+        .frame(width: 64)
     }
 }
 
